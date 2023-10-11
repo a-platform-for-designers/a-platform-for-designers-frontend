@@ -4,6 +4,7 @@ function App() {
   // lint error function
   const name = "Test";
   const name = "Test";
+  const name = "Test";
 
   return (
     <>
