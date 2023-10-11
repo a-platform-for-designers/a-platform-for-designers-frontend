@@ -1,11 +1,7 @@
-import "./app.scss";
+import classes from "./App.module.sass";
 
 function App() {
-  return (
-    <>
-      <div className="app">SPA</div>
-    </>
-  );
+  return <div className={classes.app}>SPA</div>;
 }
 
 export default App;
