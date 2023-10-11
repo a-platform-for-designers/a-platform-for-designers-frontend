@@ -1,7 +1,7 @@
 import "./app.scss";
 
 function App() {
-  // lint error func
+  // lint error function
   const name = "Test";
 
   return (
