@@ -54,8 +54,11 @@
     "vitest": "^0.34.6"
   },
   "lint-staged": {
-    "*.{js, ts,jsx, tsx}": "npm run lint:fix",
-    "*.{js,jsx,css,md,html,json, ts, tsx}": "npm run format"
+    "*.{js, jsx, css, md, html, json, ts, tsx}": "npm run format",
+    "*.{js, ts, jsx, tsx}": [
+      "npm run lint:fix",
+      "git add"
+    ]
   },
   "husky": {
     "hooks": {
