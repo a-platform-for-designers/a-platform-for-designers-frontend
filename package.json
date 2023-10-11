@@ -54,9 +54,7 @@
     "vitest": "^0.34.6"
   },
   "lint-staged": {
-    "**/*.{js,jsx,ts,tsx,html,css}": [
-      "npx prettier --write",
-      "npx eslint --fix"
-    ]
+    "**/*.{ts, tsx}": "npm run lint",
+    "**/*.{js, jsx, css, md, html, json, ts, tsx}": "npm run format"
   }
 }
