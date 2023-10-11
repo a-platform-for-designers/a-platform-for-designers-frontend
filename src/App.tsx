@@ -2,6 +2,7 @@ import "./app.scss";
 
 function App() {
   const name = "Test";
+  const name = "Test";
 
   return (
     <>
