@@ -1,7 +1,10 @@
-import "./Footer.scss";
+import "./Footer.sass";
 
 function Footer() {
-  return <footer className="footer">Footer</footer>;
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
+
+  return <footer className="footer">Footer {currentYear}</footer>;
 }
 
 export default Footer;
