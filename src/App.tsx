@@ -3,7 +3,6 @@ import "./app.scss";
 function App() {
   // lint error func
   const name = "Test";
-  const name = "Test";
 
   return (
     <>
