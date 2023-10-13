@@ -1,4 +1,4 @@
-import classes from "./App.module.sass";
+import classes from "./App.module.scss";
 import Footer from "./components/footer/Footer";
 
 function App() {
