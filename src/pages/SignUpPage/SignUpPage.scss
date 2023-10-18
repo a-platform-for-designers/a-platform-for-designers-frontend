@@ -1,0 +1,24 @@
+.signup {
+  margin: 50px;
+  border: 1px solid violet;
+  height: 780px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+
+  &__wrapper {
+    max-width: 450px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  &__form-label input {
+    color: blue;
+  }
+
+  &__button {
+    background-color: rgb(167, 92, 238);
+    font-size: 20px;
+  }
+}
