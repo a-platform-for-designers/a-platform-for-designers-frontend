@@ -1,7 +1,15 @@
 import { useState } from "react";
 import useValidation, { IValidation } from "./useValidation";
 
-function useInput(initialValue: string, validations: IValidation) {
+interface IConfig {
+  trim?: boolean;
+}
+
+function useInput(
+  initialValue: string,
+  validations: IValidation,
+  config: IConfig = {}
+) {
   const [value, setValue] = useState(initialValue || "");
   const [isDirty, setDirty] = useState(false);
   const valid = useValidation(value || "", validations);
@@ -13,7 +21,9 @@ function useInput(initialValue: string, validations: IValidation) {
   };
 
   const onBlur = () => {
-    setValue((prev) => prev.trim());
+    if (config.trim) {
+      setValue(value.trim());
+    }
     setDirty(true);
   };
 

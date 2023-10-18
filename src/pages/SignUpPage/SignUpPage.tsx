@@ -28,26 +28,38 @@ const SignUpPage: FC = () => {
     setShowPassword((prev) => !prev);
   }
 
-  const firstname = useInput("", {
-    isEmpty: true,
-    minLength: 2,
-    maxLength: 40,
-    isName: true,
-  });
+  const firstname = useInput(
+    "",
+    {
+      isEmpty: true,
+      minLength: 2,
+      maxLength: 40,
+      isName: true,
+    },
+    { trim: true }
+  );
 
-  const secondname = useInput("", {
-    isEmpty: true,
-    minLength: 2,
-    maxLength: 40,
-    isName: true,
-  });
+  const secondname = useInput(
+    "",
+    {
+      isEmpty: true,
+      minLength: 2,
+      maxLength: 40,
+      isName: true,
+    },
+    { trim: true }
+  );
 
-  const email = useInput("", {
-    isEmpty: true,
-    minLength: 6,
-    maxLength: 70,
-    isEmail: true,
-  });
+  const email = useInput(
+    "",
+    {
+      isEmpty: true,
+      minLength: 6,
+      maxLength: 70,
+      isEmail: true,
+    },
+    { trim: true }
+  );
 
   const password = useInput("", {
     isEmpty: true,
@@ -102,7 +114,7 @@ const SignUpPage: FC = () => {
             variant="outlined"
             label="Имя"
             id="firstname"
-            type="firstname"
+            type="text"
             name="firstname"
             autoComplete="off"
             className="signup__form-label"
@@ -116,7 +128,7 @@ const SignUpPage: FC = () => {
           <TextField
             className="signup__form-input"
             id="secondname"
-            type="secondname"
+            type="text"
             name="secondname"
             autoComplete="off"
             label="Фамилия"
@@ -130,7 +142,7 @@ const SignUpPage: FC = () => {
           <TextField
             className="signup__form-input"
             id="email"
-            type="email"
+            type="text"
             name="email"
             autoComplete="off"
             label="E-mail"
