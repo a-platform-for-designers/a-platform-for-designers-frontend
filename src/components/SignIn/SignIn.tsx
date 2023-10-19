@@ -1,5 +1,5 @@
 import { FC } from "react";
-import "./SignInPage.scss";
+import "./SignIn.scss";
 
 const SignInPage: FC = () => {
   //TODO let isAuth = false;

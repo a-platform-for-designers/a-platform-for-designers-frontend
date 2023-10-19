@@ -1,3 +1,6 @@
+@import 'normalize.css';
+@import url(../vendor/fonst.scss);
+
 .app {
-  font-size: 16px;
+  font-family:'Inter', 'Helvetica Neue', Arial, sans-serif;
 }

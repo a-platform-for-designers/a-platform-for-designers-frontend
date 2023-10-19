@@ -1,6 +1,5 @@
 import { FC, useState } from "react";
-import "./SignUpPage.scss";
-import useInput from "../../hooks/useInput";
+import "./SignUp.scss";
 import {
   FormControl,
   FormHelperText,
@@ -13,16 +12,22 @@ import Button from "@mui/material-next/Button";
 import IconButton from "@mui/material/IconButton";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { StyledEngineProvider } from "@mui/material/styles";
+import useInput from "../../hooks/useInput";
+// import useValidation from "../../hooks/useValidation";
 
-const SignUpPage: FC = () => {
+const SignUp: FC = () => {
   //TODO 1) Стилизировать элементы MUI
   // ? Обернуть в <StyledEngineProvider injectFirst>
   //TODO 2) Сделать общую часть поп-апа для регистрации и входа
   //TODO 3) Сократить кол-во рендеров
   //TODO let isAuth = false; - Заготовка под авторизацию пользователей
+
   console.log("render");
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+
+  // Окрашивать фон инпута при ошибке
+  // const {isErrorMessageVisible} = useValidation();
 
   function handleClickShowPassword() {
     setShowPassword((prev) => !prev);
@@ -111,13 +116,18 @@ const SignUpPage: FC = () => {
           <h1 className="signup__title">Регистрация</h1>
 
           <TextField
-            variant="outlined"
-            label="Имя"
+            className="signup__input-container"
+            // className={`signup__input-container ${
+            //   isErrorMessageVisible
+            //     ? "signup__input-container_type_incorrect"
+            //     : ""
+            // }`}
             id="firstname"
-            type="text"
             name="firstname"
+            type="text"
+            label="Имя"
+            variant="outlined"
             autoComplete="off"
-            className="signup__form-label"
             value={firstname.value}
             onBlur={() => firstname.onBlur()}
             onChange={(e) => handleChange(e, firstname.onChange)}
@@ -126,12 +136,12 @@ const SignUpPage: FC = () => {
           />
 
           <TextField
-            className="signup__form-input"
+            className="signup__input-container"
             id="secondname"
-            type="text"
             name="secondname"
-            autoComplete="off"
+            type="text"
             label="Фамилия"
+            autoComplete="off"
             value={secondname.value}
             onBlur={() => secondname.onBlur()}
             onChange={(e) => handleChange(e, secondname.onChange)}
@@ -140,12 +150,12 @@ const SignUpPage: FC = () => {
           />
 
           <TextField
-            className="signup__form-input"
+            className="signup__input-container"
             id="email"
-            type="text"
             name="email"
-            autoComplete="off"
+            type="text"
             label="E-mail"
+            autoComplete="off"
             value={email.value}
             onBlur={() => email.onBlur()}
             onChange={(e) => handleChange(e, email.onChange)}
@@ -154,6 +164,7 @@ const SignUpPage: FC = () => {
           />
 
           <FormControl
+            className="signup__input-container"
             variant="outlined"
             error={Boolean(password.isDirty && !password.inputValid)}
           >
@@ -161,7 +172,9 @@ const SignUpPage: FC = () => {
               Пароль
             </InputLabel>
             <OutlinedInput
+              className="signup__input"
               id="password"
+              name="password"
               label="Пароль"
               value={password.value}
               onBlur={() => password.onBlur()}
@@ -188,6 +201,7 @@ const SignUpPage: FC = () => {
           </FormControl>
 
           <FormControl
+            className="signup__input-container"
             variant="outlined"
             error={
               Boolean(passwordrepeat.isDirty && !passwordrepeat.inputValid) ||
@@ -202,6 +216,7 @@ const SignUpPage: FC = () => {
             </InputLabel>
             <OutlinedInput
               id="passwordrepeat"
+              name="passwordrepeat"
               label="Подтвердите пароль"
               value={passwordrepeat.value}
               onBlur={() => passwordrepeat.onBlur()}
@@ -233,7 +248,34 @@ const SignUpPage: FC = () => {
               {error}
             </span>
           )}
+
+          <div className="signup__confirm-policy">
+            <input
+              className="signup__hidden-checkbox"
+              type="checkbox"
+              id="pesronal-data"
+            />
+            <label htmlFor="pesronal-data" className="signup__checkbox"></label>
+            <p className="signup__privacy-policy">
+              Согласие на обработку персональных данных, разрешенных для
+              распространения
+            </p>
+            <input
+              className="signup__hidden-checkbox"
+              type="checkbox"
+              id="policy"
+            />
+            <label htmlFor="policy" className="signup__checkbox"></label>
+            <p className="signup__privacy-policy">
+              Нажимая кнопку «Зарегистрироваться» вы соглашаетесь с{" "}
+              <p className="signup__privacy-policy-text">
+                правилами работы сервиса
+              </p>
+            </p>
+          </div>
+
           <Button
+            className="signup__button"
             variant="filled"
             size="medium"
             disabled={
@@ -246,16 +288,12 @@ const SignUpPage: FC = () => {
               Boolean(error)
             }
             type="submit"
-            sx={{ backgroundColor: "red" }}
-            className="signup__button"
           >
             Зарегистрироваться
           </Button>
           <p className="signup__question">
-            Уже зарегистрированы?{" "}
-            <Button variant="text" size="small">
-              Войти
-            </Button>
+            Уже есть аккаунт?
+            <p className="signup__login-btn">Войти</p>
           </p>
         </div>
       </form>
@@ -263,4 +301,4 @@ const SignUpPage: FC = () => {
   );
 };
 
-export default SignUpPage;
+export default SignUp;

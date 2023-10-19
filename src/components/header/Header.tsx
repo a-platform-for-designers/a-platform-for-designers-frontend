@@ -1,4 +1,4 @@
-import "./Header.sass";
+import "./Header.scss";
 
 function Header() {
   return <header className="header">Header</header>;

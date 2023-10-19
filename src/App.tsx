@@ -1,11 +1,11 @@
 import classes from "./App.module.scss";
-import SignUpPage from "./pages/SignUpPage/SignUpPage";
+import SignUp from "./components/SignUp/SignUp";
 //import Footer from "./components/footer/Footer";
 
 function App() {
   return (
     <div className={classes.app}>
-      <SignUpPage />
+      <SignUp />
     </div>
   );
 }

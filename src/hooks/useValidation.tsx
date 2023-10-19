@@ -16,6 +16,9 @@ function useValidation(value: string, validations: IValidation) {
   const [nameError, setNameError] = useState("");
   const [inputValid, setInputValid] = useState(false);
 
+  //TODO Вынести стейт для смены фона инпута при отображении текста ошибки
+  // const [isErrorMessageVisible, setErrorMessageVisible] = useState(false);
+
   useEffect(() => {
     const emailPattern =
       /^(([^аА-яЯ<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -76,6 +79,7 @@ function useValidation(value: string, validations: IValidation) {
       nameError
     ) {
       setInputValid(false);
+      // setErrorMessageVisible(true)
     } else {
       setInputValid(true);
     }
@@ -88,6 +92,7 @@ function useValidation(value: string, validations: IValidation) {
     emailError,
     nameError,
     inputValid,
+    // isErrorMessageVisible
   };
 }
 

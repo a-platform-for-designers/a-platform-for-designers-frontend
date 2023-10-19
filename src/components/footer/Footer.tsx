@@ -1,4 +1,4 @@
-import "./Footer.sass";
+import "./Footer.scss";
 
 function Footer() {
   const currentDate = new Date();
