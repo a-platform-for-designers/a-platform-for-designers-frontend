@@ -13,7 +13,6 @@ import IconButton from "@mui/material/IconButton";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { StyledEngineProvider } from "@mui/material/styles";
 import useInput from "../../hooks/useInput";
-// import useValidation from "../../hooks/useValidation";
 
 const SignUp: FC = () => {
   //TODO 1) Стилизировать элементы MUI
@@ -22,12 +21,8 @@ const SignUp: FC = () => {
   //TODO 3) Сократить кол-во рендеров
   //TODO let isAuth = false; - Заготовка под авторизацию пользователей
 
-  console.log("render");
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-
-  // Окрашивать фон инпута при ошибке
-  // const {isErrorMessageVisible} = useValidation();
 
   function handleClickShowPassword() {
     setShowPassword((prev) => !prev);
@@ -116,12 +111,11 @@ const SignUp: FC = () => {
           <h1 className="signup__title">Регистрация</h1>
 
           <TextField
-            className="signup__input-container"
-            // className={`signup__input-container ${
-            //   isErrorMessageVisible
-            //     ? "signup__input-container_type_incorrect"
-            //     : ""
-            // }`}
+            className={`signup__input-container ${
+              firstname.isDirty && !firstname.inputValid
+                ? "signup__input-container_type_incorrect"
+                : ""
+            }`}
             id="firstname"
             name="firstname"
             type="text"
@@ -136,7 +130,11 @@ const SignUp: FC = () => {
           />
 
           <TextField
-            className="signup__input-container"
+            className={`signup__input-container ${
+              secondname.isDirty && !secondname.inputValid
+                ? "signup__input-container_type_incorrect"
+                : ""
+            }`}
             id="secondname"
             name="secondname"
             type="text"
@@ -150,7 +148,11 @@ const SignUp: FC = () => {
           />
 
           <TextField
-            className="signup__input-container"
+            className={`signup__input-container ${
+              email.isDirty && !email.inputValid
+                ? "signup__input-container_type_incorrect"
+                : ""
+            }`}
             id="email"
             name="email"
             type="text"
@@ -164,7 +166,11 @@ const SignUp: FC = () => {
           />
 
           <FormControl
-            className="signup__input-container"
+            className={`signup__input-container ${
+              password.isDirty && !password.inputValid
+                ? "signup__input-container_type_incorrect"
+                : ""
+            }`}
             variant="outlined"
             error={Boolean(password.isDirty && !password.inputValid)}
           >
@@ -201,12 +207,19 @@ const SignUp: FC = () => {
           </FormControl>
 
           <FormControl
-            className="signup__input-container"
+            className={`signup__input-container ${
+              passwordrepeat.isDirty &&
+              (!passwordrepeat.inputValid ||
+                password.value !== passwordrepeat.value)
+                ? "signup__input-container_type_incorrect"
+                : ""
+            }`}
             variant="outlined"
-            error={
-              Boolean(passwordrepeat.isDirty && !passwordrepeat.inputValid) ||
-              password.value !== passwordrepeat.value
-            }
+            error={Boolean(
+              passwordrepeat.isDirty &&
+                (!passwordrepeat.inputValid ||
+                  password.value !== passwordrepeat.value)
+            )}
           >
             <InputLabel
               htmlFor="passwordrepeat"
@@ -237,7 +250,8 @@ const SignUp: FC = () => {
             />
             <FormHelperText>
               {getError(passwordrepeat) ||
-                (password.value !== passwordrepeat.value &&
+                (passwordrepeat.isDirty &&
+                  password.value !== passwordrepeat.value &&
                   "Пароли не совпадают")}
             </FormHelperText>
           </FormControl>
@@ -253,9 +267,9 @@ const SignUp: FC = () => {
             <input
               className="signup__hidden-checkbox"
               type="checkbox"
-              id="pesronal-data"
+              id="personal-data"
             />
-            <label htmlFor="pesronal-data" className="signup__checkbox"></label>
+            <label htmlFor="personal-data" className="signup__checkbox"></label>
             <p className="signup__privacy-policy">
               Согласие на обработку персональных данных, разрешенных для
               распространения
@@ -268,9 +282,9 @@ const SignUp: FC = () => {
             <label htmlFor="policy" className="signup__checkbox"></label>
             <p className="signup__privacy-policy">
               Нажимая кнопку «Зарегистрироваться» вы соглашаетесь с{" "}
-              <p className="signup__privacy-policy-text">
+              <span className="signup__privacy-policy-text">
                 правилами работы сервиса
-              </p>
+              </span>
             </p>
           </div>
 
@@ -293,7 +307,7 @@ const SignUp: FC = () => {
           </Button>
           <p className="signup__question">
             Уже есть аккаунт?
-            <p className="signup__login-btn">Войти</p>
+            <span className="signup__login-btn">Войти</span>
           </p>
         </div>
       </form>

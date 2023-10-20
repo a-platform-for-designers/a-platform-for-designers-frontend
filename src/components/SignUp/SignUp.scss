@@ -28,12 +28,14 @@
     height: 56px;
     border: none;
     border-radius: 4px;
-    box-shadow: 0 4px 4px rgba(51, 51, 51, 0.04),
+    box-shadow:
+      0 4px 4px rgba(51, 51, 51, 0.04),
       0 4px 16px rgba(51, 51, 51, 0.08);
 
     &_type_incorrect {
       background-color: #f9e3e3;
-      box-shadow: 0 4px 4px rgba(255, 195, 195, 0.24),
+      box-shadow:
+        0 4px 4px rgba(255, 195, 195, 0.24),
         0 4px 16px rgba(255, 195, 195, 0.04);
     }
 
@@ -44,10 +46,12 @@
 
     label {
       // Перебивается шрифт
-      font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+      //font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
       font-size: 16px;
       line-height: 24px;
       color: #6b6b6b;
+      top: 6px;
+      left: 0;
     }
 
     input:focuced + label {
@@ -56,7 +60,7 @@
 
     p {
       // Перебивается шрифт
-      font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+      //font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
       font-size: 16px;
       line-height: 24px;
       color: #db524e !important;
@@ -119,7 +123,7 @@
   }
 
   &__hidden-checkbox:checked + &__checkbox::before {
-    background: #6e41e2 url(../../../public/images/Checked.svg) center no-repeat;
+    background: #6e41e2 url(../../../images/Checked.svg) center no-repeat;
   }
 
   &__privacy-policy {
