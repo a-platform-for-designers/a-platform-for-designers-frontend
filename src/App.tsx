@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router";
 import classes from "./App.module.scss";
+
 import MainPage from "./pages/MainPage/MainPage";
 import ProfilePage from "./pages/ProfilePage/ProfilePage";
 import ErrorPage from "./pages/ErrorPage/ErrorPage";
