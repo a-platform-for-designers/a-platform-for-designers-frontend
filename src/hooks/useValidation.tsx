@@ -6,6 +6,7 @@ export interface IValidation {
   maxLength?: number;
   isEmail?: boolean;
   isName?: boolean;
+  isPhone?: boolean;
 }
 
 function useValidation(value: string, validations: IValidation) {
@@ -14,12 +15,14 @@ function useValidation(value: string, validations: IValidation) {
   const [maxLengthError, setMaxLengthError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [nameError, setNameError] = useState("");
+  const [phoneError, setPhoneError] = useState("");
   const [inputValid, setInputValid] = useState(false);
 
   useEffect(() => {
     const emailPattern =
       /^(([^аА-яЯ<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const namePattern = /^[a-zA-Zа-яА-ЯёЁ\s-]+$/;
+    const phonePattern = /^\+\d{9,11}$/;
 
     for (const validation in validations) {
       switch (validation) {
@@ -61,6 +64,12 @@ function useValidation(value: string, validations: IValidation) {
             : setNameError("Используйте латиницу, кириллицу, пробел или дефис");
           break;
 
+        case "isPhone":
+          phonePattern.test(String(value).toLowerCase())
+            ? setPhoneError("")
+            : setPhoneError("Поле содержит недопустимые символы");
+          break;
+
         default:
           break;
       }
@@ -73,13 +82,21 @@ function useValidation(value: string, validations: IValidation) {
       minLengthError ||
       maxLengthError ||
       emailError ||
-      nameError
+      nameError ||
+      phoneError
     ) {
       setInputValid(false);
     } else {
       setInputValid(true);
     }
-  }, [EmptyError, minLengthError, maxLengthError, emailError, nameError]);
+  }, [
+    EmptyError,
+    minLengthError,
+    maxLengthError,
+    emailError,
+    nameError,
+    phoneError,
+  ]);
 
   return {
     EmptyError,
@@ -87,6 +104,7 @@ function useValidation(value: string, validations: IValidation) {
     maxLengthError,
     emailError,
     nameError,
+    phoneError,
     inputValid,
   };
 }

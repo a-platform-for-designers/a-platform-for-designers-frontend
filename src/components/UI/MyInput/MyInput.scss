@@ -1,0 +1,50 @@
+.myInput {
+  &__container {
+    margin-bottom: 8px;
+    height: 56px;
+    border: none;
+    border-radius: 4px;
+    box-shadow:
+      0 4px 4px rgba(51, 51, 51, 0.04),
+      0 4px 16px rgba(51, 51, 51, 0.08);
+
+    &_type_incorrect {
+      background-color: #f9e3e3;
+      box-shadow:
+        0 4px 4px rgba(255, 195, 195, 0.24),
+        0 4px 16px rgba(255, 195, 195, 0.04);
+    }
+
+    div {
+      background-color: inherit !important;
+    }
+
+    fieldset {
+      border: none;
+      outline: none;
+    }
+
+    label {
+      font-size: 16px;
+      line-height: 24px;
+      color: #6b6b6b !important;
+      top: 0;
+      left: 0;
+    }
+
+    input:focuced + label {
+      color: #6b6b6b;
+    }
+
+    p {
+      font-size: 16px;
+      line-height: 24px;
+      color: #db524e !important;
+      margin: 8px 0 0 0;
+    }
+  }
+
+  &__container:last-child {
+    margin-bottom: 0;
+  }
+}

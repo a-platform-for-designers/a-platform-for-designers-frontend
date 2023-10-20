@@ -47,4 +47,6 @@ function useInput(
   };
 }
 
+export type objFromUseInput = ReturnType<typeof useInput>;
+
 export default useInput;
