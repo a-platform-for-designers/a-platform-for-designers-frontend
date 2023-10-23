@@ -1,3 +1,4 @@
+import MyButton from "../../components/UI/MyButton/MyButton";
 import MyInput from "../../components/UI/MyInput/MyInput";
 import useInput from "../../hooks/useInput";
 import "./MainPage.scss";
@@ -36,6 +37,7 @@ const MainPage: React.FC = () => {
         variant="text"
         label="Имечко"
         placeholder="Вася"
+        disabled
       />
       <hr />
       <MyInput
@@ -51,6 +53,14 @@ const MainPage: React.FC = () => {
         label="Телефон"
         placeholder="+7912315418"
       />
+      <hr />
+      <MyButton label="Text" onClick={() => {}} />
+      <hr />
+      <MyButton label="Text" onClick={() => {}} disabled />
+      <hr />
+      <MyButton label="Text" onClick={() => {}} variant="text" />
+      <hr />
+      <MyButton label="Text" onClick={() => {}} disabled variant="text" />
     </div>
   );
 };

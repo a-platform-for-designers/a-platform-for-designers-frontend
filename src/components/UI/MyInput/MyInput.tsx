@@ -17,12 +17,13 @@ import eyeClosed from "../../../assets/icons/eye-close.svg";
 
 type TInputTextArea = HTMLInputElement | HTMLTextAreaElement;
 
-interface IMyInputProps {
+export interface IMyInputProps {
   data: objFromUseInput;
   label: string;
   onChangeCallback?: () => void;
-  variant?: "text" | "password" | "phone" | "dropdown";
+  variant?: "text" | "password";
   placeholder?: string;
+  disabled?: boolean;
 }
 
 const MyInput: React.FC<IMyInputProps> = ({
@@ -31,8 +32,9 @@ const MyInput: React.FC<IMyInputProps> = ({
   variant = "text",
   label,
   placeholder = "",
+  disabled = false,
 }) => {
-  const invalid = Boolean(data.isDirty && !data.inputValid);
+  const invalid = Boolean(data.isDirty && data.error);
   const [showPassword, setShowPassword] = useState(false);
 
   function handleClickShowPassword() {
@@ -40,16 +42,7 @@ const MyInput: React.FC<IMyInputProps> = ({
   }
 
   function getError(data: objFromUseInput) {
-    return (
-      data.isDirty &&
-      !data.inputValid &&
-      (data.EmptyError ||
-        data.minLengthError ||
-        data.maxLengthError ||
-        data.nameError ||
-        data.phoneError ||
-        data.emailError)
-    );
+    return data.isDirty && data.error;
   }
 
   function handleChange(
@@ -79,6 +72,7 @@ const MyInput: React.FC<IMyInputProps> = ({
             error={invalid}
             helperText={getError(data)}
             placeholder={placeholder}
+            disabled={disabled}
             InputProps={
               { disableUnderline: true } as Partial<OutlinedInputProps>
             }
@@ -102,6 +96,7 @@ const MyInput: React.FC<IMyInputProps> = ({
               className="myInput__input"
               value={data.value}
               disableUnderline
+              disabled={disabled}
               onBlur={() => data.onBlur()}
               onChange={(e) => handleChange(e, data.onChange)}
               type={showPassword ? "text" : "password"}
@@ -122,10 +117,6 @@ const MyInput: React.FC<IMyInputProps> = ({
           </FormControl>
         </StyledEngineProvider>
       );
-    case "dropdown":
-      break;
-    default:
-      return <></>;
   }
 };
 

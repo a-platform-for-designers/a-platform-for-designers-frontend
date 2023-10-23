@@ -10,13 +10,12 @@ export interface IValidation {
 }
 
 function useValidation(value: string, validations: IValidation) {
-  const [EmptyError, setEmptyError] = useState("");
+  const [emptyError, setEmptyError] = useState("");
   const [minLengthError, setMinLengthError] = useState("");
   const [maxLengthError, setMaxLengthError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [nameError, setNameError] = useState("");
   const [phoneError, setPhoneError] = useState("");
-  const [inputValid, setInputValid] = useState(false);
 
   useEffect(() => {
     const emailPattern =
@@ -76,37 +75,15 @@ function useValidation(value: string, validations: IValidation) {
     }
   }, [validations, value]);
 
-  useEffect(() => {
-    if (
-      EmptyError ||
-      minLengthError ||
-      maxLengthError ||
-      emailError ||
-      nameError ||
-      phoneError
-    ) {
-      setInputValid(false);
-    } else {
-      setInputValid(true);
-    }
-  }, [
-    EmptyError,
-    minLengthError,
-    maxLengthError,
-    emailError,
-    nameError,
-    phoneError,
-  ]);
+  const error =
+    emptyError ||
+    minLengthError ||
+    maxLengthError ||
+    emailError ||
+    nameError ||
+    phoneError;
 
-  return {
-    EmptyError,
-    minLengthError,
-    maxLengthError,
-    emailError,
-    nameError,
-    phoneError,
-    inputValid,
-  };
+  return error;
 }
 
 export default useValidation;
