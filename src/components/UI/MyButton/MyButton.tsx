@@ -8,6 +8,8 @@ interface IMyButtonProps {
   onClick: () => void;
   size?: "small" | "medium" | "large";
   disabled?: boolean;
+  className?: string;
+  type?: "submit" | "reset" | "button";
 }
 
 const MyButton: React.FC<IMyButtonProps> = ({
@@ -16,6 +18,8 @@ const MyButton: React.FC<IMyButtonProps> = ({
   onClick,
   size = "medium",
   disabled = false,
+  className,
+  type = "button",
 }) => {
   return (
     <StyledEngineProvider injectFirst>
@@ -24,7 +28,8 @@ const MyButton: React.FC<IMyButtonProps> = ({
         size={size}
         onClick={() => onClick()}
         disabled={disabled}
-        className="myButton"
+        className={`myButton ${className}`}
+        type={type}
       >
         {label}
       </Button>

@@ -89,9 +89,7 @@ const MyInput: React.FC<IMyInputProps> = ({
             variant="filled"
             error={invalid}
           >
-            <InputLabel htmlFor="password" className="myInput__label-password">
-              Пароль
-            </InputLabel>
+            <InputLabel className="myInput__label-password">Пароль</InputLabel>
             <FilledInput
               className="myInput__input"
               value={data.value}

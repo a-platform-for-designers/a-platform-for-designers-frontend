@@ -1,6 +1,10 @@
 @import "normalize.css";
 @import url(../vendor/fonst.scss);
 
-.app {
-  font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+:root {
+  --color-gray: #6b6b6b;
 }
+
+/* .app {
+  font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+} */

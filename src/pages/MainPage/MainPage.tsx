@@ -1,9 +1,16 @@
+import SignUp from "../../components/SignUp/SignUp";
+import MyAuthForm from "../../components/UI/MyAuthForm/MyAuthForm";
 import MyButton from "../../components/UI/MyButton/MyButton";
+import MyCheckBox from "../../components/UI/MyCheckBox/MyCheckBox";
 import MyInput from "../../components/UI/MyInput/MyInput";
+import MyPopup from "../../components/UI/MyPopup/MyPopup";
 import useInput from "../../hooks/useInput";
 import "./MainPage.scss";
+import { useState } from "react";
 
 const MainPage: React.FC = () => {
+  const [isAgree, setIsAgree] = useState(false);
+
   const firstname = useInput(
     "",
     {
@@ -61,6 +68,21 @@ const MainPage: React.FC = () => {
       <MyButton label="Text" onClick={() => {}} variant="text" />
       <hr />
       <MyButton label="Text" onClick={() => {}} disabled variant="text" />
+      <hr />
+      <MyCheckBox label="Yes" onChange={() => setIsAgree((prev) => !prev)} />
+      <MyButton
+        label="Yes checked"
+        onClick={() => {}}
+        disabled={!isAgree}
+        variant="text"
+      />
+      <hr />
+      <hr />
+      <MyPopup>
+        <MyAuthForm title="Регистрация">
+          <SignUp />
+        </MyAuthForm>
+      </MyPopup>
     </div>
   );
 };
