@@ -14,9 +14,9 @@ const MyAuthForm: React.FC<PropsWithChildren<IMyAuthFormProps>> = ({
 }) => {
   return (
     <StyledEngineProvider injectFirst>
-      <form className="signup" onSubmit={onSubmit}>
-        <div className="signup__wrapper">
-          <h1 className="signup__title">{title}</h1>
+      <form className="myAuthForm" onSubmit={onSubmit}>
+        <div className="myAuthForm__wrapper">
+          <h1 className="myAuthForm__title">{title}</h1>
           {children}
         </div>
       </form>

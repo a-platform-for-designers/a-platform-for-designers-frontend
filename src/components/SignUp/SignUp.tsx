@@ -4,6 +4,7 @@ import useInput from "../../hooks/useInput";
 import MyInput from "../UI/MyInput/MyInput";
 import MyButton from "../UI/MyButton/MyButton";
 import MyCheckBox from "../UI/MyCheckBox/MyCheckBox";
+import { AuthText } from "../../utils/constants";
 
 const SignUp: FC = () => {
   //TODO let isAuth = false; - Заготовка под авторизацию пользователей
@@ -55,41 +56,54 @@ const SignUp: FC = () => {
       <MyInput data={email} label="E-mail" />
       <MyInput data={password} label="Password" variant="password" />
 
-      <div className="signup__wrapper signup__wrapper_type_bottom">
+      <div className="myAuthForm__lower-part">
         {error && (
-          <span className="signup__error signup__error_type_bottom">
+          <span className="myAuthForm__error myAuthForm__error_type_bottom">
             {error}
           </span>
         )}
 
         <MyCheckBox
           label={
-            <p className="signup__privacy-policy">
-              Согласие на обработку персональных данных, разрешенных для
-              распространения
+            <p className="myAuthForm__privacy-policy">
+              {AuthText.privacyPolicy}
             </p>
           }
           onChange={() => {}}
+          disabled={
+            !!email.error ||
+            !!password.error ||
+            !!firstname.error ||
+            !!secondname.error ||
+            Boolean(error)
+          }
         />
 
         <MyCheckBox
           label={
-            <p className="signup__privacy-policy">
-              Нажимая кнопку «Зарегистрироваться» вы соглашаетесь с{" "}
+            <p className="myAuthForm__privacy-policy">
+              {AuthText.conditionsAgreement}{" "}
               <a
-                href="https://ya.ru/"
+                href="#"
                 target="_blank"
-                className="signup__privacy-policy-text"
+                className="myAuthForm__privacy-policy-text"
               >
-                правилами работы сервиса
+                {AuthText.agreementLink}
               </a>
             </p>
           }
           onChange={() => {}}
+          disabled={
+            !!email.error ||
+            !!password.error ||
+            !!firstname.error ||
+            !!secondname.error ||
+            Boolean(error)
+          }
         />
 
         <MyButton
-          className="signup__button"
+          className="myAuthForm__button"
           label="Зарегистрироваться"
           type="submit"
           onClick={() => {
@@ -104,9 +118,9 @@ const SignUp: FC = () => {
           }
         />
 
-        <p className="signup__question">
-          Уже есть аккаунт?
-          <span className="signup__login-btn">Войти</span>
+        <p className="myAuthForm__question">
+          {AuthText.isLoggedInText}
+          <span className="myAuthForm__login-btn">{AuthText.linkText}</span>
         </p>
       </div>
     </>
