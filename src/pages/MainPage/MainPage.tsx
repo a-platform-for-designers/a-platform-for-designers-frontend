@@ -1,4 +1,5 @@
 import SignUp from "../../components/SignUp/SignUp";
+import SignIn from "../../components/SignIn/SignIn";
 import MyAuthForm from "../../components/UI/MyAuthForm/MyAuthForm";
 import MyButton from "../../components/UI/MyButton/MyButton";
 import MyCheckBox from "../../components/UI/MyCheckBox/MyCheckBox";
@@ -78,9 +79,14 @@ const MainPage: React.FC = () => {
       />
       <hr />
       <hr />
-      <MyPopup>
+      <MyPopup label="Регистрация">
         <MyAuthForm title="Регистрация">
           <SignUp />
+        </MyAuthForm>
+      </MyPopup>
+      <MyPopup label="Вход">
+        <MyAuthForm title="Вход">
+          <SignIn />
         </MyAuthForm>
       </MyPopup>
     </div>

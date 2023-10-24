@@ -4,7 +4,7 @@ import useInput from "../../hooks/useInput";
 import MyInput from "../UI/MyInput/MyInput";
 import MyButton from "../UI/MyButton/MyButton";
 import MyCheckBox from "../UI/MyCheckBox/MyCheckBox";
-import { AuthText } from "../../utils/constants";
+import { SignupText } from "../../utils/constants";
 
 const SignUp: FC = () => {
   //TODO let isAuth = false; - Заготовка под авторизацию пользователей
@@ -66,7 +66,7 @@ const SignUp: FC = () => {
         <MyCheckBox
           label={
             <p className="myAuthForm__privacy-policy">
-              {AuthText.privacyPolicy}
+              {SignupText.privacyPolicy}
             </p>
           }
           onChange={() => {}}
@@ -82,13 +82,13 @@ const SignUp: FC = () => {
         <MyCheckBox
           label={
             <p className="myAuthForm__privacy-policy">
-              {AuthText.conditionsAgreement}{" "}
+              {SignupText.conditionsAgreement}{" "}
               <a
                 href="#"
                 target="_blank"
                 className="myAuthForm__privacy-policy-text"
               >
-                {AuthText.agreementLink}
+                {SignupText.agreementLink}
               </a>
             </p>
           }
@@ -119,8 +119,8 @@ const SignUp: FC = () => {
         />
 
         <p className="myAuthForm__question">
-          {AuthText.isLoggedInText}
-          <span className="myAuthForm__login-btn">{AuthText.linkText}</span>
+          {SignupText.isLoggedInText}
+          <span className="myAuthForm__login-btn">{SignupText.linkText}</span>
         </p>
       </div>
     </>
