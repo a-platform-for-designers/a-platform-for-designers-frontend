@@ -1,155 +1,37 @@
-.signup {
-  margin: 0;
-  min-height: 780px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+@mixin small-text {
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+}
 
-  &__wrapper {
-    margin: 60px 142px 0 118px;
-    max-width: 448px;
-    min-height: 40px;
-    display: grid;
-    grid-template-columns: 1fr;
-    row-gap: 40px;
-  }
-
-  &__title {
-    margin: 0;
-    font-size: 32px;
-    line-height: 40px;
-    letter-spacing: 1.8px;
-    min-height: 40px;
-    max-width: 448px;
-  }
-
-  &__input-container {
-    margin-bottom: 8px;
-    height: 56px;
-    border: none;
-    border-radius: 4px;
-    box-shadow: 0 4px 4px rgba(51, 51, 51, 0.04),
-      0 4px 16px rgba(51, 51, 51, 0.08);
-
-    &_type_incorrect {
-      background-color: #f9e3e3;
-      box-shadow: 0 4px 4px rgba(255, 195, 195, 0.24),
-        0 4px 16px rgba(255, 195, 195, 0.04);
-    }
-
-    fieldset {
-      border: none;
-      outline: none;
-    }
-
-    label {
-      // Перебивается шрифт
-      //font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
-      font-size: 16px;
-      line-height: 24px;
-      color: #6b6b6b;
-      top: 6px;
-      left: 0;
-    }
-
-    input:focuced + label {
-      color: #6b6b6b;
-    }
-
-    p {
-      // Перебивается шрифт
-      //font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
-      font-size: 16px;
-      line-height: 24px;
-      color: #db524e !important;
-      margin: 8px 0 0 0;
-    }
-  }
-
-  &__input-container:last-child {
-    margin-bottom: 0;
-  }
-
-  &__wrapper_type_bottom {
+.myAuthForm {
+  &__lower-part {
+    @include small-text;
     margin: 0 0 88px 0;
     display: flex;
     flex-direction: column;
     gap: 0;
   }
 
-  &__confirm-policy {
-    margin: 0;
-    width: 100%;
-    display: grid;
-    grid-template-columns: 24px 1fr;
-    column-gap: 12px;
-    row-gap: 20px;
-    align-items: flex-start;
-    box-sizing: border-box;
-    position: relative;
-  }
-
-  &__hidden-checkbox {
-    position: absolute;
-    visibility: hidden;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip-path: inset(0 0 0 0);
-  }
-
-  &__checkbox {
-    margin-right: 12px;
-    padding: 0;
-    min-width: 24px;
-    height: 24px;
-    border-radius: 4px;
-    border: 1px solid #d4d4d4;
-    cursor: pointer;
-    position: relative;
-    display: inline-block;
-  }
-
-  &__checkbox::before {
-    content: "";
-    position: absolute;
-    display: inline-block;
-    width: 24px;
-    height: 24px;
-    border-radius: 4px;
-    box-sizing: border-box;
-  }
-
-  &__hidden-checkbox:checked + &__checkbox::before {
-    background: #6e41e2 url(../../../images/Checked.svg) center no-repeat;
-  }
-
   &__privacy-policy {
     margin: 0;
-    font-size: 16px;
-    line-height: 24px;
-    color: #6b6b6b;
+    color: var(--text-color-gray);
   }
 
   &__privacy-policy-text {
     display: inline;
-    color: #6e41e2;
+    color: var(--button-active-color);
     text-decoration: underline;
     cursor: pointer;
   }
 
   &__button {
-    // Перебивается шрифт
-    font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
-    font-size: 16px;
-    line-height: 24px;
     margin: 40px 0;
-    background-color: #6e41e2;
+    background-color: var(--button-active-color);
   }
 
   &__button:disabled {
-    background-color: #e3daf9;
-    color: #ffffff;
+    background-color: var(--button-disabled-color);
+    color: var(--text-color-white);
   }
 
   &__question {
@@ -157,10 +39,8 @@
   }
 
   &__login-btn {
-    font-size: 16px;
-    line-height: 24px;
     display: inline;
-    color: #6e41e2;
+    color: var(--button-active-color);
     text-decoration: underline;
     margin-left: 8px;
     cursor: pointer;
