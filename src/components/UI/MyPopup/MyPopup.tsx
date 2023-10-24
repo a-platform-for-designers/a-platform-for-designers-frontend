@@ -5,15 +5,16 @@ import MyButton from "../MyButton/MyButton";
 
 type Props = {
   open?: boolean;
+  label: string;
   onClose?: () => void;
 };
 
-const MyPopup: React.FC<PropsWithChildren<Props>> = ({ children }) => {
+const MyPopup: React.FC<PropsWithChildren<Props>> = ({ children, label }) => {
   const [showPopup, setShowPopup] = useState(false);
 
   return (
     <>
-      <MyButton label="open" onClick={() => setShowPopup(true)} />
+      <MyButton label={label} onClick={() => setShowPopup(true)} />
       <Drawer
         anchor="right"
         open={showPopup}
