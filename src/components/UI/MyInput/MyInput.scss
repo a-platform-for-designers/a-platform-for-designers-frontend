@@ -1,3 +1,8 @@
+@mixin small-text {
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+}
+
 .myInput {
   &__container {
     margin-bottom: 8px;
@@ -23,8 +28,7 @@
     }
 
     label {
-      font-size: 16px;
-      line-height: 24px;
+      @include small-text;
       color: var(--text-color-gray) !important;
       top: 0;
       left: 0;
@@ -35,8 +39,7 @@
     }
 
     p {
-      font-size: 16px;
-      line-height: 24px;
+      @include small-text();
       color: var(--validation-error-color) !important;
       margin: 8px 0 0 0;
     }
