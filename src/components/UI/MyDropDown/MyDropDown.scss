@@ -23,6 +23,36 @@
     margin-right: 8px;
   }
 
+  &__input .MuiAutocomplete-inputRoot {
+    background-color: white;
+  }
+
+  &__input {
+    .MuiAutocomplete-inputRoot:hover::before {
+      border-bottom: none;
+    }
+  }
+
+  &__input .MuiFilledInput-root {
+    padding-top: 0;
+  }
+
+  &__input div::after {
+    border: none;
+  }
+
+  &__input div::before {
+    border: none;
+  }
+
+  &__input div::after:hover {
+    border: none;
+  }
+
+  &__input div::before:hover {
+    border: none;
+  }
+
   &__input .MuiChip-filledDefault {
     color: white;
     background-color: var(--primary);

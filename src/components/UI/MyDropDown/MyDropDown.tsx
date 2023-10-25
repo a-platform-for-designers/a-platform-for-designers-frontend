@@ -42,8 +42,7 @@ const MyDropDown: React.FC = () => {
         renderInput={(params) => (
           <TextField
             {...params}
-            variant="outlined"
-            label="Movies"
+            variant="filled"
             placeholder="Favorites"
             className="myDropDown__input"
           />
