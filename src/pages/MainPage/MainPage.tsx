@@ -3,6 +3,7 @@ import SignIn from "../../components/SignIn/SignIn";
 import MyAuthForm from "../../components/UI/MyAuthForm/MyAuthForm";
 import MyButton from "../../components/UI/MyButton/MyButton";
 import MyCheckBox from "../../components/UI/MyCheckBox/MyCheckBox";
+import MyDropDown from "../../components/UI/MyDropDown/MyDropDown";
 import MyInput from "../../components/UI/MyInput/MyInput";
 import MyPopup from "../../components/UI/MyPopup/MyPopup";
 import useInput from "../../hooks/useInput";
@@ -35,6 +36,9 @@ const MainPage: React.FC = () => {
     maxLength: 12,
     isPhone: true,
   });
+
+  const [name, setName] = useState<string[]>([]);
+  const [count, setCount] = useState<string | null>(null);
 
   return (
     <div>
@@ -78,6 +82,25 @@ const MainPage: React.FC = () => {
         variant="text"
       />
       <hr />
+      <MyDropDown
+        variant="multiple"
+        options={["1", "2", "3"]}
+        value={name}
+        onChange={(
+          _: React.SyntheticEvent<Element, Event>,
+          newValue: string[]
+        ) => setName(newValue)}
+      ></MyDropDown>
+      <hr />
+      <MyDropDown
+        variant="single"
+        options={["1", "2", "3"]}
+        value={count}
+        onChange={(
+          _: React.SyntheticEvent<Element, Event>,
+          newValue: string | null
+        ) => setCount(newValue)}
+      ></MyDropDown>
       <hr />
       <MyPopup label="Регистрация">
         <MyAuthForm title="Регистрация">
