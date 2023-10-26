@@ -36,7 +36,8 @@ const MainPage: React.FC = () => {
     isPhone: true,
   });
 
-  const [name, setName] = useState<string | null>(null);
+  const [name, setName] = useState<string[]>([]);
+  const [count, setCount] = useState<string | null>(null);
 
   return (
     <div>
@@ -81,12 +82,23 @@ const MainPage: React.FC = () => {
       />
       <hr />
       <MyDropDown
+        variant="multiple"
         options={["1", "2", "3"]}
         value={name}
         onChange={(
           _: React.SyntheticEvent<Element, Event>,
-          newValue: string | null
+          newValue: string[]
         ) => setName(newValue)}
+      ></MyDropDown>
+      <hr />
+      <MyDropDown
+        variant="single"
+        options={["1", "2", "3"]}
+        value={count}
+        onChange={(
+          _: React.SyntheticEvent<Element, Event>,
+          newValue: string | null
+        ) => setCount(newValue)}
       ></MyDropDown>
       <hr />
       <MyPopup>
