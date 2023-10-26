@@ -6,30 +6,49 @@ import "./MyDropDown.scss";
 import { StyledEngineProvider } from "@mui/material/styles";
 import Chip from "@mui/material/Chip";
 import closeIcon from "../../../assets/icons/close.svg";
-import { useState } from "react";
 
-interface IMyDropDownProps {
-  variant?: "multiple" | "single";
+type TValueSingle = string | null;
+type TValueMulty = string[];
+type TOnChangeSingle = (
+  event: React.SyntheticEvent<Element, Event>,
+  newValue: TValueSingle
+) => void;
+type TOnChangeMylty = (
+  event: React.SyntheticEvent<Element, Event>,
+  newValue: TValueMulty
+) => void;
+
+type TSingleDropDown = {
+  variant?: "single";
+  value: TValueSingle;
+  onChange: TOnChangeSingle;
+};
+
+type TMultyDropDown = {
+  variant?: "multiple";
+  value: TValueMulty;
+  onChange: TOnChangeMylty;
+};
+
+type TMyDropDownProps = (TSingleDropDown | TMultyDropDown) & {
   options: string[];
-}
+};
 
-const MyDropDown: React.FC<IMyDropDownProps> = ({
+const MyDropDown: React.FC<TMyDropDownProps> = ({
   variant = "single",
   options,
+  value,
+  onChange,
 }) => {
   const checkedIcon = <CheckOutlinedIcon fontSize="small" color="action" />;
-  const [valueSingle, setValueSingle] = useState<string | null>(null);
-  const [valueMulty, setValueMulty] = useState<string[]>([]);
 
   switch (variant) {
     case "multiple":
       return (
         <StyledEngineProvider injectFirst>
           <Autocomplete
-            value={valueMulty}
-            onChange={(_: unknown, newValue: string[]) => {
-              setValueMulty(newValue);
-            }}
+            value={value as TValueMulty}
+            onChange={onChange as TOnChangeMylty}
             multiple
             className="myDropDown"
             options={options}
@@ -72,10 +91,8 @@ const MyDropDown: React.FC<IMyDropDownProps> = ({
       return (
         <StyledEngineProvider injectFirst>
           <Autocomplete
-            value={valueSingle}
-            onChange={(_: unknown, newValue: string | null) => {
-              setValueSingle(newValue);
-            }}
+            value={value as TValueSingle}
+            onChange={onChange as TOnChangeSingle}
             className="myDropDown"
             options={options}
             disableCloseOnSelect
@@ -102,7 +119,6 @@ const MyDropDown: React.FC<IMyDropDownProps> = ({
           />
         </StyledEngineProvider>
       );
-      break;
 
     default:
       break;

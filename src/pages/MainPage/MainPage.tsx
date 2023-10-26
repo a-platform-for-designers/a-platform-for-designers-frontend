@@ -2,6 +2,7 @@ import SignUp from "../../components/SignUp/SignUp";
 import MyAuthForm from "../../components/UI/MyAuthForm/MyAuthForm";
 import MyButton from "../../components/UI/MyButton/MyButton";
 import MyCheckBox from "../../components/UI/MyCheckBox/MyCheckBox";
+import MyDropDown from "../../components/UI/MyDropDown/MyDropDown";
 import MyInput from "../../components/UI/MyInput/MyInput";
 import MyPopup from "../../components/UI/MyPopup/MyPopup";
 import useInput from "../../hooks/useInput";
@@ -34,6 +35,8 @@ const MainPage: React.FC = () => {
     maxLength: 12,
     isPhone: true,
   });
+
+  const [name, setName] = useState<string | null>(null);
 
   return (
     <div>
@@ -77,6 +80,14 @@ const MainPage: React.FC = () => {
         variant="text"
       />
       <hr />
+      <MyDropDown
+        options={["1", "2", "3"]}
+        value={name}
+        onChange={(
+          _: React.SyntheticEvent<Element, Event>,
+          newValue: string | null
+        ) => setName(newValue)}
+      ></MyDropDown>
       <hr />
       <MyPopup>
         <MyAuthForm title="Регистрация">
