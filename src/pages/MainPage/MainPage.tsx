@@ -9,26 +9,10 @@ import MyPopup from "../../components/UI/MyPopup/MyPopup";
 import useInput from "../../hooks/useInput";
 import "./MainPage.scss";
 import { useState } from "react";
+import MySwiper from "../../components/UI/MySwiper/MySwiper";
 
 const MainPage: React.FC = () => {
   const [isAgree, setIsAgree] = useState(false);
-
-  const firstname = useInput(
-    "",
-    {
-      isEmpty: true,
-      minLength: 2,
-      maxLength: 40,
-      isName: true,
-    },
-    { trim: true }
-  );
-
-  const password = useInput("", {
-    isEmpty: true,
-    minLength: 6,
-    maxLength: 32,
-  });
 
   const tel = useInput("", {
     isEmpty: true,
@@ -44,20 +28,6 @@ const MainPage: React.FC = () => {
     <div>
       MainPage
       <hr />
-      <MyInput
-        data={firstname}
-        variant="text"
-        label="Имечко"
-        placeholder="Вася"
-        disabled
-      />
-      <hr />
-      <MyInput
-        data={password}
-        variant="password"
-        label="Паролик"
-        placeholder="****"
-      />
       <hr />
       <MyInput
         data={tel}
@@ -112,6 +82,17 @@ const MainPage: React.FC = () => {
           <SignIn />
         </MyAuthForm>
       </MyPopup>
+      <hr />
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "flex-start",
+        }}
+      >
+        <MySwiper />
+        <MySwiper />
+      </div>
     </div>
   );
 };
