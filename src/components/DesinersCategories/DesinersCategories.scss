@@ -1,0 +1,72 @@
+.desinersCategories {
+  max-width: 1440px !important;
+
+  padding: 24px 0;
+
+  &__list {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    gap: 24px;
+  }
+
+  &-item {
+    width: 100%;
+    max-width: 330px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    text-align: center;
+
+    cursor: pointer;
+
+    box-shadow: none;
+
+    &__image {
+      width: 100%;
+      height: 240px;
+      border-radius: 12px;
+      transform-origin: 0% 0%;
+      transition: transform 0.4s linear;
+    }
+
+    &__content {
+      padding: 0;
+    }
+
+    &__title {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+
+      color: var(--text-color-black);
+      font-size: 22px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 28px;
+      text-align: left;
+
+      svg {
+        fill: var(--text-color-black);
+      }
+
+      &:hover {
+        color: var(--button-active-color);
+
+        svg {
+          fill: var(--button-active-color);
+        }
+      }
+    }
+
+    &:hover &__image {
+      transform: scale(1.03);
+    }
+  }
+
+  .MuiPaper-root {
+    overflow: unset;
+  }
+}

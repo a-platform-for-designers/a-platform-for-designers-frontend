@@ -1,99 +1,97 @@
-import SignUp from "../../components/SignUp/SignUp";
-import SignIn from "../../components/SignIn/SignIn";
-import MyAuthForm from "../../components/UI/MyAuthForm/MyAuthForm";
-import MyButton from "../../components/UI/MyButton/MyButton";
-import MyCheckBox from "../../components/UI/MyCheckBox/MyCheckBox";
-import MyDropDown from "../../components/UI/MyDropDown/MyDropDown";
-import MyInput from "../../components/UI/MyInput/MyInput";
-import MyPopup from "../../components/UI/MyPopup/MyPopup";
-import useInput from "../../hooks/useInput";
+import { Grid } from "@mui/material";
 import "./MainPage.scss";
-import { useState } from "react";
-import MySwiper from "../../components/UI/MySwiper/MySwiper";
+import Intro from "../../components/Intro/Intro";
+import Header from "../../components/header/Header";
+import DesinersCarousel, {
+  IDesinerCarouselData,
+} from "../../components/DesinersCarousel/DesinersCarousel";
+import DesinersCategories, {
+  IDesinerCategoriesData,
+} from "../../components/DesinersCategories/DesinersCategories";
+
+import avatarPlaceholder from "../../assets/images/designerscarousel-avatar.png";
+import desCatImg1 from "../../assets/images/desinerscategories-1.png";
+import desCatImg2 from "../../assets/images/desinerscategories-2.png";
+import desCatImg3 from "../../assets/images/desinerscategories-3.png";
+import desCatImg4 from "../../assets/images/desinerscategories-4.png";
+import Feed from "../../components/Feed/Feed";
 
 const MainPage: React.FC = () => {
-  const [isAgree, setIsAgree] = useState(false);
+  const desinersForCarousel: IDesinerCarouselData[] = [
+    {
+      name: "Имя Фамилия",
+      specialization: "Специализация",
+      image: avatarPlaceholder,
+      link: "",
+    },
+    {
+      name: "Имя Фамилия",
+      specialization: "Специализация",
+      image: avatarPlaceholder,
+      link: "",
+    },
+    {
+      name: "Имя Фамилия",
+      specialization: "Специализация",
+      image: avatarPlaceholder,
+      link: "",
+    },
+    {
+      name: "Имя Фамилия",
+      specialization: "Специализация",
+      image: avatarPlaceholder,
+      link: "",
+    },
+    {
+      name: "Имя Фамилия",
+      specialization: "Специализация",
+      image: avatarPlaceholder,
+      link: "",
+    },
+    {
+      name: "Имя Фамилия",
+      specialization: "Специализация",
+      image: avatarPlaceholder,
+      link: "",
+    },
+  ];
 
-  const tel = useInput("", {
-    isEmpty: true,
-    minLength: 10,
-    maxLength: 12,
-    isPhone: true,
-  });
-
-  const [name, setName] = useState<string[]>([]);
-  const [count, setCount] = useState<string | null>(null);
+  const desinersCategories: IDesinerCategoriesData[] = [
+    {
+      title: "Иллюстраторы",
+      image: desCatImg1,
+      link: "",
+    },
+    {
+      title: "Графические дизайнеры",
+      image: desCatImg2,
+      link: "",
+    },
+    {
+      title: "3d визуализаторы",
+      image: desCatImg3,
+      link: "",
+    },
+    {
+      title: "Веб дизайнеры",
+      image: desCatImg4,
+      link: "",
+    },
+  ];
 
   return (
-    <div>
-      MainPage
-      <hr />
-      <hr />
-      <MyInput
-        data={tel}
-        variant="text"
-        label="Телефон"
-        placeholder="+7912315418"
-      />
-      <hr />
-      <MyButton label="Text" onClick={() => {}} />
-      <hr />
-      <MyButton label="Text" onClick={() => {}} disabled />
-      <hr />
-      <MyButton label="Text" onClick={() => {}} variant="text" />
-      <hr />
-      <MyButton label="Text" onClick={() => {}} disabled variant="text" />
-      <hr />
-      <MyCheckBox label="Yes" onChange={() => setIsAgree((prev) => !prev)} />
-      <MyButton
-        label="Yes checked"
-        onClick={() => {}}
-        disabled={!isAgree}
-        variant="text"
-      />
-      <hr />
-      <MyDropDown
-        variant="multiple"
-        options={["1", "2", "3"]}
-        value={name}
-        onChange={(
-          _: React.SyntheticEvent<Element, Event>,
-          newValue: string[]
-        ) => setName(newValue)}
-      ></MyDropDown>
-      <hr />
-      <MyDropDown
-        variant="single"
-        options={["1", "2", "3"]}
-        value={count}
-        onChange={(
-          _: React.SyntheticEvent<Element, Event>,
-          newValue: string | null
-        ) => setCount(newValue)}
-      ></MyDropDown>
-      <hr />
-      <MyPopup label="Регистрация">
-        <MyAuthForm title="Регистрация">
-          <SignUp />
-        </MyAuthForm>
-      </MyPopup>
-      <MyPopup label="Вход">
-        <MyAuthForm title="Вход">
-          <SignIn />
-        </MyAuthForm>
-      </MyPopup>
-      <hr />
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "flex-start",
-        }}
-      >
-        <MySwiper />
-        <MySwiper />
-      </div>
-    </div>
+    <Grid
+      className="mainPage"
+      container
+      flexDirection={"column"}
+      sx={{ outline: "1px solid red" }}
+    >
+      <Header />
+      <Intro />
+      <DesinersCarousel data={desinersForCarousel} />
+      <DesinersCategories data={desinersCategories} />
+      <Feed data={[...new Array(12)]} />
+    </Grid>
   );
 };
 
