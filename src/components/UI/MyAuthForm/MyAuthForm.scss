@@ -1,0 +1,82 @@
+@mixin large-text {
+  font-size: var(--font-size-large);
+  line-height: var(--line-height-large);
+}
+
+@mixin small-text {
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+}
+
+.myAuthForm {
+  margin: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  &__wrapper {
+    margin: 60px 142px 0 118px;
+    max-width: 448px;
+    min-height: 40px;
+    display: grid;
+    grid-template-columns: minmax(auto, 448px);
+    row-gap: 40px;
+  }
+
+  &__title {
+    @include large-text;
+    margin: 0;
+    min-height: 40px;
+    max-width: 448px;
+    color: var(--text-color-black);
+  }
+
+  &__lower-part {
+    @include small-text;
+    margin: 0 0 88px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  &__privacy-policy {
+    margin: 0;
+    color: var(--text-color-gray);
+  }
+
+  &__privacy-policy-text {
+    display: inline;
+    color: var(--button-active-color);
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  &__button {
+    margin: 40px 0;
+    background-color: var(--button-active-color);
+  }
+
+  &__button:disabled {
+    background-color: var(--button-disabled-color);
+    color: var(--text-color-white);
+  }
+
+  &__question {
+    margin: 0;
+  }
+
+  &__login-btn {
+    display: inline;
+    color: var(--button-active-color);
+    margin-left: 8px;
+    cursor: pointer;
+  }
+
+  &__forget-passwor {
+    color: var(--button-active-color);
+    cursor: pointer;
+    text-decoration: none;
+    align-self: flex-start;
+  }
+}

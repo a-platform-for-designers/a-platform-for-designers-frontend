@@ -1,0 +1,9 @@
+@mixin small-text {
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+}
+
+.myButton {
+  @include small-text;
+  /* background-color: var(--button-active-color); */
+}
