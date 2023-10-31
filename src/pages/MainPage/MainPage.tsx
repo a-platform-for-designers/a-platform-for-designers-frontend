@@ -1,4 +1,4 @@
-import { Grid } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import "./MainPage.scss";
 import Intro from "../../components/Intro/Intro";
 
@@ -84,7 +84,7 @@ const MainPage: React.FC = () => {
   return (
     <>
       <Header />
-      <main className="mainPage">
+      <Box component="main" className="mainPage">
         {
           <Grid
             className="mainPage__container"
@@ -97,7 +97,7 @@ const MainPage: React.FC = () => {
             <Feed data={[...new Array(12)]} />
           </Grid>
         }
-      </main>
+      </Box>
       <Footer />
     </>
   );
