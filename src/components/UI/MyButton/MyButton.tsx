@@ -8,6 +8,7 @@ interface IMyButtonProps {
   onClick: () => void;
   size?: "small" | "medium" | "large";
   disabled?: boolean;
+  inverted?: boolean;
   className?: string;
   type?: "submit" | "reset" | "button";
 }
@@ -18,6 +19,7 @@ const MyButton: React.FC<IMyButtonProps> = ({
   onClick,
   size = "medium",
   disabled = false,
+  inverted = false,
   className,
   type = "button",
 }) => {
@@ -28,7 +30,9 @@ const MyButton: React.FC<IMyButtonProps> = ({
         size={size}
         onClick={() => onClick()}
         disabled={disabled}
-        className={`myButton ${className}`}
+        className={`myButton ${className} ${
+          inverted ? "myButton_inverted" : ""
+        }`}
         type={type}
       >
         {label}

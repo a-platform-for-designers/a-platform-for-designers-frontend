@@ -39,7 +39,8 @@ const Intro: React.FC = () => {
         </Typography>
         <MyButton
           label="Найти дизайнеров"
-          size="small"
+          size="medium"
+          inverted
           onClick={() => {
             console.log("Do something");
           }}
