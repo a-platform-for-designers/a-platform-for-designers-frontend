@@ -1,4 +1,4 @@
-import { Grid } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import "./MainPage.scss";
 import Intro from "../../components/Intro/Intro";
 
@@ -15,7 +15,8 @@ import desCatImg2 from "../../assets/images/desinerscategories-2.png";
 import desCatImg3 from "../../assets/images/desinerscategories-3.png";
 import desCatImg4 from "../../assets/images/desinerscategories-4.png";
 import Feed from "../../components/Feed/Feed";
-import Header from "../../components/header/Header";
+import Header from "../../components/Header/Header";
+import Footer from "../../components/Footer/Footer";
 
 const MainPage: React.FC = () => {
   const desinersForCarousel: IDesinerCarouselData[] = [
@@ -81,18 +82,24 @@ const MainPage: React.FC = () => {
   ];
 
   return (
-    <Grid
-      className="mainPage"
-      container
-      flexDirection={"column"}
-      sx={{ outline: "1px solid red" }}
-    >
+    <>
       <Header />
-      <Intro />
-      <DesinersCarousel data={desinersForCarousel} />
-      <DesinersCategories data={desinersCategories} />
-      <Feed data={[...new Array(12)]} />
-    </Grid>
+      <Box component="main" className="mainPage">
+        {
+          <Grid
+            className="mainPage__container"
+            container
+            flexDirection={"column"}
+          >
+            <Intro />
+            <DesinersCarousel data={desinersForCarousel} />
+            <DesinersCategories data={desinersCategories} />
+            <Feed data={[...new Array(12)]} />
+          </Grid>
+        }
+      </Box>
+      <Footer />
+    </>
   );
 };
 
