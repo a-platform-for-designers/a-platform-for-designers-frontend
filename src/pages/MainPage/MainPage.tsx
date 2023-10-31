@@ -1,7 +1,7 @@
 import { Grid } from "@mui/material";
 import "./MainPage.scss";
 import Intro from "../../components/Intro/Intro";
-import Header from "../../components/header/Header";
+
 import DesinersCarousel, {
   IDesinerCarouselData,
 } from "../../components/DesinersCarousel/DesinersCarousel";
@@ -15,6 +15,7 @@ import desCatImg2 from "../../assets/images/desinerscategories-2.png";
 import desCatImg3 from "../../assets/images/desinerscategories-3.png";
 import desCatImg4 from "../../assets/images/desinerscategories-4.png";
 import Feed from "../../components/Feed/Feed";
+import Header from "../../components/Header/Header";
 
 const MainPage: React.FC = () => {
   const desinersForCarousel: IDesinerCarouselData[] = [
