@@ -32,3 +32,10 @@
   font-size: var(--font-size-lrge);
   line-height: var(--line-height-large);
 }
+
+.app {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
+}

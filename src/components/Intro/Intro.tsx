@@ -1,4 +1,4 @@
-import { Container, StyledEngineProvider, Typography } from "@mui/material";
+import { StyledEngineProvider, Typography } from "@mui/material";
 import "./Intro.scss";
 import MyButton from "../UI/MyButton/MyButton";
 import React from "react";
@@ -6,7 +6,7 @@ import React from "react";
 const Intro: React.FC = () => {
   return (
     <StyledEngineProvider injectFirst>
-      <Container className="intro" component="section">
+      <div className="intro">
         <Typography className="intro__title" component="h1">
           <Typography
             className="intro__title-accent intro__title-accent_type_bold"
@@ -44,7 +44,7 @@ const Intro: React.FC = () => {
             console.log("Do something");
           }}
         />
-      </Container>
+      </div>
     </StyledEngineProvider>
   );
 };
