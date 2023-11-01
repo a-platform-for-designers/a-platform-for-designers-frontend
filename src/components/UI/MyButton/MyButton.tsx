@@ -1,25 +1,51 @@
-import Button from "@mui/material-next/Button";
+import Button from "@mui/material/Button";
 import "./MyButton.scss";
-import { StyledEngineProvider } from "@mui/material";
+import { StyledEngineProvider, SxProps, Theme } from "@mui/material";
 
 interface IMyButtonProps {
   label: string;
-  variant?: "text" | "filled";
-  onClick: () => void;
+  variant?: "text" | "contained" | "outlined" | "tag";
+  onClick?: React.MouseEventHandler;
   size?: "small" | "medium" | "large";
+  color?: "primary" | "secondary";
   disabled?: boolean;
+  active?: boolean;
   inverted?: boolean;
   className?: string;
   type?: "submit" | "reset" | "button";
 }
 
+// Стили кнопки для contained prymary, поменяны местами фон и цвет текста
+const myButtonPrimaryContainedInvertedTheme: SxProps<Theme> = {
+  color: (theme) => theme.palette.primary.main,
+  backgroundColor: (theme) => theme.palette.background.default,
+  "&:hover": {
+    backgroundColor: (theme) => theme.palette.grey[100],
+  },
+  "&:active": {
+    backgroundColor: (theme) => theme.palette.grey[300],
+    color: (theme) => theme.palette.primary.dark,
+  },
+};
+
+// Стили для активного состояния варианта tag, т.к. пока не нашел этого в MUI
+const myButtonPrimaryTagActiveTheme: SxProps<Theme> = {
+  backgroundColor: (theme) => theme.palette.primary.main + "3d",
+  "&:hover": {
+    borderColor: "transparent",
+    backgroundColor: (theme) => theme.palette.primary.main + "3d",
+  },
+};
+
 const MyButton: React.FC<IMyButtonProps> = ({
   label,
-  variant = "filled",
+  variant = "contained",
   onClick,
+  color = "primary",
   size = "medium",
   disabled = false,
-  inverted = false,
+  inverted = false, // пока только с варинтом contained
+  active = false, // пока только с варинтом tag
   className,
   type = "button",
 }) => {
@@ -28,12 +54,18 @@ const MyButton: React.FC<IMyButtonProps> = ({
       <Button
         variant={variant}
         size={size}
-        onClick={() => onClick()}
+        color={color}
+        onClick={onClick}
         disabled={disabled}
-        className={`myButton ${className} ${
-          inverted ? "myButton_inverted" : ""
-        }`}
+        className={`myButton ${className}`}
+        sx={{
+          ...(variant === "contained" &&
+            inverted &&
+            myButtonPrimaryContainedInvertedTheme),
+          ...(variant === "tag" && active && myButtonPrimaryTagActiveTheme),
+        }}
         type={type}
+        disableRipple
       >
         {label}
       </Button>

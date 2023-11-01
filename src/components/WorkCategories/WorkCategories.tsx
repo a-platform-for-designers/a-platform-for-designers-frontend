@@ -1,7 +1,7 @@
 import { Grid, ListItem, StyledEngineProvider } from "@mui/material";
 import "./WorkCategories.scss";
-import MyWorkCategoryButton from "../UI/MyWorkCategoryButton/MyWorkCategoryButton";
 import React from "react";
+import MyButton from "../UI/MyButton/MyButton";
 
 // интерфейс данных категории, которые нужно передать в пропсах
 export interface IWorkCategoryData {
@@ -55,19 +55,23 @@ const WorkCategories: React.FC<IWorkCategoriesProps> = ({
         {data.map((item, idx) => {
           return (
             <ListItem className="workCategories__item" key={idx}>
-              <MyWorkCategoryButton
+              <MyButton
                 active={workCategoryState.categoryTitle === item.title}
                 label={item.title}
                 onClick={() => onCategoryClickHandler(item)}
+                size="small"
+                variant="tag"
               />
             </ListItem>
           );
         })}
         <ListItem className="workCategories__item">
-          <MyWorkCategoryButton
-            label={"Ваши подписки"}
+          <MyButton
             active={workCategoryState.following}
+            size="small"
+            variant="tag"
             onClick={() => onFollowingClickHandler()}
+            label={"Ваши подписки"}
           />
         </ListItem>
       </Grid>

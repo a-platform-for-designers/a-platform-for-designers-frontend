@@ -4,26 +4,6 @@
 }
 
 .myButton {
-  @include small-text;
-  /* background-color: var(--button-active-color); */
-
-  &_inverted {
-    &.MuiButton-filled {
-      color: var(--button-active-color);
-      background-color: var(--text-color-white);
-
-      &:hover {
-        color: var(--button-active-color);
-        background-color: #f1f1f1;
-      }
-
-      &:active {
-        color: var(--button-active-color);
-        background-color: #e3e3e4;
-      }
-    }
-  }
-
   &.MuiButton-sizeMedium {
     min-width: 200px;
   }

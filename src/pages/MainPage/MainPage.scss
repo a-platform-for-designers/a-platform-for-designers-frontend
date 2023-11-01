@@ -1,22 +1,21 @@
 .mainPage {
   flex-grow: 1;
 
+  &__title {
+    margin-bottom: 52px;
+
+    font-family: inherit;
+    text-align: center;
+    font-size: 45px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 52px;
+    letter-spacing: -1.09px;
+  }
+
   &__container {
     min-height: 100vh;
     font-family: "Roboto", "Helvetica", "Arial", sans-serif;
     gap: 76px;
-
-    &__title {
-      margin-bottom: 52px;
-
-      font-family: inherit;
-      color: var(--text-color-black, #111);
-      text-align: center;
-      font-size: 45px;
-      font-style: normal;
-      font-weight: 700;
-      line-height: 52px;
-      letter-spacing: -1.09px;
-    }
   }
 }
