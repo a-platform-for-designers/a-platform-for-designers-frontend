@@ -28,7 +28,8 @@
   }
 
   input:checked + svg {
-    background: var(--button-active-color) url(../../../assets/icons/Checked.svg) center no-repeat;
+    background: var(--button-active-color)
+      url(../../../assets/icons/Checked.svg) center no-repeat;
     border: none;
   }
 }
