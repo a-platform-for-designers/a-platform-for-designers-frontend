@@ -5,7 +5,20 @@
 
 .myButton {
   @include small-text;
-  /* background-color: var(--button-active-color); */
+  font-weight: 500;
+  border-color: var(--button-active-color);
+
+  &:active {
+    background-color: (--button-disabled-color);
+  }
+
+  &.MuiButton-outlined {
+    color: var(--button-active-color);
+  }
+
+  &:disabled.MuiButton-outlined {
+    color: var(--button-disabled-color);
+  }
 
   &_inverted {
     &.MuiButton-filled {
@@ -19,7 +32,7 @@
 
       &:active {
         color: var(--button-active-color);
-        background-color: #e3e3e4;
+        background-color: var(--button-disabled-color);
       }
     }
   }

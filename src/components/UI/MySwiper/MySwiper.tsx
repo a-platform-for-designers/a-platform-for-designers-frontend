@@ -28,6 +28,7 @@ const MySwiper: React.FC = () => {
     <StyledEngineProvider injectFirst>
       <Swiper
         modules={[Navigation, Pagination, Parallax]}
+        loop={true}
         navigation={true}
         pagination={false}
         parallax={false}
