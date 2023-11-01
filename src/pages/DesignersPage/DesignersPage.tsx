@@ -1,15 +1,16 @@
-import { Box, Container, Grid } from "@mui/material";
+import { Box, Grid, StyledEngineProvider } from "@mui/material";
 import "./DesignersPage.scss";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import DesignersCard from "../../components/DesignersCard/DesignersCard";
+import DesignerFilters from "../../components/DesignerFilters/DesignerFilters";
 
 const DesignersPage: React.FC = () => {
   return (
-    <>
+    <StyledEngineProvider injectFirst>
       <Header />
       <Box component="main" className="designersPage">
-        <Container>
+        <Box className="designersPage__container">
           <Grid
             container
             columns={2}
@@ -19,21 +20,23 @@ const DesignersPage: React.FC = () => {
             alignItems="stretch"
             wrap="nowrap"
           >
-            <Grid item xs={8}>
+            <Grid xs={9} className="designersPage__cards">
               {/* ! */}
               <DesignersCard />
               <DesignersCard />
               <DesignersCard />
               {/* ! */}
             </Grid>
-            <Grid item xs={4}>
-              22
+            <Grid xs={3} className="designersPage__filters">
+              {/* ! Компонент фильтров */}
+              <DesignerFilters />
+              {/* ! Компонент фильтров */}
             </Grid>
           </Grid>
-        </Container>
+        </Box>
       </Box>
       <Footer />
-    </>
+    </StyledEngineProvider>
   );
 };
 

@@ -9,6 +9,8 @@ interface IMyCheckBoxProps {
   disabled?: boolean;
   onChange: () => void;
   size?: "small" | "medium";
+  checked?: boolean;
+  labelPlacement?: "top" | "start" | "bottom" | "end";
 }
 
 const MyCheckBox: React.FC<IMyCheckBoxProps> = ({
@@ -17,6 +19,8 @@ const MyCheckBox: React.FC<IMyCheckBoxProps> = ({
   disabled = false,
   onChange = () => {},
   size = "medium",
+  checked = false,
+  labelPlacement = "start",
 }) => {
   return (
     <StyledEngineProvider injectFirst>
@@ -27,6 +31,8 @@ const MyCheckBox: React.FC<IMyCheckBoxProps> = ({
         disabled={disabled}
         onChange={onChange}
         className="myCheckBoxLabel"
+        checked={checked}
+        labelPlacement={labelPlacement}
       />
     </StyledEngineProvider>
   );
