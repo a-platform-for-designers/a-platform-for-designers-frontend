@@ -9,8 +9,15 @@ import { SignupText } from "../../utils/constants";
 const SignUp: FC = () => {
   //TODO let isAuth = false; - Заготовка под авторизацию пользователей
   const [error] = useState("");
+  const [confirmPrivatePolicy, setConfirmPrivatePolicy] =
+    useState<boolean>(false);
+  const [confirmServiceRules, setConfirmServiceRules] =
+    useState<boolean>(false);
 
-  const firstname = useInput(
+  console.log(confirmPrivatePolicy);
+  console.log(confirmServiceRules);
+
+  const firstName = useInput(
     "",
     {
       isEmpty: true,
@@ -21,7 +28,7 @@ const SignUp: FC = () => {
     { trim: true }
   );
 
-  const secondname = useInput(
+  const secondName = useInput(
     "",
     {
       isEmpty: true,
@@ -49,12 +56,27 @@ const SignUp: FC = () => {
     maxLength: 32,
   });
 
+  const confirmPassword = useInput("", {
+    isEmpty: true,
+  });
+
   return (
     <>
-      <MyInput data={firstname} label="Имя" />
-      <MyInput data={secondname} label="Фамилия" />
+      <MyInput data={firstName} label="Имя" />
+      <MyInput data={secondName} label="Фамилия" />
       <MyInput data={email} label="E-mail" />
-      <MyInput data={password} label="Password" variant="password" />
+      <MyInput data={password} label="Пароль" variant="password" />
+      <MyInput
+        data={{
+          ...confirmPassword,
+          error:
+            confirmPassword.value !== password.value
+              ? "Пароли не совпадают"
+              : confirmPassword.error,
+        }}
+        label="Подтвердите пароль"
+        variant="password"
+      />
 
       <div className="myAuthForm__lower-part">
         {error && (
@@ -69,14 +91,10 @@ const SignUp: FC = () => {
               {SignupText.privacyPolicy}
             </p>
           }
-          onChange={() => {}}
-          disabled={
-            !!email.error ||
-            !!password.error ||
-            !!firstname.error ||
-            !!secondname.error ||
-            Boolean(error)
-          }
+          onChange={() => {
+            setConfirmPrivatePolicy((prev) => !prev);
+          }}
+          checked={confirmPrivatePolicy}
         />
 
         <MyCheckBox
@@ -92,14 +110,10 @@ const SignUp: FC = () => {
               </a>
             </p>
           }
-          onChange={() => {}}
-          disabled={
-            !!email.error ||
-            !!password.error ||
-            !!firstname.error ||
-            !!secondname.error ||
-            Boolean(error)
-          }
+          onChange={() => {
+            setConfirmServiceRules((prev) => !prev);
+          }}
+          checked={confirmServiceRules}
         />
 
         <MyButton
@@ -112,8 +126,11 @@ const SignUp: FC = () => {
           disabled={
             !!email.error ||
             !!password.error ||
-            !!firstname.error ||
-            !!secondname.error ||
+            !!firstName.error ||
+            !!secondName.error ||
+            confirmPassword.value !== password.value ||
+            confirmPrivatePolicy === false ||
+            confirmServiceRules === false ||
             Boolean(error)
           }
         />
