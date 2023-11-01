@@ -4,7 +4,7 @@ import { StyledEngineProvider } from "@mui/material";
 
 interface IMyButtonProps {
   label: string;
-  variant?: "text" | "filled";
+  variant?: "text" | "filled" | "outlined";
   onClick: () => void;
   size?: "small" | "medium" | "large";
   disabled?: boolean;
