@@ -20,14 +20,15 @@ const DesignersPage: React.FC = () => {
             alignItems="stretch"
             wrap="nowrap"
           >
-            <Grid xs={9} className="designersPage__cards">
-              {/* ! */}
+            <Grid xs={9} item className="designersPage__cards">
+              {/* ! Карточки дизайнеров */}
+              <DesignersCard />
               <DesignersCard />
               <DesignersCard />
               <DesignersCard />
               {/* ! */}
             </Grid>
-            <Grid xs={3} className="designersPage__filters">
+            <Grid xs={3} item className="designersPage__filters">
               {/* ! Компонент фильтров */}
               <DesignerFilters />
               {/* ! Компонент фильтров */}

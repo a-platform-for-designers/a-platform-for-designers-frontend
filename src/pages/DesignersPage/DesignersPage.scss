@@ -11,9 +11,15 @@
     display: grid;
     row-gap: 48px;
     padding-left: 142px;
+
+    &.MuiGrid-item {
+      padding-left: 142px;
+    }
   }
 
   &__filters {
-    padding-left: 32px;
+    &.MuiGrid-item {
+      padding-left: 38px;
+    }
   }
 }
