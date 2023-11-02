@@ -52,6 +52,14 @@
     line-height: 20px;
     letter-spacing: 0.1px;
 
+    &:hover {
+      color: var(--validation-error-color);
+
+      & svg {
+        color: var(--validation-error-color);
+      }
+    }
+
     & svg {
       color: var(--validation-light-error-color);
     }

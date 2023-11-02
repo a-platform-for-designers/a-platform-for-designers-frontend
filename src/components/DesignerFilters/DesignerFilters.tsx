@@ -3,8 +3,8 @@ import MyCheckBox from "../UI/MyCheckBox/MyCheckBox";
 import "./DesignerFilters.scss";
 import { FormControlLabel, Radio, RadioGroup } from "@mui/material";
 import MyDropDown from "../UI/MyDropDown/MyDropDown";
-import Button from "@mui/material-next/Button";
 import CloseIcon from "@mui/icons-material/Close";
+import MyButton from "../UI/MyButton/MyButton";
 
 const DesignerFilters: React.FC = () => {
   const [speciality, setSpeciality] = useState<string[]>([]);
@@ -127,15 +127,15 @@ const DesignerFilters: React.FC = () => {
       </div>
 
       <div className="designerFilters__container designerFilters__container_type_bottom">
-        <Button
+        <MyButton
           onClick={handleClearFilters}
           disabled={false}
           className="designerFilters__button"
           type="button"
+          label="Сбросить фильтры"
+          variant="text"
           startIcon={<CloseIcon />}
-        >
-          Сбросить фильтры
-        </Button>
+        ></MyButton>
       </div>
     </div>
   );

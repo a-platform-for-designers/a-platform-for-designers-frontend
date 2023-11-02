@@ -13,6 +13,7 @@ interface IMyButtonProps {
   inverted?: boolean;
   className?: string;
   type?: "submit" | "reset" | "button";
+  startIcon?: React.ReactNode;
 }
 
 // Стили кнопки для contained prymary, поменяны местами фон и цвет текста
@@ -48,6 +49,7 @@ const MyButton: React.FC<IMyButtonProps> = ({
   active = false, // пока только с варинтом tag
   className,
   type = "button",
+  startIcon,
 }) => {
   return (
     <StyledEngineProvider injectFirst>
@@ -58,6 +60,7 @@ const MyButton: React.FC<IMyButtonProps> = ({
         onClick={onClick}
         disabled={disabled}
         className={`myButton ${className}`}
+        startIcon={startIcon}
         sx={{
           ...(variant === "contained" &&
             inverted &&

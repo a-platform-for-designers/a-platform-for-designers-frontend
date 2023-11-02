@@ -1,9 +1,9 @@
 import { Box, Grid, StyledEngineProvider } from "@mui/material";
 import "./DesignersPage.scss";
-import Header from "../../components/Header/Header";
-import Footer from "../../components/Footer/Footer";
 import DesignersCard from "../../components/DesignersCard/DesignersCard";
 import DesignerFilters from "../../components/DesignerFilters/DesignerFilters";
+import Header from "../../components/Header/Header";
+import Footer from "../../components/Footer/Footer";
 
 const DesignersPage: React.FC = () => {
   return (
