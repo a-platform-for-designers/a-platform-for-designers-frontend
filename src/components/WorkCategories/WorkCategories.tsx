@@ -11,7 +11,8 @@ export interface IWorkCategoryData {
 
 // Отдельно выбирается одна категория и "Ваши подписки"
 export interface IActiveWorkCategoryState {
-  categoryTitle: string;
+  allDirections: boolean;
+  categories: string[];
   following: boolean;
 }
 
@@ -23,25 +24,47 @@ interface IWorkCategoriesProps {
   >;
 }
 
+/* Логика работы категорий 
+  Можно выбрать «все направления» и/или «ваши подписки». 
+  Если выбран "все направления", то тэги с видами дизайна не активны. 
+  Можно выбрать теги с видами дизайна и ваши подписки — они суммируются. 
+  Можно выбрать несколько тэгов с видами дизайна 
+*/
+
 const WorkCategories: React.FC<IWorkCategoriesProps> = ({
-  data,
+  data, // сами категории/тэги
   workCategoryState,
   setWorkCategoryState,
 }) => {
   const onCategoryClickHandler = (category: IWorkCategoryData) => {
-    console.dir("click in Work Categories component ");
-    console.dir(category);
+    setWorkCategoryState((prev) => {
+      const categories: string[] = [];
 
+      if (prev.categories.includes(category.title)) {
+        categories.push(
+          ...prev.categories.filter((title) => title !== category.title)
+        );
+      } else {
+        categories.push(...prev.categories, category.title);
+      }
+
+      return { ...prev, allDirections: false, categories };
+    });
+  };
+
+  const onAllDirectionsClickHandler = () => {
     setWorkCategoryState((prev) => ({
       ...prev,
-      categoryTitle: category.title,
+      allDirections: !prev.allDirections,
+      categories: [],
     }));
   };
 
   const onFollowingClickHandler = () => {
-    console.dir("click in Work Categories component ");
-
-    setWorkCategoryState((prev) => ({ ...prev, following: !prev.following }));
+    setWorkCategoryState((prev) => ({
+      ...prev,
+      following: !prev.following,
+    }));
   };
 
   return (
@@ -52,11 +75,20 @@ const WorkCategories: React.FC<IWorkCategoriesProps> = ({
         container
         component="ul"
       >
+        <ListItem className="workCategories__item">
+          <MyButton
+            active={workCategoryState.allDirections}
+            size="small"
+            variant="tag"
+            onClick={() => onAllDirectionsClickHandler()}
+            label={"Все направления"}
+          />
+        </ListItem>
         {data.map((item, idx) => {
           return (
             <ListItem className="workCategories__item" key={idx}>
               <MyButton
-                active={workCategoryState.categoryTitle === item.title}
+                active={workCategoryState.categories.includes(item.title)}
                 label={item.title}
                 onClick={() => onCategoryClickHandler(item)}
                 size="small"

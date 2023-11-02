@@ -23,10 +23,6 @@ interface IFeedProps {
 // Заглушка для категорий
 const workCategories: IWorkCategoryData[] = [
   {
-    title: "Все направления",
-    link: "",
-  },
-  {
     title: "Иллюстратоции",
     link: "",
   },
@@ -45,10 +41,10 @@ const workCategories: IWorkCategoryData[] = [
 ];
 
 const Feed: React.FC<IFeedProps> = ({ data }) => {
-  // Изначально выбрана первая категория из переданных и подписки
   const initialState: IActiveWorkCategoryState = {
-    categoryTitle: workCategories[0].title,
-    following: true,
+    allDirections: true,
+    categories: [],
+    following: false,
   };
 
   const [workCategoryState, setWorkCategoryState] =
