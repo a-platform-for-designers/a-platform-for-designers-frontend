@@ -1,0 +1,25 @@
+.designersPage {
+  flex-grow: 1;
+
+  &__container {
+    max-width: 1440px;
+    box-sizing: border-box;
+    margin: 20px auto 20px;
+  }
+
+  &__cards {
+    display: grid;
+    row-gap: 48px;
+    padding-left: 142px;
+
+    &.MuiGrid-item {
+      padding-left: 142px;
+    }
+  }
+
+  &__filters {
+    &.MuiGrid-item {
+      padding-left: 38px;
+    }
+  }
+}

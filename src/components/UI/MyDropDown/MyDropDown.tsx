@@ -6,6 +6,7 @@ import "./MyDropDown.scss";
 import { StyledEngineProvider } from "@mui/material/styles";
 import Chip from "@mui/material/Chip";
 import closeIcon from "../../../assets/icons/close.svg";
+import AddIcon from "@mui/icons-material/Add";
 
 type TValueSingle = string | null;
 type TValueMulty = string[];
@@ -32,6 +33,8 @@ type TMultyDropDown = {
 
 type TMyDropDownProps = (TSingleDropDown | TMultyDropDown) & {
   options: string[];
+  className?: string;
+  placeholder?: string;
 };
 
 const MyDropDown: React.FC<TMyDropDownProps> = ({
@@ -39,6 +42,8 @@ const MyDropDown: React.FC<TMyDropDownProps> = ({
   options,
   value,
   onChange,
+  className,
+  placeholder,
 }) => {
   const checkedIcon = <CheckOutlinedIcon fontSize="small" color="action" />;
 
@@ -50,7 +55,7 @@ const MyDropDown: React.FC<TMyDropDownProps> = ({
             value={value as TValueMulty}
             onChange={onChange as TOnChangeMylty}
             multiple
-            className="myDropDown"
+            className={`myDropDown ${className}`}
             options={options}
             disableCloseOnSelect
             getOptionLabel={(option) => option}
@@ -68,7 +73,7 @@ const MyDropDown: React.FC<TMyDropDownProps> = ({
               <li {...props} className="myDropDown__element">
                 {option}
                 <Checkbox
-                  icon={<></>}
+                  icon={<AddIcon />}
                   checkedIcon={checkedIcon}
                   className="myDropDown__checkbox"
                   checked={selected}
@@ -79,7 +84,7 @@ const MyDropDown: React.FC<TMyDropDownProps> = ({
               <TextField
                 {...params}
                 variant="filled"
-                placeholder="Favorites"
+                placeholder={placeholder}
                 className="myDropDown__input"
               />
             )}
@@ -93,7 +98,7 @@ const MyDropDown: React.FC<TMyDropDownProps> = ({
           <Autocomplete
             value={value as TValueSingle}
             onChange={onChange as TOnChangeSingle}
-            className="myDropDown"
+            className={`myDropDown ${className}`}
             options={options}
             disableCloseOnSelect
             getOptionLabel={(option) => option}
@@ -112,7 +117,7 @@ const MyDropDown: React.FC<TMyDropDownProps> = ({
               <TextField
                 {...params}
                 variant="filled"
-                placeholder="Favorites"
+                placeholder={placeholder}
                 className="myDropDown__input"
               />
             )}
