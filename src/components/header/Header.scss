@@ -1,0 +1,97 @@
+@mixin small-text {
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+}
+
+.Header {
+  background-color: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  color: black;
+  height: 64px;
+  max-width: 1440px;
+  margin: 0 auto;
+  box-shadow: none;
+
+  &__toolbar {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__logo {
+    background: url(../../assets/icons/Logo.svg) center no-repeat;
+    cursor: pointer;
+    width: 130px;
+    height: 20px;
+  }
+
+  &__logo:hover {
+    opacity: 0.8;
+  }
+
+  &__logo-purple {
+    color: var(--button-active-color);
+  }
+
+  &__search-form {
+    height: 44px;
+    width: 360px;
+    margin: 10px 56px 10px 80px;
+
+    .MuiInputBase-formControl {
+      border-radius: 28px;
+      border: 1px solid var(--m-3-sys-light-outline, #79747e);
+      padding-left: 16px;
+    }
+
+    input {
+      padding: 10px 0 10px 8px;
+    }
+  }
+
+  &__pages-list {
+    gap: 32px;
+    @include small-text;
+    padding: 0;
+
+    .Header__menu-item {
+      position: relative;
+      display: list-item;
+      padding: 0;
+
+      &_active {
+        list-style: url(../../assets/icons/Dot.svg);
+      }
+      &:hover {
+        color: #21005d;
+        cursor: pointer;
+      }
+    }
+  }
+
+  &__menu-dot {
+    width: 24px;
+    height: 24px;
+    background: url(../../assets/icons/Dot.svg) center no-repeat;
+    position: absolute;
+    left: -25px;
+  }
+
+  &__auth-buttons {
+    gap: 16px;
+  }
+
+  &__signup-button {
+    color: #6900ee;
+    border: 1px solid var(--Primary, #6900ee);
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  &__signin-button {
+    background-color: #6900ee;
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+}
