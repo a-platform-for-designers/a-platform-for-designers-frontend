@@ -1,0 +1,49 @@
+@mixin small-text {
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+}
+
+.footer {
+  width: 100%;
+  min-height: 40px;
+  border-top: 1px solid #98979a;
+
+  &__container {
+    min-height: 40px;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__logo {
+    background: url(../../assets/icons/Logo.svg) center no-repeat;
+    background-size: contain;
+    cursor: pointer;
+    width: 87px;
+    height: 15px;
+    margin-right: 10px
+  }
+
+  &__links {
+    @include small-text;
+    color: #79747e;
+    display: flex;
+    gap: 89px;
+    padding: 0;
+  }
+
+  &__link {
+    padding: 0;
+    width: auto;
+    word-wrap: break-word;
+    text-align: center;
+  }
+
+  &__logo:hover, &__link:hover {
+    opacity: .8;
+    cursor: pointer;
+  }
+}
