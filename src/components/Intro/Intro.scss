@@ -8,10 +8,26 @@
   align-items: center;
   gap: 53px;
 
-  background-image: url("../../assets/images/intro-bg.png");
+  /* background-image: url("../../assets/images/intro-bg.png");
   background-position: center;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: cover; */
+
+  background: linear-gradient(-45deg, #ed193b, #a98055, #f286e2, #681d7a);
+  animation: gradient 10s ease infinite;
+  background-size: 400% 400%;
+
+  @keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
 
   &__title {
     max-width: 1000px;
