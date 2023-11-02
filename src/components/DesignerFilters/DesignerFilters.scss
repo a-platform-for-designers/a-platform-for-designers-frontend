@@ -1,0 +1,66 @@
+.designerFilters {
+  &__title {
+    color: var(--colors-black);
+    font-family: Roboto;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 32px; /* 133.333% */
+    margin: 0 0 20px 0;
+  }
+
+  &__checkbox {
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+
+    & .myCheckBox {
+      margin: 0;
+      /*      padding-right: 0; */
+    }
+
+    & .MuiFormControlLabel-label {
+      margin: 0;
+      /*       padding-right: 0; */
+      color: var(--colors-black);
+    }
+  }
+
+  &__container {
+    margin: 40px 0;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  &__radio {
+    box-sizing: border-box;
+    &-item {
+      display: flex;
+      justify-content: space-between;
+      margin: 0;
+    }
+  }
+
+  &__button {
+    color: var(--validation-light-error-color);
+    font-family: Roboto;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: 0.1px;
+
+    & svg {
+      color: var(--validation-light-error-color);
+    }
+    &:disabled svg {
+      color: var(--text-color-gray);
+    }
+  }
+
+  &__container_type_bottom {
+    text-align: center;
+  }
+}
