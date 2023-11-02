@@ -1,12 +1,6 @@
-@mixin small-text {
-  font-size: var(--font-size-small);
-  line-height: var(--line-height-small);
-}
-
 .myButton {
-  @include small-text;
   font-weight: 500;
-  border-color: var(--button-active-color);
+  /*  border-color: var(--button-active-color);
 
   &:active {
     background-color: (--button-disabled-color);
@@ -18,24 +12,7 @@
 
   &:disabled.MuiButton-outlined {
     color: var(--button-disabled-color);
-  }
-
-  &_inverted {
-    &.MuiButton-filled {
-      color: var(--button-active-color);
-      background-color: var(--text-color-white);
-
-      &:hover {
-        color: var(--button-active-color);
-        background-color: #f1f1f1;
-      }
-
-      &:active {
-        color: var(--button-active-color);
-        background-color: var(--button-disabled-color);
-      }
-    }
-  }
+  } */
 
   &.MuiButton-sizeMedium {
     min-width: 200px;
