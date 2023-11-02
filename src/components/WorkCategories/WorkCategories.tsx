@@ -1,7 +1,7 @@
 import { Grid, ListItem, StyledEngineProvider } from "@mui/material";
 import "./WorkCategories.scss";
-import MyWorkCategoryButton from "../UI/MyWorkCategoryButton/MyWorkCategoryButton";
 import React from "react";
+import MyButton from "../UI/MyButton/MyButton";
 
 // интерфейс данных категории, которые нужно передать в пропсах
 export interface IWorkCategoryData {
@@ -11,7 +11,8 @@ export interface IWorkCategoryData {
 
 // Отдельно выбирается одна категория и "Ваши подписки"
 export interface IActiveWorkCategoryState {
-  categoryTitle: string;
+  allDirections: boolean;
+  categories: string[];
   following: boolean;
 }
 
@@ -23,25 +24,47 @@ interface IWorkCategoriesProps {
   >;
 }
 
+/* Логика работы категорий 
+  Можно выбрать «все направления» и/или «ваши подписки». 
+  Если выбран "все направления", то тэги с видами дизайна не активны. 
+  Можно выбрать теги с видами дизайна и ваши подписки — они суммируются. 
+  Можно выбрать несколько тэгов с видами дизайна 
+*/
+
 const WorkCategories: React.FC<IWorkCategoriesProps> = ({
-  data,
+  data, // сами категории/тэги
   workCategoryState,
   setWorkCategoryState,
 }) => {
   const onCategoryClickHandler = (category: IWorkCategoryData) => {
-    console.dir("click in Work Categories component ");
-    console.dir(category);
+    setWorkCategoryState((prev) => {
+      const categories: string[] = [];
 
+      if (prev.categories.includes(category.title)) {
+        categories.push(
+          ...prev.categories.filter((title) => title !== category.title)
+        );
+      } else {
+        categories.push(...prev.categories, category.title);
+      }
+
+      return { ...prev, allDirections: false, categories };
+    });
+  };
+
+  const onAllDirectionsClickHandler = () => {
     setWorkCategoryState((prev) => ({
       ...prev,
-      categoryTitle: category.title,
+      allDirections: !prev.allDirections,
+      categories: [],
     }));
   };
 
   const onFollowingClickHandler = () => {
-    console.dir("click in Work Categories component ");
-
-    setWorkCategoryState((prev) => ({ ...prev, following: !prev.following }));
+    setWorkCategoryState((prev) => ({
+      ...prev,
+      following: !prev.following,
+    }));
   };
 
   return (
@@ -52,22 +75,35 @@ const WorkCategories: React.FC<IWorkCategoriesProps> = ({
         container
         component="ul"
       >
+        <ListItem className="workCategories__item">
+          <MyButton
+            active={workCategoryState.allDirections}
+            size="small"
+            variant="tag"
+            onClick={() => onAllDirectionsClickHandler()}
+            label={"Все направления"}
+          />
+        </ListItem>
         {data.map((item, idx) => {
           return (
             <ListItem className="workCategories__item" key={idx}>
-              <MyWorkCategoryButton
-                active={workCategoryState.categoryTitle === item.title}
+              <MyButton
+                active={workCategoryState.categories.includes(item.title)}
                 label={item.title}
                 onClick={() => onCategoryClickHandler(item)}
+                size="small"
+                variant="tag"
               />
             </ListItem>
           );
         })}
         <ListItem className="workCategories__item">
-          <MyWorkCategoryButton
-            label={"Ваши подписки"}
+          <MyButton
             active={workCategoryState.following}
+            size="small"
+            variant="tag"
             onClick={() => onFollowingClickHandler()}
+            label={"Ваши подписки"}
           />
         </ListItem>
       </Grid>

@@ -1,8 +1,6 @@
 .desinersCarousel {
-  max-width: 1440px !important;
-
   &__list {
-    margin: 0;
+    margin: 0 auto;
     padding: 0;
     list-style-type: none;
     gap: 24px;
@@ -47,7 +45,6 @@
     &__title {
       padding-bottom: 3px;
 
-      color: var(--text-color-black);
       font-size: 22px;
       font-style: normal;
       font-weight: 400;

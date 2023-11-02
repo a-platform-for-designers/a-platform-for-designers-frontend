@@ -1,12 +1,12 @@
 .intro {
   min-height: 551px;
-  padding: 124px 0 75px;
+  padding: 128px 0 75px;
 
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 53px;
+  gap: 52px;
 
   /* background-image: url("../../assets/images/intro-bg.png");
   background-position: center;
@@ -31,21 +31,12 @@
 
   &__title {
     max-width: 1000px;
-    color: #fff;
-
     text-align: center;
     font-family: inherit;
-    /* это в макете в фигме
-    font-size: 57px;
+    font-size: 56px;
     font-style: normal;
     font-weight: 700;
-    line-height: 64px;  
-    letter-spacing: -0.25px; */
-
-    font-size: 54px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 63px;
+    line-height: 64px;
     letter-spacing: 0px;
 
     &-accent {

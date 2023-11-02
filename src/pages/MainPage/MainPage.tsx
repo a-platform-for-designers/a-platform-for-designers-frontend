@@ -1,4 +1,4 @@
-import { Box, Grid } from "@mui/material";
+import { Box, Grid, StyledEngineProvider, SxProps, Theme } from "@mui/material";
 import "./MainPage.scss";
 import Intro from "../../components/Intro/Intro";
 
@@ -15,8 +15,12 @@ import desCatImg2 from "../../assets/images/desinerscategories-2.png";
 import desCatImg3 from "../../assets/images/desinerscategories-3.png";
 import desCatImg4 from "../../assets/images/desinerscategories-4.png";
 import Feed from "../../components/Feed/Feed";
-import Header from "../../components/Header/Header";
-import Footer from "../../components/Footer/Footer";
+import Header from "../../components/header/Header";
+import Footer from "../../components/footer/Footer";
+
+const mainPageTheme: SxProps<Theme> = {
+  backgroundColor: (theme) => theme.palette.background.default,
+};
 
 const MainPage: React.FC = () => {
   const desinersForCarousel: IDesinerCarouselData[] = [
@@ -82,9 +86,9 @@ const MainPage: React.FC = () => {
   ];
 
   return (
-    <>
+    <StyledEngineProvider injectFirst>
       <Header />
-      <Box component="main" className="mainPage">
+      <Box component="main" className="mainPage" sx={mainPageTheme}>
         {
           <Grid
             className="mainPage__container"
@@ -99,7 +103,7 @@ const MainPage: React.FC = () => {
         }
       </Box>
       <Footer />
-    </>
+    </StyledEngineProvider>
   );
 };
 

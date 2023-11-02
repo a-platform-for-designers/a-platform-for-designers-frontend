@@ -1,13 +1,23 @@
-import { Box, StyledEngineProvider, Typography } from "@mui/material";
+import {
+  Box,
+  StyledEngineProvider,
+  SxProps,
+  Theme,
+  Typography,
+} from "@mui/material";
 import "./Intro.scss";
 import MyButton from "../UI/MyButton/MyButton";
 import React from "react";
+
+const titleStyles: SxProps<Theme> = {
+  color: (theme) => theme.palette.text.secondary,
+};
 
 const Intro: React.FC = () => {
   return (
     <StyledEngineProvider injectFirst>
       <Box className="intro">
-        <Typography className="intro__title" component="h1">
+        <Typography className="intro__title" component="h1" sx={titleStyles}>
           <Typography
             className="intro__title-accent intro__title-accent_type_bold"
             component="span"

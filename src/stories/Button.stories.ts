@@ -31,17 +31,17 @@ export const TextDisabled: Story = {
   },
 };
 
-export const Filled: Story = {
+export const Contained: Story = {
   args: {
     label: "Button",
-    variant: "filled",
+    variant: "contained",
   },
 };
 
-export const FilledDisabled: Story = {
+export const ContainedDisabled: Story = {
   args: {
     label: "Button",
-    variant: "filled",
+    variant: "contained",
     disabled: true,
   },
 };
