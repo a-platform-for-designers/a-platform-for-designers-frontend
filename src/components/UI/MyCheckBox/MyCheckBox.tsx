@@ -5,7 +5,6 @@ import { StyledEngineProvider } from "@mui/material/styles";
 
 interface IMyCheckBoxProps {
   label: string | React.ReactNode;
-  checked?: boolean;
   required?: boolean;
   disabled?: boolean;
   onChange: () => void;
@@ -17,7 +16,6 @@ interface IMyCheckBoxProps {
 
 const MyCheckBox: React.FC<IMyCheckBoxProps> = ({
   label = "",
-  checked,
   required = false,
   disabled = false,
   onChange = () => {},
