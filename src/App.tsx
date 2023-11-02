@@ -7,6 +7,7 @@ import MainPage from "./pages/MainPage/MainPage";
 import ProfilePage from "./pages/ProfilePage/ProfilePage";
 import ErrorPage from "./pages/ErrorPage/ErrorPage";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+import DesignersPage from "./pages/DesignersPage/DesignersPage";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
       <div className={classes.app}>
         <Routes>
           <Route path="/" Component={MainPage} />
+          <Route path="/designers" Component={DesignersPage} />
           <Route
             path="/profile"
             element={<ProtectedRoute Component={ProfilePage} />}
