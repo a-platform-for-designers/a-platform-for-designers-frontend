@@ -12,7 +12,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import "./Header.scss";
 import React, { useState } from "react";
 import MyButton from "../UI/MyButton/MyButton";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import SignUp from "../SignUp/SignUp";
 import SignIn from "../SignIn/SignIn";
 import MyPopup from "../UI/MyPopup/MyPopup";
@@ -22,6 +22,7 @@ const Header: React.FC = () => {
   const location = useLocation();
   const [isOpenSignIn, setIsOpenSignIn] = useState<boolean>(false);
   const [isOpenSignUp, setIsOpenSignUp] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   function openSignInPopup() {
     setIsOpenSignIn(true);
@@ -40,7 +41,7 @@ const Header: React.FC = () => {
     <StyledEngineProvider injectFirst>
       <AppBar className="Header" position="static">
         <Toolbar className="Header__toolbar" variant="dense">
-          <Box className="Header__logo"></Box>
+          <Box className="Header__logo" onClick={() => navigate("/")} />
           <TextField
             className="Header__search-form"
             label=""
@@ -65,6 +66,7 @@ const Header: React.FC = () => {
                   ? "Header__menu-item_active"
                   : ""
               }`}
+              onClick={() => navigate("/designers")}
             >
               Дизайнеры
             </ListItem>
@@ -99,12 +101,12 @@ const Header: React.FC = () => {
       </AppBar>
       <MyPopup onClose={handleClose} open={isOpenSignIn}>
         <MyAuthForm title="Вход">
-          <SignIn></SignIn>
+          <SignIn />
         </MyAuthForm>
       </MyPopup>
       <MyPopup onClose={handleClose} open={isOpenSignUp}>
         <MyAuthForm title="Регистрация">
-          <SignUp></SignUp>
+          <SignUp />
         </MyAuthForm>
       </MyPopup>
     </StyledEngineProvider>
