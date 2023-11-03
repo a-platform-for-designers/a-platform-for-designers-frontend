@@ -36,7 +36,7 @@ const background = {
 };
 
 const text = {
-  light: { primary: "#000", secondary: "#fff" },
+  light: { primary: "#000", secondary: "#49454F" },
   dark: { primary: "#fff", secondary: "#000" },
 };
 

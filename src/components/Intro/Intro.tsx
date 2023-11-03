@@ -10,7 +10,7 @@ import MyButton from "../UI/MyButton/MyButton";
 import React from "react";
 
 const titleStyles: SxProps<Theme> = {
-  color: (theme) => theme.palette.text.secondary,
+  color: (theme) => theme.palette.primary.contrastText,
 };
 
 const Intro: React.FC = () => {
