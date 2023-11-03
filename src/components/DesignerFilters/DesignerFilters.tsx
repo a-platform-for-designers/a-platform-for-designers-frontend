@@ -7,11 +7,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import MyButton from "../UI/MyButton/MyButton";
 
 const DesignerFilters: React.FC = () => {
-  const [speciality, setSpeciality] = useState<string[]>([]);
-  const [skills, setSkills] = useState<string[]>([]);
-  const [tools, setTools] = useState<string[]>([]);
-  const [readyForJob, setReadyForJob] = useState<string[]>([]);
-
   const toolsOptions = ["3D-анимация", "Афиши", "Брендбук", "Иконки"];
   const readyForJobOptions = ["Все", "Ищут заказы", "Не ищут заказы"];
   const skillsOptions = ["3D-анимация", "Афиши", "Брендбук", "Иконки"];
@@ -21,6 +16,13 @@ const DesignerFilters: React.FC = () => {
     "3D визуализаторы",
     "Веб дизайнеры",
   ];
+
+  const [speciality, setSpeciality] = useState<string[]>([]);
+  const [skills, setSkills] = useState<string[]>([]);
+  const [tools, setTools] = useState<string[]>([]);
+  const [readyForJob, setReadyForJob] = useState<string[]>([
+    readyForJobOptions[0],
+  ]);
 
   function handleClearFilters() {
     setSpeciality([]);
