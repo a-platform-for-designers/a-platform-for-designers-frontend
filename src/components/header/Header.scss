@@ -3,16 +3,25 @@
   line-height: var(--line-height-small);
 }
 
-.Header {
+.header {
   background-color: white;
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  position: fixed;
+  justify-content: center;
   color: black;
   height: 64px;
-  max-width: 1440px;
-  margin: 0 auto;
+  width: 100%;
   box-shadow: none;
+  z-index: 500;
+
+  &__container {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    width: 1440px;
+    height: 64px;
+    margin: 0 auto;
+  }
 
   &__toolbar {
     display: flex;
@@ -36,7 +45,7 @@
 
   &__search-form {
     height: 44px;
-    width: 360px;
+    max-width: 360px;
     margin: 10px 56px 10px 80px;
 
     .MuiInputBase-formControl {
@@ -55,7 +64,7 @@
     @include small-text;
     padding: 0;
 
-    .Header__menu-item {
+    .header__menu-item {
       position: relative;
       display: list-item;
       padding: 0;
@@ -70,16 +79,43 @@
     }
   }
 
-  &__menu-dot {
-    width: 24px;
-    height: 24px;
-    background: url(../../assets/icons/Dot.svg) center no-repeat;
-    position: absolute;
-    left: -25px;
+  &__avatar {
+    width: 40px;
+    height: 40px;
+    &:hover {
+      opacity: 0.8;
+    }
   }
 
   &__auth-buttons {
     gap: 16px;
+  }
+
+  &__links {
+    @include small-text;
+    display: flex;
+    justify-content: space-between;
+    gap: 32px;
+    &:hover {
+      color: #21005d;
+      cursor: pointer;
+    }
+  }
+
+  &__link {
+    margin: 0;
+    padding: 0;
+    gap: 4px;
+  }
+
+  &__list-icon {
+    padding: 0;
+    margin: 0;
+  }
+
+  &__list-text {
+    padding: 0;
+    margin: 0;
   }
 
   &__signup-button {
@@ -87,11 +123,29 @@
     border: 1px solid var(--Primary, #6900ee);
     padding-left: 20px;
     padding-right: 20px;
+    min-width: 142px;
   }
 
   &__signin-button {
     background-color: #6900ee;
     padding-left: 30px;
     padding-right: 30px;
+    min-width: 64px;
+  }
+
+  &__checkbox {
+    color: #fff;
+    position: absolute;
+    top: 64px;
+    right: 0;
+    z-index: 100;
+
+    span {
+      color: #fff !important;
+
+      svg {
+        border: 1px solid var(--text-color-white);
+      }
+    }
   }
 }
