@@ -24,7 +24,7 @@
     cursor: pointer;
     width: 87px;
     height: 15px;
-    margin-right: 10px
+    margin-right: 10px;
   }
 
   &__links {
@@ -42,8 +42,9 @@
     text-align: center;
   }
 
-  &__logo:hover, &__link:hover {
-    opacity: .8;
+  &__logo:hover,
+  &__link:hover {
+    opacity: 0.8;
     cursor: pointer;
   }
 }
