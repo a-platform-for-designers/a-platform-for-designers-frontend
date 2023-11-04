@@ -5,9 +5,8 @@
 
 .header {
   background-color: white;
-  display: flex;
-  position: fixed;
-  justify-content: center;
+  position: sticky;
+  top: 0;
   color: black;
   height: 64px;
   width: 100%;
