@@ -13,6 +13,12 @@ const components: Components<Omit<Theme, "components">> = {
       root: () => ({ padding: "24px 0" }),
     },
   },
+  // ------------------------------------------------------------------------------- CONTAINER
+  MuiPaper: {
+    styleOverrides: {
+      root: () => ({ boxShadow: "none" }),
+    },
+  },
   // ------------------------------------------------------------------------------- BUTTON
   MuiButton: {
     styleOverrides: {
