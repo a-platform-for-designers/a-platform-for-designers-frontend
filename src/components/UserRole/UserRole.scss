@@ -1,0 +1,67 @@
+@mixin large-text {
+  font-size: var(--font-size-large);
+  line-height: var(--line-height-large);
+}
+
+@mixin meduim-text {
+  font-size: var(--font-size-medium);
+  line-height: var(--line-height-medium);
+}
+
+.role {
+  margin: 0 auto;
+  padding: 0 30px 0 54px ;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  &__heading {
+    @include large-text;
+    font-weight: 400;
+    margin: 0 0 52px 0;
+  }
+
+  &__wrapper {
+    display: flex;
+    gap: 24px;
+  }
+
+  &__container {
+    border-radius: 12px;
+    border: 1px solid #e3e3e4;
+    padding: 23px 24px;
+    min-height: 254px;
+    max-width: 300px;
+
+    &:hover {
+      background-color: rgba(59, 180, 64, 0.07);
+      cursor: pointer;
+    }
+  }
+
+  &__name {
+    @include large-text;
+    font-weight: 700;
+    margin: 0 0 40px 0;
+    padding: 0;
+  }
+
+  &__abilities {
+    @include meduim-text();
+    font-weight: 600;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  &__ability {
+    margin: 0 0 0 40px;
+    padding: 0;
+    font-weight: 400;
+    display: list-item;
+    list-style: url(../../assets/icons/GreenCheck.svg);
+  }
+}
