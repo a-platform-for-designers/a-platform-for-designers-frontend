@@ -3,5 +3,11 @@
 
   &__container {
     display: flex;
+    max-width: 1440px;
+    box-sizing: border-box;
+    padding-left: 142px;
+    margin: 0 auto;
+    padding-top: 40px;
+    padding-bottom: 40px;
   }
 }
