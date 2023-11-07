@@ -31,8 +31,6 @@ const Header: React.FC = () => {
   const [isOpenSignUp, setIsOpenSignUp] = useState<boolean>(false);
   const [isRoleSelected, setIsRoleSelected] = useState<boolean>(false);
 
-  console.log(isRoleSelected);
-
   const navigate = useNavigate();
 
   function chooseRole() {
