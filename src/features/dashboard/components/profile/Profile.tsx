@@ -1,12 +1,11 @@
-import { Box, Button, FormControl, FormLabel, Typography } from "@mui/material";
+import { Box, FormControl, FormLabel, Typography } from "@mui/material";
 import classes from "./Profile.module.scss";
 import { useState } from "react";
-
 import MyDropDown from "@/components/UI/MyDropDown/MyDropDown";
 import MyInput from "@/components/UI/MyInput/MyInput";
 import MyButton from "@/components/UI/MyButton/MyButton";
-import UploadIcon from "@/assets/icons/Upload-solid.svg";
 import useInput from "@/hooks/useInput";
+import AvatarUpload from "../avatarUpload/AvatarUpload";
 
 const Profile: React.FC = () => {
   const [specialization, setSpecialization] = useState<string | null>(null);
@@ -39,23 +38,7 @@ const Profile: React.FC = () => {
   return (
     <div className={classes.profile}>
       <div className={classes.profile__sections}>
-        <Box display={"flex"} className={classes.profile__image_wrapper}>
-          <img
-            className={classes.profile__image}
-            src="https://uhd.name/uploads/posts/2022-08/1660089967_24-uhd-name-p-shakira-bez-makiyazha-devushka-krasivo-fot-49.jpg"
-          />
-          <Box className={classes.profile__upload_wrapper}>
-            <Button
-              className={classes.profile__upload_btn}
-              startIcon={<img src={UploadIcon} />}
-            >
-              Изменить фото
-            </Button>
-            <Typography className={classes.profile__upload_subtitle}>
-              Рекомендуемый размер 212x212 px
-            </Typography>
-          </Box>
-        </Box>
+        <AvatarUpload />
 
         <Box className={classes.profile__section}>
           <Typography className={classes.profile__section_title}>
