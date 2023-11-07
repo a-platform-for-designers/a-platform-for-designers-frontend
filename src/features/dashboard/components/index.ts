@@ -3,5 +3,6 @@ import Portfolio from "./portfolio/Portfolio.tsx";
 import Profile from "./profile/Profile.tsx";
 import Work from "./work/Work.tsx";
 import Settings from "./settings/Settings.tsx";
+import Asidebar from "./asidebar/Asidebar.tsx";
 
-export { Orders, Portfolio, Profile, Work, Settings };
+export { Orders, Portfolio, Profile, Work, Settings, Asidebar };

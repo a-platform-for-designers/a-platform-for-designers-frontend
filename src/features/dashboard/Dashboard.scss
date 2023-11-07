@@ -4,19 +4,4 @@
   &__container {
     display: flex;
   }
-
-  &__nav {
-    flex-basis: 212px;
-    box-shadow: none;
-
-    &-item {
-      &_active {
-        color: var(--button-active-color);
-      }
-
-      &_type_exit {
-        color: var(--button-super-red);
-      }
-    }
-  }
 }
