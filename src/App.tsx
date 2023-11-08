@@ -8,12 +8,15 @@ import ProfilePage from "./pages/ProfilePage/ProfilePage";
 import ErrorPage from "./pages/ErrorPage/ErrorPage";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import DesignersPage from "./pages/DesignersPage/DesignersPage";
+import Header from "./components/Header/Header.tsx";
+import Footer from "./components/Footer/Footer.tsx";
 
 function App() {
   return (
     <ThemeProvider theme={lightTheme}>
       <CssBaseline enableColorScheme />
       <div className={classes.app}>
+        <Header />
         <Routes>
           <Route path="/" Component={MainPage} />
           <Route path="/designers" Component={DesignersPage} />
@@ -23,6 +26,7 @@ function App() {
           />
           <Route path="*" Component={ErrorPage} />
         </Routes>
+        <Footer />
       </div>
     </ThemeProvider>
   );
