@@ -15,6 +15,7 @@ import {
   Orders,
   Work,
   Settings,
+  CaseCreation,
 } from "./features/dashboard/components/index.ts";
 import { Navigate } from "react-router-dom";
 
@@ -33,7 +34,10 @@ function App() {
           <Route path="/dashboard" Component={Dashboard}>
             <Route index element={<Navigate replace to="profile" />} />
             <Route path="profile" element={<Profile />} />
-            <Route path="portfolio" element={<Portfolio />} />
+            <Route path="portfolio" element={<Portfolio />}>
+              {/* Когда будет АПИ, место id будет id кейса */}
+              <Route path="id" element={<CaseCreation />} />
+            </Route>
             <Route path="work" element={<Work />} />
             <Route path="orders" element={<Orders />} />
             <Route path="settings" element={<Settings />} />
