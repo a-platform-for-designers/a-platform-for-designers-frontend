@@ -12,6 +12,7 @@ interface IMyButtonProps {
   active?: boolean;
   inverted?: boolean;
   className?: string;
+  sx?: SxProps<Theme>;
   type?: "submit" | "reset" | "button";
   startIcon?: React.ReactNode;
 }
@@ -48,6 +49,7 @@ const MyButton: React.FC<IMyButtonProps> = ({
   inverted = false, // пока только с варинтом contained
   active = false, // пока только с варинтом tag
   className,
+  sx = {},
   type = "button",
   startIcon,
 }) => {
@@ -66,6 +68,7 @@ const MyButton: React.FC<IMyButtonProps> = ({
             inverted &&
             myButtonPrimaryContainedInvertedTheme),
           ...(variant === "tag" && active && myButtonPrimaryTagActiveTheme),
+          ...sx,
         }}
         type={type}
         disableRipple

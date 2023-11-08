@@ -1,0 +1,19 @@
+.profile {
+  margin: 7px 0 0 0;
+  padding: 0;
+  list-style-type: none;
+  gap: 24px;
+
+  &__main {
+    max-width: 684px;
+    padding-left: 118px;
+  }
+
+  &__aside {
+    gap: 40px;
+
+    &_secondary {
+      gap: 32px;
+    }
+  }
+}

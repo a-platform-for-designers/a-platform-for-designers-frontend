@@ -18,7 +18,7 @@ function App() {
           <Route path="/" Component={MainPage} />
           <Route path="/designers" Component={DesignersPage} />
           <Route
-            path="/profile"
+            path="/profile/*"
             element={<ProtectedRoute Component={ProfilePage} />}
           />
           <Route path="*" Component={ErrorPage} />
