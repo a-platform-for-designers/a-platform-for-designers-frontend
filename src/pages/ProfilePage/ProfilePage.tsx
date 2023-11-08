@@ -6,22 +6,25 @@ import profilePlaceholder from "../../assets/images/designerscarousel-avatar.png
 import ProfileNav, {
   IProfileNavPage,
 } from "./components/ProfileNav/ProfileNav";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import SocialIndicator from "./components/SocialIndicator/SocialIndicator";
 import Portfolio from "./components/Portfolio/Portfolio";
+import { useEffect } from "react";
+
+const profileNavPages: IProfileNavPage[] = [
+  {
+    title: "Портфолио",
+    link: "portfolio",
+  },
+  { title: "Работа", link: "work" },
+  {
+    title: "Профиль",
+    link: "profile",
+  },
+];
 
 const ProfilePage: React.FC = () => {
-  const profileNavPages: IProfileNavPage[] = [
-    {
-      title: "Портфолио",
-      link: "portfolio",
-    },
-    { title: "Работа", link: "work" },
-    {
-      title: "Профиль",
-      link: "profile",
-    },
-  ];
+  const navigate = useNavigate();
 
   const profileData: IProfileData = {
     name: "Ирина Петрова",
@@ -34,6 +37,10 @@ const ProfilePage: React.FC = () => {
     followers: 98,
   };
 
+  useEffect(() => {
+    navigate("./" + profileNavPages[0].link, { replace: true });
+  }, [navigate]);
+
   return (
     <StyledEngineProvider injectFirst>
       <Container component="section" className="profilePage">
@@ -42,6 +49,7 @@ const ProfilePage: React.FC = () => {
         <Routes>
           <Route path="/">
             <Route
+              index
               path={profileNavPages[0].link}
               element={<Portfolio data={[...new Array(8)]} />}
             />
