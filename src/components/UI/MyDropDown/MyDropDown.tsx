@@ -10,22 +10,22 @@ import AddIcon from "@mui/icons-material/Add";
 
 type TValueSingle = string | null;
 type TValueMulty = string[];
-type TOnChangeSingle = (
+export type TOnChangeSingle = (
   event: React.SyntheticEvent<Element, Event>,
   newValue: TValueSingle
 ) => void;
-type TOnChangeMylty = (
+export type TOnChangeMylty = (
   event: React.SyntheticEvent<Element, Event>,
   newValue: TValueMulty
 ) => void;
 
-type TSingleDropDown = {
+export type TSingleDropDown = {
   variant?: "single";
   value: TValueSingle;
   onChange: TOnChangeSingle;
 };
 
-type TMultyDropDown = {
+export type TMultyDropDown = {
   variant?: "multiple";
   value: TValueMulty;
   onChange: TOnChangeMylty;

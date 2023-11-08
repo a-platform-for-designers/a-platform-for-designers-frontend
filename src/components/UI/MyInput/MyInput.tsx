@@ -29,6 +29,7 @@ export interface IMyInputProps {
   placeholder?: string;
   disabled?: boolean;
   className?: string;
+  minRows?: string | number | undefined;
 }
 
 const MyInput: React.FC<IMyInputProps> = ({
@@ -39,6 +40,7 @@ const MyInput: React.FC<IMyInputProps> = ({
   placeholder = "",
   disabled = false,
   className,
+  minRows,
 }) => {
   const invalid = Boolean(data.isDirty && data.error);
   const [showPassword, setShowPassword] = useState(false);
@@ -166,6 +168,7 @@ const MyInput: React.FC<IMyInputProps> = ({
               onChange={(e) => handleChange(e, data.onChange)}
               type="text"
               placeholder={placeholder}
+              minRows={minRows}
             />
             <FormHelperText error={invalid}>{getError(data)}</FormHelperText>
           </FormControl>

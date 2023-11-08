@@ -11,6 +11,7 @@ const Profile: React.FC = () => {
   const [specialization, setSpecialization] = useState<string | null>(null);
   const [country, setCountry] = useState<string | null>(null);
   const [languages, setLanguages] = useState<string[]>([]);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const education = useInput("", {});
   const hobby = useInput("", {});
 
@@ -35,10 +36,23 @@ const Profile: React.FC = () => {
     setLanguages(newValue);
   }
 
+  function handleSubmit(e: React.MouseEvent<HTMLButtonElement>) {
+    e.preventDefault();
+    const values = {
+      specialization,
+      country,
+      languages,
+      selectedFile,
+      education: education.value,
+      hobby: hobby.value,
+    };
+    console.log(values);
+  }
+
   return (
     <div className={classes.profile}>
       <div className={classes.profile__sections}>
-        <AvatarUpload />
+        <AvatarUpload cbFileChange={setSelectedFile} />
 
         <Box className={classes.profile__section}>
           <Typography className={classes.profile__section_title}>
@@ -120,7 +134,12 @@ const Profile: React.FC = () => {
         </Box>
 
         <Box textAlign={"center"}>
-          <MyButton label="Сохранить" className={classes.profile__btn} />
+          <MyButton
+            label="Сохранить"
+            className={classes.profile__btn}
+            type="submit"
+            onClick={handleSubmit}
+          />
         </Box>
       </div>
     </div>

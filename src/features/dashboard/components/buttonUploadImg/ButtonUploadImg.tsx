@@ -8,6 +8,7 @@ interface IProps {
   label?: string;
   description?: string;
   className?: string;
+  disabled?: boolean;
 }
 
 const ButtonUploadImg: React.FC<IProps> = ({
@@ -16,6 +17,7 @@ const ButtonUploadImg: React.FC<IProps> = ({
   label,
   description,
   className,
+  disabled,
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -37,6 +39,7 @@ const ButtonUploadImg: React.FC<IProps> = ({
         startIcon={startIcon}
         onClick={handleUploadClick}
         variant="outlined"
+        disabled={disabled}
       >
         {label}
       </Button>

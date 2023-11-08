@@ -6,25 +6,15 @@ import {
 } from "@mui/material";
 import "./ProfileInput.scss";
 import MyInput from "../MyInput/MyInput";
-import useInput from "@/hooks/useInput";
-import MyDropDown from "../MyDropDown/MyDropDown";
-import { SyntheticEvent, useState } from "react";
-import ButtonUploadImg from "@/features/dashboard/components/buttonUploadImg/buttonUploadImg";
-
-export interface IProfileInputProps {
-  heading?: string;
-  variant?:
-    | "input"
-    | "drop-down"
-    | "wrapper-photo-upload"
-    | "case-photo-upload"
-    | "tags";
-  placeholder?: string;
-  className?: string;
-  label?: string;
-  description?: string;
-  options?: string[];
-}
+import MyDropDown, {
+  TOnChangeMylty,
+  TOnChangeSingle,
+} from "../MyDropDown/MyDropDown";
+import ButtonUploadImg from "@/features/dashboard/components/buttonUploadImg/ButtonUploadImg";
+import { useState } from "react";
+import { IProfileInputProps } from "@/features/dashboard/model/types";
+import MyButton from "../MyButton/MyButton";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 
 //TODO Исправить description у добавления фото
 
@@ -34,49 +24,45 @@ const ProfileInput: React.FC<IProfileInputProps> = ({
   placeholder = "",
   label = "",
   description = "",
-  options = [""],
+  options = [],
+  minRows,
+  value,
+  onChange,
+  data,
+  disabled,
+  handleDeleteCaseImage,
 }) => {
-  const [directions, setDirections] = useState<string[]>([]);
-  const [tools, setTools] = useState<string[]>([]);
+  const [image, setImage] = useState<string | null>(null);
+  const [caseImages, setCaseImages] = useState<string[]>([]);
 
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  selectedFile;
-  const [image, setImage] = useState<string>("");
-
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  function handleWrapperUpload(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
 
-    if (file) {
+    if (file && onChange) {
       const fileUrl = URL.createObjectURL(file);
+      onChange(event, file as string & string[] & File);
       setImage(fileUrl);
-      setSelectedFile(file);
     }
-  };
-
-  function handleSetDirections(
-    _: SyntheticEvent<Element, Event>,
-    newValue: string[]
-  ) {
-    setDirections(newValue);
   }
 
-  function handleSetTools(
-    _: SyntheticEvent<Element, Event>,
-    newValue: string[]
-  ) {
-    setTools(newValue);
+  function handleCaseImagesUpload(event: React.ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+
+    if (file && onChange) {
+      const fileUrl = URL.createObjectURL(file);
+      onChange(event, file as string & string[] & File);
+      setCaseImages((prev) => {
+        return [...prev, fileUrl];
+      });
+    }
   }
 
-  const text = useInput(
-    "",
-    {
-      isEmpty: true,
-      minLength: 2,
-      maxLength: 40,
-      isName: true,
-    },
-    { trim: true }
-  );
+  function handeDeleteCaseImage(i: number) {
+    if (handleDeleteCaseImage) {
+      setCaseImages((prev) => prev.filter((_, index) => index !== i));
+      handleDeleteCaseImage(i);
+    }
+  }
 
   switch (variant) {
     case "input":
@@ -85,11 +71,10 @@ const ProfileInput: React.FC<IProfileInputProps> = ({
           <FormControl className="profileInputForm">
             <Typography className="profileInputLabel">{heading}</Typography>
             <MyInput
-              className="profileInput"
               variant="textarea-label-without"
-              data={text}
-              label=""
-              placeholder={placeholder}
+              data={data!}
+              className="profileInput"
+              minRows={minRows}
             />
           </FormControl>
         </StyledEngineProvider>
@@ -103,8 +88,8 @@ const ProfileInput: React.FC<IProfileInputProps> = ({
             <MyDropDown
               className="profileDropdown"
               options={options}
-              value={directions}
-              onChange={handleSetDirections}
+              value={value as string | null}
+              onChange={onChange as TOnChangeSingle}
               placeholder={placeholder}
             />
           </FormControl>
@@ -117,7 +102,7 @@ const ProfileInput: React.FC<IProfileInputProps> = ({
           <FormControl className="profileInputForm">
             <Typography className="profileInputLabel">{heading}</Typography>
             <Box>
-              {image !== "" && (
+              {image && (
                 <img
                   className="profileWrapperImage"
                   src={image}
@@ -126,8 +111,8 @@ const ProfileInput: React.FC<IProfileInputProps> = ({
               )}
               <ButtonUploadImg
                 className="profileWrapperButton"
-                label={label}
-                handleFileChange={handleFileChange}
+                label={image ? "Загрузить новую обложку" : label}
+                handleFileChange={handleWrapperUpload}
                 description={description}
               />
             </Box>
@@ -144,18 +129,30 @@ const ProfileInput: React.FC<IProfileInputProps> = ({
               <Typography className="profileImageHeading">
                 Загрузите от 1 до 4 изображений
               </Typography>
-              {image !== "" && (
-                <img
-                  className="profileCaseImage"
-                  src={image}
-                  alt="Обложка кейса"
-                />
-              )}
+              {caseImages.map((item, i) => {
+                return (
+                  <Box key={item}>
+                    <img
+                      className="profileCaseImage"
+                      src={item}
+                      alt={`Обложка кейса №${i}`}
+                    />
+                    <MyButton
+                      onClick={() => handeDeleteCaseImage(i)}
+                      label="Удалить"
+                      variant="text"
+                      color="error"
+                      startIcon={<DeleteForeverIcon />}
+                    />
+                  </Box>
+                );
+              })}
               <ButtonUploadImg
                 className="profileWrapperButton"
                 label={label}
-                handleFileChange={handleFileChange}
+                handleFileChange={handleCaseImagesUpload}
                 description={description}
+                disabled={disabled}
               />
             </Box>
           </FormControl>
@@ -169,8 +166,8 @@ const ProfileInput: React.FC<IProfileInputProps> = ({
             <Typography className="profileInputLabel">{heading}</Typography>
             <MyDropDown
               options={options}
-              value={tools}
-              onChange={handleSetTools}
+              value={value as string[]}
+              onChange={onChange as TOnChangeMylty}
               className="profileInputTags"
               variant="multiple"
               placeholder={placeholder}

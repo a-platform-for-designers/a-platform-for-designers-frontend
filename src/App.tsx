@@ -35,8 +35,7 @@ function App() {
             <Route index element={<Navigate replace to="profile" />} />
             <Route path="profile" element={<Profile />} />
             <Route path="portfolio" element={<Portfolio />}>
-              {/* Когда будет АПИ, место id будет id кейса */}
-              <Route path="id" element={<CaseCreation />} />
+              <Route path="create" element={<CaseCreation />} />
             </Route>
             <Route path="work" element={<Work />} />
             <Route path="orders" element={<Orders />} />

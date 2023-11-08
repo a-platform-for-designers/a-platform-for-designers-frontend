@@ -49,7 +49,7 @@ const SignUp: FC = () => {
 
   const password = useInput("", {
     isEmpty: true,
-    minLength: 6,
+    minLength: 8,
     maxLength: 32,
   });
 

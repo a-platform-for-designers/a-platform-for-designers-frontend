@@ -18,7 +18,7 @@ const Portfolio: React.FC = () => {
               className={classes.portfolio__button}
               label="Добавить проект"
               onClick={() => {
-                navigate("/dashboard/portfolio/id");
+                navigate("/dashboard/portfolio/create");
               }}
             />
           </Box>

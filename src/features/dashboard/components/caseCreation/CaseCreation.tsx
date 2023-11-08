@@ -1,103 +1,170 @@
 import Box from "@mui/material/Box";
 import classes from "./CaseCreation.module.scss";
 import ProfileInput from "@/components/UI/ProfileInput/ProfileInput";
+import MyButton from "@/components/UI/MyButton/MyButton";
+import useInput from "@/hooks/useInput";
+import { useState, SyntheticEvent } from "react";
+import { IProfileDataItem } from "../../model/types";
+import { directionsOptions, tools, spheres } from "../../model/constants";
 
 const CaseCreation: React.FC = () => {
-  function createDescription() {
-    return (
-      <p style={{ margin: 0 }}>
-        Рекомендуемая ширина: 920 px
-        <br />
-        Допустимые форматы: jpeg, jpg, tif, tiff, png
-        <br />
-        Максимальный размер файла: 5 Mb
-      </p>
-    );
+  const title = useInput("", { isEmpty: true });
+  const time = useInput("", {});
+  const description = useInput("", {});
+  const [directions, setDirections] = useState<string | null>(null);
+  const [wrapper, setWrapper] = useState<File | null>(null);
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [sphereValue, setSphereValue] = useState<string | null>(null);
+  const [toolsValue, setToolsValue] = useState<string[]>([]);
+
+  const profileData: IProfileDataItem[] = [
+    {
+      heading: "Название",
+      variant: "input",
+      placeholder: "Название проекта",
+      data: title,
+    },
+    {
+      heading: "Направление",
+      variant: "drop-down",
+      placeholder: "Выберите направление из списка",
+      options: [...directionsOptions],
+      value: directions,
+      onChange: handleSetDirections,
+    },
+    {
+      heading: "Обложка",
+      variant: "wrapper-photo-upload",
+      label: "Загрузить обложку",
+      description: `Рекомендуемая ширина: 920 px\nДопустимые форматы: jpeg, jpg, tif, tiff, png\nМаксимальный размер файла: 5 Mb`,
+      value: wrapper,
+      onChange: handleSetWrapper,
+    },
+    {
+      heading: "Изображения",
+      variant: "case-photo-upload",
+      label: "Загрузить изображения",
+      description: `Рекомендуемая ширина: 920 px\nДопустимые форматы: jpeg, jpg, tif, tiff, png\nМаксимальный размер файла: 5 Mb`,
+      value: selectedFiles,
+      onChange: handleSetSelectedFiles,
+      disabled: selectedFiles.length === 4,
+    },
+    {
+      heading: "Сфера",
+      variant: "drop-down",
+      placeholder: "Добавьте из списка",
+      options: [...spheres],
+      value: sphereValue,
+      onChange: handleSetSphere,
+    },
+    {
+      heading: "Инструменты",
+      variant: "tags",
+      placeholder: "Какие программы использовали?",
+      options: [...tools],
+      value: toolsValue,
+      onChange: handleSetTools,
+    },
+    {
+      heading: "Срок реализации",
+      variant: "input",
+      placeholder: "Сколько времени делали проект",
+      data: time,
+    },
+    {
+      heading: "Описание проекта",
+      variant: "input",
+      placeholder: "Расскажите о задаче проекта и результатах работы",
+      minRows: 5,
+      data: description,
+    },
+  ];
+
+  function handleSetWrapper(
+    _: React.ChangeEvent<HTMLInputElement>,
+    newValue: File | null
+  ) {
+    setWrapper(newValue);
   }
 
-  const directionsOptions = [
-    "3D-дизайн",
-    "Графический дизайн",
-    "Иллюстрация",
-    "Веб-дизайн",
-  ];
+  function handleSetSelectedFiles(
+    _: React.ChangeEvent<HTMLInputElement>,
+    newValue: File
+  ) {
+    setSelectedFiles((prev) => [...prev, newValue]);
+  }
 
-  const spheres = [
-    "3D-печать и производство",
-    "Автомобильный дизайн",
-    "Адаптивный и мобильный дизайн",
-    "Анимация и визуализация эффектов",
-    "Архитектурная визуализация",
-    "Архитектурное проектирование",
-    "Брендинг и идентичность (логотипы, фирменный стиль)",
-    "Веб-дизайн для здравоохранения и медицины",
-    "Визуализация для анимационных фильмов",
-    "Визуализация для архитектурных проектов",
-  ];
+  function handleSetDirections(
+    _: React.SyntheticEvent<Element, Event>,
+    newValue: string | null
+  ) {
+    setDirections(newValue);
+  }
 
-  const tools = [
-    "3Ds Max",
-    "Ландшафтный Дизайн 3D",
-    "Adobe Experience Design",
-    "Adobe Fresco",
-    "Adobe Illustrator",
-    "Adobe InDesign",
-    "Adobe Photoshop",
-    "Adobe Spark",
-    "Adobe XD",
-    "Affinity Designer",
-  ];
+  function handleSetTools(
+    _: SyntheticEvent<Element, Event>,
+    newValue: string[]
+  ) {
+    setToolsValue(newValue);
+  }
+
+  function handleSetSphere(
+    _: SyntheticEvent<Element, Event>,
+    newValue: string | null
+  ) {
+    setSphereValue(newValue);
+  }
+
+  function handleDeleteCaseImage(index: number) {
+    setSelectedFiles((prev) => prev.filter((_, i) => i !== index));
+  }
+
+  function handleSubmit(e: React.MouseEvent<HTMLButtonElement>) {
+    e.preventDefault();
+    const values = {
+      title: title.value,
+      time: time.value,
+      description: description.value,
+      directions,
+      wrapper,
+      selectedFiles,
+      sphereValue,
+      toolsValue,
+    };
+    console.log(values);
+  }
 
   return (
-    <Box className={classes.case}>
-      <ProfileInput
-        heading="Название"
-        variant="input"
-        placeholder="Название проекта"
-      />
-      <ProfileInput
-        heading="Направление"
-        variant="drop-down"
-        placeholder="Выберите направление из списка"
-        options={directionsOptions}
-      />
-      {/* Зарузить НОВУЮ обложку. Придумать как сделать. */}
-      <ProfileInput
-        heading="Обложка"
-        variant="wrapper-photo-upload"
-        label="Загрузить обложку"
-        description={`Рекомендуемая ширина: 920 px\nДопустимые форматы: jpeg, jpg, tif, tiff, png
-        Максимальный размер файла: 5 Mb`}
-      />
-      <ProfileInput
-        heading="Изображения"
-        variant="case-photo-upload"
-        label="Загрузить изображения"
-        description={createDescription()}
-      />
-      <ProfileInput
-        heading="Сфера"
-        variant="drop-down"
-        placeholder="Добавьте из списка"
-        options={spheres}
-      />
-      <ProfileInput
-        heading="Инструменты"
-        variant="tags"
-        placeholder="Какие программы использовали?"
-        options={tools}
-      />
-      <ProfileInput
-        heading="Срок реализации"
-        variant="input"
-        placeholder="Сколько времени делали проект"
-      />
-      <ProfileInput
-        heading="Описание проекта"
-        variant="input"
-        placeholder="Расскажите о задаче проекта и результатах работы"
-      />
-    </Box>
+    <>
+      <Box className={classes.case}>
+        {profileData.map((item) => {
+          return (
+            <ProfileInput
+              key={item.heading}
+              heading={item.heading}
+              placeholder={item.placeholder}
+              variant={item.variant}
+              options={item.options}
+              description={item.description}
+              label={item.label}
+              minRows={item.minRows}
+              value={item.value}
+              onChange={item.onChange}
+              data={item.data}
+              disabled={item.disabled}
+              handleDeleteCaseImage={handleDeleteCaseImage}
+            />
+          );
+        })}
+      </Box>
+      <Box textAlign={"center"}>
+        <MyButton
+          label="Сохранить"
+          className={classes.profile__btn}
+          onClick={handleSubmit}
+        />
+      </Box>
+    </>
   );
 };
 
