@@ -36,7 +36,7 @@ export interface IProfileDesigner {
   country: string;
   specialization: number;
   hobby: string;
-  language: string;
+  language: string[];
 }
 
 export interface IResume {

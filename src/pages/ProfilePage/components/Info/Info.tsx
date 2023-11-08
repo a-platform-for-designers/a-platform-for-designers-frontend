@@ -8,9 +8,9 @@ import {
   Typography,
 } from "@mui/material";
 import "./Info.scss";
-import React from "react";
+import React, { useState } from "react";
 import MyButton from "../../../../components/UI/MyButton/MyButton";
-import SocialIndicator from "../SocialIndicator/SocialIndicator";
+import { SocialIndicator } from "..";
 
 const avatarStyles: SxProps<Theme> = {
   height: "212px",
@@ -48,6 +48,9 @@ const Info: React.FC<IInfoProps> = ({ data }) => {
     /* likes,
     followers, */
   } = data;
+
+  const [likes, setLikes] = useState(1000);
+  const [isLiked, setIsLiked] = useState(true);
 
   const initials = name
     .split(" ")
@@ -114,8 +117,24 @@ const Info: React.FC<IInfoProps> = ({ data }) => {
             flexGrow={0}
             paddingBottom="15px"
           >
-            <SocialIndicator />
-            <SocialIndicator />
+            <SocialIndicator
+              variant="likes"
+              count={likes}
+              active={isLiked}
+              onClick={() => {
+                setLikes((prev) => {
+                  // чисто потестить
+                  if (isLiked) {
+                    setIsLiked(false);
+                    return --prev;
+                  } else {
+                    setIsLiked(true);
+                    return ++prev;
+                  }
+                });
+              }}
+            />
+            <SocialIndicator variant="followers" count={98} />
           </Grid>
         </Grid>
       </Grid>

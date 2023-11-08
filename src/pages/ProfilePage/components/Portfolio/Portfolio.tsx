@@ -2,7 +2,7 @@ import { Grid, StyledEngineProvider } from "@mui/material";
 import "./Portfolio.scss";
 import React from "react";
 import MySwiper from "../../../../components/UI/MySwiper/MySwiper";
-import emptyImage from "../../../../assets/images/profile-empty.png";
+import { EmptyData } from "..";
 
 interface IPortfolioData {}
 
@@ -12,12 +12,7 @@ interface IPortfolioProps {
 
 const Portfolio: React.FC<IPortfolioProps> = ({ data }) => {
   if (!data.length) {
-    return (
-      <>
-        <img src={emptyImage} alt="У дизайнера пока нет проектов" />
-        <h2>У дизайнера пока нет проектов</h2>
-      </>
-    );
+    return <EmptyData title="У дизайнера пока нет проектов" />;
   }
 
   return (

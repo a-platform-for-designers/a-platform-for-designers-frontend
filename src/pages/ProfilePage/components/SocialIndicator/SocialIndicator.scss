@@ -20,4 +20,10 @@
       display: block;
     }
   }
+
+  &__button {
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
 }
