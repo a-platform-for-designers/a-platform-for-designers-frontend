@@ -16,6 +16,7 @@ import MyButton from "../UI/MyButton/MyButton";
 import { useLocation, useNavigate } from "react-router-dom";
 import SignUp from "../SignUp/SignUp";
 import SignIn from "../SignIn/SignIn";
+import UserRole from "../UserRole/UserRole";
 import MyPopup from "../UI/MyPopup/MyPopup";
 import MyAuthForm from "../UI/MyAuthForm/MyAuthForm";
 import MyCheckBox from "../UI/MyCheckBox/MyCheckBox";
@@ -28,9 +29,15 @@ const Header: React.FC = () => {
   const [isAuth, setIsAuth] = useState(false);
   const [isOpenSignIn, setIsOpenSignIn] = useState<boolean>(false);
   const [isOpenSignUp, setIsOpenSignUp] = useState<boolean>(false);
+  const [isRoleSelected, setIsRoleSelected] = useState<boolean>(false);
+
+  console.log(isRoleSelected);
+
   const navigate = useNavigate();
 
-  console.log(isAuth);
+  function chooseRole() {
+    setIsRoleSelected(true);
+  }
 
   function handleLogin() {
     setIsAuth(!isAuth);
@@ -47,6 +54,7 @@ const Header: React.FC = () => {
   function handleClose() {
     setIsOpenSignIn(false);
     setIsOpenSignUp(false);
+    setIsRoleSelected(false);
   }
 
   return (
@@ -168,9 +176,13 @@ const Header: React.FC = () => {
         </MyAuthForm>
       </MyPopup>
       <MyPopup onClose={handleClose} open={isOpenSignUp}>
-        <MyAuthForm title="Регистрация">
-          <SignUp />
-        </MyAuthForm>
+        {isRoleSelected === false ? (
+          <UserRole onClick={chooseRole} />
+        ) : (
+          <MyAuthForm title="Регистрация">
+            <SignUp />
+          </MyAuthForm>
+        )}
       </MyPopup>
     </StyledEngineProvider>
   );

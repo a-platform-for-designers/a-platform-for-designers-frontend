@@ -14,9 +14,6 @@ const SignUp: FC = () => {
   const [confirmServiceRules, setConfirmServiceRules] =
     useState<boolean>(false);
 
-  console.log(confirmPrivatePolicy);
-  console.log(confirmServiceRules);
-
   const firstName = useInput(
     "",
     {
@@ -95,6 +92,7 @@ const SignUp: FC = () => {
             setConfirmPrivatePolicy((prev) => !prev);
           }}
           checked={confirmPrivatePolicy}
+          labelPlacement="end"
         />
 
         <MyCheckBox
@@ -114,6 +112,7 @@ const SignUp: FC = () => {
             setConfirmServiceRules((prev) => !prev);
           }}
           checked={confirmServiceRules}
+          labelPlacement="end"
         />
 
         <MyButton
