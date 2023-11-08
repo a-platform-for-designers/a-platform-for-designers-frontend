@@ -9,7 +9,7 @@
 }
 
 .myAuthForm {
-  margin: 60px 0 88px;
+  margin: 30px 0 30px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -21,7 +21,7 @@
     min-height: 40px;
     display: grid;
     grid-template-columns: minmax(auto, 448px);
-    row-gap: 40px;
+    row-gap: 30px;
   }
 
   &__title {
