@@ -26,6 +26,7 @@ export interface IProfileDataItem {
     | ((_: React.ChangeEvent<HTMLInputElement>, newValue: File) => void)
     | TOnChangeSingle
     | TOnChangeMylty;
+  maxLength?: number;
 }
 
 export interface IProfileInputProps {
@@ -51,4 +52,5 @@ export interface IProfileInputProps {
   data?: objFromUseInput;
   disabled?: boolean;
   handleDeleteCaseImage?: (i: number) => void;
+  maxLength?: number;
 }

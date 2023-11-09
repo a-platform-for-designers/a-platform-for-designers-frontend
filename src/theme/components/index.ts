@@ -19,6 +19,18 @@ const components: Components<Omit<Theme, "components">> = {
       root: () => ({ boxShadow: "none" }),
     },
   },
+  //--------------------------------------------------------------------- FilledInput
+  MuiFilledInput: {
+    styleOverrides: {
+      input: ({ theme }) => ({
+        color: theme.palette.text.primary,
+      }),
+      /*       adornedEnd: ({ theme }) => ({
+        color: theme.palette.info.main,
+      }), */
+    },
+  },
+
   // ------------------------------------------------------------------------------- BUTTON
   MuiButton: {
     styleOverrides: {

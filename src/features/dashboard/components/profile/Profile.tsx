@@ -129,7 +129,11 @@ const Profile: React.FC = () => {
             Хобби
           </Typography>
           <div className={classes.profile__section_wrapper}>
-            <MyInput data={hobby} variant="textarea-label-without" />
+            <MyInput
+              data={hobby}
+              variant="textarea-label-without"
+              maxLength={200}
+            />
           </div>
         </Box>
 

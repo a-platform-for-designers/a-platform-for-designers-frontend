@@ -31,6 +31,7 @@ const ProfileInput: React.FC<IProfileInputProps> = ({
   data,
   disabled,
   handleDeleteCaseImage,
+  maxLength,
 }) => {
   const [image, setImage] = useState<string | null>(null);
   const [caseImages, setCaseImages] = useState<string[]>([]);
@@ -75,6 +76,7 @@ const ProfileInput: React.FC<IProfileInputProps> = ({
               data={data!}
               className="profileInput"
               minRows={minRows}
+              maxLength={maxLength}
             />
           </FormControl>
         </StyledEngineProvider>

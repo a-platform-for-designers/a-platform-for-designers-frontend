@@ -100,7 +100,6 @@ const MyDropDown: React.FC<TMyDropDownProps> = ({
             onChange={onChange as TOnChangeSingle}
             className={`myDropDown ${className}`}
             options={options}
-            disableCloseOnSelect
             getOptionLabel={(option) => option}
             renderOption={(props, option, { selected }) => (
               <li {...props} className="myDropDown__element">

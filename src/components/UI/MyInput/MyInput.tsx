@@ -8,6 +8,7 @@ import {
   OutlinedInputProps,
   StyledEngineProvider,
   TextField,
+  Typography,
 } from "@mui/material";
 import "./MyInput.scss";
 import { objFromUseInput } from "../../../hooks/useInput";
@@ -30,6 +31,7 @@ export interface IMyInputProps {
   disabled?: boolean;
   className?: string;
   minRows?: string | number | undefined;
+  maxLength?: number;
 }
 
 const MyInput: React.FC<IMyInputProps> = ({
@@ -41,6 +43,7 @@ const MyInput: React.FC<IMyInputProps> = ({
   disabled = false,
   className,
   minRows,
+  maxLength,
 }) => {
   const invalid = Boolean(data.isDirty && data.error);
   const [showPassword, setShowPassword] = useState(false);
@@ -60,6 +63,18 @@ const MyInput: React.FC<IMyInputProps> = ({
     if (onChangeCallback) {
       onChangeCallback();
     }
+
+    if (maxLength) {
+      const inputValue = event.target.value;
+      if (inputValue.length <= maxLength) {
+        data.onSetValue(inputValue);
+        return;
+      } else {
+        data.onSetValue(inputValue.slice(0, maxLength));
+        return;
+      }
+    }
+
     callback(event);
   }
 
@@ -160,7 +175,7 @@ const MyInput: React.FC<IMyInputProps> = ({
           >
             <FilledInput
               multiline
-              className={`${className} myInput__input myInput__input-type-label-without`}
+              className={`${className}  myInput__input myInput__input-type-label-without`}
               value={data.value}
               disableUnderline
               disabled={disabled}
@@ -170,6 +185,9 @@ const MyInput: React.FC<IMyInputProps> = ({
               placeholder={placeholder}
               minRows={minRows}
             />
+            <Typography textAlign={"right"} className="myInput__input_length">
+              {`${data.value.length}/${maxLength as number}`}
+            </Typography>
             <FormHelperText error={invalid}>{getError(data)}</FormHelperText>
           </FormControl>
         </StyledEngineProvider>

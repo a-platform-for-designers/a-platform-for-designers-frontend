@@ -23,6 +23,7 @@ const CaseCreation: React.FC = () => {
       variant: "input",
       placeholder: "Название проекта",
       data: title,
+      maxLength: 50,
     },
     {
       heading: "Направление",
@@ -70,6 +71,7 @@ const CaseCreation: React.FC = () => {
       variant: "input",
       placeholder: "Сколько времени делали проект",
       data: time,
+      maxLength: 50,
     },
     {
       heading: "Описание проекта",
@@ -77,6 +79,7 @@ const CaseCreation: React.FC = () => {
       placeholder: "Расскажите о задаче проекта и результатах работы",
       minRows: 5,
       data: description,
+      maxLength: 500,
     },
   ];
 
@@ -153,6 +156,7 @@ const CaseCreation: React.FC = () => {
               data={item.data}
               disabled={item.disabled}
               handleDeleteCaseImage={handleDeleteCaseImage}
+              maxLength={item.maxLength}
             />
           );
         })}

@@ -5,12 +5,22 @@
 
 .myInput {
   &__input {
-    &-type-label-without {
-      padding: 0;
+    &-type {
+      &-label-without {
+        padding: 0;
 
-      .MuiInputBase-input {
-        padding: 16px;
+        .MuiInputBase-input {
+          padding: 16px 16px 22px 16px;
+        }
       }
+    }
+    &_length {
+      text-align: right;
+      color: var(--text-color-gray);
+      margin-right: 10px;
+      position: absolute;
+      bottom: 5px;
+      right: 12px;
     }
   }
 
@@ -58,7 +68,7 @@
       color: var(--text-color-gray);
     }
 
-    p {
+    .MuiFormHelperText-root {
       @include small-text();
       color: var(--validation-error-color) !important;
       margin: 8px 0 0 0;
