@@ -1,7 +1,7 @@
 import { Grid, Stack, StyledEngineProvider, Typography } from "@mui/material";
 import "./AboutItem.scss";
 import React from "react";
-import { IDataItem } from "../../../../types";
+import { IDataItem } from "../../types";
 
 interface IAboutItemProps {
   title: string;

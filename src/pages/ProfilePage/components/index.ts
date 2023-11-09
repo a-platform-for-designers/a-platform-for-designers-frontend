@@ -1,5 +1,5 @@
 import Work from "./Work/Work";
-import AboutItem from "./AboutItem/AboutItem";
+import AboutItem from "../../../components/AboutItem/AboutItem";
 import EmptyData from "./EmptyData/EmptyData";
 import Info from "./Info/Info";
 import Portfolio from "./Portfolio/Portfolio";
