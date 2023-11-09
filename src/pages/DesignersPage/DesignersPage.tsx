@@ -2,13 +2,10 @@ import { Box, Grid, StyledEngineProvider } from "@mui/material";
 import "./DesignersPage.scss";
 import DesignersCard from "../../components/DesignersCard/DesignersCard";
 import DesignerFilters from "../../components/DesignerFilters/DesignerFilters";
-import Header from "../../components/Header/Header";
-import Footer from "../../components/Footer/Footer";
 
 const DesignersPage: React.FC = () => {
   return (
     <StyledEngineProvider injectFirst>
-      <Header />
       <Box component="main" className="designersPage">
         <Box className="designersPage__container">
           <Grid
@@ -36,7 +33,6 @@ const DesignersPage: React.FC = () => {
           </Grid>
         </Box>
       </Box>
-      <Footer />
     </StyledEngineProvider>
   );
 };

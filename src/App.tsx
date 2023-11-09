@@ -18,17 +18,21 @@ import {
   CaseCreation,
 } from "./features/dashboard/components/index.ts";
 import { Navigate } from "react-router-dom";
+import Header from "./components/Header/Header.tsx";
+import Footer from "./components/Footer/Footer.tsx";
+
 
 function App() {
   return (
     <ThemeProvider theme={lightTheme}>
       <CssBaseline enableColorScheme />
       <div className={classes.app}>
+        <Header />
         <Routes>
           <Route path="/" Component={MainPage} />
           <Route path="/designers" Component={DesignersPage} />
           <Route
-            path="/profile"
+            path="/profile/:id/*"
             element={<ProtectedRoute Component={ProfilePage} />}
           />
           <Route path="/dashboard" Component={Dashboard}>
@@ -43,6 +47,7 @@ function App() {
           </Route>
           <Route path="*" Component={ErrorPage} />
         </Routes>
+        <Footer />
       </div>
     </ThemeProvider>
   );

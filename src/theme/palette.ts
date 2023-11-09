@@ -45,6 +45,7 @@ const palette: PaletteOptions = {
   secondary: secondary.light,
   text: text.light,
   error: { main: "#db524e" },
+  success: { main: "#27AE60" },
   action: {
     disabled: "#98979A",
     disabledBackground: "#e3e3e3",
