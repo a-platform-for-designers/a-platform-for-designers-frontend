@@ -144,28 +144,18 @@ const CaseCreation: React.FC = () => {
           return (
             <ProfileInput
               key={item.heading}
-              heading={item.heading}
-              placeholder={item.placeholder}
-              variant={item.variant}
-              options={item.options}
-              description={item.description}
-              label={item.label}
-              minRows={item.minRows}
-              value={item.value}
-              onChange={item.onChange}
-              data={item.data}
-              disabled={item.disabled}
               handleDeleteCaseImage={handleDeleteCaseImage}
-              maxLength={item.maxLength}
+              {...item}
             />
           );
         })}
       </Box>
-      <Box textAlign={"center"}>
+      <Box textAlign={"center"} marginLeft={15}>
         <MyButton
           label="Сохранить"
-          className={classes.profile__btn}
+          className={classes.case__btn}
           onClick={handleSubmit}
+          disabled={!!(title.error || !wrapper || selectedFiles.length === 0)}
         />
       </Box>
     </>
