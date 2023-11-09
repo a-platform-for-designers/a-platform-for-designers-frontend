@@ -23,6 +23,10 @@ const DesignersPage: React.FC = () => {
               <DesignersCard />
               <DesignersCard />
               <DesignersCard />
+              <DesignersCard />
+              <DesignersCard />
+              <DesignersCard />
+              <DesignersCard />
               {/* ! */}
             </Grid>
             <Grid xs={3} item className="designersPage__filters">
