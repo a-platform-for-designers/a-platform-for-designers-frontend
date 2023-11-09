@@ -19,6 +19,7 @@
     }
 
     &_subtitle {
+      white-space: pre-line;
       color: var(--text-color-gray);
       font-family: Roboto;
       font-size: 16px;
