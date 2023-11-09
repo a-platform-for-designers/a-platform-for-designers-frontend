@@ -1,3 +1,26 @@
+.profileInput {
+  &__btn {
+    &_type_del {
+      margin: 0 0 20px 0;
+      justify-items: end;
+      display: flex;
+      justify-content: end;
+      color: var(--validation-light-error-color);
+
+      &:hover {
+        color: var(--validation-error-color);
+      }
+    }
+  }
+
+  &__case_image_wrapper {
+    text-align: end;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: end;
+  }
+}
+
 .profileInputForm {
   width: 100%;
   display: grid;
@@ -26,11 +49,12 @@
   }
 
   .profileWrapperImage {
-    max-width: 330px;
+    width: 330px;
     height: 240px;
     margin-bottom: 10px;
     border-radius: 12px;
     overflow: hidden;
+    object-fit: cover;
   }
 
   .profileWrapperButton {
@@ -54,8 +78,9 @@
   }
 
   .profileCaseImage {
-    max-width: 447px;
+    width: 447px;
     height: 325px;
+    object-fit: cover;
     margin-bottom: 10px;
     border-radius: 12px;
     overflow: hidden;

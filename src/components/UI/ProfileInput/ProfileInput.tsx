@@ -36,8 +36,25 @@ const ProfileInput: React.FC<IProfileInputProps> = ({
   const [image, setImage] = useState<string | null>(null);
   const [caseImages, setCaseImages] = useState<string[]>([]);
 
+  function validateImage(file: File): string | void {
+    const filetype = "image/jpeg, image/jpg, image/tiff, image/tif, image/png";
+
+    if (!filetype.includes(file?.type)) {
+      return "Неверный загружаемый формат";
+    }
+    if (file?.size >= 5000000) {
+      return "Слишком большой размер файла";
+    }
+  }
+
   function handleWrapperUpload(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
+    if (!file) return;
+    const validateError = validateImage(file);
+    if (validateError) {
+      alert(validateError);
+      return;
+    }
 
     if (file && onChange) {
       const fileUrl = URL.createObjectURL(file);
@@ -48,6 +65,12 @@ const ProfileInput: React.FC<IProfileInputProps> = ({
 
   function handleCaseImagesUpload(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
+    if (!file) return;
+    const validateError = validateImage(file);
+    if (validateError) {
+      alert(validateError);
+      return;
+    }
 
     if (file && onChange) {
       const fileUrl = URL.createObjectURL(file);
@@ -133,7 +156,7 @@ const ProfileInput: React.FC<IProfileInputProps> = ({
               </Typography>
               {caseImages.map((item, i) => {
                 return (
-                  <Box key={item}>
+                  <Box key={item} className="profileInput__case_image_wrapper">
                     <img
                       className="profileCaseImage"
                       src={item}
@@ -145,6 +168,7 @@ const ProfileInput: React.FC<IProfileInputProps> = ({
                       variant="text"
                       color="error"
                       startIcon={<DeleteForeverIcon />}
+                      className="profileInput__btn profileInput__btn_type_del"
                     />
                   </Box>
                 );

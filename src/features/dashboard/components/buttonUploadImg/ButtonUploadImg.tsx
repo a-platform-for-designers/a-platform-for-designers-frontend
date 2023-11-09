@@ -33,6 +33,7 @@ const ButtonUploadImg: React.FC<IProps> = ({
         type="file"
         style={{ display: "none" }}
         onChange={handleFileChange}
+        required
       />
       <Button
         component="span"
