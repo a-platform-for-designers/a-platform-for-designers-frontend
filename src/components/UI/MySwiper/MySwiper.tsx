@@ -14,6 +14,7 @@ const MySwiper: React.FC = () => {
   const images = [
     "https://scientificrussia.ru/images/b/teb-full.jpg",
     "https://fond-vsem-mirom.ru/wp-content/uploads/2020/06/gk_zdhbg784.jpg",
+    "https://oir.mobi/uploads/posts/2022-09/1662133482_1-oir-mobi-p-britanskaya-pryamoukhaya-koshka-krasivo-1.jpg",
   ];
 
   const sliders = images.map((image, index) => {
