@@ -20,35 +20,37 @@ import {
 import { Navigate } from "react-router-dom";
 import Header from "./components/Header/Header.tsx";
 import Footer from "./components/Footer/Footer.tsx";
-
+import { SnackbarProvider } from "notistack";
 
 function App() {
   return (
     <ThemeProvider theme={lightTheme}>
       <CssBaseline enableColorScheme />
-      <div className={classes.app}>
-        <Header />
-        <Routes>
-          <Route path="/" Component={MainPage} />
-          <Route path="/designers" Component={DesignersPage} />
-          <Route
-            path="/profile/:id/*"
-            element={<ProtectedRoute Component={ProfilePage} />}
-          />
-          <Route path="/dashboard" Component={Dashboard}>
-            <Route index element={<Navigate replace to="profile" />} />
-            <Route path="profile" element={<Profile />} />
-            <Route path="portfolio" element={<Portfolio />}>
-              <Route path="create" element={<CaseCreation />} />
+      <SnackbarProvider maxSnack={3} autoHideDuration={7000}>
+        <div className={classes.app}>
+          <Header />
+          <Routes>
+            <Route path="/" Component={MainPage} />
+            <Route path="/designers" Component={DesignersPage} />
+            <Route
+              path="/profile/:id/*"
+              element={<ProtectedRoute Component={ProfilePage} />}
+            />
+            <Route path="/dashboard" Component={Dashboard}>
+              <Route index element={<Navigate replace to="profile" />} />
+              <Route path="profile" element={<Profile />} />
+              <Route path="portfolio" element={<Portfolio />}>
+                <Route path="create" element={<CaseCreation />} />
+              </Route>
+              <Route path="work" element={<Work />} />
+              <Route path="orders" element={<Orders />} />
+              <Route path="settings" element={<Settings />} />
             </Route>
-            <Route path="work" element={<Work />} />
-            <Route path="orders" element={<Orders />} />
-            <Route path="settings" element={<Settings />} />
-          </Route>
-          <Route path="*" Component={ErrorPage} />
-        </Routes>
-        <Footer />
-      </div>
+            <Route path="*" Component={ErrorPage} />
+          </Routes>
+          <Footer />
+        </div>
+      </SnackbarProvider>
     </ThemeProvider>
   );
 }

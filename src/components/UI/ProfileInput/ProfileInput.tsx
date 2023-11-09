@@ -15,6 +15,7 @@ import { useState } from "react";
 import { IProfileInputProps } from "@/features/dashboard/model/types";
 import MyButton from "../MyButton/MyButton";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import { enqueueSnackbar } from "notistack";
 
 //TODO Исправить description у добавления фото
 
@@ -52,7 +53,7 @@ const ProfileInput: React.FC<IProfileInputProps> = ({
     if (!file) return;
     const validateError = validateImage(file);
     if (validateError) {
-      alert(validateError);
+      enqueueSnackbar(validateError, { variant: "error" });
       return;
     }
 
@@ -68,7 +69,7 @@ const ProfileInput: React.FC<IProfileInputProps> = ({
     if (!file) return;
     const validateError = validateImage(file);
     if (validateError) {
-      alert(validateError);
+      enqueueSnackbar(validateError, { variant: "error" });
       return;
     }
 
