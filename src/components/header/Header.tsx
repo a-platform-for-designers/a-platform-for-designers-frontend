@@ -130,6 +130,10 @@ const Header: React.FC = () => {
                   <p className="header__list-text">Сообщения</p>
                 </ListItem>
                 <Avatar
+                  onClick={() => {
+                    if (!location.pathname.includes("/profile"))
+                      navigate("/profile");
+                  }}
                   className="header__avatar"
                   alt="avatar"
                   src="https://www.iguides.ru/upload/medialibrary/74f/zwzgzu9t64a91p80nooe639e3bvgi18e.jpg"

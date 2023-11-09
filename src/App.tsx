@@ -10,6 +10,7 @@ import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import DesignersPage from "./pages/DesignersPage/DesignersPage";
 import Header from "./components/Header/Header.tsx";
 import Footer from "./components/Footer/Footer.tsx";
+import CasePage from "./pages/CasePage/CasePage.tsx";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
             path="/profile/*"
             element={<ProtectedRoute Component={ProfilePage} />}
           />
+          <Route path="/case/:id" Component={CasePage} />
           <Route path="*" Component={ErrorPage} />
         </Routes>
         <Footer />
