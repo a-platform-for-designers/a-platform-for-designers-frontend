@@ -19,11 +19,17 @@ type TInputTextArea = HTMLInputElement | HTMLTextAreaElement;
 
 export interface IMyInputProps {
   data: objFromUseInput;
-  label: string;
+  label?: string;
   onChangeCallback?: () => void;
-  variant?: "text" | "password";
+  variant?:
+    | "text"
+    | "password"
+    | "text-label-without"
+    | "textarea-label-without";
   placeholder?: string;
   disabled?: boolean;
+  className?: string;
+  minRows?: string | number | undefined;
 }
 
 const MyInput: React.FC<IMyInputProps> = ({
@@ -33,6 +39,8 @@ const MyInput: React.FC<IMyInputProps> = ({
   label,
   placeholder = "",
   disabled = false,
+  className,
+  minRows,
 }) => {
   const invalid = Boolean(data.isDirty && data.error);
   const [showPassword, setShowPassword] = useState(false);
@@ -60,7 +68,7 @@ const MyInput: React.FC<IMyInputProps> = ({
       return (
         <StyledEngineProvider injectFirst>
           <TextField
-            className={`myInput__container ${
+            className={`myInput__container ${className} ${
               invalid ? "myInput__container_type_incorrect" : ""
             }`}
             type="text"
@@ -83,7 +91,7 @@ const MyInput: React.FC<IMyInputProps> = ({
       return (
         <StyledEngineProvider injectFirst>
           <FormControl
-            className={`myInput__container ${
+            className={`myInput__container  ${
               invalid ? "myInput__container_type_incorrect" : ""
             }`}
             variant="filled"
@@ -91,7 +99,7 @@ const MyInput: React.FC<IMyInputProps> = ({
           >
             <InputLabel className="myInput__label-password">{label}</InputLabel>
             <FilledInput
-              className="myInput__input"
+              className={`${className} myInput__input`}
               value={data.value}
               disableUnderline
               disabled={disabled}
@@ -110,6 +118,57 @@ const MyInput: React.FC<IMyInputProps> = ({
                   </IconButton>
                 </InputAdornment>
               }
+            />
+            <FormHelperText error={invalid}>{getError(data)}</FormHelperText>
+          </FormControl>
+        </StyledEngineProvider>
+      );
+    case "text-label-without":
+      return (
+        <StyledEngineProvider injectFirst>
+          <FormControl
+            className={`myInput__container  ${
+              invalid ? "myInput__container_type_incorrect" : ""
+            }`}
+            variant="filled"
+            error={invalid}
+          >
+            <FilledInput
+              className={`${className} myInput__input myInput__input-type-label-without`}
+              value={data.value}
+              disableUnderline
+              disabled={disabled}
+              onBlur={() => data.onBlur()}
+              onChange={(e) => handleChange(e, data.onChange)}
+              type="text"
+              placeholder={placeholder}
+            />
+            <FormHelperText error={invalid}>{getError(data)}</FormHelperText>
+          </FormControl>
+        </StyledEngineProvider>
+      );
+
+    case "textarea-label-without":
+      return (
+        <StyledEngineProvider injectFirst>
+          <FormControl
+            className={`myInput__container myInput__container_type_multy  ${
+              invalid ? "myInput__container_type_incorrect" : ""
+            }`}
+            variant="filled"
+            error={invalid}
+          >
+            <FilledInput
+              multiline
+              className={`${className} myInput__input myInput__input-type-label-without`}
+              value={data.value}
+              disableUnderline
+              disabled={disabled}
+              onBlur={() => data.onBlur()}
+              onChange={(e) => handleChange(e, data.onChange)}
+              type="text"
+              placeholder={placeholder}
+              minRows={minRows}
             />
             <FormHelperText error={invalid}>{getError(data)}</FormHelperText>
           </FormControl>

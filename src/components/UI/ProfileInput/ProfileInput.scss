@@ -1,0 +1,70 @@
+.profileInputForm {
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(min-content, 212px) minmax(auto, 447px);
+  column-gap: 24px;
+
+  .profileInputLabel {
+    min-height: 22px;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 32px;
+  }
+
+  .profileInput {
+    input {
+      padding-top: 16px;
+      padding-bottom: 16px;
+    }
+  }
+
+  .profileDropdown {
+    border-radius: 4px;
+    min-height: 56px;
+    display: flex;
+    align-items: center;
+  }
+
+  .profileWrapperImage {
+    max-width: 330px;
+    height: 240px;
+    margin-bottom: 10px;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .profileWrapperButton {
+    max-width: 330px;
+    span {
+      width: 100%;
+    }
+    p {
+      font-size: 13px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 20px;
+    }
+  }
+
+  .profileImageHeading {
+    margin-bottom: 16px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+  }
+
+  .profileCaseImage {
+    max-width: 447px;
+    height: 325px;
+    margin-bottom: 10px;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .profileInputTags {
+    border-radius: 4px;
+    min-height: 56px;
+    display: flex;
+    align-items: center;
+  }
+}
