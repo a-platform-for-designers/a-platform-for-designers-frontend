@@ -1,4 +1,4 @@
-@keyframes scale {
+@keyframes scale-preloader {
   0% {
     transform: translate(-50%, -50%) scale(0.5);
   }
@@ -10,7 +10,7 @@
   }
 }
 
-@keyframes gradient {
+@keyframes gradient-preloader {
   0% {
     transform: translate(-50%, -50%) rotate(-10deg);
   }
@@ -65,11 +65,12 @@
         #0ea5ce 62%
       );
 
-      animation: gradient 11s cubic-bezier(0.84, -0.26, 0.16, 1.24) infinite;
+      animation: gradient-preloader 11s cubic-bezier(0.84, -0.26, 0.16, 1.24)
+        infinite;
 
       transform-origin: 50%;
     }
 
-    animation: scale 3s ease-in-out infinite;
+    animation: scale-preloader 3s ease-in-out infinite;
   }
 }
