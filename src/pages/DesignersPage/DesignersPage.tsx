@@ -1,7 +1,6 @@
-import { Box, Grid, StyledEngineProvider } from "@mui/material";
 import "./DesignersPage.scss";
-import DesignersCard from "../../components/DesignersCard/DesignersCard";
-import DesignerFilters from "../../components/DesignerFilters/DesignerFilters";
+import { Box, Grid, StyledEngineProvider } from "@mui/material";
+import { DesignerFilters, DesignersCard } from "./components";
 
 const DesignersPage: React.FC = () => {
   return (

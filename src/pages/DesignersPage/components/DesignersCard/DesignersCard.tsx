@@ -1,7 +1,7 @@
 import { Avatar, Box, Typography } from "@mui/material";
 import "./DesignersCard.scss";
-import MySwiper from "../UI/MySwiper/MySwiper";
-import MyButton from "../UI/MyButton/MyButton";
+import MySwiper from "../../../../components/UI/MySwiper/MySwiper";
+import MyButton from "../../../../components/UI/MyButton/MyButton";
 
 interface IProps {}
 
