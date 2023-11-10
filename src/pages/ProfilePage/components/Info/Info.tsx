@@ -11,6 +11,7 @@ import "./Info.scss";
 import React, { useState } from "react";
 import MyButton from "../../../../components/UI/MyButton/MyButton";
 import { SocialIndicator } from "..";
+import { getInitials } from "../../../../utils";
 
 const avatarStyles: SxProps<Theme> = {
   height: "212px",
@@ -23,7 +24,8 @@ const statusStyles: SxProps<Theme> = {
 };
 
 export interface IProfileData {
-  name: string;
+  first_name: string;
+  last_name: string;
   specialization: string;
   image?: string;
   country: string;
@@ -39,7 +41,8 @@ interface IInfoProps {
 
 const Info: React.FC<IInfoProps> = ({ data }) => {
   const {
-    name,
+    first_name,
+    last_name,
     specialization,
     image,
     country,
@@ -52,14 +55,9 @@ const Info: React.FC<IInfoProps> = ({ data }) => {
   const [likes, setLikes] = useState(1000);
   const [isLiked, setIsLiked] = useState(true);
 
-  const initials = name
-    .split(" ")
-    .map((word, idx) => {
-      if (idx > 1) return;
-      return word[0];
-    })
-    .join("")
-    .toUpperCase();
+  const name = `${first_name} ${last_name}`;
+
+  const initials = getInitials(name);
 
   return (
     <StyledEngineProvider injectFirst>

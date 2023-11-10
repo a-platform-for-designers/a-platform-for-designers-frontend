@@ -54,7 +54,8 @@ const profileNavPages: IProfileNavPage[] = [
 
 const ProfilePage: React.FC = () => {
   const profileData: IProfileData = {
-    name: "Ирина Петрова",
+    first_name: "Ирина",
+    last_name: "Петрова",
     specialization: "Графический дизайнер",
     image: profilePlaceholder,
     country: "Россия",
