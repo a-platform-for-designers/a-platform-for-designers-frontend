@@ -1,0 +1,57 @@
+.designersCard {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 24px;
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    max-width: 200px;
+  }
+
+  &__avatar {
+    margin-bottom: 24px;
+    width: 52px;
+    height: 52px;
+  }
+
+  &__name {
+    overflow: hidden;
+    color: var(--text-color-black);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 24px;
+    letter-spacing: 0.15px;
+    margin-bottom: 8px;
+  }
+
+  &__job {
+    overflow: hidden;
+    color: var(--text-color-black);
+    text-overflow: ellipsis;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: 0.1px;
+    margin-bottom: 8px;
+  }
+
+  &__country {
+    overflow: hidden;
+    color: var(--text-color-black);
+    text-overflow: ellipsis;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: 0.1px;
+  }
+
+  /*   &__avatar {
+  } */
+}

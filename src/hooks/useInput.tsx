@@ -12,7 +12,7 @@ function useInput(
 ) {
   const [value, setValue] = useState(initialValue || "");
   const [isDirty, setDirty] = useState(false);
-  const valid = useValidation(value || "", validations);
+  const error = useValidation(value || "", validations);
 
   const onChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -43,8 +43,10 @@ function useInput(
     isDirty,
     onSetValue,
     clear,
-    ...valid,
+    error,
   };
 }
+
+export type objFromUseInput = ReturnType<typeof useInput>;
 
 export default useInput;

@@ -1,6 +1,45 @@
 @import "normalize.css";
-@import url(../vendor/fonst.scss);
+/* @import url(../vendor/fonts.scss); */
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+
+:root {
+  --text-color-gray: #6b6b6b;
+  --text-color-white: #fff;
+  --text-color-black: #000;
+  --button-active-color: #6e41e2;
+  --button-disabled-color: #e3daf9;
+  --button-super-red: #c7302b;
+  --validation-error-color: #db524e;
+  --validation-light-error-color: #b3261e;
+
+  --font-size-small: 16px;
+  --font-size-medium: 22px;
+  --font-size-large: 32px;
+  --line-height-small: 24px;
+  --line-height-medium: 28px;
+  --line-height-large: 40px;
+}
+
+// Примеры
+@mixin small-text {
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+}
+
+@mixin meduim-text {
+  font-size: var(--font-size-medium);
+  line-height: var(--line-height-medium);
+}
+
+@mixin large-text {
+  font-size: var(--font-size-lrge);
+  line-height: var(--line-height-large);
+}
 
 .app {
-  font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
+  font-family: "Roboto", sans-serif;
 }

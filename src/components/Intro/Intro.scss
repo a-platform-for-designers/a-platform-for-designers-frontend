@@ -1,0 +1,66 @@
+.intro {
+  min-height: 551px;
+  padding: 128px 0 75px;
+
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 52px;
+  z-index: 1;
+
+  &__title {
+    max-width: 1000px;
+    text-align: center;
+    font-family: inherit;
+    font-size: 56px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 64px;
+    letter-spacing: 0px;
+
+    &-accent {
+      font-size: inherit;
+      line-height: inherit;
+
+      &_type_bold {
+        font-weight: 900;
+      }
+
+      &_type_italic {
+        font-style: italic;
+      }
+    }
+  }
+}
+
+.intro::after {
+  content: "";
+  position: absolute;
+  width: 400%;
+  height: 400%;
+  z-index: -1;
+  background: linear-gradient(
+    -90deg,
+    #4b40a7 37%,
+    #7b77e9 45%,
+    #4e8dff 50%,
+    #19afdc 55%,
+    #0ea5ce 62%
+  );
+  animation: gradient 11s cubic-bezier(0.84, -0.26, 0.16, 1.24) infinite;
+
+  @keyframes gradient {
+    0% {
+      transform: rotate(-10deg);
+    }
+    50% {
+      transform: rotate(190deg);
+    }
+    100% {
+      transform: rotate(-10deg);
+    }
+  }
+}

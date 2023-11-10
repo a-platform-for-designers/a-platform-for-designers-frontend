@@ -1,50 +1,47 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import MyButton from "../components/UI/MyButton/MyButton";
+import "../components/UI/MyButton/MyButton.scss";
 
-import { Button } from "./Button";
-
-// More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta = {
-  title: "Example/Button",
-  component: Button,
+  title: "UI/Button",
+  component: MyButton,
   parameters: {
-    // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/react/configure/story-layout
     layout: "centered",
   },
-  // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/react/writing-docs/autodocs
   tags: ["autodocs"],
-  // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
-  argTypes: {
-    backgroundColor: { control: "color" },
-  },
-} satisfies Meta<typeof Button>;
+  argTypes: {},
+} satisfies Meta<typeof MyButton>;
 
 export default meta;
+
 type Story = StoryObj<typeof meta>;
 
-// More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
-export const Primary: Story = {
+export const Text: Story = {
   args: {
-    primary: true,
     label: "Button",
+    variant: "text",
   },
 };
 
-export const Secondary: Story = {
+export const TextDisabled: Story = {
   args: {
     label: "Button",
+    variant: "text",
+    disabled: true,
   },
 };
 
-export const Large: Story = {
+export const Contained: Story = {
   args: {
-    size: "large",
     label: "Button",
+    variant: "contained",
   },
 };
 
-export const Small: Story = {
+export const ContainedDisabled: Story = {
   args: {
-    size: "small",
     label: "Button",
+    variant: "contained",
+    disabled: true,
   },
 };

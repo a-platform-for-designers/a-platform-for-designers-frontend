@@ -6,20 +6,22 @@ export interface IValidation {
   maxLength?: number;
   isEmail?: boolean;
   isName?: boolean;
+  isPhone?: boolean;
 }
 
 function useValidation(value: string, validations: IValidation) {
-  const [EmptyError, setEmptyError] = useState("");
+  const [emptyError, setEmptyError] = useState("");
   const [minLengthError, setMinLengthError] = useState("");
   const [maxLengthError, setMaxLengthError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [nameError, setNameError] = useState("");
-  const [inputValid, setInputValid] = useState(false);
+  const [phoneError, setPhoneError] = useState("");
 
   useEffect(() => {
     const emailPattern =
       /^(([^аА-яЯ<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const namePattern = /^[a-zA-Zа-яА-ЯёЁ\s-]+$/;
+    const phonePattern = /^\+\d{9,11}$/;
 
     for (const validation in validations) {
       switch (validation) {
@@ -61,34 +63,27 @@ function useValidation(value: string, validations: IValidation) {
             : setNameError("Используйте латиницу, кириллицу, пробел или дефис");
           break;
 
+        case "isPhone":
+          phonePattern.test(String(value).toLowerCase())
+            ? setPhoneError("")
+            : setPhoneError("Поле содержит недопустимые символы");
+          break;
+
         default:
           break;
       }
     }
   }, [validations, value]);
 
-  useEffect(() => {
-    if (
-      EmptyError ||
-      minLengthError ||
-      maxLengthError ||
-      emailError ||
-      nameError
-    ) {
-      setInputValid(false);
-    } else {
-      setInputValid(true);
-    }
-  }, [EmptyError, minLengthError, maxLengthError, emailError, nameError]);
+  const error =
+    emptyError ||
+    minLengthError ||
+    maxLengthError ||
+    emailError ||
+    nameError ||
+    phoneError;
 
-  return {
-    EmptyError,
-    minLengthError,
-    maxLengthError,
-    emailError,
-    nameError,
-    inputValid,
-  };
+  return error;
 }
 
 export default useValidation;
