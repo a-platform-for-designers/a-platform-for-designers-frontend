@@ -1,4 +1,8 @@
 .designerFilters {
+  position: sticky;
+  top: 84px;
+  z-index: 100;
+
   &__title {
     color: var(--colors-black);
     font-family: Roboto;
@@ -51,6 +55,7 @@
     font-weight: 500;
     line-height: 20px;
     letter-spacing: 0.1px;
+    justify-content: flex-start;
 
     &:hover {
       color: var(--validation-error-color);

@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import "./ProfileNav.scss";
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export interface IProfileNavPage {
   title: string;
@@ -33,22 +33,16 @@ const buttonActiveStyles: SxProps<Theme> = {
 
 interface IProfileNavProps {
   pages: IProfileNavPage[];
-  activeProfileNavPage: IProfileNavPage;
-  setActiveProfileNavPage?: React.Dispatch<
-    React.SetStateAction<IProfileNavPage>
-  >;
 }
 
-const ProfileNav: React.FC<IProfileNavProps> = ({
-  pages,
-  activeProfileNavPage,
-}) => {
+const ProfileNav: React.FC<IProfileNavProps> = ({ pages }) => {
   const navigate = useNavigate();
 
   const handleClick: (page: IProfileNavPage) => void = (page) => {
-    //setActiveProfileNavPage(page);
     navigate(`./${page.link}`);
   };
+
+  const { pathname } = useLocation();
 
   return (
     <StyledEngineProvider injectFirst>
@@ -61,7 +55,7 @@ const ProfileNav: React.FC<IProfileNavProps> = ({
             sx={{
               width: `${100 / pages.length}%`,
               ...buttonStyles,
-              ...(activeProfileNavPage.title === page.title
+              ...(pathname.split("/").includes(page.link)
                 ? buttonActiveStyles
                 : {}),
             }}

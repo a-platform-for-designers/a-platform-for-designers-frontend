@@ -40,6 +40,11 @@ const text = {
   dark: { primary: "#fff", secondary: "#000" },
 };
 
+const gray = {
+  light: { main: "#6B6B6B" },
+  dark: { main: "#6B6B6B" },
+};
+
 const palette: PaletteOptions = {
   primary: primary.light,
   secondary: secondary.light,
@@ -51,6 +56,7 @@ const palette: PaletteOptions = {
     disabledBackground: "#e3e3e3",
   },
   background: background.light,
+  info: gray.light,
 };
 
 export const lightPalette: PaletteOptions = {

@@ -7,7 +7,7 @@ interface IMyButtonProps {
   variant?: "text" | "contained" | "outlined" | "tag";
   onClick?: React.MouseEventHandler;
   size?: "small" | "medium" | "large";
-  color?: "primary" | "secondary";
+  color?: "primary" | "secondary" | "error";
   disabled?: boolean;
   active?: boolean;
   inverted?: boolean;

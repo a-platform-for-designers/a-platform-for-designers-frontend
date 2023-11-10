@@ -35,6 +35,7 @@ const DesignerFilters: React.FC = () => {
     _: SyntheticEvent<Element, Event>,
     newValue: string[]
   ) {
+    if (newValue.length > 5) return;
     setSkills(newValue);
   }
 
@@ -42,6 +43,7 @@ const DesignerFilters: React.FC = () => {
     _: SyntheticEvent<Element, Event>,
     newValue: string[]
   ) {
+    if (newValue.length > 5) return;
     setTools(newValue);
   }
 
@@ -61,6 +63,18 @@ const DesignerFilters: React.FC = () => {
 
   return (
     <div className="designerFilters">
+      <div className="designerFilters__container">
+        <MyButton
+          onClick={handleClearFilters}
+          disabled={false}
+          className="designerFilters__button"
+          type="button"
+          label="Сбросить фильтры"
+          variant="text"
+          startIcon={<CloseIcon />}
+        />
+      </div>
+
       <div className="designerFilters__container">
         <h2 className="designerFilters__title">Специализация</h2>
         {specialityOptipons.map((item, i) => {
@@ -126,18 +140,6 @@ const DesignerFilters: React.FC = () => {
           className="designerFilters__dropdown"
           variant="multiple"
         />
-      </div>
-
-      <div className="designerFilters__container designerFilters__container_type_bottom">
-        <MyButton
-          onClick={handleClearFilters}
-          disabled={false}
-          className="designerFilters__button"
-          type="button"
-          label="Сбросить фильтры"
-          variant="text"
-          startIcon={<CloseIcon />}
-        ></MyButton>
       </div>
     </div>
   );

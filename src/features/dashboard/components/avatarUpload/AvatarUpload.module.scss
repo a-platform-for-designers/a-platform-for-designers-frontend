@@ -1,0 +1,15 @@
+.avatar_upload {
+  &__image {
+    width: 212px;
+    height: 212px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+}

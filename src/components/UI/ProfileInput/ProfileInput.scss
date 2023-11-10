@@ -1,0 +1,95 @@
+.profileInput {
+  &__btn {
+    &_type_del {
+      margin: 0 0 20px 0;
+      justify-items: end;
+      display: flex;
+      justify-content: end;
+      color: var(--validation-light-error-color);
+
+      &:hover {
+        color: var(--validation-error-color);
+      }
+    }
+  }
+
+  &__case_image_wrapper {
+    text-align: end;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: end;
+  }
+}
+
+.profileInputForm {
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(min-content, 212px) minmax(auto, 447px);
+  column-gap: 24px;
+
+  .profileInputLabel {
+    min-height: 22px;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 32px;
+  }
+
+  .profileInput {
+    input {
+      padding-top: 16px;
+      padding-bottom: 16px;
+    }
+  }
+
+  .profileDropdown {
+    border-radius: 4px;
+    min-height: 56px;
+    display: flex;
+    align-items: center;
+  }
+
+  .profileWrapperImage {
+    width: 330px;
+    height: 240px;
+    margin-bottom: 10px;
+    border-radius: 12px;
+    overflow: hidden;
+    object-fit: cover;
+  }
+
+  .profileWrapperButton {
+    max-width: 330px;
+    span {
+      width: 100%;
+    }
+    p {
+      font-size: 13px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 20px;
+    }
+  }
+
+  .profileImageHeading {
+    margin-bottom: 16px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+  }
+
+  .profileCaseImage {
+    width: 447px;
+    height: 325px;
+    object-fit: cover;
+    margin-bottom: 10px;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .profileInputTags {
+    border-radius: 4px;
+    min-height: 56px;
+    display: flex;
+    align-items: center;
+  }
+}

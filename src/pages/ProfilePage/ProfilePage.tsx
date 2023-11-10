@@ -2,8 +2,7 @@ import { Container, StyledEngineProvider } from "@mui/material";
 import "./ProfilePage.scss";
 
 import profilePlaceholder from "../../assets/images/designerscarousel-avatar.png";
-import { Route, Routes, useLocation, Navigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { Route, Routes, Navigate } from "react-router-dom";
 
 import { IProfileDesigner, IResume } from "../../types";
 import { Info, ProfileNav, Portfolio, Work, Profile } from "./components";
@@ -42,23 +41,18 @@ const profilePlaceHolder: IProfileDesigner = {
 const profileNavPages: IProfileNavPage[] = [
   {
     title: "Портфолио",
-    link: "portfolio",
+    link: `portfolio`,
     element: <Portfolio data={[...new Array(8)]} />,
   },
-  { title: "Работа", link: "work", element: <Work {...workPlaceHolder} /> },
+  { title: "Работа", link: `work`, element: <Work {...workPlaceHolder} /> },
   {
     title: "Профиль",
-    link: "file",
+    link: `file`,
     element: <Profile {...profilePlaceHolder} />,
   },
 ];
 
 const ProfilePage: React.FC = () => {
-  const location = useLocation();
-
-  const [activeProfileNavPage, setActiveProfileNavPage] =
-    useState<IProfileNavPage>(profileNavPages[0]);
-
   const profileData: IProfileData = {
     first_name: "Ирина",
     last_name: "Петрова",
@@ -71,30 +65,11 @@ const ProfilePage: React.FC = () => {
     followers: 98,
   };
 
-  useEffect(() => {
-    const pathnameArray = location.pathname.split("/");
-    const endpoint = pathnameArray[pathnameArray.length - 1];
-
-    if (!endpoint) {
-      setActiveProfileNavPage(profileNavPages[0]);
-    } else {
-      const activePage = profileNavPages.find((page) => page.link === endpoint);
-
-      if (activePage) {
-        setActiveProfileNavPage(activePage);
-      }
-    }
-  }, [location.pathname]);
-
   return (
     <StyledEngineProvider injectFirst>
       <Container component="section" className="profilePage">
         <Info data={profileData} />
-        <ProfileNav
-          pages={profileNavPages}
-          activeProfileNavPage={activeProfileNavPage}
-          setActiveProfileNavPage={setActiveProfileNavPage}
-        />
+        <ProfileNav pages={profileNavPages} />
         <Routes>
           <Route path="/">
             <Route
