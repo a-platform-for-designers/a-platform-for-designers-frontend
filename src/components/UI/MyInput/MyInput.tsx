@@ -1,4 +1,5 @@
 import {
+  Box,
   FilledInput,
   FormControl,
   FormHelperText,
@@ -188,7 +189,9 @@ const MyInput: React.FC<IMyInputProps> = ({
             <Typography textAlign={"right"} className="myInput__input_length">
               {`${data.value.length}/${maxLength as number}`}
             </Typography>
-            <FormHelperText error={invalid}>{getError(data)}</FormHelperText>
+            <Box className="myInput__textarea_error_wrapper">
+              <FormHelperText error={invalid}>{getError(data)}</FormHelperText>
+            </Box>
           </FormControl>
         </StyledEngineProvider>
       );

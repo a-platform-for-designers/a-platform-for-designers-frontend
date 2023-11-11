@@ -12,6 +12,7 @@ import WorkCategories, {
 } from "../WorkCategories/WorkCategories";
 import { useState } from "react";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 // нужно определиться, какие данные приходят от бэка и что принимает MySwiper!!!
 export interface IFeedData {}
@@ -47,6 +48,13 @@ const Feed: React.FC<IFeedProps> = ({ data }) => {
     following: false,
   };
 
+  const navigate = useNavigate();
+
+  const id = 1; //! Поменять на входящий
+  function handleClickCase() {
+    navigate(`/case/${id}`);
+  }
+
   const [workCategoryState, setWorkCategoryState] =
     useState<IActiveWorkCategoryState>(initialState);
 
@@ -66,8 +74,8 @@ const Feed: React.FC<IFeedProps> = ({ data }) => {
           setWorkCategoryState={setWorkCategoryState}
         />
         <Grid className="feed__list" justifyContent="center" container>
-          {data.map((item, idx) => (
-            <MySwiper key={idx} />
+          {data.map((_, idx) => (
+            <MySwiper key={idx} onClick={handleClickCase} />
           ))}
         </Grid>
       </Container>

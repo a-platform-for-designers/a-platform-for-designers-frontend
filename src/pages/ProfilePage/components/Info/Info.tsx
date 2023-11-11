@@ -11,6 +11,7 @@ import "./Info.scss";
 import React, { useState } from "react";
 import { InfoAction, SocialIndicator } from "..";
 import { getInitials } from "../../../../utils";
+import { useNavigate } from "react-router-dom";
 
 const avatarStyles: SxProps<Theme> = {
   height: "212px",
@@ -54,6 +55,7 @@ const Info: React.FC<IInfoProps> = ({ data }) => {
   const [likes, setLikes] = useState(1000);
   const [isLiked, setIsLiked] = useState(true);
   const [isCurrentUser, setIsCurrentUser] = useState(true);
+  const navigate = useNavigate();
 
   const name = `${first_name} ${last_name}`;
 
@@ -108,9 +110,7 @@ const Info: React.FC<IInfoProps> = ({ data }) => {
               isCurrentUser={isCurrentUser}
               ifTrue={{
                 label: "Редактировать профиль",
-                onClick: () => {
-                  setIsCurrentUser(!isCurrentUser);
-                },
+                onClick: () => navigate("/dashboard"),
               }}
               ifFalse={{
                 label: "Написать",

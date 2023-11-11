@@ -24,6 +24,11 @@
     }
   }
 
+  &__textarea_error_wrapper {
+    position: absolute;
+    bottom: -30px;
+  }
+
   &__container {
     margin-bottom: 8px;
     height: 56px;
@@ -48,8 +53,8 @@
         0 4px 16px rgba(255, 195, 195, 0.04);
     }
 
-    div {
-      background-color: inherit !important;
+    & .MuiInputBase-root {
+      background-color: inherit;
     }
 
     fieldset {

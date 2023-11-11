@@ -3,6 +3,7 @@ import "./Portfolio.scss";
 import React from "react";
 import MySwiper from "../../../../components/UI/MySwiper/MySwiper";
 import { EmptyData } from "..";
+import { useNavigate } from "react-router-dom";
 
 interface IPortfolioData {}
 
@@ -11,6 +12,8 @@ interface IPortfolioProps {
 }
 
 const Portfolio: React.FC<IPortfolioProps> = ({ data }) => {
+  const navigate = useNavigate();
+
   if (!data.length) {
     return <EmptyData title="У дизайнера пока нет проектов" />;
   }
@@ -18,8 +21,8 @@ const Portfolio: React.FC<IPortfolioProps> = ({ data }) => {
   return (
     <StyledEngineProvider injectFirst>
       <Grid className="portfolio" justifyContent="center" container>
-        {data.map((item, idx) => (
-          <MySwiper key={idx} />
+        {data.map((_, idx) => (
+          <MySwiper key={idx} onClick={() => navigate("/case/1")} />
         ))}
       </Grid>
     </StyledEngineProvider>

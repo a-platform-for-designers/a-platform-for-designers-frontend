@@ -6,6 +6,7 @@ import MyInput from "@/components/UI/MyInput/MyInput";
 import MyButton from "@/components/UI/MyButton/MyButton";
 import useInput from "@/hooks/useInput";
 import AvatarUpload from "../avatarUpload/AvatarUpload";
+import { LISTS } from "@/utils/constants";
 
 const Profile: React.FC = () => {
   const [specialization, setSpecialization] = useState<string | null>(null);
@@ -82,7 +83,7 @@ const Profile: React.FC = () => {
                 className={classes.profile__myDrowDown}
                 value={specialization}
                 onChange={handleSetSpecialization}
-                options={[]}
+                options={LISTS.LIST_SPECIALITY}
               />
             </FormControl>
 
@@ -94,7 +95,7 @@ const Profile: React.FC = () => {
                 className={classes.profile__myDrowDown}
                 value={country}
                 onChange={handleSetCountry}
-                options={[]}
+                options={LISTS.LIST_COUNTRIES}
               />
             </FormControl>
           </div>
@@ -118,7 +119,7 @@ const Profile: React.FC = () => {
               className={classes.profile__myDrowDown}
               variant="multiple"
               value={languages}
-              options={[]}
+              options={LISTS.LIST_LANGUAGES}
               onChange={handleSetLanguages}
             />
           </div>

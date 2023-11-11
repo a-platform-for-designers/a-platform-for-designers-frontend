@@ -10,11 +10,16 @@ import Favourites from "../../../assets/icons/Favourites.svg";
 import Likes from "../../../assets/icons/Likes.svg";
 import { IconButton } from "@mui/material";
 
-const MySwiper: React.FC = () => {
+interface IProps {
+  onClick: () => void;
+}
+
+const MySwiper: React.FC<IProps> = ({ onClick }) => {
   const images = [
     "https://scientificrussia.ru/images/b/teb-full.jpg",
     "https://fond-vsem-mirom.ru/wp-content/uploads/2020/06/gk_zdhbg784.jpg",
     "https://oir.mobi/uploads/posts/2022-09/1662133482_1-oir-mobi-p-britanskaya-pryamoukhaya-koshka-krasivo-1.jpg",
+    "https://koshka.top/uploads/posts/2021-12/1638880950_1-koshka-top-p-britanskaya-golubaya-visloukhaya-1.jpg",
   ];
 
   const sliders = images.map((image, index) => {
@@ -34,6 +39,7 @@ const MySwiper: React.FC = () => {
         pagination={false}
         parallax={false}
         className="mySwiper"
+        onClick={onClick}
       >
         <div className="mySwiper__lower-part">
           <h2 className="mySwiper__heading">

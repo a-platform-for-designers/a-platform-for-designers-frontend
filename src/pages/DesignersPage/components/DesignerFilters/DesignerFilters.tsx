@@ -13,6 +13,7 @@ import {
   TOOLS_TITLE,
   FILTER_OPTIONS,
 } from "../../model/constants";
+import { LISTS } from "@/utils/constants";
 
 const DesignerFilters: React.FC = () => {
   const [speciality, setSpeciality] = useState<string[]>([]);
@@ -121,7 +122,7 @@ const DesignerFilters: React.FC = () => {
       <div className="designerFilters__container">
         <h2 className="designerFilters__title">{SKILLS_TITLE}</h2>
         <MyDropDown
-          options={FILTER_OPTIONS.skillsOptions}
+          options={LISTS.LIST_SKILLS}
           value={skills}
           onChange={handleSetSkills}
           className="designerFilters__dropdown"
@@ -132,7 +133,7 @@ const DesignerFilters: React.FC = () => {
       <div className="designerFilters__container">
         <h2 className="designerFilters__title">{TOOLS_TITLE}</h2>
         <MyDropDown
-          options={FILTER_OPTIONS.toolsOptions}
+          options={LISTS.LIST_TOOLS}
           value={tools}
           onChange={handleSetTools}
           className="designerFilters__dropdown"

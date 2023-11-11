@@ -8,20 +8,21 @@ import ProfilePage from "./pages/ProfilePage/ProfilePage";
 import ErrorPage from "./pages/ErrorPage/ErrorPage";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import DesignersPage from "./pages/DesignersPage/DesignersPage";
-import Dashboard from "./features/dashboard/Dashboard.tsx";
-import {
-  Profile,
-  Portfolio,
-  Orders,
-  Work,
-  Settings,
-  CaseCreation,
-} from "./features/dashboard/components/index.ts";
+import Dashboard from "./pages/DashboardPage/Dashboard.tsx";
+
 import { Navigate } from "react-router-dom";
 import Header from "./components/Header/Header.tsx";
 import Footer from "./components/Footer/Footer.tsx";
 import { SnackbarProvider } from "notistack";
 import CasePage from "./pages/CasePage/CasePage.tsx";
+import {
+  Portfolio,
+  Profile,
+  CaseCreation,
+  Work,
+  Orders,
+  Settings,
+} from "./pages/DashboardPage/components";
 function App() {
   return (
     <ThemeProvider theme={lightTheme}>

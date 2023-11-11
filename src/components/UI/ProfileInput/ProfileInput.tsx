@@ -10,9 +10,9 @@ import MyDropDown, {
   TOnChangeMylty,
   TOnChangeSingle,
 } from "../MyDropDown/MyDropDown";
-import ButtonUploadImg from "@/features/dashboard/components/buttonUploadImg/ButtonUploadImg";
+import ButtonUploadImg from "@/pages/DashboardPage/components/buttonUploadImg/ButtonUploadImg";
+import { IProfileInputProps } from "@/pages/DashboardPage/model/types";
 import { useState } from "react";
-import { IProfileInputProps } from "@/features/dashboard/model/types";
 import MyButton from "../MyButton/MyButton";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { enqueueSnackbar } from "notistack";

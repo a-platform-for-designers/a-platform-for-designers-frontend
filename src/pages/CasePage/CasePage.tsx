@@ -42,19 +42,19 @@ const casePlaceholder: ICase = {
   images: [
     {
       id: 1,
-      src: "https://w3layouts.com/wp-content/uploads/2015/10/misal.jpg",
+      src: "https://scientificrussia.ru/images/b/teb-full.jpg",
     },
     {
       id: 2,
-      src: "https://assets.website-files.com/62c5836076839ad95e36215d/647de080c579ff6909b927e8_Fjm_lk4VsAE1STW.jpg",
+      src: "https://fond-vsem-mirom.ru/wp-content/uploads/2020/06/gk_zdhbg784.jpg",
     },
     {
       id: 3,
-      src: "https://mir-s3-cdn-cf.behance.net/projects/original/fbe6f858048473.Y3JvcCwxMzA1LDEwMjEsMzEwLDA.png",
+      src: "https://oir.mobi/uploads/posts/2022-09/1662133482_1-oir-mobi-p-britanskaya-pryamoukhaya-koshka-krasivo-1.jpg",
     },
     {
       id: 4,
-      src: "https://sun9-16.userapi.com/impf/JriVWQBPQBkc-_t79xr3kInESPirBxWzPX5xyA/udUUT5QY7Ww.jpg?size=320x228&quality=96&sign=65925dbca0c14aa6bf04db411409a19a&c_uniq_tag=6kFduF8FPH7vNc4aKrIlfa6U9i6-36BIhIgtrDfOJng&type=album",
+      src: "https://koshka.top/uploads/posts/2021-12/1638880950_1-koshka-top-p-britanskaya-golubaya-visloukhaya-1.jpg",
     },
   ],
 };
