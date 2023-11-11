@@ -7,8 +7,8 @@ import { SigninText } from "../../utils/constants";
 import { enqueueSnackbar } from "notistack";
 
 interface ISignInProps {
-  openSignUpPopup?: () => void;
-  onClose?: () => void;
+  openSignUpPopup: () => void;
+  onClose: () => void;
 }
 
 const SignIn: FC<ISignInProps> = ({ openSignUpPopup, onClose }) => {
@@ -41,6 +41,7 @@ const SignIn: FC<ISignInProps> = ({ openSignUpPopup, onClose }) => {
       email,
     };
     console.log(values);
+
     onClose();
   }
 

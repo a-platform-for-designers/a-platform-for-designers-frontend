@@ -30,6 +30,7 @@ const Header: React.FC = () => {
   const [isOpenSignIn, setIsOpenSignIn] = useState<boolean>(false);
   const [isOpenSignUp, setIsOpenSignUp] = useState<boolean>(false);
   const [isRoleSelected, setIsRoleSelected] = useState<boolean>(false);
+  const myId = 1;
 
   const navigate = useNavigate();
 
@@ -134,6 +135,7 @@ const Header: React.FC = () => {
                     className="header__avatar"
                     alt="avatar"
                     src="https://www.iguides.ru/upload/medialibrary/74f/zwzgzu9t64a91p80nooe639e3bvgi18e.jpg"
+                    onClick={() => navigate(`/profile/${myId}`)}
                   />
                 </List>
               ) : (
