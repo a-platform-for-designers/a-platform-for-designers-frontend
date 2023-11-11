@@ -41,18 +41,20 @@ const Header: React.FC = () => {
     setIsAuth(!isAuth);
   }
 
-  function openSignInPopup() {
-    setIsOpenSignIn(true);
-  }
-
-  function openSignUpPopup() {
-    setIsOpenSignUp(true);
-  }
-
   function handleClose() {
     setIsOpenSignIn(false);
     setIsOpenSignUp(false);
     setIsRoleSelected(false);
+  }
+
+  function openSignInPopup() {
+    handleClose();
+    setIsOpenSignIn(true);
+  }
+
+  function openSignUpPopup() {
+    handleClose();
+    setIsOpenSignUp(true);
   }
 
   return (
@@ -172,7 +174,7 @@ const Header: React.FC = () => {
 
       <MyPopup onClose={handleClose} open={isOpenSignIn}>
         <MyAuthForm title="Вход">
-          <SignIn />
+          <SignIn openSignUpPopup={openSignUpPopup} onClose={handleClose} />
         </MyAuthForm>
       </MyPopup>
       <MyPopup onClose={handleClose} open={isOpenSignUp}>
@@ -180,7 +182,7 @@ const Header: React.FC = () => {
           <UserRole onClick={chooseRole} />
         ) : (
           <MyAuthForm title="Регистрация">
-            <SignUp />
+            <SignUp openSignInPopup={openSignInPopup} onClose={handleClose} />
           </MyAuthForm>
         )}
       </MyPopup>

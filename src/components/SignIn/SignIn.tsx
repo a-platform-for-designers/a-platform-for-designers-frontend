@@ -4,9 +4,14 @@ import useInput from "../../hooks/useInput";
 import MyInput from "../UI/MyInput/MyInput";
 import MyButton from "../UI/MyButton/MyButton";
 import { SigninText } from "../../utils/constants";
+import { enqueueSnackbar } from "notistack";
 
-const SignIn: FC = () => {
-  //TODO let isAuth = false;
+interface ISignInProps {
+  openSignUpPopup?: () => void;
+  onClose?: () => void;
+}
+
+const SignIn: FC<ISignInProps> = ({ openSignUpPopup, onClose }) => {
   const [error] = useState("");
 
   const email = useInput(
@@ -26,8 +31,21 @@ const SignIn: FC = () => {
     maxLength: 32,
   });
 
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    enqueueSnackbar({
+      variant: "success",
+      message: "Вы успешно вошли",
+    });
+    const values = {
+      email,
+    };
+    console.log(values);
+    onClose();
+  }
+
   return (
-    <>
+    <form className="myAuthForm__signin-form" onSubmit={handleSubmit}>
       <MyInput data={email} label="E-mail" />
       <MyInput data={password} label="Password" variant="password" />
 
@@ -44,18 +62,17 @@ const SignIn: FC = () => {
           className="myAuthForm__button"
           label="Войти"
           type="submit"
-          onClick={() => {
-            console.log("Yes!");
-          }}
           disabled={!!email.error || !!password.error || Boolean(error)}
         />
 
         <p className="myAuthForm__question">
           {SigninText.isRegistredText}
-          <span className="myAuthForm__login-btn">{SigninText.linkText}</span>
+          <span className="myAuthForm__login-btn" onClick={openSignUpPopup}>
+            {SigninText.linkText}
+          </span>
         </p>
       </div>
-    </>
+    </form>
   );
 };
 
