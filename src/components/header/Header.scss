@@ -18,17 +18,20 @@
     justify-content: space-between;
     position: relative;
     max-width: 1440px;
-    height: 64px;
+    height: 100%;
     margin: 0 auto;
   }
 
   &__toolbar {
     display: flex;
     justify-content: space-between;
+    max-width: 831px;
+    height: 100%;
   }
 
   &__logo {
     background: url(../../assets/icons/Logo.svg) center no-repeat;
+    background-size: contain;
     cursor: pointer;
     width: 130px;
     height: 20px;
@@ -44,7 +47,6 @@
 
   &__search-form {
     height: 44px;
-    max-width: 360px;
     margin: 10px 56px 10px 80px;
 
     .MuiInputBase-formControl {
@@ -95,16 +97,16 @@
     display: flex;
     justify-content: space-between;
     gap: 32px;
-    &:hover {
-      color: #21005d;
-      cursor: pointer;
-    }
   }
-
+  
   &__link {
     margin: 0;
     padding: 0;
     gap: 4px;
+    &:hover {
+      color: #21005d;
+      cursor: pointer;
+    }
   }
 
   &__list-icon {

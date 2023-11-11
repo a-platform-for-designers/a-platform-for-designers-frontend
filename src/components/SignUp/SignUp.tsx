@@ -5,9 +5,14 @@ import MyInput from "../UI/MyInput/MyInput";
 import MyButton from "../UI/MyButton/MyButton";
 import MyCheckBox from "../UI/MyCheckBox/MyCheckBox";
 import { SignupText } from "../../utils/constants";
+import { enqueueSnackbar } from "notistack";
 
-const SignUp: FC = () => {
-  //TODO let isAuth = false; - Заготовка под авторизацию пользователей
+interface ISignUpProps {
+  openSignInPopup: () => void;
+  onClose: () => void;
+}
+
+const SignUp: FC<ISignUpProps> = ({ openSignInPopup, onClose }) => {
   const [error] = useState("");
   const [confirmPrivatePolicy, setConfirmPrivatePolicy] =
     useState<boolean>(false);
@@ -57,8 +62,24 @@ const SignUp: FC = () => {
     isEmpty: true,
   });
 
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    enqueueSnackbar({
+      variant: "success",
+      message: "Вы успешно зарегистрировались",
+    });
+    const values = {
+      firstName,
+      secondName,
+      email,
+    };
+    console.log(values);
+
+    onClose();
+  }
+
   return (
-    <>
+    <form className="myAuthForm__signup-form" onSubmit={handleSubmit}>
       <MyInput data={firstName} label="Имя" />
       <MyInput data={secondName} label="Фамилия" />
       <MyInput data={email} label="E-mail" />
@@ -119,9 +140,6 @@ const SignUp: FC = () => {
           className="myAuthForm__button"
           label="Зарегистрироваться"
           type="submit"
-          onClick={() => {
-            console.log("Yes!");
-          }}
           disabled={
             !!email.error ||
             !!password.error ||
@@ -136,10 +154,12 @@ const SignUp: FC = () => {
 
         <p className="myAuthForm__question">
           {SignupText.isLoggedInText}
-          <span className="myAuthForm__login-btn">{SignupText.linkText}</span>
+          <span className="myAuthForm__login-btn" onClick={openSignInPopup}>
+            {SignupText.linkText}
+          </span>
         </p>
       </div>
-    </>
+    </form>
   );
 };
 

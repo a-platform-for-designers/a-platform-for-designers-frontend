@@ -30,6 +30,7 @@ const Header: React.FC = () => {
   const [isOpenSignIn, setIsOpenSignIn] = useState<boolean>(false);
   const [isOpenSignUp, setIsOpenSignUp] = useState<boolean>(false);
   const [isRoleSelected, setIsRoleSelected] = useState<boolean>(false);
+  const myId = 1;
 
   const navigate = useNavigate();
 
@@ -41,18 +42,20 @@ const Header: React.FC = () => {
     setIsAuth(!isAuth);
   }
 
-  function openSignInPopup() {
-    setIsOpenSignIn(true);
-  }
-
-  function openSignUpPopup() {
-    setIsOpenSignUp(true);
-  }
-
   function handleClose() {
     setIsOpenSignIn(false);
     setIsOpenSignUp(false);
     setIsRoleSelected(false);
+  }
+
+  function openSignInPopup() {
+    handleClose();
+    setIsOpenSignIn(true);
+  }
+
+  function openSignUpPopup() {
+    handleClose();
+    setIsOpenSignUp(true);
   }
 
   return (
@@ -132,6 +135,7 @@ const Header: React.FC = () => {
                     className="header__avatar"
                     alt="avatar"
                     src="https://www.iguides.ru/upload/medialibrary/74f/zwzgzu9t64a91p80nooe639e3bvgi18e.jpg"
+                    onClick={() => navigate(`/profile/${myId}`)}
                   />
                 </List>
               ) : (
@@ -172,7 +176,7 @@ const Header: React.FC = () => {
 
       <MyPopup onClose={handleClose} open={isOpenSignIn}>
         <MyAuthForm title="Вход">
-          <SignIn />
+          <SignIn openSignUpPopup={openSignUpPopup} onClose={handleClose} />
         </MyAuthForm>
       </MyPopup>
       <MyPopup onClose={handleClose} open={isOpenSignUp}>
@@ -180,7 +184,7 @@ const Header: React.FC = () => {
           <UserRole onClick={chooseRole} />
         ) : (
           <MyAuthForm title="Регистрация">
-            <SignUp />
+            <SignUp openSignInPopup={openSignInPopup} onClose={handleClose} />
           </MyAuthForm>
         )}
       </MyPopup>
