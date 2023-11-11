@@ -32,8 +32,8 @@ const DesignersCard: React.FC<IProps> = () => {
           ></MyButton>
         </div>
       </div>
-      <MySwiper key={"asdasd11"} />
-      <MySwiper key={"asdasd123"} />
+      <MySwiper />
+      <MySwiper />
     </Box>
   );
 };
