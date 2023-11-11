@@ -1,34 +1,32 @@
 import { SyntheticEvent, useState } from "react";
-import MyCheckBox from "../UI/MyCheckBox/MyCheckBox";
+import MyCheckBox from "../../../../components/UI/MyCheckBox/MyCheckBox";
 import "./DesignerFilters.scss";
 import { FormControlLabel, Radio, RadioGroup } from "@mui/material";
-import MyDropDown from "../UI/MyDropDown/MyDropDown";
+import MyDropDown from "../../../../components/UI/MyDropDown/MyDropDown";
 import CloseIcon from "@mui/icons-material/Close";
-import MyButton from "../UI/MyButton/MyButton";
+import MyButton from "../../../../components/UI/MyButton/MyButton";
+import {
+  DESIGNER_FILTERS_CLEAR_BTN_LABEL,
+  READY_FOR_JOB_TITLE,
+  SKILLS_TITLE,
+  SPECIALIZATION_TITLE,
+  TOOLS_TITLE,
+  FILTER_OPTIONS,
+} from "../../model/constants";
 
 const DesignerFilters: React.FC = () => {
-  const toolsOptions = ["3D-анимация", "Афиши", "Брендбук", "Иконки"];
-  const readyForJobOptions = ["Все", "Ищут заказы", "Не ищут заказы"];
-  const skillsOptions = ["3D-анимация", "Афиши", "Брендбук", "Иконки"];
-  const specialityOptipons = [
-    "Графические дизайнеры",
-    "Иллюстраторы",
-    "3D визуализаторы",
-    "Веб дизайнеры",
-  ];
-
   const [speciality, setSpeciality] = useState<string[]>([]);
   const [skills, setSkills] = useState<string[]>([]);
   const [tools, setTools] = useState<string[]>([]);
   const [readyForJob, setReadyForJob] = useState<string[]>([
-    readyForJobOptions[0],
+    FILTER_OPTIONS.readyForJobOptions[0],
   ]);
 
   function handleClearFilters() {
     setSpeciality([]);
     setSkills([]);
     setTools([]);
-    setReadyForJob([readyForJobOptions[0]]);
+    setReadyForJob([FILTER_OPTIONS.readyForJobOptions[0]]);
   }
 
   function handleSetSkills(
@@ -69,15 +67,15 @@ const DesignerFilters: React.FC = () => {
           disabled={false}
           className="designerFilters__button"
           type="button"
-          label="Сбросить фильтры"
+          label={DESIGNER_FILTERS_CLEAR_BTN_LABEL}
           variant="text"
           startIcon={<CloseIcon />}
         />
       </div>
 
       <div className="designerFilters__container">
-        <h2 className="designerFilters__title">Специализация</h2>
-        {specialityOptipons.map((item, i) => {
+        <h2 className="designerFilters__title">{SPECIALIZATION_TITLE}</h2>
+        {FILTER_OPTIONS.specialityOptions.map((item, i) => {
           return (
             <MyCheckBox
               key={i}
@@ -94,13 +92,13 @@ const DesignerFilters: React.FC = () => {
       </div>
 
       <div className="designerFilters__container">
-        <h2 className="designerFilters__title">Готовность к работе</h2>
+        <h2 className="designerFilters__title">{READY_FOR_JOB_TITLE}</h2>
         <RadioGroup
           defaultValue="Все"
           name="ready-to-job"
           className="designerFilters__radio"
         >
-          {readyForJobOptions.map((item, i) => {
+          {FILTER_OPTIONS.readyForJobOptions.map((item, i) => {
             return (
               <FormControlLabel
                 key={i}
@@ -121,9 +119,9 @@ const DesignerFilters: React.FC = () => {
       </div>
 
       <div className="designerFilters__container">
-        <h2 className="designerFilters__title">Навыки</h2>
+        <h2 className="designerFilters__title">{SKILLS_TITLE}</h2>
         <MyDropDown
-          options={skillsOptions}
+          options={FILTER_OPTIONS.skillsOptions}
           value={skills}
           onChange={handleSetSkills}
           className="designerFilters__dropdown"
@@ -132,9 +130,9 @@ const DesignerFilters: React.FC = () => {
       </div>
 
       <div className="designerFilters__container">
-        <h2 className="designerFilters__title">Инструменты</h2>
+        <h2 className="designerFilters__title">{TOOLS_TITLE}</h2>
         <MyDropDown
-          options={toolsOptions}
+          options={FILTER_OPTIONS.toolsOptions}
           value={tools}
           onChange={handleSetTools}
           className="designerFilters__dropdown"
