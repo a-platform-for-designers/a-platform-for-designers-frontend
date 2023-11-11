@@ -8,12 +8,15 @@ import {
 import "./Intro.scss";
 import MyButton from "../UI/MyButton/MyButton";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const titleStyles: SxProps<Theme> = {
   color: (theme) => theme.palette.primary.contrastText,
 };
 
 const Intro: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
     <StyledEngineProvider injectFirst>
       <Box className="intro">
@@ -52,7 +55,7 @@ const Intro: React.FC = () => {
           size="medium"
           inverted
           onClick={() => {
-            console.log("Do something");
+            navigate("/designers");
           }}
         />
       </Box>
