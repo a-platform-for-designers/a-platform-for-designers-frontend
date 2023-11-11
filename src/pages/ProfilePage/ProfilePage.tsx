@@ -23,7 +23,7 @@ const workPlaceHolder: IResume = {
     { id: 2, name: "Illustrator" },
     { id: 3, name: "Figma" },
   ],
-  about: "about",
+  about: "Здесь могла быть ваша реклама.",
 };
 
 const profilePlaceHolder: IProfileDesigner = {

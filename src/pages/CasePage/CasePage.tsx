@@ -42,15 +42,15 @@ const casePlaceholder: ICase = {
   images: [
     {
       id: 1,
-      src: "https://avatars.mds.yandex.net/get-yapic/27274/ya2Waq53Vz61dChHMwXCf1JakGo-1/islands-200",
+      src: "https://w3layouts.com/wp-content/uploads/2015/10/misal.jpg",
     },
     {
       id: 2,
-      src: "https://i.pinimg.com/originals/bf/f0/fb/bff0fb274d2459022f525a78253686d2.jpg",
+      src: "https://assets.website-files.com/62c5836076839ad95e36215d/647de080c579ff6909b927e8_Fjm_lk4VsAE1STW.jpg",
     },
     {
       id: 3,
-      src: "https://flomaster.club/uploads/posts/2023-01/1673477911_flomaster-club-p-syurrealizm-risunki-vkontakte-9.jpg",
+      src: "https://mir-s3-cdn-cf.behance.net/projects/original/fbe6f858048473.Y3JvcCwxMzA1LDEwMjEsMzEwLDA.png",
     },
     {
       id: 4,

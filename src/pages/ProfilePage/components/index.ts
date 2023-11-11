@@ -2,6 +2,7 @@ import Work from "./Work/Work";
 import AboutItem from "../../../components/AboutItem/AboutItem";
 import EmptyData from "./EmptyData/EmptyData";
 import Info from "./Info/Info";
+import InfoAction from "./InfoAction/InfoAction";
 import Portfolio from "./Portfolio/Portfolio";
 import Profile from "./Profile/Profile";
 import ProfileNav from "./ProfileNav/ProfileNav";
@@ -16,4 +17,5 @@ export {
   Profile,
   ProfileNav,
   SocialIndicator,
+  InfoAction,
 };

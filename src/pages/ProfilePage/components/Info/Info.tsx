@@ -9,8 +9,7 @@ import {
 } from "@mui/material";
 import "./Info.scss";
 import React, { useState } from "react";
-import MyButton from "../../../../components/UI/MyButton/MyButton";
-import { SocialIndicator } from "..";
+import { InfoAction, SocialIndicator } from "..";
 import { getInitials } from "../../../../utils";
 
 const avatarStyles: SxProps<Theme> = {
@@ -54,6 +53,7 @@ const Info: React.FC<IInfoProps> = ({ data }) => {
 
   const [likes, setLikes] = useState(1000);
   const [isLiked, setIsLiked] = useState(true);
+  const [isCurrentUser, setIsCurrentUser] = useState(true);
 
   const name = `${first_name} ${last_name}`;
 
@@ -89,10 +89,35 @@ const Info: React.FC<IInfoProps> = ({ data }) => {
             </Typography>
           </Grid>
           <Grid container gap="24px">
-            <MyButton className="info__button" label="Подписаться" />
-            <MyButton
-              className="info__button"
-              label="Написать"
+            <InfoAction
+              isCurrentUser={isCurrentUser}
+              ifTrue={{
+                label: "Добавить проект",
+                onClick: () => {
+                  setIsCurrentUser(!isCurrentUser);
+                },
+              }}
+              ifFalse={{
+                label: "Подписаться",
+                onClick: () => {
+                  setIsCurrentUser(!isCurrentUser);
+                },
+              }}
+            />
+            <InfoAction
+              isCurrentUser={isCurrentUser}
+              ifTrue={{
+                label: "Редактировать профиль",
+                onClick: () => {
+                  setIsCurrentUser(!isCurrentUser);
+                },
+              }}
+              ifFalse={{
+                label: "Написать",
+                onClick: () => {
+                  setIsCurrentUser(!isCurrentUser);
+                },
+              }}
               variant="outlined"
             />
           </Grid>

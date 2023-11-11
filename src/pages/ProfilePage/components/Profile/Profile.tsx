@@ -31,7 +31,11 @@ const Profile: React.FC<IProfileDesigner> = ({
           className="profile__aside profile__aside_secondary"
           justifyContent="flex-end"
         >
-          <AboutItem secondary data={specialization} title="Специализация" />
+          <AboutItem
+            secondary
+            data={"Графический дизайнер"}
+            title="Специализация"
+          />
           <AboutItem secondary data={country} title="Страна" />
           <AboutItem secondary data={education} title="Образование" />
           <AboutItem secondary data={language} title="Язык" />

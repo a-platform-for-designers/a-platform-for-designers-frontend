@@ -2,8 +2,8 @@ import Button from "@mui/material/Button";
 import "./MyButton.scss";
 import { StyledEngineProvider, SxProps, Theme } from "@mui/material";
 
-interface IMyButtonProps {
-  label: string;
+export interface IMyButtonProps {
+  label?: string;
   variant?: "text" | "contained" | "outlined" | "tag";
   onClick?: React.MouseEventHandler;
   size?: "small" | "medium" | "large";
