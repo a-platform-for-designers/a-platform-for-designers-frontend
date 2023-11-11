@@ -11,7 +11,7 @@ import Likes from "../../../assets/icons/Likes.svg";
 import { IconButton } from "@mui/material";
 
 interface IProps {
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 const MySwiper: React.FC<IProps> = ({ onClick }) => {
