@@ -31,23 +31,36 @@ const components: Components<Omit<Theme, "components">> = {
     },
   },
 
+  MuiTypography: {
+    styleOverrides: {
+      button: () => ({
+        textAlign: "center",
+        fontFamily: "Roboto",
+        fontStyle: "normal",
+        fontWeight: 500,
+      }),
+    },
+  },
   // ------------------------------------------------------------------------------- BUTTON
   MuiButton: {
     styleOverrides: {
-      root: ({ theme }) => ({
+      root: () => ({
         padding: "0",
-        minWidth: "185px",
-        minHeight: "40px",
         borderRadius: "100px",
         textTransform: "none",
-        boxShadow: "none",
-        fontSize: theme.typography.fontSize,
-        "&:hover": {
-          boxShadow: "none",
-        },
+        boxSizing: "border-box",
       }),
-
-      //---------------------------------------------------------- text
+      sizeMedium: () => ({
+        minWidth: "212px",
+        padding: "10px 24px",
+        lineHeight: "20px",
+        letterSpacing: "0.1px",
+        fontSize: "14px",
+      }),
+      fullWidth: () => ({
+        width: "100%",
+      }),
+      //------------text
       text: ({ theme }) => ({
         "&:hover": {
           color: theme.palette.primary.light,
@@ -57,49 +70,18 @@ const components: Components<Omit<Theme, "components">> = {
           color: theme.palette.primary.dark,
         },
       }),
-
-      //---------------------------------------------------------- outlined
-      outlined: ({ theme }) => ({
-        backgroundColor: theme.palette.background.default,
-        "&:hover": {
-          backgroundColor: theme.palette.background.default,
-        },
-        "&:active": {
-          backgroundColor: theme.palette.background.default,
-        },
-      }),
-      outlinedPrimary: ({ theme }) => ({
-        border: `1px solid ${theme.palette.primary.main}`,
-        "&:hover": {
-          backgroundColor: "transparent",
-          color: theme.palette.primary.light,
-          borderColor: theme.palette.primary.light,
-        },
-        "&:active": {
-          backgroundColor: "transparent",
-          color: theme.palette.primary.dark,
-          borderColor: theme.palette.primary.dark,
-        },
-      }),
-      containedPrimary: ({ theme }) => ({
-        "&:active": {
-          backgroundColor: theme.palette.primary.dark,
-        },
-        "&:hover": {
-          backgroundColor: theme.palette.primary.light,
-        },
-      }),
     },
+
     variants: [
       {
         props: { variant: "tag", color: "primary" },
         style: ({ theme }) => ({
           color: theme.palette.text.primary,
-          backgroundColor: theme.palette.grey[100],
+          backgroundColor: theme.palette.secondary.light,
           border: `4px solid transparent`,
           "&:hover": {
             color: theme.palette.text.primary,
-            backgroundColor: theme.palette.grey[100],
+            backgroundColor: theme.palette.secondary.light,
             border: `4px solid  ${theme.palette.primary.main}3d`,
           },
           "&:active": {

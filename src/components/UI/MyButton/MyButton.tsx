@@ -1,20 +1,23 @@
 import Button from "@mui/material/Button";
 import "./MyButton.scss";
 import { StyledEngineProvider, SxProps, Theme } from "@mui/material";
+import { PropsWithChildren } from "react";
 
 export interface IMyButtonProps {
-  label?: string;
   variant?: "text" | "contained" | "outlined" | "tag";
-  onClick?: React.MouseEventHandler;
   size?: "small" | "medium" | "large";
   color?: "primary" | "secondary" | "error";
+  fullWidth?: boolean;
   disabled?: boolean;
+  disableElevation?: boolean;
+  disableRipple?: boolean;
   active?: boolean;
   inverted?: boolean;
   className?: string;
   sx?: SxProps<Theme>;
   type?: "submit" | "reset" | "button";
   startIcon?: React.ReactNode;
+  onClick?: React.MouseEventHandler;
 }
 
 // Стили кнопки для contained prymary, поменяны местами фон и цвет текста
@@ -39,10 +42,9 @@ const myButtonPrimaryTagActiveTheme: SxProps<Theme> = {
   },
 };
 
-const MyButton: React.FC<IMyButtonProps> = ({
-  label,
+const MyButton: React.FC<PropsWithChildren<IMyButtonProps>> = ({
+  children,
   variant = "contained",
-  onClick,
   color = "primary",
   size = "medium",
   disabled = false,
@@ -52,6 +54,10 @@ const MyButton: React.FC<IMyButtonProps> = ({
   sx = {},
   type = "button",
   startIcon,
+  disableElevation,
+  disableRipple,
+  fullWidth,
+  onClick,
 }) => {
   return (
     <StyledEngineProvider injectFirst>
@@ -59,10 +65,13 @@ const MyButton: React.FC<IMyButtonProps> = ({
         variant={variant}
         size={size}
         color={color}
+        fullWidth={fullWidth}
         onClick={onClick}
         disabled={disabled}
         className={`myButton ${className}`}
         startIcon={startIcon}
+        disableElevation={disableElevation}
+        disableRipple={disableRipple}
         sx={{
           ...(variant === "contained" &&
             inverted &&
@@ -71,9 +80,8 @@ const MyButton: React.FC<IMyButtonProps> = ({
           ...sx,
         }}
         type={type}
-        disableRipple
       >
-        {label}
+        {children}
       </Button>
     </StyledEngineProvider>
   );
