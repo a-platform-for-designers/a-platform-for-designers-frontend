@@ -4,7 +4,7 @@ import { StyledEngineProvider, SxProps, Theme } from "@mui/material";
 import { PropsWithChildren } from "react";
 
 export interface IMyButtonProps {
-  variant?: "text" | "contained" | "outlined" | "tag";
+  variant?: "text" | "contained" | "outlined" | "tag" | "error";
   size?: "small" | "medium" | "large";
   color?: "primary" | "secondary" | "error";
   fullWidth?: boolean;

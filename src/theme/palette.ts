@@ -3,7 +3,7 @@ import { PaletteOptions } from "@mui/material";
 const primary = {
   light: {
     main: "#6900EE",
-    light: "#7647EF",
+    light: "#6E41E2" /* #7647EF */,
     dark: "#6435DD",
     contrastText: "#fff",
   },
@@ -49,7 +49,7 @@ const palette: PaletteOptions = {
   primary: primary.light,
   secondary: secondary.light,
   text: text.light,
-  error: { main: "#db524e" },
+  error: { main: "#db524e", light: "#b3261e", dark: "#c7302b" },
   success: { main: "#27AE60" },
   action: {
     disabled: "#98979A",

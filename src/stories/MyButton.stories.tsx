@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import MyButton from "../components/UI/MyButton/MyButton";
 import "@/components/UI/MyButton/MyButton.scss";
+import CloseIcon from "@mui/icons-material/Close";
 
 const meta = {
   title: "UI/MyButton",
@@ -50,6 +51,16 @@ export const Text: Story = {
   args: {
     ...Default.args,
     variant: "text",
+  },
+};
+
+export const Error: Story = {
+  args: {
+    ...Default.args,
+    children: "Сбросить фильтры",
+    variant: "error",
+    disableRipple: true,
+    startIcon: <CloseIcon fontSize="inherit" />,
   },
 };
 

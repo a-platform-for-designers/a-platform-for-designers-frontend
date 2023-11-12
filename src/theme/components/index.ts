@@ -3,6 +3,7 @@ import { Components, Theme } from "@mui/material";
 declare module "@mui/material/Button" {
   interface ButtonPropsVariantOverrides {
     tag: true;
+    error: true;
   }
 }
 
@@ -51,6 +52,7 @@ const components: Components<Omit<Theme, "components">> = {
       }),
       sizeMedium: () => ({
         minWidth: "212px",
+        maxHeight: "40px",
         padding: "10px 24px",
         lineHeight: "20px",
         letterSpacing: "0.1px",
@@ -59,19 +61,42 @@ const components: Components<Omit<Theme, "components">> = {
       fullWidth: () => ({
         width: "100%",
       }),
-      //------------text
+
+      outlined: ({ theme }) => ({
+        borderColor: theme.palette.primary.main,
+        "&:hover": {
+          backgroundColor: theme.palette.secondary.light,
+        },
+      }),
+      //------------Вариант text
       text: ({ theme }) => ({
         "&:hover": {
-          color: theme.palette.primary.light,
           backgroundColor: "transparent",
         },
         "&:active": {
-          color: theme.palette.primary.dark,
+          color: theme.palette.primary.light,
         },
       }),
     },
 
     variants: [
+      {
+        props: {
+          variant: "error",
+        },
+        style: ({ theme }) => ({
+          color: theme.palette.error.light,
+          backgroundColor: "transparent",
+          padding: "0",
+          minWidth: "0",
+          minHeight: "0",
+          border: "none",
+          "&:hover": {
+            backgroundColor: "transparent",
+            color: theme.palette.error.main,
+          },
+        }),
+      },
       {
         props: { variant: "tag", color: "primary" },
         style: ({ theme }) => ({
