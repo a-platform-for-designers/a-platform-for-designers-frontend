@@ -1,7 +1,7 @@
 import { Avatar, Box, Typography } from "@mui/material";
 import "./DesignersCard.scss";
-import MySwiper from "../../../../components/UI/MySwiper/MySwiper";
-import MyButton from "../../../../components/UI/MyButton/MyButton";
+import MyButton from "@/components/UI/MyButton/MyButton";
+import MySwiper from "@/components/UI/MySwiper/MySwiper";
 
 interface IProps {}
 
@@ -25,11 +25,9 @@ const DesignersCard: React.FC<IProps> = () => {
           </Typography>
         </div>
         <div>
-          <MyButton
-            variant="outlined"
-            label="Написать"
-            onClick={() => {}}
-          ></MyButton>
+          <MyButton variant="outlined" onClick={() => {}}>
+            Написать
+          </MyButton>
         </div>
       </div>
       <MySwiper />

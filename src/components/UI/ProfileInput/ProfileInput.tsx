@@ -165,12 +165,13 @@ const ProfileInput: React.FC<IProfileInputProps> = ({
                     />
                     <MyButton
                       onClick={() => handeDeleteCaseImage(i)}
-                      label="Удалить"
                       variant="text"
                       color="error"
                       startIcon={<DeleteForeverIcon />}
                       className="profileInput__btn profileInput__btn_type_del"
-                    />
+                    >
+                      Удалить
+                    </MyButton>
                   </Box>
                 );
               })}

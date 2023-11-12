@@ -81,19 +81,21 @@ const WorkCategories: React.FC<IWorkCategoriesProps> = ({
             size="small"
             variant="tag"
             onClick={() => onAllDirectionsClickHandler()}
-            label={"Все направления"}
-          />
+          >
+            Все направления
+          </MyButton>
         </ListItem>
         {data.map((item, idx) => {
           return (
             <ListItem className="workCategories__item" key={idx}>
               <MyButton
                 active={workCategoryState.categories.includes(item.title)}
-                label={item.title}
                 onClick={() => onCategoryClickHandler(item)}
                 size="small"
                 variant="tag"
-              />
+              >
+                {item.title}
+              </MyButton>
             </ListItem>
           );
         })}
@@ -103,8 +105,9 @@ const WorkCategories: React.FC<IWorkCategoriesProps> = ({
             size="small"
             variant="tag"
             onClick={() => onFollowingClickHandler()}
-            label={"Ваши подписки"}
-          />
+          >
+            Ваши подписки
+          </MyButton>
         </ListItem>
       </Grid>
     </StyledEngineProvider>

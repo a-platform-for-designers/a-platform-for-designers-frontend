@@ -4,7 +4,7 @@ import "./DesignerFilters.scss";
 import { FormControlLabel, Radio, RadioGroup } from "@mui/material";
 import MyDropDown from "../../../../components/UI/MyDropDown/MyDropDown";
 import CloseIcon from "@mui/icons-material/Close";
-import MyButton from "../../../../components/UI/MyButton/MyButton";
+
 import {
   DESIGNER_FILTERS_CLEAR_BTN_LABEL,
   READY_FOR_JOB_TITLE,
@@ -14,6 +14,7 @@ import {
   FILTER_OPTIONS,
 } from "../../model/constants";
 import { LISTS } from "@/utils/constants";
+import MyButton from "@/components/UI/MyButton/MyButton";
 
 const DesignerFilters: React.FC = () => {
   const [speciality, setSpeciality] = useState<string[]>([]);
@@ -68,10 +69,11 @@ const DesignerFilters: React.FC = () => {
           disabled={false}
           className="designerFilters__button"
           type="button"
-          label={DESIGNER_FILTERS_CLEAR_BTN_LABEL}
           variant="text"
           startIcon={<CloseIcon />}
-        />
+        >
+          {DESIGNER_FILTERS_CLEAR_BTN_LABEL}
+        </MyButton>
       </div>
 
       <div className="designerFilters__container">

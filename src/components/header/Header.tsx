@@ -143,18 +143,20 @@ const Header: React.FC = () => {
                   <MyButton
                     className="header__signup-button"
                     size="small"
-                    label="Регистрация"
                     type="button"
                     variant="outlined"
                     onClick={openSignUpPopup}
-                  />
+                  >
+                    Регистрация
+                  </MyButton>
                   <MyButton
                     className="header__signin-button"
                     size="small"
-                    label="Вход"
                     type="button"
                     onClick={openSignInPopup}
-                  />
+                  >
+                    Вход
+                  </MyButton>
                 </>
               )}
             </Toolbar>

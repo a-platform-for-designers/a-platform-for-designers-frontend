@@ -26,9 +26,10 @@ const InfoAction: React.FC<IInfoActionData> = ({
         <MyButton
           {...data}
           className={`infoAction ${data.className}`}
-          label={ifTrue.label}
           onClick={ifTrue.onClick}
-        />
+        >
+          {ifTrue.label}
+        </MyButton>
       </StyledEngineProvider>
     );
   }
@@ -38,9 +39,10 @@ const InfoAction: React.FC<IInfoActionData> = ({
       <MyButton
         {...data}
         className={`infoAction ${data.className}`}
-        label={ifFalse.label}
         onClick={ifFalse.onClick}
-      />
+      >
+        {ifFalse.label}
+      </MyButton>
     </StyledEngineProvider>
   );
 };

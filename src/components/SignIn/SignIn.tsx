@@ -61,10 +61,11 @@ const SignIn: FC<ISignInProps> = ({ openSignUpPopup, onClose }) => {
         </a>
         <MyButton
           className="myAuthForm__button"
-          label="Войти"
           type="submit"
           disabled={!!email.error || !!password.error || Boolean(error)}
-        />
+        >
+          Войти
+        </MyButton>
 
         <p className="myAuthForm__question">
           {SigninText.isRegistredText}

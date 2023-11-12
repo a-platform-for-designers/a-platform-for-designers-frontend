@@ -140,11 +140,12 @@ const Profile: React.FC = () => {
 
         <Box textAlign={"center"}>
           <MyButton
-            label="Сохранить"
             className={classes.profile__btn}
             type="submit"
             onClick={handleSubmit}
-          />
+          >
+            Сохранить
+          </MyButton>
         </Box>
       </div>
     </div>

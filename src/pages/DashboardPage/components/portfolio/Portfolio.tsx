@@ -16,11 +16,12 @@ const Portfolio: React.FC = () => {
             <Box className={classes.portfolio__addProject} />
             <MyButton
               className={classes.portfolio__button}
-              label="Добавить проект"
               onClick={() => {
                 navigate("/dashboard/portfolio/create");
               }}
-            />
+            >
+              Добавить проект
+            </MyButton>
           </Box>
           <Box className={classes.portfolio__allProjectsContainer}>
             <Typography className={classes.portfolio__heading} variant="h2">

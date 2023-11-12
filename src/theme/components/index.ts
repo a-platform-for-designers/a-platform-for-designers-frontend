@@ -45,7 +45,6 @@ const components: Components<Omit<Theme, "components">> = {
   MuiButton: {
     styleOverrides: {
       root: () => ({
-        padding: "0",
         borderRadius: "100px",
         textTransform: "none",
         boxSizing: "border-box",

@@ -51,13 +51,14 @@ const Intro: React.FC = () => {
           в одном месте
         </Typography>
         <MyButton
-          label="Найти дизайнеров"
           size="medium"
           inverted
           onClick={() => {
             navigate("/designers");
           }}
-        />
+        >
+          Найти дизайнеров
+        </MyButton>
       </Box>
     </StyledEngineProvider>
   );

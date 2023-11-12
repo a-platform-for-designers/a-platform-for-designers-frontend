@@ -29,6 +29,14 @@ export const Default: Story = {
     type: "button",
     onClick: () => {},
   },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Кнопки медиум - min-width 200px, высота - 40px, паддинги 10px 24px, font-size 14px, lineHeight: 20px, letterSpacing: 0.1px. Больше не принимает className и sx, label. Вместо label - children как стандартно в MUI. ",
+      },
+    },
+  },
 };
 
 export const Outlined: Story = {
@@ -60,7 +68,7 @@ export const TagActive: Story = {
   },
 };
 
-export const FullWith: Story = {
+export const FullWidth: Story = {
   args: {
     ...Default.args,
     fullWidth: true,
@@ -79,11 +87,25 @@ export const DisableElevation: Story = {
     ...Default.args,
     disableElevation: true,
   },
+  parameters: {
+    docs: {
+      description: {
+        story: "Вариант без теней (DisableElevation = true)",
+      },
+    },
+  },
 };
 
 export const DisableRipple: Story = {
   args: {
     ...Default.args,
     disableRipple: true,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: "Вариант без пульсации при нажатии (DisableRipple = true)",
+      },
+    },
   },
 };

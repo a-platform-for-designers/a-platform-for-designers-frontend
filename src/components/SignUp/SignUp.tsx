@@ -138,7 +138,6 @@ const SignUp: FC<ISignUpProps> = ({ openSignInPopup, onClose }) => {
 
         <MyButton
           className="myAuthForm__button"
-          label="Зарегистрироваться"
           type="submit"
           disabled={
             !!email.error ||
@@ -150,7 +149,9 @@ const SignUp: FC<ISignUpProps> = ({ openSignInPopup, onClose }) => {
             confirmServiceRules === false ||
             Boolean(error)
           }
-        />
+        >
+          Зарегистрироваться
+        </MyButton>
 
         <p className="myAuthForm__question">
           {SignupText.isLoggedInText}

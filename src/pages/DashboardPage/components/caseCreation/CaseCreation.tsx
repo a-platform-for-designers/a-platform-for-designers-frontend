@@ -152,11 +152,12 @@ const CaseCreation: React.FC = () => {
       </Box>
       <Box textAlign={"center"} marginLeft={15}>
         <MyButton
-          label="Сохранить"
           className={classes.case__btn}
           onClick={handleSubmit}
           disabled={!!(title.error || !wrapper || selectedFiles.length === 0)}
-        />
+        >
+          Сохранить
+        </MyButton>
       </Box>
     </>
   );
