@@ -97,6 +97,7 @@ const components: Components<Omit<Theme, "components">> = {
           },
         }),
       },
+
       {
         props: { variant: "tag", color: "primary" },
         style: ({ theme }) => ({
