@@ -62,6 +62,14 @@ export const Error: Story = {
     disableRipple: true,
     startIcon: <CloseIcon fontSize="inherit" />,
   },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "В данном варианте нет высоты, кнопка прижата к левому краю. Цвет красный. Можно добавить - стартовую иконку(как тут крестик) убраны пульсация и тени",
+      },
+    },
+  },
 };
 
 export const Tag: Story = {
