@@ -5,8 +5,9 @@ import MyButton from "@/components/UI/MyButton/MyButton";
 import useInput from "@/hooks/useInput";
 import { useState, SyntheticEvent } from "react";
 import { IProfileDataItem } from "../../model/types";
-import { directionsOptions, tools, spheres } from "../../model/constants";
+import { directionsOptions, spheres } from "../../model/constants";
 import { enqueueSnackbar } from "notistack";
+import { LISTS } from "@/utils/constants";
 
 const CaseCreation: React.FC = () => {
   const title = useInput("", { isEmpty: true });
@@ -63,7 +64,7 @@ const CaseCreation: React.FC = () => {
       heading: "Инструменты",
       variant: "tags",
       placeholder: "Какие программы использовали?",
-      options: [...tools],
+      options: [...LISTS.LIST_TOOLS],
       value: toolsValue,
       onChange: handleSetTools,
     },
