@@ -11,8 +11,6 @@ import DesignersPage from "./pages/DesignersPage/DesignersPage";
 import Dashboard from "./pages/DashboardPage/Dashboard.tsx";
 
 import { Navigate } from "react-router-dom";
-import Header from "./components/Header/Header.tsx";
-import Footer from "./components/Footer/Footer.tsx";
 import { SnackbarProvider } from "notistack";
 import CasePage from "./pages/CasePage/CasePage.tsx";
 import {
@@ -24,6 +22,8 @@ import {
   Settings,
 } from "./pages/DashboardPage/components";
 import ScrollToTop from "./features/ScrollToTop.tsx";
+import Header from "./shared/Header/Header.tsx";
+import Footer from "./shared/Footer/Footer.tsx";
 
 function App() {
   return (

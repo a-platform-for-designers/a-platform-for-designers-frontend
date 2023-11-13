@@ -12,18 +12,20 @@ import Avatar from "@mui/material/Avatar";
 import SearchIcon from "@mui/icons-material/Search";
 import "./Header.scss";
 import React, { useState } from "react";
-import MyButton from "../UI/MyButton/MyButton";
+
 import { useLocation, useNavigate } from "react-router-dom";
-import SignUp from "../SignUp/SignUp";
-import SignIn from "../SignIn/SignIn";
-import UserRole from "../UserRole/UserRole";
-import MyPopup from "../UI/MyPopup/MyPopup";
-import MyAuthForm from "../UI/MyAuthForm/MyAuthForm";
-import MyCheckBox from "../UI/MyCheckBox/MyCheckBox";
+
 import FollowersIcon from "../../assets/icons/FollowersIcon.svg";
 import FavouritesIcon from "../../assets/icons/FavouritesDark.svg";
 import MessagesIcon from "../../assets/icons/MessagesIcon.svg";
 import { enqueueSnackbar } from "notistack";
+import MyButton from "@/components/UI/MyButton/MyButton";
+import MyCheckBox from "@/components/UI/MyCheckBox/MyCheckBox";
+import MyAuthForm from "@/components/UI/MyAuthForm/MyAuthForm";
+import MyPopup from "@/components/UI/MyPopup/MyPopup";
+import UserRole from "@/components/UserRole/UserRole";
+import SignUp from "@/components/SignUp/SignUp";
+import SignIn from "@/components/SignIn/SignIn";
 
 const Header: React.FC = () => {
   const location = useLocation();
