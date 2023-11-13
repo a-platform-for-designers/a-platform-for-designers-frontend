@@ -7,6 +7,7 @@ export interface IValidation {
   isEmail?: boolean;
   isName?: boolean;
   isPhone?: boolean;
+  isPassword?: boolean;
 }
 
 function useValidation(value: string, validations: IValidation) {
@@ -16,12 +17,30 @@ function useValidation(value: string, validations: IValidation) {
   const [emailError, setEmailError] = useState("");
   const [nameError, setNameError] = useState("");
   const [phoneError, setPhoneError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+
+  function determineFormSymbol(number: number): string {
+    if (number % 10 === 1 && number % 100 !== 11) {
+      return "символ";
+    } else if (
+      number % 10 >= 2 &&
+      number % 10 <= 4 &&
+      (number % 100 < 10 || number % 100 >= 20)
+    ) {
+      return "символа";
+    } else {
+      return "символов";
+    }
+  }
 
   useEffect(() => {
     const emailPattern =
-      /^(([^аА-яЯ<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      /^(([aA-zZ<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}))$/;
+    // Ниже для международных e-mail-ов
+    // /^(([^аА-яЯ<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const namePattern = /^[a-zA-Zа-яА-ЯёЁ\s-]+$/;
     const phonePattern = /^\+\d{9,11}$/;
+    const passwordPatter = /^[a-zA-Z0-9!@#$%^&*()_+{}[\]:;<>,.?~\\/-]+$/;
 
     for (const validation in validations) {
       switch (validation) {
@@ -34,9 +53,9 @@ function useValidation(value: string, validations: IValidation) {
         case "minLength":
           value.length < validations[validation]!
             ? setMinLengthError(
-                `В поле должно быть минимум ${validations[validation]} ${
-                  validations[validation]! === 2 ? "символа" : "символов"
-                }`
+                `В поле должно быть минимум ${
+                  validations[validation]
+                } ${determineFormSymbol(validations[validation]!)}`
               )
             : setMinLengthError("");
           break;
@@ -44,9 +63,9 @@ function useValidation(value: string, validations: IValidation) {
         case "maxLength":
           value.length > validations[validation]!
             ? setMaxLengthError(
-                `В поле должно быть максимум ${validations[validation]} ${
-                  validations[validation]! === 2 ? "символа" : "символов"
-                }`
+                `В поле должно быть максимум ${
+                  validations[validation]
+                } ${determineFormSymbol(validations[validation]!)}`
               )
             : setMaxLengthError("");
           break;
@@ -54,7 +73,7 @@ function useValidation(value: string, validations: IValidation) {
         case "isEmail":
           emailPattern.test(String(value).toLowerCase())
             ? setEmailError("")
-            : setEmailError("Введите корректный e-mail вида abcde@bk.ru");
+            : setEmailError("Введите e-mail вида abcde@bk.ru");
           break;
 
         case "isName":
@@ -69,6 +88,11 @@ function useValidation(value: string, validations: IValidation) {
             : setPhoneError("Поле содержит недопустимые символы");
           break;
 
+        case "isPassword":
+          passwordPatter.test(String(value).toLowerCase())
+            ? setPasswordError("")
+            : setPasswordError("Используйте латиницу, цифры или спецсимволы");
+          break;
         default:
           break;
       }
@@ -81,7 +105,8 @@ function useValidation(value: string, validations: IValidation) {
     maxLengthError ||
     emailError ||
     nameError ||
-    phoneError;
+    phoneError ||
+    passwordError;
 
   return error;
 }

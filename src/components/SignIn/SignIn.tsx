@@ -27,8 +27,9 @@ const SignIn: FC<ISignInProps> = ({ openSignUpPopup, onClose }) => {
 
   const password = useInput("", {
     isEmpty: true,
-    minLength: 6,
+    minLength: 8,
     maxLength: 32,
+    isPassword: true,
   });
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -48,7 +49,7 @@ const SignIn: FC<ISignInProps> = ({ openSignUpPopup, onClose }) => {
   return (
     <form className="myAuthForm__signin-form" onSubmit={handleSubmit}>
       <MyInput data={email} label="E-mail" />
-      <MyInput data={password} label="Password" variant="password" />
+      <MyInput data={password} label="Пароль" variant="password" />
 
       <div className="myAuthForm__lower-part">
         {error && (

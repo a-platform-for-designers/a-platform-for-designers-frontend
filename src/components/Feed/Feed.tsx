@@ -24,7 +24,7 @@ interface IFeedProps {
 // Заглушка для категорий
 const workCategories: IWorkCategoryData[] = [
   {
-    title: "Иллюстратоции",
+    title: "Иллюстрация",
     link: "",
   },
   {

@@ -1,4 +1,4 @@
-export const DESIGNER_FILTERS_CLEAR_BTN_LABEL = "Очистить фильтры";
+export const DESIGNER_FILTERS_CLEAR_BTN_LABEL = "Сбросить фильтры";
 export const SPECIALIZATION_TITLE = "Специализация";
 export const READY_FOR_JOB_TITLE = "Готовность к работе";
 export const SKILLS_TITLE = "Навыки";
