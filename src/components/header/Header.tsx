@@ -23,6 +23,7 @@ import MyCheckBox from "../UI/MyCheckBox/MyCheckBox";
 import FollowersIcon from "../../assets/icons/FollowersIcon.svg";
 import FavouritesIcon from "../../assets/icons/FavouritesDark.svg";
 import MessagesIcon from "../../assets/icons/MessagesIcon.svg";
+import { enqueueSnackbar } from "notistack";
 
 const Header: React.FC = () => {
   const location = useLocation();
@@ -94,6 +95,11 @@ const Header: React.FC = () => {
                   Дизайнеры
                 </ListItem>
                 <ListItem
+                  onClick={() =>
+                    enqueueSnackbar("Функционал находится в разработке", {
+                      variant: "info",
+                    })
+                  }
                   className={`header__menu-item ${
                     location.pathname === "/orders"
                       ? "header__menu-item_active"
@@ -107,7 +113,14 @@ const Header: React.FC = () => {
             <Toolbar className="header__auth-buttons">
               {isAuth ? (
                 <List className="header__links">
-                  <ListItem className="header__link">
+                  <ListItem
+                    className="header__link"
+                    onClick={() =>
+                      enqueueSnackbar("Функционал находится в разработке", {
+                        variant: "info",
+                      })
+                    }
+                  >
                     <img
                       className="header__list-icon"
                       src={FollowersIcon}
@@ -115,7 +128,14 @@ const Header: React.FC = () => {
                     />
                     <p className="header__list-text">Подписки</p>
                   </ListItem>
-                  <ListItem className="header__link">
+                  <ListItem
+                    className="header__link"
+                    onClick={() =>
+                      enqueueSnackbar("Функционал находится в разработке", {
+                        variant: "info",
+                      })
+                    }
+                  >
                     <img
                       className="header__list-icon"
                       src={FavouritesIcon}
@@ -123,7 +143,14 @@ const Header: React.FC = () => {
                     />
                     <p className="header__list-text">Избранное</p>
                   </ListItem>
-                  <ListItem className="header__link">
+                  <ListItem
+                    className="header__link"
+                    onClick={() =>
+                      enqueueSnackbar("Функционал находится в разработке", {
+                        variant: "info",
+                      })
+                    }
+                  >
                     <img
                       className="header__list-icon"
                       src={MessagesIcon}

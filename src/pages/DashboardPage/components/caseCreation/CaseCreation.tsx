@@ -6,6 +6,7 @@ import useInput from "@/hooks/useInput";
 import { useState, SyntheticEvent } from "react";
 import { IProfileDataItem } from "../../model/types";
 import { directionsOptions, tools, spheres } from "../../model/constants";
+import { enqueueSnackbar } from "notistack";
 
 const CaseCreation: React.FC = () => {
   const title = useInput("", { isEmpty: true });
@@ -134,6 +135,7 @@ const CaseCreation: React.FC = () => {
       sphereValue,
       toolsValue,
     };
+
     console.log(values);
   }
 
@@ -150,9 +152,20 @@ const CaseCreation: React.FC = () => {
           );
         })}
       </Box>
-      <Box textAlign={"center"} marginLeft={15}>
+      <Box className={classes.case__wrapper}>
         <MyButton
-          label="Сохранить"
+          variant="outlined"
+          label="Предпросмотр"
+          className={classes.case__btn}
+          onClick={() =>
+            enqueueSnackbar("Функционал находится в разработке", {
+              variant: "info",
+            })
+          }
+          disabled={!!(title.error || !wrapper || selectedFiles.length === 0)}
+        />
+        <MyButton
+          label="Опубликовать проект"
           className={classes.case__btn}
           onClick={handleSubmit}
           disabled={!!(title.error || !wrapper || selectedFiles.length === 0)}

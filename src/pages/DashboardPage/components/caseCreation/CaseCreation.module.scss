@@ -3,8 +3,16 @@
   flex-direction: column;
   gap: 60px;
 
+  &__wrapper {
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    max-width: 448px;
+    margin-left: auto;
+  }
+
   &__btn {
     margin-top: 60px;
-    width: 330px;
+    width: 212px;
   }
 }
