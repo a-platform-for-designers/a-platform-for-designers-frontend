@@ -65,7 +65,10 @@ const components: Components<Omit<Theme, "components">> = {
           backgroundColor: theme.palette.background.default,
         },
         "&:active": {
-          backgroundColor: theme.palette.background.default,
+          backgroundColor: theme.palette.background.paper,
+        },
+        "&:focus": {
+          backgroundColor: theme.palette.grey[100],
         },
       }),
       outlinedPrimary: ({ theme }) => ({
