@@ -23,12 +23,15 @@ import {
   Orders,
   Settings,
 } from "./pages/DashboardPage/components";
+import ScrollToTop from "./features/ScrollToTop.tsx";
+
 function App() {
   return (
     <ThemeProvider theme={lightTheme}>
       <CssBaseline enableColorScheme />
       <SnackbarProvider maxSnack={3} autoHideDuration={7000}>
         <div className={classes.app}>
+          <ScrollToTop />
           <Header />
           <Routes>
             <Route path="/" Component={MainPage} />
