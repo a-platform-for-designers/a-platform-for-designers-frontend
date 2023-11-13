@@ -110,6 +110,7 @@ const CaseCreation: React.FC = () => {
     _: SyntheticEvent<Element, Event>,
     newValue: string[]
   ) {
+    if (newValue.length > 5) return;
     setToolsValue(newValue);
   }
 
