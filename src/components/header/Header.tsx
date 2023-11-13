@@ -59,13 +59,21 @@ const Header: React.FC = () => {
     setIsOpenSignUp(true);
   }
 
+  function handleOnClick(link: string) {
+    if (location.pathname !== link) navigate(link);
+    scrollTo(0, 0);
+  }
+
   return (
     <StyledEngineProvider injectFirst>
       <AppBar className="header" position="static">
         <Box>
           <Box className="header__container">
             <Toolbar className="header__toolbar" variant="dense">
-              <Box className="header__logo" onClick={() => navigate("/")} />
+              <Box
+                className="header__logo"
+                onClick={() => handleOnClick("/")}
+              />
               <TextField
                 className="header__search-form"
                 label=""
@@ -90,7 +98,7 @@ const Header: React.FC = () => {
                       ? "header__menu-item_active"
                       : ""
                   }`}
-                  onClick={() => navigate("/designers")}
+                  onClick={() => handleOnClick("/designers")}
                 >
                   Дизайнеры
                 </ListItem>

@@ -13,7 +13,12 @@ const Portfolio: React.FC = () => {
       {location.pathname === "/dashboard/portfolio" ? (
         <>
           <Box className={classes.portfolio__addProjectContainer}>
-            <Box className={classes.portfolio__addProject} />
+            <Box
+              className={classes.portfolio__addProject}
+              onClick={() => {
+                navigate("/dashboard/portfolio/create");
+              }}
+            />
             <MyButton
               className={classes.portfolio__button}
               label="Добавить проект"

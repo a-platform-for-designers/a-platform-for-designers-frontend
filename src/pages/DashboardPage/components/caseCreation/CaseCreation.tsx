@@ -5,7 +5,7 @@ import MyButton from "@/components/UI/MyButton/MyButton";
 import useInput from "@/hooks/useInput";
 import { useState, SyntheticEvent } from "react";
 import { IProfileDataItem } from "../../model/types";
-import { directionsOptions, spheres } from "../../model/constants";
+import { directionsOptions } from "../../model/constants";
 import { enqueueSnackbar } from "notistack";
 import { LISTS } from "@/utils/constants";
 
@@ -39,7 +39,7 @@ const CaseCreation: React.FC = () => {
       heading: "Обложка",
       variant: "wrapper-photo-upload",
       label: "Загрузить обложку",
-      description: `Рекомендуемая ширина: 920 px\nДопустимые форматы: jpeg, jpg, tif, tiff, png\nМаксимальный размер файла: 5 Mb`,
+      description: `Рекомендуемое разрешение: 330 x 240 px\nДопустимые форматы: jpeg, jpg, tif, tiff, png\nМаксимальный размер файла: 5 Mb`,
       value: wrapper,
       onChange: handleSetWrapper,
     },
@@ -56,7 +56,7 @@ const CaseCreation: React.FC = () => {
       heading: "Сфера",
       variant: "drop-down",
       placeholder: "Добавьте из списка",
-      options: [...spheres],
+      options: [...LISTS.LIST_SPHERES],
       value: sphereValue,
       onChange: handleSetSphere,
     },
@@ -110,6 +110,7 @@ const CaseCreation: React.FC = () => {
     _: SyntheticEvent<Element, Event>,
     newValue: string[]
   ) {
+    if (newValue.length > 5) return;
     setToolsValue(newValue);
   }
 

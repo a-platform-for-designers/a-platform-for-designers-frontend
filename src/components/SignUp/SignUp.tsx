@@ -54,6 +54,7 @@ const SignUp: FC<ISignUpProps> = ({ openSignInPopup, onClose }) => {
 
   const password = useInput("", {
     isEmpty: true,
+    isPassword: true,
     minLength: 8,
     maxLength: 32,
   });
