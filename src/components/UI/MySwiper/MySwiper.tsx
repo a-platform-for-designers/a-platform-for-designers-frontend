@@ -51,6 +51,7 @@ const MySwiper: React.FC<IProps> = ({ onClick }) => {
                 className="mySwiper__avatar"
                 alt="avatar"
                 src="https://storage.theoryandpractice.ru/tnp/uploads/image_unit/000/156/586/image/base_87716f252d.jpg"
+                tabIndex={-1}
               />
               <p className="mySwiper__author-name">Имя Фамилия Имя Фамилия</p>
             </div>
@@ -59,6 +60,7 @@ const MySwiper: React.FC<IProps> = ({ onClick }) => {
                 className="mySwiper__icon"
                 aria-label="add to favourites"
                 edge="end"
+                tabIndex={-1}
               >
                 <img src={Favourites} />
               </IconButton>
@@ -66,6 +68,7 @@ const MySwiper: React.FC<IProps> = ({ onClick }) => {
                 className="mySwiper__icon"
                 aria-label="put like"
                 edge="end"
+                tabIndex={-1}
               >
                 <img src={Likes} />
               </IconButton>
