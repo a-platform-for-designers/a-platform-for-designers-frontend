@@ -637,10 +637,10 @@ export const currentUserCases = [
     author: "Анна Петрова",
     avatar: "https://i.postimg.cc/wRHFXgjG/ava2.png",
     images: [
-      "https://i.pinimg.com/564x/9e/fc/61/9efc616744e569a3b8dcdba374b237aa.jpg",
-      "https://i.pinimg.com/564x/fb/65/46/fb6546c2482c8c1dde32187e3073dd07.jpg",
-      "https://i.pinimg.com/564x/72/b2/0b/72b20b3d461d6cb57ea0b74c3464a276.jpg",
-      "https://i.pinimg.com/564x/20/a8/be/20a8be384db0cf64c8239a032073c84f.jpg",
+      "https://scientificrussia.ru/images/b/teb-full.jpg",
+      "https://fond-vsem-mirom.ru/wp-content/uploads/2020/06/gk_zdhbg784.jpg",
+      "https://oir.mobi/uploads/posts/2022-09/1662133482_1-oir-mobi-p-britanskaya-pryamoukhaya-koshka-krasivo-1.jpg",
+      "https://koshka.top/uploads/posts/2021-12/1638880950_1-koshka-top-p-britanskaya-golubaya-visloukhaya-1.jpg",
     ],
   },
   {
