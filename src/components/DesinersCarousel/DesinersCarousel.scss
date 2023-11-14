@@ -29,6 +29,9 @@
 
     &__image {
       border-radius: 50%;
+      height: 212px;
+      width: 212px;
+      object-fit: cover;
 
       filter: grayscale(1);
     }

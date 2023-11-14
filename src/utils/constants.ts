@@ -477,3 +477,247 @@ export const LISTS = {
     "Электронная коммерция и дизайн онлайн-магазинов",
   ],
 };
+
+// Заглушка для свайперов
+export const swiperContentData = [
+  {
+    id: 1,
+    title: "Магический дизайн: создание удивительных веб-сайтов",
+    author: "Анна Петрова",
+    avatar: "https://i.postimg.cc/wRHFXgjG/ava2.png",
+    images: [
+      "https://i.pinimg.com/564x/9e/fc/61/9efc616744e569a3b8dcdba374b237aa.jpg",
+      "https://i.pinimg.com/564x/fb/65/46/fb6546c2482c8c1dde32187e3073dd07.jpg",
+      "https://i.pinimg.com/564x/72/b2/0b/72b20b3d461d6cb57ea0b74c3464a276.jpg",
+      "https://i.pinimg.com/564x/20/a8/be/20a8be384db0cf64c8239a032073c84f.jpg",
+    ],
+  },
+  {
+    id: 2,
+    title: "Фантастические миры онлайн: дизайн для игровых платформ",
+    author: "Иван Смирнов",
+    avatar: "https://i.postimg.cc/30gVhtdP/ava1.png",
+    images: [
+      "https://i.pinimg.com/736x/37/b3/1e/37b31e70118c65a742e34116b0b8fc6f.jpg",
+      "https://i.pinimg.com/564x/d6/b1/23/d6b1232c15855b6ffd559986a5496bca.jpg",
+      "https://i.pinimg.com/564x/b7/31/e7/b731e7a2bb0b509a3ef989906bdc88d8.jpg",
+    ],
+  },
+  {
+    id: 3,
+    title: "Приключения в интернете: дизайн для сайтов о путешествиях",
+    author: "Екатерина Иванова",
+    avatar: "https://i.postimg.cc/FkZpG8fs/ava5.png",
+    images: [
+      "https://i.pinimg.com/564x/07/50/4a/07504ae3450c416ca75c87bd3887ae70.jpg",
+      "https://i.pinimg.com/564x/8d/7e/0c/8d7e0cf9356977d1055395b935031115.jpg",
+      "https://i.pinimg.com/564x/29/c9/79/29c979eef1bf55b0443a55dd97b760e2.jpg",
+    ],
+  },
+  {
+    id: 4,
+    title:
+      "Исторический веб-дизайн: возвращение в прошлое через страницы сайтов",
+    author: "Дмитрий Кузнецов",
+    avatar: "https://i.postimg.cc/xJLtNcnm/ava3.png",
+    images: [
+      "https://i.pinimg.com/564x/27/3d/75/273d75cb594cccce2b6f2433acded1bf.jpg",
+      "https://i.pinimg.com/564x/a7/a2/0d/a7a20dee9a6545cad18e10cfd100e068.jpg",
+      "https://i.pinimg.com/564x/f3/83/0c/f3830c976b2dac09bd003fd0312645e8.jpg",
+    ],
+  },
+  {
+    id: 5,
+    title: "Романтический дизайн: создание атмосферы на сайтах знакомств",
+    author: "Алексей Купчин",
+    avatar: "https://i.postimg.cc/V58cGtS3/ava4.png",
+    images: [
+      "https://i.pinimg.com/564x/45/cf/ff/45cfff6091ff2fe97afb95d75dd93219.jpg",
+      "https://i.pinimg.com/564x/70/99/58/70995855810c9463a4d475b10bf39cad.jpg",
+      "https://i.pinimg.com/564x/6e/ba/3e/6eba3ec015771ff2cba70108a1be1aad.jpg",
+    ],
+  },
+  {
+    id: 6,
+    title:
+      "Мистический веб-дизайн: создание загадочных сайтов для тайных историй",
+    author: "Николай Васильев",
+    avatar: "https://i.postimg.cc/5jSWZtLj/ava6.png",
+    images: [
+      "https://i.pinimg.com/564x/c5/09/0a/c5090acc493990210d021e60217d3a72.jpg",
+      "https://i.pinimg.com/564x/2a/eb/e3/2aebe3538b859fe1ba41b5d42ee29a64.jpg",
+      "https://i.pinimg.com/564x/3e/a8/c2/3ea8c291b614037fc8067bfd8305e5e5.jpg",
+    ],
+  },
+  {
+    id: 7,
+    title: "Научный дизайн: визуализация сложных концепций через веб-страницы",
+    author: "Мария Соколова",
+    avatar: "https://i.postimg.cc/wRHFXgjG/ava2.png",
+    images: [
+      "https://i.pinimg.com/564x/56/94/54/5694547b99c1d7f7854c011509bc884a.jpg",
+      "https://i.pinimg.com/564x/e9/49/b4/e949b4ddffec60887aa05dbc2557bb80.jpg",
+      "https://i.pinimg.com/736x/5e/25/d3/5e25d36272f9ef3aad7f7eace2759e88.jpg",
+    ],
+  },
+  {
+    id: 8,
+    title: "Дизайн природы: вдохновение из мира животных и растений на сайтах",
+    author: "Алексей Михайлов",
+    avatar: "https://i.postimg.cc/30gVhtdP/ava1.png",
+    images: [
+      "https://i.pinimg.com/736x/b6/d2/41/b6d2414f5a156a2093b29377650c3b1e.jpg",
+      "https://i.pinimg.com/564x/eb/04/8d/eb048d578f4387c352bfa2c285a34ee7.jpg",
+      "https://i.pinimg.com/736x/37/2d/1c/372d1c8feacdc092fffe04cc9ceb0cd4.jpg",
+    ],
+  },
+  {
+    id: 9,
+    title: "Философский дизайн: визуализация мыслей и идей через веб-дизайн",
+    author: "Светлана Федорова",
+    avatar: "https://i.postimg.cc/FkZpG8fs/ava5.png",
+    images: [
+      "https://i.pinimg.com/736x/c9/60/e2/c960e2309931c6e7a54b7f52eabc8150.jpg",
+      "https://i.pinimg.com/736x/f7/76/1b/f7761bb57fb841da463d6b4296eec0b0.jpg",
+      "https://i.pinimg.com/736x/47/aa/ab/47aaab2e24b799704ae643559c8adbf5.jpg",
+    ],
+  },
+  {
+    id: 10,
+    title: "Дизайн для путеводителей: открывая мир через веб-страницы",
+    author: "Максим Волков",
+    avatar: "https://i.postimg.cc/5jSWZtLj/ava6.png",
+    images: [
+      "https://i.pinimg.com/564x/8e/ba/cb/8ebacbc531ba5c7931f033f959a2d394.jpg",
+      "https://i.pinimg.com/736x/11/f1/1f/11f11fe4000aeae8c62a9ea161b48f23.jpg",
+      "https://i.pinimg.com/564x/be/55/67/be5567779048b4f78a132a6816630d7d.jpg",
+    ],
+  },
+  {
+    id: 11,
+    title:
+      "Кулинарный дизайн: визуализация рецептов и блюд на сайтах о кулинарии",
+    author: "Дмитрий Кузнецов",
+    avatar: "https://i.postimg.cc/xJLtNcnm/ava3.png",
+    images: [
+      "https://i.pinimg.com/564x/3a/7b/a4/3a7ba4e90f220775aec586423ebf1f8d.jpg",
+      "https://i.pinimg.com/564x/01/db/29/01db29ead58fdad86b75067407c5fb74.jpg",
+      "https://i.pinimg.com/564x/1a/93/f0/1a93f024ddde276639a736ce5e3659c4.jpg",
+    ],
+  },
+  {
+    id: 12,
+    title: "Анимационный веб-дизайн: оживление интерфейсов и персонажей онлайн",
+    author: "Сергей Морозов",
+    avatar: "https://i.postimg.cc/V58cGtS3/ava4.png",
+    images: [
+      "https://i.pinimg.com/564x/27/3d/75/273d75cb594cccce2b6f2433acded1bf.jpg",
+      "https://i.pinimg.com/564x/77/2b/d1/772bd19de0cc73c5dd1eeffc9d494131.jpg",
+      "https://i.pinimg.com/736x/e6/50/1a/e6501a848e3b3205912c23936fc75ce9.jpg",
+    ],
+  },
+];
+
+export const currentUserInfo = {
+  firstName: "Анна",
+  lastName: "Петрова",
+  avatar: "https://i.postimg.cc/wRHFXgjG/ava2.png",
+  specialization: "Графический дизайнер",
+  country: "Россия",
+  registrationDate: "12 ноября 2023",
+  status: "Ищет заказы",
+  likes: 1001,
+  followers: 98,
+};
+
+export const currentUserCases = [
+  {
+    id: 1,
+    title: "Магический дизайн: создание удивительных веб-сайтов",
+    author: "Анна Петрова",
+    avatar: "https://i.postimg.cc/wRHFXgjG/ava2.png",
+    images: [
+      "https://i.pinimg.com/564x/9e/fc/61/9efc616744e569a3b8dcdba374b237aa.jpg",
+      "https://i.pinimg.com/564x/fb/65/46/fb6546c2482c8c1dde32187e3073dd07.jpg",
+      "https://i.pinimg.com/564x/72/b2/0b/72b20b3d461d6cb57ea0b74c3464a276.jpg",
+      "https://i.pinimg.com/564x/20/a8/be/20a8be384db0cf64c8239a032073c84f.jpg",
+    ],
+  },
+  {
+    id: 2,
+    title: "Фантастические миры: иллюстрации для фэнтези книг",
+    author: "Анна Петрова",
+    avatar: "https://i.postimg.cc/wRHFXgjG/ava2.png",
+    images: [
+      "https://i.pinimg.com/736x/37/b3/1e/37b31e70118c65a742e34116b0b8fc6f.jpg",
+      "https://i.pinimg.com/564x/d6/b1/23/d6b1232c15855b6ffd559986a5496bca.jpg",
+      "https://i.pinimg.com/564x/b7/31/e7/b731e7a2bb0b509a3ef989906bdc88d8.jpg",
+    ],
+  },
+  {
+    id: 3,
+    title: "Приключения на страницах: иллюстрации для детективных романов",
+    author: "Анна Петрова",
+    avatar: "https://i.postimg.cc/wRHFXgjG/ava2.png",
+    images: [
+      "https://i.pinimg.com/564x/07/50/4a/07504ae3450c416ca75c87bd3887ae70.jpg",
+      "https://i.pinimg.com/564x/8d/7e/0c/8d7e0cf9356977d1055395b935031115.jpg",
+      "https://i.pinimg.com/564x/29/c9/79/29c979eef1bf55b0443a55dd97b760e2.jpg",
+    ],
+  },
+  {
+    id: 4,
+    title: "Исторические иллюстрации: возвращение в прошлое через книги",
+    author: "Анна Петрова",
+    avatar: "https://i.postimg.cc/wRHFXgjG/ava2.png",
+    images: [
+      "https://i.pinimg.com/564x/27/3d/75/273d75cb594cccce2b6f2433acded1bf.jpg",
+      "https://i.pinimg.com/564x/a7/a2/0d/a7a20dee9a6545cad18e10cfd100e068.jpg",
+      "https://i.pinimg.com/564x/f3/83/0c/f3830c976b2dac09bd003fd0312645e8.jpg",
+    ],
+  },
+  {
+    id: 5,
+    title: "Романтические иллюстрации: создание атмосферы любовных романов",
+    author: "Анна Петрова",
+    avatar: "https://i.postimg.cc/wRHFXgjG/ava2.png",
+    images: [
+      "https://i.pinimg.com/564x/45/cf/ff/45cfff6091ff2fe97afb95d75dd93219.jpg",
+      "https://i.pinimg.com/564x/70/99/58/70995855810c9463a4d475b10bf39cad.jpg",
+      "https://i.pinimg.com/564x/6e/ba/3e/6eba3ec015771ff2cba70108a1be1aad.jpg",
+    ],
+  },
+  {
+    id: 6,
+    title: "Мистические иллюстрации: загадочные образы для тайных историй",
+    author: "Анна Петрова",
+    avatar: "https://i.postimg.cc/wRHFXgjG/ava2.png",
+    images: [
+      "https://i.pinimg.com/564x/c5/09/0a/c5090acc493990210d021e60217d3a72.jpg",
+      "https://i.pinimg.com/564x/2a/eb/e3/2aebe3538b859fe1ba41b5d42ee29a64.jpg",
+      "https://i.pinimg.com/564x/3e/a8/c2/3ea8c291b614037fc8067bfd8305e5e5.jpg",
+    ],
+  },
+  {
+    id: 7,
+    title: "Научные иллюстрации: визуализация сложных концепций через книги",
+    author: "Анна Петрова",
+    avatar: "https://i.postimg.cc/wRHFXgjG/ava2.png",
+    images: [
+      "https://i.pinimg.com/564x/56/94/54/5694547b99c1d7f7854c011509bc884a.jpg",
+      "https://i.pinimg.com/564x/e9/49/b4/e949b4ddffec60887aa05dbc2557bb80.jpg",
+      "https://i.pinimg.com/736x/5e/25/d3/5e25d36272f9ef3aad7f7eace2759e88.jpg",
+    ],
+  },
+  {
+    id: 8,
+    title: "Иллюстрации природы: вдохновение из мира животных и растений",
+    author: "Анна Петрова",
+    avatar: "https://i.postimg.cc/wRHFXgjG/ava2.png",
+    images: [
+      "https://i.pinimg.com/736x/b6/d2/41/b6d2414f5a156a2093b29377650c3b1e.jpg",
+      "https://i.pinimg.com/564x/eb/04/8d/eb048d578f4387c352bfa2c285a34ee7.jpg",
+      "https://i.pinimg.com/736x/37/2d/1c/372d1c8feacdc092fffe04cc9ceb0cd4.jpg",
+    ],
+  },
+];

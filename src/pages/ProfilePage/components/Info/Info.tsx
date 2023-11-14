@@ -24,10 +24,10 @@ const statusStyles: SxProps<Theme> = {
 };
 
 export interface IProfileData {
-  first_name: string;
-  last_name: string;
+  firstName: string;
+  lastName: string;
+  avatar?: string;
   specialization: string;
-  image?: string;
   country: string;
   registrationDate: string;
   status: string;
@@ -41,10 +41,10 @@ interface IInfoProps {
 
 const Info: React.FC<IInfoProps> = ({ data }) => {
   const {
-    first_name,
-    last_name,
+    firstName,
+    lastName,
     specialization,
-    image,
+    avatar,
     country,
     registrationDate,
     status,
@@ -57,7 +57,7 @@ const Info: React.FC<IInfoProps> = ({ data }) => {
   const [isCurrentUser, setIsCurrentUser] = useState(true);
   const navigate = useNavigate();
 
-  const name = `${first_name} ${last_name}`;
+  const name = `${firstName} ${lastName}`;
 
   const initials = getInitials(name);
 
@@ -70,8 +70,8 @@ const Info: React.FC<IInfoProps> = ({ data }) => {
         wrap="nowrap"
         component={Paper}
       >
-        <Avatar src={image} alt={name} sx={avatarStyles}>
-          {!image ? initials : ""}
+        <Avatar src={avatar} alt={name} sx={avatarStyles}>
+          {!avatar ? initials : ""}
         </Avatar>
         <Grid container flexDirection="column" gap="24px" flexGrow={1}>
           <Grid container flexDirection="column" gap="16px">

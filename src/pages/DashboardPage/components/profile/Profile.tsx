@@ -65,7 +65,7 @@ const Profile: React.FC = () => {
               <FormLabel className={classes.profile__section_subtitle}>
                 Имя
               </FormLabel>
-              <Typography className={classes.profile__name}>Ирина</Typography>
+              <Typography className={classes.profile__name}>Анна</Typography>
             </Box>
 
             <Box>

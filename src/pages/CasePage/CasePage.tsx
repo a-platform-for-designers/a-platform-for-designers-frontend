@@ -6,16 +6,15 @@ import {
   StyledEngineProvider,
 } from "@mui/material";
 import "./CasePage.scss";
-import profilePlaceholder from "../../assets/images/designerscarousel-avatar.png";
 
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { casesService } from "../../api";
 import { ICase } from "../../types";
-import { IProfileData } from "../ProfilePage/components/Info/Info";
 import { ActionButton, CaseInfo, ProfileInfo } from "./components";
 import { AboutItem } from "../ProfilePage/components";
 import Preloader from "../../components/Preloader/Preloader";
+import { currentUserInfo } from "@/utils/constants";
 
 const casePlaceholder: ICase = {
   id: 1,
@@ -27,7 +26,7 @@ const casePlaceholder: ICase = {
     { id: 5, name: "Книжная иллюстрация" },
   ],
   author: 1,
-  title: "Название проекта Название проекта",
+  title: "Магический дизайн: создание удивительных веб-сайтов",
   sphere: "Маркетинг",
   instruments: [
     { id: 1, name: "Photoshop" },
@@ -42,33 +41,21 @@ const casePlaceholder: ICase = {
   images: [
     {
       id: 1,
-      src: "https://scientificrussia.ru/images/b/teb-full.jpg",
+      src: "https://i.pinimg.com/564x/9e/fc/61/9efc616744e569a3b8dcdba374b237aa.jpg",
     },
     {
       id: 2,
-      src: "https://fond-vsem-mirom.ru/wp-content/uploads/2020/06/gk_zdhbg784.jpg",
+      src: "https://i.pinimg.com/564x/fb/65/46/fb6546c2482c8c1dde32187e3073dd07.jpg",
     },
     {
       id: 3,
-      src: "https://oir.mobi/uploads/posts/2022-09/1662133482_1-oir-mobi-p-britanskaya-pryamoukhaya-koshka-krasivo-1.jpg",
+      src: "https://i.pinimg.com/564x/72/b2/0b/72b20b3d461d6cb57ea0b74c3464a276.jpg",
     },
     {
       id: 4,
-      src: "https://koshka.top/uploads/posts/2021-12/1638880950_1-koshka-top-p-britanskaya-golubaya-visloukhaya-1.jpg",
+      src: "https://i.pinimg.com/564x/20/a8/be/20a8be384db0cf64c8239a032073c84f.jpg",
     },
   ],
-};
-
-const profileData: IProfileData = {
-  first_name: "Екатерина",
-  last_name: "Барановская",
-  specialization: "Графический дизайнер",
-  image: profilePlaceholder,
-  country: "Россия",
-  registrationDate: "12 ноября 2023",
-  status: "Ищет заказы",
-  likes: 1001,
-  followers: 98,
 };
 
 const CasePage: React.FC = () => {
@@ -116,7 +103,7 @@ const CasePage: React.FC = () => {
           gap="40px"
           alignItems="flex-start"
         >
-          <ProfileInfo data={profileData} />
+          <ProfileInfo data={currentUserInfo} />
           <CaseInfo data={casePlaceholder} />
           <Grid
             container

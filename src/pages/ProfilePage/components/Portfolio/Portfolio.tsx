@@ -1,19 +1,14 @@
 import { Grid, StyledEngineProvider } from "@mui/material";
 import "./Portfolio.scss";
 import React from "react";
-import MySwiper from "../../../../components/UI/MySwiper/MySwiper";
+import MySwiper, { ICase } from "../../../../components/UI/MySwiper/MySwiper";
 import { EmptyData } from "..";
-import { useNavigate } from "react-router-dom";
 
-interface IPortfolioData {}
-
-interface IPortfolioProps {
-  data: IPortfolioData[];
+interface IProps {
+  data: ICase[];
 }
 
-const Portfolio: React.FC<IPortfolioProps> = ({ data }) => {
-  const navigate = useNavigate();
-
+const Portfolio: React.FC<IProps> = ({ data }) => {
   if (!data.length) {
     return <EmptyData title="У дизайнера пока нет проектов" />;
   }
@@ -21,8 +16,8 @@ const Portfolio: React.FC<IPortfolioProps> = ({ data }) => {
   return (
     <StyledEngineProvider injectFirst>
       <Grid className="portfolio" justifyContent="center" container>
-        {data.map((_, idx) => (
-          <MySwiper key={idx} onClick={() => navigate("/case/1")} />
+        {data.map((item) => (
+          <MySwiper key={item.id} {...item} />
         ))}
       </Grid>
     </StyledEngineProvider>

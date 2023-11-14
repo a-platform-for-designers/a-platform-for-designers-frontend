@@ -1,6 +1,7 @@
 import "./DesignersPage.scss";
 import { Box, Grid, StyledEngineProvider } from "@mui/material";
 import { DesignerFilters, DesignersCard } from "./components";
+import { swiperContentData } from "@/utils/constants";
 
 const DesignersPage: React.FC = () => {
   return (
@@ -18,14 +19,17 @@ const DesignersPage: React.FC = () => {
           >
             <Grid xs={9} item className="designersPage__cards">
               {/* ! Карточки дизайнеров */}
+              {swiperContentData.map((item) => (
+                <DesignersCard key={item.id} {...item} />
+              ))}
+              {/* <DesignersCard />
               <DesignersCard />
               <DesignersCard />
               <DesignersCard />
               <DesignersCard />
               <DesignersCard />
               <DesignersCard />
-              <DesignersCard />
-              <DesignersCard />
+              <DesignersCard /> */}
               {/* ! */}
             </Grid>
             <Grid xs={3} item className="designersPage__filters">

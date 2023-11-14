@@ -9,12 +9,19 @@ import DesinersCategories, {
   IDesinerCategoriesData,
 } from "../../components/DesinersCategories/DesinersCategories";
 
-import avatarPlaceholder from "../../assets/images/designerscarousel-avatar.png";
+import Nikolay from "../../assets/images/our_team/Nikolay.jpg";
+import Alena from "../../assets/images/our_team/Alena.jpg";
+import Anna from "../../assets/images/our_team/Anna.jpg";
+import Mary from "../../assets/images/our_team/Mary.jpg";
+import Marya from "../../assets/images/our_team/Marya.jpg";
+import Nastya from "../../assets/images/our_team/tNdf4SmiaBM.jpg";
+
 import desCatImg1 from "../../assets/images/desinerscategories-1.png";
 import desCatImg2 from "../../assets/images/desinerscategories-2.png";
 import desCatImg3 from "../../assets/images/desinerscategories-3.png";
 import desCatImg4 from "../../assets/images/desinerscategories-4.png";
 import Feed from "../../components/Feed/Feed";
+import { swiperContentData } from "@/utils/constants";
 
 const mainPageTheme: SxProps<Theme> = {
   backgroundColor: (theme) => theme.palette.background.default,
@@ -25,37 +32,37 @@ const MainPage: React.FC = () => {
     {
       name: "Имя Фамилия",
       specialization: "Специализация",
-      image: avatarPlaceholder,
+      image: Nikolay,
       link: "",
     },
     {
       name: "Имя Фамилия",
       specialization: "Специализация",
-      image: avatarPlaceholder,
+      image: Alena,
       link: "",
     },
     {
       name: "Имя Фамилия",
       specialization: "Специализация",
-      image: avatarPlaceholder,
+      image: Anna,
       link: "",
     },
     {
       name: "Имя Фамилия",
       specialization: "Специализация",
-      image: avatarPlaceholder,
+      image: Mary,
       link: "",
     },
     {
       name: "Имя Фамилия",
       specialization: "Специализация",
-      image: avatarPlaceholder,
+      image: Marya,
       link: "",
     },
     {
       name: "Имя Фамилия",
       specialization: "Специализация",
-      image: avatarPlaceholder,
+      image: Nastya,
       link: "",
     },
   ];
@@ -95,7 +102,7 @@ const MainPage: React.FC = () => {
             <Intro />
             <DesinersCarousel data={desinersForCarousel} />
             <DesinersCategories data={desinersCategories} />
-            <Feed data={[...new Array(12)]} />
+            <Feed data={swiperContentData} />
           </Grid>
         }
       </Box>

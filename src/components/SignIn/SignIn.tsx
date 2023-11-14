@@ -9,9 +9,10 @@ import { enqueueSnackbar } from "notistack";
 interface ISignInProps {
   openSignUpPopup: () => void;
   onClose: () => void;
+  onLogin: () => void;
 }
 
-const SignIn: FC<ISignInProps> = ({ openSignUpPopup, onClose }) => {
+const SignIn: FC<ISignInProps> = ({ openSignUpPopup, onClose, onLogin }) => {
   const [error] = useState("");
 
   const email = useInput(
@@ -34,6 +35,7 @@ const SignIn: FC<ISignInProps> = ({ openSignUpPopup, onClose }) => {
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    onLogin();
     enqueueSnackbar({
       variant: "success",
       message: "Вы успешно вошли",

@@ -5,20 +5,17 @@ import {
   Typography,
 } from "@mui/material";
 import "./Feed.scss";
-import MySwiper from "../UI/MySwiper/MySwiper";
+import MySwiper, { ICase } from "../UI/MySwiper/MySwiper";
 import WorkCategories, {
   IActiveWorkCategoryState,
   IWorkCategoryData,
 } from "../WorkCategories/WorkCategories";
 import { useState } from "react";
 import React from "react";
-import { useNavigate } from "react-router-dom";
 
 // нужно определиться, какие данные приходят от бэка и что принимает MySwiper!!!
-export interface IFeedData {}
-
-interface IFeedProps {
-  data: IFeedData[];
+interface IProps {
+  data: ICase[];
 }
 
 // Заглушка для категорий
@@ -41,19 +38,12 @@ const workCategories: IWorkCategoryData[] = [
   },
 ];
 
-const Feed: React.FC<IFeedProps> = ({ data }) => {
+const Feed: React.FC<IProps> = ({ data }) => {
   const initialState: IActiveWorkCategoryState = {
     allDirections: true,
     categories: [],
     following: false,
   };
-
-  const navigate = useNavigate();
-
-  const id = 1; //! Поменять на входящий
-  function handleClickCase() {
-    navigate(`/case/${id}`);
-  }
 
   const [workCategoryState, setWorkCategoryState] =
     useState<IActiveWorkCategoryState>(initialState);
@@ -74,8 +64,8 @@ const Feed: React.FC<IFeedProps> = ({ data }) => {
           setWorkCategoryState={setWorkCategoryState}
         />
         <Grid className="feed__list" justifyContent="center" container>
-          {data.map((_, idx) => (
-            <MySwiper key={idx} onClick={handleClickCase} />
+          {data.map((item) => (
+            <MySwiper key={item.id} {...item} />
           ))}
         </Grid>
       </Container>

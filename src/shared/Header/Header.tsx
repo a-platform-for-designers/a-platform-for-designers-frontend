@@ -26,6 +26,7 @@ import MyPopup from "@/components/UI/MyPopup/MyPopup";
 import UserRole from "@/components/UserRole/UserRole";
 import SignUp from "@/components/SignUp/SignUp";
 import SignIn from "@/components/SignIn/SignIn";
+import { currentUserInfo } from "@/utils/constants";
 
 const Header: React.FC = () => {
   const location = useLocation();
@@ -171,7 +172,7 @@ const Header: React.FC = () => {
                   <Avatar
                     className="header__avatar"
                     alt="avatar"
-                    src="https://www.iguides.ru/upload/medialibrary/74f/zwzgzu9t64a91p80nooe639e3bvgi18e.jpg"
+                    src={currentUserInfo.avatar}
                     onClick={() => navigate(`/profile/${myId}`)}
                   />
                 </List>
@@ -213,7 +214,11 @@ const Header: React.FC = () => {
 
       <MyPopup onClose={handleClose} open={isOpenSignIn}>
         <MyAuthForm title="Вход">
-          <SignIn openSignUpPopup={openSignUpPopup} onClose={handleClose} />
+          <SignIn
+            openSignUpPopup={openSignUpPopup}
+            onClose={handleClose}
+            onLogin={handleLogin}
+          />
         </MyAuthForm>
       </MyPopup>
       <MyPopup onClose={handleClose} open={isOpenSignUp}>

@@ -23,9 +23,9 @@ interface IProfileInfoProps {
 }
 
 const ProfileInfo: React.FC<IProfileInfoProps> = ({ data }) => {
-  const { first_name, last_name, specialization, image } = data;
+  const { firstName, lastName, specialization, avatar } = data;
 
-  const name = `${first_name} ${last_name}`;
+  const name = `${firstName} ${lastName}`;
 
   const initials = getInitials(name);
 
@@ -39,8 +39,8 @@ const ProfileInfo: React.FC<IProfileInfoProps> = ({ data }) => {
         alignItems="center"
         component={Paper}
       >
-        <Avatar src={image} alt={name} sx={avatarStyles}>
-          {!image ? initials : ""}
+        <Avatar src={avatar} alt={name} sx={avatarStyles}>
+          {!avatar ? initials : ""}
         </Avatar>
         <Grid container flexDirection="column" gap="24px" flexGrow={1}>
           <Grid container flexDirection="column" gap="12px">
@@ -52,10 +52,10 @@ const ProfileInfo: React.FC<IProfileInfoProps> = ({ data }) => {
               className="profileInfo__title"
             >
               <Typography className="profileInfo__title-item" component="span">
-                {first_name}
+                {firstName}
               </Typography>
               <Typography className="profileInfo__title-item" component="span">
-                {last_name}
+                {lastName}
               </Typography>
             </Grid>
             <Typography className="profileInfo__subtitle" component="p">

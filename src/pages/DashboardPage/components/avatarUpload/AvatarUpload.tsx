@@ -11,7 +11,7 @@ interface IAvatarUploadProps {
 
 const AvatarUpload: React.FC<IAvatarUploadProps> = ({ cbFileChange }) => {
   const [avatar, setAvatar] = useState<string | undefined>(
-    "https://uhd.name/uploads/posts/2022-08/1660089967_24-uhd-name-p-shakira-bez-makiyazha-devushka-krasivo-fot-49.jpg"
+    "https://i.postimg.cc/wRHFXgjG/ava2.png"
   );
 
   function validateImage(file: File): string | void {
