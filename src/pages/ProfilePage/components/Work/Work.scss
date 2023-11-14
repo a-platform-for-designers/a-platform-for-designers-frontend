@@ -7,6 +7,10 @@
   &__main {
     max-width: 802px;
     padding-left: 118px;
+
+    p {
+      white-space: pre-line;
+    }
   }
 
   &__aside {
