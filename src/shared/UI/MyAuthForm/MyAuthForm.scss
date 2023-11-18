@@ -28,7 +28,8 @@
     color: var(--text-color-black);
   }
 
-  &__signup-form, &__signin-form {
+  &__signup-form,
+  &__signin-form {
     width: 100%;
     min-height: 40px;
     display: grid;
