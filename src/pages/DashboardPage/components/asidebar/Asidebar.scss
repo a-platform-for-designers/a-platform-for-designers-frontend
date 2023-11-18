@@ -5,11 +5,11 @@
 
     &-item {
       &_active {
-        color: $button-active-color;
+        color: var(--button-active-color);
       }
 
       &_type_exit {
-        color: $button-super-red;
+        color: var(--button-super-red);
       }
     }
   }
