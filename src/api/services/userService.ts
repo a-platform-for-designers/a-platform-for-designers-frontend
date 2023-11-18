@@ -1,5 +1,10 @@
-import { ICreateUserRequest, IUserShort, IUser, IUserRespons } from "../types";
-import api from "./api";
+import {
+  ICreateUserRequest,
+  IUserShort,
+  IUser,
+  IUserRespons,
+} from "../../types";
+import api from "../api";
 
 const userService = {
   createUser: async (data: ICreateUserRequest): Promise<IUserShort> => {

@@ -1,6 +1,6 @@
-import authService from "./authService";
-import casesService from "./casesService";
-import dataService from "./dataService";
-import userService from "./userService";
+import authService from "./services/authService";
+import casesService from "./services/casesService";
+import dataService from "./services/dataService";
+import userService from "./services/userService";
 
 export { authService, casesService, dataService, userService };

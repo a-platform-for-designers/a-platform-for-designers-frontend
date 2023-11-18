@@ -2,14 +2,19 @@ import { Route, Routes } from "react-router";
 import classes from "./index.module.scss";
 import { lightTheme } from "../theme/index.ts";
 import { CssBaseline, ThemeProvider } from "@mui/material";
-import MainPage from "../pages/MainPage/MainPage.tsx";
-import ProfilePage from "../pages/ProfilePage/ProfilePage.tsx";
-import ErrorPage from "../pages/ErrorPage/ErrorPage.tsx";
-import DesignersPage from "../pages/DesignersPage/DesignersPage.tsx";
-import Dashboard from "../pages/DashboardPage/Dashboard.tsx";
 import { Navigate } from "react-router-dom";
 import { SnackbarProvider } from "notistack";
-import CasePage from "../pages/CasePage/CasePage.tsx";
+import ProtectedRoute from "../shared/ProtectedRoute/ProtectedRoute.tsx";
+import Header from "../shared/Header/Header.tsx";
+import Footer from "../shared/Footer/Footer.tsx";
+import {
+  CasePage,
+  Dashboard,
+  DesignersPage,
+  ErrorPage,
+  MainPage,
+  ProfilePage,
+} from "@/pages/index.ts";
 import {
   Portfolio,
   Profile,
@@ -18,9 +23,7 @@ import {
   Orders,
   Settings,
 } from "../pages/DashboardPage/components/index.ts";
-import ProtectedRoute from "../shared/ProtectedRoute/ProtectedRoute.tsx";
-import Header from "../shared/Header/Header.tsx";
-import Footer from "../shared/Footer/Footer.tsx";
+
 function App() {
   return (
     <ThemeProvider theme={lightTheme}>

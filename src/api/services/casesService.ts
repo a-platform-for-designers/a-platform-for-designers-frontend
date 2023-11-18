@@ -1,5 +1,5 @@
-import { ICase, ICaseRespons } from "../types";
-import api from "./api";
+import { ICase, ICaseRespons } from "../../types";
+import api from "../api";
 
 const casesService = {
   getCasesList: async (limit: number, page: number): Promise<ICaseRespons> => {

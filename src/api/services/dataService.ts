@@ -1,5 +1,5 @@
-import { IDataItem } from "../types";
-import api from "./api";
+import { IDataItem } from "../../types";
+import api from "../api";
 
 const dataService = {
   // Получение списка специализаций
