@@ -1,9 +1,7 @@
 import { Container, StyledEngineProvider } from "@mui/material";
 import "./ProfilePage.scss";
-
 import profilePlaceholder from "../../assets/images/designerscarousel-avatar.png";
 import { Route, Routes, Navigate } from "react-router-dom";
-
 import { IProfileDesigner, IResume } from "../../types";
 import { Info, ProfileNav, Portfolio, Work, Profile } from "./components";
 import { IProfileData } from "./components/Info/Info";
