@@ -1,11 +1,11 @@
 import Box from "@mui/material/Box";
 import classes from "./CaseCreation.module.scss";
-import ProfileInput from "@/components/UI/ProfileInput/ProfileInput";
-import MyButton from "@/components/UI/MyButton/MyButton";
 import useInput from "@/hooks/useInput";
 import { useState, SyntheticEvent } from "react";
 import { IProfileDataItem } from "../../model/types";
 import { directionsOptions, tools, spheres } from "../../model/constants";
+import ProfileInput from "@/shared/UI/ProfileInput/ProfileInput";
+import { MyButton } from "@/shared/UI";
 
 const CaseCreation: React.FC = () => {
   const title = useInput("", { isEmpty: true });

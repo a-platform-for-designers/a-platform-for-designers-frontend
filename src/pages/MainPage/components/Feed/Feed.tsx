@@ -5,14 +5,14 @@ import {
   Typography,
 } from "@mui/material";
 import "./Feed.scss";
-import MySwiper from "../UI/MySwiper/MySwiper";
+import { useState } from "react";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 import WorkCategories, {
   IActiveWorkCategoryState,
   IWorkCategoryData,
 } from "../WorkCategories/WorkCategories";
-import { useState } from "react";
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import MySwiper from "@/shared/UI/MySwiper/MySwiper";
 
 // нужно определиться, какие данные приходят от бэка и что принимает MySwiper!!!
 export interface IFeedData {}

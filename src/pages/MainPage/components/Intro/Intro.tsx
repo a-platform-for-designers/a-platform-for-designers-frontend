@@ -6,9 +6,9 @@ import {
   Typography,
 } from "@mui/material";
 import "./Intro.scss";
-import MyButton from "../UI/MyButton/MyButton";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { MyButton } from "@/shared/UI";
 
 const titleStyles: SxProps<Theme> = {
   color: (theme) => theme.palette.primary.contrastText,

@@ -1,20 +1,20 @@
 import { Box, Grid, StyledEngineProvider, SxProps, Theme } from "@mui/material";
 import "./MainPage.scss";
-import Intro from "../../components/Intro/Intro";
+import Intro from "./components/Intro/Intro";
 
 import DesinersCarousel, {
   IDesinerCarouselData,
-} from "../../components/DesinersCarousel/DesinersCarousel";
+} from "./components/DesinersCarousel/DesinersCarousel";
 import DesinersCategories, {
   IDesinerCategoriesData,
-} from "../../components/DesinersCategories/DesinersCategories";
+} from "./components/DesinersCategories/DesinersCategories";
 
 import avatarPlaceholder from "../../assets/images/designerscarousel-avatar.png";
 import desCatImg1 from "../../assets/images/desinerscategories-1.png";
 import desCatImg2 from "../../assets/images/desinerscategories-2.png";
 import desCatImg3 from "../../assets/images/desinerscategories-3.png";
 import desCatImg4 from "../../assets/images/desinerscategories-4.png";
-import Feed from "../../components/Feed/Feed";
+import Feed from "./components/Feed/Feed";
 
 const mainPageTheme: SxProps<Theme> = {
   backgroundColor: (theme) => theme.palette.background.default,

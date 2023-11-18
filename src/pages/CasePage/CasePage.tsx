@@ -15,7 +15,7 @@ import { ICase } from "../../types";
 import { IProfileData } from "../ProfilePage/components/Info/Info";
 import { ActionButton, CaseInfo, ProfileInfo } from "./components";
 import { AboutItem } from "../ProfilePage/components";
-import Preloader from "../../components/Preloader/Preloader";
+import Preloader from "@/shared/Preloader/Preloader";
 
 const casePlaceholder: ICase = {
   id: 1,

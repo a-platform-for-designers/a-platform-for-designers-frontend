@@ -10,3 +10,4 @@ const getInitials: (name: string) => string = (name) => {
 };
 
 export default getInitials;
+//! удалить

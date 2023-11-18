@@ -1,7 +1,7 @@
 import { StyledEngineProvider } from "@mui/material";
 import "./InfoAction.scss";
 import React from "react";
-import MyButton, { IMyButtonProps } from "@/components/UI/MyButton/MyButton";
+import MyButton, { IMyButtonProps } from "@/shared/UI/MyButton/MyButton";
 
 interface IIsLoggedData {
   label: string;

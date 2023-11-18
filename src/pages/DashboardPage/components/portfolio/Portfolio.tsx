@@ -1,8 +1,8 @@
 import Box from "@mui/material/Box";
 import classes from "./Portfolio.module.scss";
-import MyButton from "@/components/UI/MyButton/MyButton";
 import { Grid, Typography } from "@mui/material";
 import { useLocation, useNavigate, Outlet } from "react-router-dom";
+import MyButton from "@/shared/UI/MyButton/MyButton";
 
 const Portfolio: React.FC = () => {
   const navigate = useNavigate();

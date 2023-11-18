@@ -1,12 +1,10 @@
 import { Box, FormControl, FormLabel, Typography } from "@mui/material";
 import classes from "./Profile.module.scss";
 import { useState } from "react";
-import MyDropDown from "@/components/UI/MyDropDown/MyDropDown";
-import MyInput from "@/components/UI/MyInput/MyInput";
-import MyButton from "@/components/UI/MyButton/MyButton";
 import useInput from "@/hooks/useInput";
 import AvatarUpload from "../avatarUpload/AvatarUpload";
 import { LISTS } from "@/utils/constants";
+import { MyButton, MyDropDown, MyInput } from "@/shared/UI";
 
 const Profile: React.FC = () => {
   const [specialization, setSpecialization] = useState<string | null>(null);

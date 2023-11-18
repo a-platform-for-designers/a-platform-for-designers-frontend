@@ -1,20 +1,15 @@
 import { Route, Routes } from "react-router";
-import classes from "./App.module.scss";
-import { lightTheme } from "./theme/index.ts";
+import classes from "./index.module.scss";
+import { lightTheme } from "../theme/index.ts";
 import { CssBaseline, ThemeProvider } from "@mui/material";
-
-import MainPage from "./pages/MainPage/MainPage";
-import ProfilePage from "./pages/ProfilePage/ProfilePage";
-import ErrorPage from "./pages/ErrorPage/ErrorPage";
-import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
-import DesignersPage from "./pages/DesignersPage/DesignersPage";
-import Dashboard from "./pages/DashboardPage/Dashboard.tsx";
-
+import MainPage from "../pages/MainPage/MainPage.tsx";
+import ProfilePage from "../pages/ProfilePage/ProfilePage.tsx";
+import ErrorPage from "../pages/ErrorPage/ErrorPage.tsx";
+import DesignersPage from "../pages/DesignersPage/DesignersPage.tsx";
+import Dashboard from "../pages/DashboardPage/Dashboard.tsx";
 import { Navigate } from "react-router-dom";
-import Header from "./components/Header/Header.tsx";
-import Footer from "./components/Footer/Footer.tsx";
 import { SnackbarProvider } from "notistack";
-import CasePage from "./pages/CasePage/CasePage.tsx";
+import CasePage from "../pages/CasePage/CasePage.tsx";
 import {
   Portfolio,
   Profile,
@@ -22,7 +17,10 @@ import {
   Work,
   Orders,
   Settings,
-} from "./pages/DashboardPage/components";
+} from "../pages/DashboardPage/components/index.ts";
+import ProtectedRoute from "../shared/ProtectedRoute/ProtectedRoute.tsx";
+import Header from "../shared/Header/Header.tsx";
+import Footer from "../shared/Footer/Footer.tsx";
 function App() {
   return (
     <ThemeProvider theme={lightTheme}>

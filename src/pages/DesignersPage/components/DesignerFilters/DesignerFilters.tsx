@@ -1,10 +1,7 @@
 import { SyntheticEvent, useState } from "react";
-import MyCheckBox from "../../../../components/UI/MyCheckBox/MyCheckBox";
 import "./DesignerFilters.scss";
 import { FormControlLabel, Radio, RadioGroup } from "@mui/material";
-import MyDropDown from "../../../../components/UI/MyDropDown/MyDropDown";
 import CloseIcon from "@mui/icons-material/Close";
-
 import {
   DESIGNER_FILTERS_CLEAR_BTN_LABEL,
   READY_FOR_JOB_TITLE,
@@ -14,7 +11,7 @@ import {
   FILTER_OPTIONS,
 } from "../../model/constants";
 import { LISTS } from "@/utils/constants";
-import MyButton from "@/components/UI/MyButton/MyButton";
+import { MyButton, MyCheckBox, MyDropDown } from "@/shared/UI";
 
 const DesignerFilters: React.FC = () => {
   const [speciality, setSpeciality] = useState<string[]>([]);

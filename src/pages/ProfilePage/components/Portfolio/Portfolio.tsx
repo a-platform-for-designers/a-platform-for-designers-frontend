@@ -1,9 +1,10 @@
 import { Grid, StyledEngineProvider } from "@mui/material";
 import "./Portfolio.scss";
 import React from "react";
-import MySwiper from "../../../../components/UI/MySwiper/MySwiper";
+
 import { EmptyData } from "..";
 import { useNavigate } from "react-router-dom";
+import MySwiper from "@/shared/UI/MySwiper/MySwiper";
 
 interface IPortfolioData {}
 

@@ -1,7 +1,7 @@
 import { Grid, ListItem, StyledEngineProvider } from "@mui/material";
 import "./WorkCategories.scss";
 import React from "react";
-import MyButton from "../UI/MyButton/MyButton";
+import MyButton from "@/shared/UI/MyButton/MyButton";
 
 // интерфейс данных категории, которые нужно передать в пропсах
 export interface IWorkCategoryData {
