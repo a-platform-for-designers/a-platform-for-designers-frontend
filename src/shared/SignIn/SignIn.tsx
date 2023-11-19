@@ -3,7 +3,7 @@ import "./SignIn.scss";
 import useInput from "../../hooks/useInput";
 import MyInput from "../UI/MyInput/MyInput";
 import MyButton from "../UI/MyButton/MyButton";
-import { SigninText } from "../../utils/constants";
+import { SigninText } from "../../constants/constants";
 import { enqueueSnackbar } from "notistack";
 
 interface ISignInProps {

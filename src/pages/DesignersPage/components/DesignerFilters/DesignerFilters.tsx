@@ -10,7 +10,7 @@ import {
   TOOLS_TITLE,
   FILTER_OPTIONS,
 } from "../../model/constants";
-import { LISTS } from "@/utils/constants";
+import { LISTS } from "@/constants/constants";
 import { MyButton, MyCheckBox, MyDropDown } from "@/shared/UI";
 
 const DesignerFilters: React.FC = () => {

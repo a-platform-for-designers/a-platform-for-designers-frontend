@@ -3,7 +3,7 @@ import classes from "./Profile.module.scss";
 import { useState } from "react";
 import useInput from "@/hooks/useInput";
 import AvatarUpload from "../avatarUpload/AvatarUpload";
-import { LISTS } from "@/utils/constants";
+import { LISTS } from "@/constants/constants";
 import { MyButton, MyDropDown, MyInput } from "@/shared/UI";
 
 const Profile: React.FC = () => {

@@ -10,7 +10,7 @@ import {
 import "./ProfileInfo.scss";
 import React from "react";
 import { IProfileData } from "../../../ProfilePage/components/Info/Info";
-import { getInitials } from "../../../../utils";
+import { getInitials } from "../../../../features";
 
 const avatarStyles: SxProps<Theme> = {
   height: "94px",

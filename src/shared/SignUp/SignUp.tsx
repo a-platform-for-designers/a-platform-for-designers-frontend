@@ -4,7 +4,7 @@ import useInput from "../../hooks/useInput";
 import MyInput from "../UI/MyInput/MyInput";
 import MyButton from "../UI/MyButton/MyButton";
 import MyCheckBox from "../UI/MyCheckBox/MyCheckBox";
-import { SignupText } from "../../utils/constants";
+import { SignupText } from "../../constants/constants";
 import { enqueueSnackbar } from "notistack";
 
 interface ISignUpProps {

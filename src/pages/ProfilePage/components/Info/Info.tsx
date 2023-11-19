@@ -10,7 +10,7 @@ import {
 import "./Info.scss";
 import React, { useState } from "react";
 import { InfoAction, SocialIndicator } from "..";
-import { getInitials } from "../../../../utils";
+import { getInitials } from "../../../../features";
 import { useNavigate } from "react-router-dom";
 
 const avatarStyles: SxProps<Theme> = {
