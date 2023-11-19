@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router";
-import classes from "./index.module.scss";
+import "./index.scss";
 import { lightTheme } from "../theme/index.ts";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { Navigate } from "react-router-dom";
@@ -29,7 +29,7 @@ function App() {
     <ThemeProvider theme={lightTheme}>
       <CssBaseline enableColorScheme />
       <SnackbarProvider maxSnack={3} autoHideDuration={7000}>
-        <div className={classes.app}>
+        <div className="app">
           <Header />
           <Routes>
             <Route path="/" Component={MainPage} />
