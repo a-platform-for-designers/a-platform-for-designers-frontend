@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { objFromUseInput } from "../hooks/useInput";
-import "../components/UI/MyInput/MyInput.scss";
-import MyInput from "../components/UI/MyInput/MyInput";
+import { MyInput } from "@/shared/UI";
 
 const meta = {
   title: "UI/MyInput",

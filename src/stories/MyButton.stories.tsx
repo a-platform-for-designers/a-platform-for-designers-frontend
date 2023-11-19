@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import MyButton from "../components/UI/MyButton/MyButton";
-import "@/components/UI/MyButton/MyButton.scss";
 import CloseIcon from "@mui/icons-material/Close";
+import { MyButton } from "@/shared/UI";
 
 const meta = {
   title: "UI/MyButton",

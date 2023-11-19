@@ -2,7 +2,7 @@ import React from "react";
 import type { Decorator, Preview } from "@storybook/react";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { lightTheme } from "../src/theme/index";
-import "../src/styles/fonts/index.scss";
+import "./../src/app/styles/index.scss";
 
 const preview: Preview = {
   parameters: {

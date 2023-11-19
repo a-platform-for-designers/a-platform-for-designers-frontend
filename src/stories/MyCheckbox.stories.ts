@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import MyCheckBox from "../components/UI/MyCheckBox/MyCheckBox";
-import "../components/UI/MyCheckBox/MyCheckBox.scss";
+import { MyCheckBox } from "@/shared/UI";
 
 const meta = {
   title: "UI/MyCheckBox",

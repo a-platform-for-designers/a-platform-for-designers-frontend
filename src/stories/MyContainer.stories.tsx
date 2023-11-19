@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import "../components/UI/MyButton/MyButton.scss";
 import { Container } from "@mui/material";
 
 const meta = {
