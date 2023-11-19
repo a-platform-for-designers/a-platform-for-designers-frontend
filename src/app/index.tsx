@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { lightTheme } from "../theme/index.ts";
-import "./index.scss";
+import "./index.scss"; // после темы и cssBaseLine
 import { Navigate } from "react-router-dom";
 import { SnackbarProvider } from "notistack";
 import ProtectedRoute from "../shared/ProtectedRoute/ProtectedRoute.tsx";
