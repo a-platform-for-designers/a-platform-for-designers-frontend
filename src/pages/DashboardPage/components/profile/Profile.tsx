@@ -4,7 +4,12 @@ import { useState } from "react";
 import useInput from "@/hooks/useInput";
 import AvatarUpload from "../avatarUpload/AvatarUpload";
 import { LISTS } from "@/constants/constants";
-import { MyButton, MyDropDown, MyInput } from "@/shared/UI";
+import {
+  MyButton,
+  MyInput,
+  MyMultipleDropDown,
+  MySingleDropDown,
+} from "@/shared/UI";
 
 const Profile: React.FC = () => {
   const [specialization, setSpecialization] = useState<string | null>(null);
@@ -77,7 +82,7 @@ const Profile: React.FC = () => {
               <FormLabel className={classes.profile__section_subtitle}>
                 Специализация
               </FormLabel>
-              <MyDropDown
+              <MySingleDropDown
                 className={classes.profile__myDrowDown}
                 value={specialization}
                 onChange={handleSetSpecialization}
@@ -89,7 +94,7 @@ const Profile: React.FC = () => {
               <FormLabel className={classes.profile__section_subtitle}>
                 Страна
               </FormLabel>
-              <MyDropDown
+              <MySingleDropDown
                 className={classes.profile__myDrowDown}
                 value={country}
                 onChange={handleSetCountry}
@@ -113,9 +118,8 @@ const Profile: React.FC = () => {
             Знание языков
           </Typography>
           <div className={classes.profile__section_wrapper}>
-            <MyDropDown
+            <MyMultipleDropDown
               className={classes.profile__myDrowDown}
-              variant="multiple"
               value={languages}
               options={LISTS.LIST_LANGUAGES}
               onChange={handleSetLanguages}
