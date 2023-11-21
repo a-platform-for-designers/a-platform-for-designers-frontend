@@ -62,6 +62,11 @@ export interface IUser {
   portfolio: IUserCase[];
 }
 
+export interface IUserWithLastCases extends IUser {
+  last_cases: [ICase, ICase];
+  specialization: number;
+}
+
 export interface IUserCase {
   id: number;
   avatar: string;
@@ -110,5 +115,5 @@ export interface ICaseRespons extends IListRespons {
 }
 
 export interface IUserRespons extends IListRespons {
-  results: IUser[];
+  results: IUserWithLastCases[];
 }

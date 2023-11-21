@@ -2,26 +2,27 @@ import { Avatar, Box, Typography } from "@mui/material";
 import "./DesignersCard.scss";
 import MyButton from "@/shared/UI/MyButton/MyButton";
 import MySwiper from "@/shared/UI/MySwiper/MySwiper";
+import { IUserWithLastCases } from "@/types";
+import { LISTS } from "@/constants/constants";
 
-interface IProps {}
+interface IProps {
+  user: IUserWithLastCases;
+}
 
-const DesignersCard: React.FC<IProps> = () => {
+const DesignersCard: React.FC<IProps> = ({ user }) => {
   return (
     <Box className="designersCard">
       <div className="designersCard__info">
         <div>
-          <Avatar
-            className="designersCard__avatar"
-            src="https://avatars.dzeninfra.ru/get-zen_doc/5270289/pub_63775d7de0d51c65cdb7c0c4_637dd41e96aba95cd2b2e0df/scale_1200"
-          />
+          <Avatar className="designersCard__avatar" src={user.photo} />
           <Typography component="h2" className="designersCard__name">
-            Елизавета Шарикоподшипникова
+            {user.first_name} {user.last_name}
           </Typography>
           <Typography paragraph className="designersCard__job">
-            Графический дизайнер
+            {LISTS.LIST_SPECIALITY[user.specialization]}
           </Typography>
           <Typography paragraph className="designersCard__country">
-            Россия
+            {user.profiledesigner?.country}
           </Typography>
         </div>
         <div>
@@ -30,8 +31,9 @@ const DesignersCard: React.FC<IProps> = () => {
           </MyButton>
         </div>
       </div>
-      <MySwiper />
-      <MySwiper />
+      {user.last_cases.map((item) => (
+        <MySwiper key={item.id} item={item} />
+      ))}
     </Box>
   );
 };
