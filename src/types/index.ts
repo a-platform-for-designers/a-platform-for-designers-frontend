@@ -96,6 +96,7 @@ export interface ICase {
   is_favorited: boolean;
   is_liked: boolean;
   images: ICaseImage[];
+  avatar: string;
 }
 
 export interface IListRespons {

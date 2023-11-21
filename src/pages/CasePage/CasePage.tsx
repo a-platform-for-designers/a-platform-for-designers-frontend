@@ -75,11 +75,18 @@ const CasePage: React.FC = () => {
           </Grid>
           <Grid container className="casePage__content" gap="40px">
             <ImageList className="casePage__image-list" cols={2} gap={60}>
+              <ImageListItem>
+                <img
+                  className="casePage__image-item"
+                  src={`${caseData.avatar}`}
+                  alt={`Обложка кейса`}
+                  loading="lazy"
+                />
+              </ImageListItem>
               {caseData.images.map((item) => (
                 <ImageListItem key={item.id}>
                   <img
                     className="casePage__image-item"
-                    srcSet={`${item.image}`}
                     src={`${item.image}`}
                     alt={`Изображение #${item.id}`}
                     loading="lazy"

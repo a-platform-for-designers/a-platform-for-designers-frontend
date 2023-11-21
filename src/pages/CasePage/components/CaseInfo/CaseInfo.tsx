@@ -34,7 +34,7 @@ const CaseInfo: React.FC<ICaseInfoProps> = ({ data }) => {
           {description}
         </Typography>
         <Typography className="caseInfo__deadline" component="p">
-          Срок реализации {working_term} месяц
+          Срок реализации: {working_term}
         </Typography>
         <Stack
           className={`${"caseInfo__list"}`}

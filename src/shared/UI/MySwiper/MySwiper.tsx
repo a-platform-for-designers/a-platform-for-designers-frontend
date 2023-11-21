@@ -17,7 +17,6 @@ interface IProps {
 }
 
 const MySwiper: React.FC<IProps> = ({ item, onClick }) => {
-  console.log(item);
   if (!item) return;
 
   const sliders = item.images.map((image) => {
@@ -68,6 +67,9 @@ const MySwiper: React.FC<IProps> = ({ item, onClick }) => {
             </div>
           </div>
         </div>
+        <SwiperSlide>
+          <img src={item.avatar} alt="Обложка проекта" />
+        </SwiperSlide>
         {sliders}
       </Swiper>
     </StyledEngineProvider>

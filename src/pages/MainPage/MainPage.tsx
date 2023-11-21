@@ -1,6 +1,7 @@
 import { Box, Grid, StyledEngineProvider, SxProps, Theme } from "@mui/material";
 import "./MainPage.scss";
 import Intro from "./components/Intro/Intro";
+import { useState, useEffect } from "react";
 
 import DesinersCarousel, {
   IDesinerCarouselData,
@@ -15,6 +16,8 @@ import desCatImg2 from "../../assets/images/desinerscategories-2.png";
 import desCatImg3 from "../../assets/images/desinerscategories-3.png";
 import desCatImg4 from "../../assets/images/desinerscategories-4.png";
 import Feed from "./components/Feed/Feed";
+import { casesService } from "@/api";
+import { ICase } from "@/types";
 
 const mainPageTheme: SxProps<Theme> = {
   backgroundColor: (theme) => theme.palette.background.default,
@@ -83,6 +86,15 @@ const MainPage: React.FC = () => {
     },
   ];
 
+  const [cases, setCases] = useState<ICase[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      const casesData = await casesService.getCasesList(12, 1);
+      setCases(casesData.results);
+    })();
+  }, []);
+
   return (
     <StyledEngineProvider injectFirst>
       <Box component="main" className="mainPage" sx={mainPageTheme}>
@@ -95,7 +107,7 @@ const MainPage: React.FC = () => {
             <Intro />
             <DesinersCarousel data={desinersForCarousel} />
             <DesinersCategories data={desinersCategories} />
-            <Feed data={[...new Array(12)]} />
+            {cases.length > 0 && <Feed cases={cases} />}
           </Grid>
         }
       </Box>
