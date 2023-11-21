@@ -66,17 +66,9 @@ export const userSlice = createSlice({
     builder.addCase(getInfoAboutMe.fulfilled, (state, action) => {
       state.loading = "succeeded";
       state.user = action.payload;
-      enqueueSnackbar({
-        variant: "success",
-        message: `Добро пожаловать, ${action.payload.first_name}`,
-      });
     });
     builder.addCase(getInfoAboutMe.rejected, (state) => {
       state.loading = "failed";
-      enqueueSnackbar({
-        variant: "error",
-        message: `Что-то пошло не так`,
-      });
     });
   },
 });

@@ -1,19 +1,15 @@
 import AppBar from "@mui/material/AppBar";
 import {
   Box,
-  InputAdornment,
   List,
   ListItem,
   StyledEngineProvider,
-  TextField,
   Toolbar,
 } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
-import SearchIcon from "@mui/icons-material/Search";
 import "./Header.scss";
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-/* import MyCheckBox from "../UI/MyCheckBox/MyCheckBox"; */
 import FollowersIcon from "../../assets/icons/FollowersIcon.svg";
 import FavouritesIcon from "../../assets/icons/FavouritesDark.svg";
 import MessagesIcon from "../../assets/icons/MessagesIcon.svg";
@@ -29,7 +25,6 @@ const Header: React.FC = () => {
   const [isOpenSignUp, setIsOpenSignUp] = useState<boolean>(false);
   const [isRoleSelected, setIsRoleSelected] = useState<boolean>(false);
   const { isAuth } = useAppSelector((state) => state.auth);
-
   const { user } = useAppSelector((state) => state.user);
 
   const myId = user?.id;
@@ -67,20 +62,6 @@ const Header: React.FC = () => {
           <Box className="header__container">
             <Toolbar className="header__toolbar" variant="dense">
               <Box className="header__logo" onClick={() => navigate("/")} />
-              <TextField
-                className="header__search-form"
-                label=""
-                value="Ваш запрос"
-                id="outlined-start-adornment"
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <SearchIcon />
-                    </InputAdornment>
-                  ),
-                }}
-                disabled
-              />
               <List
                 className="header__pages-list"
                 sx={{ flexGrow: 1, display: "flex" }}
@@ -163,16 +144,6 @@ const Header: React.FC = () => {
                 </>
               )}
             </Toolbar>
-
-            {/* Чекбокс смены состояния header'a */}
-            {/*             <MyCheckBox
-              className="header__checkbox"
-              labelPlacement="start"
-              checked={isAuth}
-              label="Войти"
-              onChange={() => {}}
-              disabled={false}
-            /> */}
           </Box>
         </Box>
       </AppBar>
