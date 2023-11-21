@@ -5,14 +5,16 @@ import MyInput from "../UI/MyInput/MyInput";
 import MyButton from "../UI/MyButton/MyButton";
 import MyCheckBox from "../UI/MyCheckBox/MyCheckBox";
 import { SignupText } from "../../constants/constants";
-import { enqueueSnackbar } from "notistack";
+import { useAppDispatch } from "@/hooks/reduxHooks";
+import { createUser } from "@/redux/slices/userSlice";
 
 interface ISignUpProps {
   openSignInPopup: () => void;
   onClose: () => void;
 }
 
-const SignUp: FC<ISignUpProps> = ({ openSignInPopup, onClose }) => {
+const SignUp: FC<ISignUpProps> = ({ openSignInPopup }) => {
+  const dispatch = useAppDispatch();
   const [error] = useState("");
   const [confirmPrivatePolicy, setConfirmPrivatePolicy] =
     useState<boolean>(false);
@@ -30,7 +32,7 @@ const SignUp: FC<ISignUpProps> = ({ openSignInPopup, onClose }) => {
     { trim: true }
   );
 
-  const secondName = useInput(
+  const lastName = useInput(
     "",
     {
       isEmpty: true,
@@ -64,24 +66,21 @@ const SignUp: FC<ISignUpProps> = ({ openSignInPopup, onClose }) => {
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    enqueueSnackbar({
-      variant: "success",
-      message: "Вы успешно зарегистрировались",
-    });
-    const values = {
-      firstName,
-      secondName,
-      email,
-    };
-    console.log(values);
-
-    onClose();
+    dispatch(
+      createUser({
+        email: email.value,
+        first_name: firstName.value,
+        last_name: lastName.value,
+        is_customer: true,
+        password: password.value,
+      })
+    );
   }
 
   return (
     <form className="myAuthForm__signup-form" onSubmit={handleSubmit}>
       <MyInput data={firstName} label="Имя" />
-      <MyInput data={secondName} label="Фамилия" />
+      <MyInput data={lastName} label="Фамилия" />
       <MyInput data={email} label="E-mail" />
       <MyInput data={password} label="Пароль" variant="password" />
       <MyInput
@@ -143,7 +142,7 @@ const SignUp: FC<ISignUpProps> = ({ openSignInPopup, onClose }) => {
             !!email.error ||
             !!password.error ||
             !!firstName.error ||
-            !!secondName.error ||
+            !!lastName.error ||
             confirmPassword.value !== password.value ||
             confirmPrivatePolicy === false ||
             confirmServiceRules === false ||

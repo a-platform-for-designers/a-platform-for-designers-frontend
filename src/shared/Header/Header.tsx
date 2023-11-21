@@ -11,25 +11,25 @@ import {
 import Avatar from "@mui/material/Avatar";
 import SearchIcon from "@mui/icons-material/Search";
 import "./Header.scss";
-import React, { useState } from "react";
-import MyButton from "../UI/MyButton/MyButton";
+import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import SignUp from "../SignUp/SignUp";
-import SignIn from "../SignIn/SignIn";
-import UserRole from "../UserRole/UserRole";
-import MyPopup from "../UI/MyPopup/MyPopup";
-import MyAuthForm from "../UI/MyAuthForm/MyAuthForm";
-import MyCheckBox from "../UI/MyCheckBox/MyCheckBox";
+/* import MyCheckBox from "../UI/MyCheckBox/MyCheckBox"; */
 import FollowersIcon from "../../assets/icons/FollowersIcon.svg";
 import FavouritesIcon from "../../assets/icons/FavouritesDark.svg";
 import MessagesIcon from "../../assets/icons/MessagesIcon.svg";
+import { useAppSelector } from "@/hooks/reduxHooks";
+import { MyAuthForm, MyButton, MyPopup } from "../UI";
+import SignIn from "../SignIn/SignIn";
+import UserRole from "../UserRole/UserRole";
+import SignUp from "../SignUp/SignUp";
 
 const Header: React.FC = () => {
   const location = useLocation();
-  const [isAuth, setIsAuth] = useState(false);
   const [isOpenSignIn, setIsOpenSignIn] = useState<boolean>(false);
   const [isOpenSignUp, setIsOpenSignUp] = useState<boolean>(false);
   const [isRoleSelected, setIsRoleSelected] = useState<boolean>(false);
+  const { isAuth } = useAppSelector((state) => state.auth);
+
   const myId = 1;
 
   const navigate = useNavigate();
@@ -38,9 +38,9 @@ const Header: React.FC = () => {
     setIsRoleSelected(true);
   }
 
-  function handleLogin() {
-    setIsAuth(!isAuth);
-  }
+  useEffect(() => {
+    isAuth && handleClose(), [isAuth];
+  });
 
   function handleClose() {
     setIsOpenSignIn(false);
@@ -162,16 +162,14 @@ const Header: React.FC = () => {
             </Toolbar>
 
             {/* Чекбокс смены состояния header'a */}
-            <MyCheckBox
+            {/*             <MyCheckBox
               className="header__checkbox"
               labelPlacement="start"
               checked={isAuth}
               label="Войти"
-              onChange={() => {
-                handleLogin();
-              }}
+              onChange={() => {}}
               disabled={false}
-            />
+            /> */}
           </Box>
         </Box>
       </AppBar>
