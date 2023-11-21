@@ -30,7 +30,9 @@ const Header: React.FC = () => {
   const [isRoleSelected, setIsRoleSelected] = useState<boolean>(false);
   const { isAuth } = useAppSelector((state) => state.auth);
 
-  const myId = 1;
+  const { user } = useAppSelector((state) => state.user);
+
+  const myId = user?.id;
 
   const navigate = useNavigate();
 
@@ -134,9 +136,10 @@ const Header: React.FC = () => {
                   <Avatar
                     className="header__avatar"
                     alt="avatar"
-                    src="https://www.iguides.ru/upload/medialibrary/74f/zwzgzu9t64a91p80nooe639e3bvgi18e.jpg"
+                    src={user?.photo}
                     onClick={() => navigate(`/profile/${myId}`)}
-                  />
+                    sx={{ backgroundColor: "#4F378B", color: "#EADDFF" }} //! Убрать хардкод
+                  >{`${user?.first_name[0]}${user?.last_name[0]}`}</Avatar>
                 </List>
               ) : (
                 <>
