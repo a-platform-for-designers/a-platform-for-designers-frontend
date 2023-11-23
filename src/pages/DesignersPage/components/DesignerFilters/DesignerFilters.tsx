@@ -11,7 +11,7 @@ import {
   FILTER_OPTIONS,
 } from "../../model/constants";
 import { LISTS } from "@/constants/constants";
-import { MyButton, MyCheckBox, MyDropDown } from "@/shared/UI";
+import { MyButton, MyCheckBox, MyMultipleDropDown } from "@/shared/UI";
 
 const DesignerFilters: React.FC = () => {
   const [speciality, setSpeciality] = useState<string[]>([]);
@@ -120,23 +120,21 @@ const DesignerFilters: React.FC = () => {
 
       <div className="designerFilters__container">
         <h2 className="designerFilters__title">{SKILLS_TITLE}</h2>
-        <MyDropDown
+        <MyMultipleDropDown
           options={LISTS.LIST_SKILLS}
           value={skills}
           onChange={handleSetSkills}
           className="designerFilters__dropdown"
-          variant="multiple"
         />
       </div>
 
       <div className="designerFilters__container">
         <h2 className="designerFilters__title">{TOOLS_TITLE}</h2>
-        <MyDropDown
+        <MyMultipleDropDown
           options={LISTS.LIST_TOOLS}
           value={tools}
           onChange={handleSetTools}
           className="designerFilters__dropdown"
-          variant="multiple"
         />
       </div>
     </div>
