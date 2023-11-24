@@ -34,7 +34,7 @@ const CaseInfo: React.FC<ICaseInfoProps> = ({ data }) => {
           {description}
         </Typography>
         <Typography className="caseInfo__deadline" component="p">
-          Срок реализации {working_term} месяц
+          Срок реализации: {working_term}
         </Typography>
         <Stack
           className={`${"caseInfo__list"}`}
@@ -45,8 +45,8 @@ const CaseInfo: React.FC<ICaseInfoProps> = ({ data }) => {
             borderColor: (theme) => theme.palette.text.secondary,
           }}
         >
-          <li className={`${"caseInfo__list-item"}`} key={sphere}>
-            {sphere}
+          <li className={`${"caseInfo__list-item"}`} key={sphere.id}>
+            {sphere.name}
           </li>
         </Stack>
       </Grid>

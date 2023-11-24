@@ -4,12 +4,14 @@ import { useState } from "react";
 import useInput from "@/hooks/useInput";
 import AvatarUpload from "../avatarUpload/AvatarUpload";
 import { LISTS } from "@/constants/constants";
+import getBase64 from "@/features/getBase64";
 import {
   MyButton,
   MyInput,
   MyMultipleDropDown,
   MySingleDropDown,
 } from "@/shared/UI";
+
 
 const Profile: React.FC = () => {
   const [specialization, setSpecialization] = useState<string | null>(null);
@@ -40,13 +42,13 @@ const Profile: React.FC = () => {
     setLanguages(newValue);
   }
 
-  function handleSubmit(e: React.MouseEvent<HTMLButtonElement>) {
+  async function handleSubmit(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
     const values = {
       specialization,
       country,
       languages,
-      selectedFile,
+      avatar: await getBase64(selectedFile!),
       education: education.value,
       hobby: hobby.value,
     };

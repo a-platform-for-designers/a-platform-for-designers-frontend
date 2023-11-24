@@ -4,16 +4,17 @@ import useInput from "../../hooks/useInput";
 import MyInput from "../UI/MyInput/MyInput";
 import MyButton from "../UI/MyButton/MyButton";
 import { SigninText } from "../../constants/constants";
-import { enqueueSnackbar } from "notistack";
+import { useAppDispatch } from "@/hooks/reduxHooks";
+import { logIn } from "@/redux/slices/authSlice";
 
 interface ISignInProps {
   openSignUpPopup: () => void;
   onClose: () => void;
 }
 
-const SignIn: FC<ISignInProps> = ({ openSignUpPopup, onClose }) => {
+const SignIn: FC<ISignInProps> = ({ openSignUpPopup }) => {
   const [error] = useState("");
-
+  const dispatch = useAppDispatch();
   const email = useInput(
     "",
     {
@@ -31,18 +32,9 @@ const SignIn: FC<ISignInProps> = ({ openSignUpPopup, onClose }) => {
     maxLength: 32,
   });
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    enqueueSnackbar({
-      variant: "success",
-      message: "Вы успешно вошли",
-    });
-    const values = {
-      email,
-    };
-    console.log(values);
-
-    onClose();
+    await dispatch(logIn({ email: email.value, password: password.value }));
   }
 
   return (

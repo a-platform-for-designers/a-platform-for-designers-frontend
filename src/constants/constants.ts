@@ -12,6 +12,9 @@ export const SigninText = {
   linkText: "Зарегистрироваться",
 };
 
+export const BASE_PATH = "http://46.183.163.139/";
+export const API_PATH = `${BASE_PATH}api`;
+
 export const LISTS = {
   LIST_TOOLS: [
     "3Ds Max",

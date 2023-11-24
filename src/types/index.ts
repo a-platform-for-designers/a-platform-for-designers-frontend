@@ -34,7 +34,7 @@ export interface IProfileDesigner {
   user: number;
   education: string;
   country: string;
-  specialization: number;
+  specialization: IDataItem;
   hobby: string;
   language: string[];
 }
@@ -44,6 +44,7 @@ export interface IResume {
   instruments: IDataItem[];
   skills: IDataItem[];
   about: string;
+  status: boolean;
 }
 
 export interface IUser {
@@ -52,11 +53,23 @@ export interface IUser {
   first_name: string;
   last_name: string;
   photo: string;
-  description: string;
+  description: string | null;
   is_customer: boolean;
-  profilecustomer: IProfileCustomer;
-  profiledesigner: IProfileDesigner;
-  resume: IResume;
+  profilecustomer: IProfileCustomer | null;
+  profiledesigner: IProfileDesigner | null;
+  resume: IResume | null;
+  date_joined: string;
+  portfolio: IUserCase[];
+}
+
+export interface IUserWithLastCases extends IUser {
+  last_cases: [ICase, ICase];
+  specialization: number;
+}
+
+export interface IUserCase {
+  id: number;
+  avatar: string;
 }
 
 export interface IDataItem {
@@ -66,21 +79,29 @@ export interface IDataItem {
 
 export interface ICaseImage {
   id: number;
-  src: string;
+  image: string;
+}
+
+export interface IAuthorCase {
+  id: number;
+  first_name: string;
+  last_name: string;
+  photo: string;
+  specialization: number;
 }
 
 export interface ICase {
   id: number;
-  skills: IDataItem[];
-  author: number;
+  author: IAuthorCase;
   title: string;
-  sphere: string;
+  sphere: IDataItem;
   instruments: IDataItem[];
-  working_term: number;
+  working_term: string;
   description: string;
   is_favorited: boolean;
   is_liked: boolean;
   images: ICaseImage[];
+  avatar: string;
 }
 
 export interface IListRespons {
@@ -94,5 +115,5 @@ export interface ICaseRespons extends IListRespons {
 }
 
 export interface IUserRespons extends IListRespons {
-  results: IUser[];
+  results: IUserWithLastCases[];
 }

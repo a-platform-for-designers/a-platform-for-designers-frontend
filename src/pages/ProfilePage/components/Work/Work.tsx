@@ -4,12 +4,13 @@ import React from "react";
 import { IResume } from "../../../../types";
 import { EmptyData, AboutItem } from "..";
 
-interface IWorkProps extends IResume {}
+interface IProps {
+  resume?: IResume;
+}
 
-const Work: React.FC<IWorkProps> = ({ about, instruments, skills }) => {
-  if (!about && !instruments && !skills) {
-    return <EmptyData title="Дизайнер пока не указал информацию" />;
-  }
+const Work: React.FC<IProps> = ({ resume }) => {
+  if (!resume) return <EmptyData title="Дизайнер пока не указал информацию" />;
+  const { about, instruments, skills } = resume;
 
   return (
     <StyledEngineProvider injectFirst>

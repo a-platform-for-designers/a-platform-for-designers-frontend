@@ -9,8 +9,9 @@ import {
 } from "@mui/material";
 import "./ProfileInfo.scss";
 import React from "react";
-import { IProfileData } from "../../../ProfilePage/components/Info/Info";
 import { getInitials } from "../../../../features";
+import { IAuthorCase } from "@/types";
+import { LISTS } from "@/constants/constants";
 
 const avatarStyles: SxProps<Theme> = {
   height: "94px",
@@ -19,11 +20,11 @@ const avatarStyles: SxProps<Theme> = {
 };
 
 interface IProfileInfoProps {
-  data: IProfileData;
+  data: IAuthorCase;
 }
 
 const ProfileInfo: React.FC<IProfileInfoProps> = ({ data }) => {
-  const { first_name, last_name, specialization, image } = data;
+  const { first_name, last_name, specialization, photo } = data;
 
   const name = `${first_name} ${last_name}`;
 
@@ -39,8 +40,8 @@ const ProfileInfo: React.FC<IProfileInfoProps> = ({ data }) => {
         alignItems="center"
         component={Paper}
       >
-        <Avatar src={image} alt={name} sx={avatarStyles}>
-          {!image ? initials : ""}
+        <Avatar src={photo} alt={name} sx={avatarStyles}>
+          {!photo ? initials : ""}
         </Avatar>
         <Grid container flexDirection="column" gap="24px" flexGrow={1}>
           <Grid container flexDirection="column" gap="12px">
@@ -59,7 +60,7 @@ const ProfileInfo: React.FC<IProfileInfoProps> = ({ data }) => {
               </Typography>
             </Grid>
             <Typography className="profileInfo__subtitle" component="p">
-              {specialization}
+              {LISTS.LIST_SPECIALITY[specialization]}
             </Typography>
           </Grid>
         </Grid>

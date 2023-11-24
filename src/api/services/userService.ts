@@ -8,7 +8,7 @@ import api from "../api";
 
 const userService = {
   createUser: async (data: ICreateUserRequest): Promise<IUserShort> => {
-    const response = await api.post<IUserShort>("/users", data);
+    const response = await api.post<IUserShort>("/users/", data);
     return response.data;
   },
 
@@ -26,7 +26,7 @@ const userService = {
   },
 
   getInfoUserMe: async (): Promise<IUser> => {
-    const response = await api.get<IUser>(`/users`, {
+    const response = await api.get<IUser>(`/users/me/`, {
       headers: {
         Authorization: `Token ${localStorage.getItem("token")}`,
       },
@@ -36,7 +36,7 @@ const userService = {
 
   getUsersList: async (limit: number, page: number): Promise<IUserRespons> => {
     const token = `Token ${localStorage.getItem("token")}`;
-    const response = await api.get<IUserRespons>("/users", {
+    const response = await api.get<IUserRespons>("/users/", {
       headers: {
         Authorization: token,
       },

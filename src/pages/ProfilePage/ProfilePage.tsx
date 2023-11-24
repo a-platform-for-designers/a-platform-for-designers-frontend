@@ -1,67 +1,56 @@
 import { Container, StyledEngineProvider } from "@mui/material";
 import "./ProfilePage.scss";
-import profilePlaceholder from "../../assets/images/designerscarousel-avatar.png";
+import imgProfilePlaceholder from "../../assets/images/designerscarousel-avatar.png";
 import { Route, Routes, Navigate } from "react-router-dom";
-import { IProfileDesigner, IResume } from "../../types";
 import { Info, ProfileNav, Portfolio, Work, Profile } from "./components";
 import { IProfileData } from "./components/Info/Info";
 import { IProfileNavPage } from "./components/ProfileNav/ProfileNav";
-
-const workPlaceHolder: IResume = {
-  id: 1,
-  skills: [
-    { id: 1, name: "Коммерческая иллюстраци" },
-    { id: 2, name: "Персонажи" },
-    { id: 3, name: "Афиши" },
-    { id: 4, name: "Леттеринг" },
-    { id: 5, name: "Книжная иллюстрация" },
-  ],
-  instruments: [
-    { id: 1, name: "Photoshop" },
-    { id: 2, name: "Illustrator" },
-    { id: 3, name: "Figma" },
-  ],
-  about: "Здесь могла быть ваша реклама.",
-};
-
-const profilePlaceHolder: IProfileDesigner = {
-  id: 1,
-  user: 1,
-  education: "Школа дизайна НИУ ВШЭ",
-  country: "Россия",
-  specialization: 1,
-  hobby: `В свободное от работы время, я люблю читать книги. Часто бываю 
-  на природе, это помогает мне не только перезагрузиться, но и очень вдохновляет меня.  Также я читаю книги детям в местной библиотеке, это помогает развиваться в моей работе, так как я могу видеть реакцию детей на иллюстрации в живую. `,
-  language: ["Russian", "English"],
-};
-
-// Чтобы добавить пункт меню на странице профиля, дополнить массив
-const profileNavPages: IProfileNavPage[] = [
-  {
-    title: "Портфолио",
-    link: `portfolio`,
-    element: <Portfolio data={[...new Array(8)]} />,
-  },
-  { title: "Работа", link: `work`, element: <Work {...workPlaceHolder} /> },
-  {
-    title: "Профиль",
-    link: `file`,
-    element: <Profile {...profilePlaceHolder} />,
-  },
-];
+import { useAppSelector } from "@/hooks/reduxHooks";
 
 const ProfilePage: React.FC = () => {
+  const { user } = useAppSelector((state) => state.user);
+
+  if (!user) return;
+
   const profileData: IProfileData = {
-    first_name: "Ирина",
-    last_name: "Петрова",
-    specialization: "Графический дизайнер",
-    image: profilePlaceholder,
-    country: "Россия",
-    registrationDate: "12 ноября 2023",
-    status: "Ищет заказы",
+    first_name: user?.first_name,
+    last_name: user?.last_name,
+    specialization:
+      user.profiledesigner?.specialization.name || "Не указана специализация",
+    image: user.photo || imgProfilePlaceholder,
+    country: user.profiledesigner?.country || "Не указана страна",
+    registrationDate: new Date(user.date_joined).toLocaleDateString("ru-RU", {
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+    }),
+    status: user.resume?.status ? "Ищет заказы" : "Не ищет заказы",
     likes: 1001,
     followers: 98,
   };
+
+  // Чтобы добавить пункт меню на странице профиля, дополнить массив
+  const profileNavPages: IProfileNavPage[] = [
+    {
+      title: "Портфолио",
+      link: `portfolio`,
+      element: <Portfolio data={user.portfolio} />,
+    },
+    {
+      title: "Работа",
+      link: `work`,
+      element: user.resume ? <Work resume={user.resume} /> : <Work />,
+    },
+    {
+      title: "Профиль",
+      link: `file`,
+      element: user.profiledesigner ? (
+        <Profile profiledesigner={user.profiledesigner} />
+      ) : (
+        <Profile />
+      ),
+    },
+  ];
 
   return (
     <StyledEngineProvider injectFirst>

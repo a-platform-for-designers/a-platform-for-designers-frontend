@@ -2,6 +2,7 @@
   display: flex;
   flex-wrap: nowrap;
   gap: 24px;
+  max-height: 240px;
 
   &__info {
     display: flex;

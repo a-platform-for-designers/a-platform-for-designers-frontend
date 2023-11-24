@@ -4,12 +4,12 @@ import React from "react";
 
 import { EmptyData } from "..";
 import { useNavigate } from "react-router-dom";
-import MySwiper from "@/shared/UI/MySwiper/MySwiper";
-
-interface IPortfolioData {}
+import { IUserCase } from "@/types";
+import { BASE_PATH } from "@/constants/constants";
+import caseCart from "@/assets/images/caseCart.png";
 
 interface IPortfolioProps {
-  data: IPortfolioData[];
+  data: IUserCase[];
 }
 
 const Portfolio: React.FC<IPortfolioProps> = ({ data }) => {
@@ -19,11 +19,18 @@ const Portfolio: React.FC<IPortfolioProps> = ({ data }) => {
     return <EmptyData title="У дизайнера пока нет проектов" />;
   }
 
+  console.log(data[6].avatar);
+
   return (
     <StyledEngineProvider injectFirst>
       <Grid className="portfolio" justifyContent="center" container>
-        {data.map((_, idx) => (
-          <MySwiper key={idx} onClick={() => navigate("/case/1")} />
+        {data.map((item) => (
+          <img
+            className="portfolio__image"
+            key={item.id}
+            onClick={() => navigate(`/case/${item.id}`)}
+            src={`${item.avatar === null ? caseCart : BASE_PATH + item.avatar}`}
+          />
         ))}
       </Grid>
     </StyledEngineProvider>

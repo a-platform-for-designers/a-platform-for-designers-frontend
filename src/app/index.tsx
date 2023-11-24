@@ -23,8 +23,27 @@ import {
   Orders,
   Settings,
 } from "../pages/DashboardPage/components/index.ts";
+import { getInfoAboutMe } from "@/redux/slices/userSlice.ts";
+import { useAppDispatch } from "@/hooks/reduxHooks.tsx";
+import { useEffect } from "react";
+import { changeAuth } from "@/redux/slices/authSlice.ts";
 
 function App() {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    (async () => {
+      if (localStorage.getItem("token")) {
+        try {
+          await dispatch(getInfoAboutMe());
+          dispatch(changeAuth(true));
+        } catch (error) {
+          dispatch(changeAuth(false));
+        }
+      }
+    })();
+  }, [dispatch]);
+
   return (
     <ThemeProvider theme={lightTheme}>
       <CssBaseline enableColorScheme />

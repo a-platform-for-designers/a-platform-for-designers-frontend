@@ -13,13 +13,7 @@ import WorkCategories, {
   IWorkCategoryData,
 } from "../WorkCategories/WorkCategories";
 import MySwiper from "@/shared/UI/MySwiper/MySwiper";
-
-// нужно определиться, какие данные приходят от бэка и что принимает MySwiper!!!
-export interface IFeedData {}
-
-interface IFeedProps {
-  data: IFeedData[];
-}
+import { ICase } from "@/types";
 
 // Заглушка для категорий
 const workCategories: IWorkCategoryData[] = [
@@ -41,19 +35,17 @@ const workCategories: IWorkCategoryData[] = [
   },
 ];
 
-const Feed: React.FC<IFeedProps> = ({ data }) => {
+interface IProps {
+  cases: ICase[];
+}
+
+const Feed: React.FC<IProps> = ({ cases }) => {
   const initialState: IActiveWorkCategoryState = {
     allDirections: true,
     categories: [],
     following: false,
   };
-
   const navigate = useNavigate();
-
-  const id = 1; //! Поменять на входящий
-  function handleClickCase() {
-    navigate(`/case/${id}`);
-  }
 
   const [workCategoryState, setWorkCategoryState] =
     useState<IActiveWorkCategoryState>(initialState);
@@ -74,8 +66,12 @@ const Feed: React.FC<IFeedProps> = ({ data }) => {
           setWorkCategoryState={setWorkCategoryState}
         />
         <Grid className="feed__list" justifyContent="center" container>
-          {data.map((_, idx) => (
-            <MySwiper key={idx} onClick={handleClickCase} />
+          {cases.map((item) => (
+            <MySwiper
+              item={item}
+              key={item.id}
+              onClick={() => navigate(`/case/${item.id}`)}
+            />
           ))}
         </Grid>
       </Container>

@@ -4,16 +4,14 @@ import React from "react";
 import { IProfileDesigner } from "../../../../types";
 import { AboutItem, EmptyData } from "..";
 
-const Profile: React.FC<IProfileDesigner> = ({
-  education,
-  country,
-  specialization,
-  hobby,
-  language,
-}) => {
-  if (!education && !country && !specialization && !hobby && !language.length) {
+interface IProps {
+  profiledesigner?: IProfileDesigner;
+}
+
+const Profile: React.FC<IProps> = ({ profiledesigner }) => {
+  if (!profiledesigner)
     return <EmptyData title="Дизайнер пока не заполнил профиль" />;
-  }
+  const { education, country, hobby, language } = profiledesigner;
 
   return (
     <StyledEngineProvider injectFirst>

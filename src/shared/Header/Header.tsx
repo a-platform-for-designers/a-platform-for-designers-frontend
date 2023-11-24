@@ -1,36 +1,33 @@
 import AppBar from "@mui/material/AppBar";
 import {
   Box,
-  InputAdornment,
   List,
   ListItem,
   StyledEngineProvider,
-  TextField,
   Toolbar,
 } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
-import SearchIcon from "@mui/icons-material/Search";
 import "./Header.scss";
-import React, { useState } from "react";
-import MyButton from "../UI/MyButton/MyButton";
+import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import SignUp from "../SignUp/SignUp";
-import SignIn from "../SignIn/SignIn";
-import UserRole from "../UserRole/UserRole";
-import MyPopup from "../UI/MyPopup/MyPopup";
-import MyAuthForm from "../UI/MyAuthForm/MyAuthForm";
-import MyCheckBox from "../UI/MyCheckBox/MyCheckBox";
 import FollowersIcon from "../../assets/icons/FollowersIcon.svg";
 import FavouritesIcon from "../../assets/icons/FavouritesDark.svg";
 import MessagesIcon from "../../assets/icons/MessagesIcon.svg";
+import { useAppSelector } from "@/hooks/reduxHooks";
+import { MyAuthForm, MyButton, MyPopup } from "../UI";
+import SignIn from "../SignIn/SignIn";
+import UserRole from "../UserRole/UserRole";
+import SignUp from "../SignUp/SignUp";
 
 const Header: React.FC = () => {
   const location = useLocation();
-  const [isAuth, setIsAuth] = useState(false);
   const [isOpenSignIn, setIsOpenSignIn] = useState<boolean>(false);
   const [isOpenSignUp, setIsOpenSignUp] = useState<boolean>(false);
   const [isRoleSelected, setIsRoleSelected] = useState<boolean>(false);
-  const myId = 1;
+  const { isAuth } = useAppSelector((state) => state.auth);
+  const { user } = useAppSelector((state) => state.user);
+
+  const myId = user?.id;
 
   const navigate = useNavigate();
 
@@ -38,9 +35,9 @@ const Header: React.FC = () => {
     setIsRoleSelected(true);
   }
 
-  function handleLogin() {
-    setIsAuth(!isAuth);
-  }
+  useEffect(() => {
+    isAuth && handleClose(), [isAuth];
+  });
 
   function handleClose() {
     setIsOpenSignIn(false);
@@ -65,20 +62,6 @@ const Header: React.FC = () => {
           <Box className="header__container">
             <Toolbar className="header__toolbar" variant="dense">
               <Box className="header__logo" onClick={() => navigate("/")} />
-              <TextField
-                className="header__search-form"
-                label=""
-                value="Ваш запрос"
-                id="outlined-start-adornment"
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <SearchIcon />
-                    </InputAdornment>
-                  ),
-                }}
-                disabled
-              />
               <List
                 className="header__pages-list"
                 sx={{ flexGrow: 1, display: "flex" }}
@@ -134,9 +117,10 @@ const Header: React.FC = () => {
                   <Avatar
                     className="header__avatar"
                     alt="avatar"
-                    src="https://www.iguides.ru/upload/medialibrary/74f/zwzgzu9t64a91p80nooe639e3bvgi18e.jpg"
+                    src={user?.photo}
                     onClick={() => navigate(`/profile/${myId}`)}
-                  />
+                    sx={{ backgroundColor: "#4F378B", color: "#EADDFF" }} //! Убрать хардкод
+                  >{`${user?.first_name[0]}${user?.last_name[0]}`}</Avatar>
                 </List>
               ) : (
                 <>
@@ -160,18 +144,6 @@ const Header: React.FC = () => {
                 </>
               )}
             </Toolbar>
-
-            {/* Чекбокс смены состояния header'a */}
-            <MyCheckBox
-              className="header__checkbox"
-              labelPlacement="start"
-              checked={isAuth}
-              label="Войти"
-              onChange={() => {
-                handleLogin();
-              }}
-              disabled={false}
-            />
           </Box>
         </Box>
       </AppBar>

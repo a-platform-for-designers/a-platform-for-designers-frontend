@@ -17,15 +17,11 @@ const casesService = {
   },
 
   getCaseById: async (id: number): Promise<ICase> => {
-    const response = await api.post<ICase>(
-      `/cases/${id}`,
-      {},
-      {
-        headers: {
-          Authorization: `Token ${localStorage.getItem("token")}`,
-        },
-      }
-    );
+    const response = await api.get<ICase>(`/cases/${id}/`, {
+      headers: {
+        Authorization: `Token ${localStorage.getItem("token")}`,
+      },
+    });
     return response.data;
   },
 };

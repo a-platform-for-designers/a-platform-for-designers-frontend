@@ -9,23 +9,20 @@ import "./MySwiper.scss";
 import Favourites from "../../../assets/icons/Favourites.svg";
 import Likes from "../../../assets/icons/Likes.svg";
 import { IconButton } from "@mui/material";
+import { ICase } from "@/types";
 
 interface IProps {
   onClick?: () => void;
+  item: ICase;
 }
 
-const MySwiper: React.FC<IProps> = ({ onClick }) => {
-  const images = [
-    "https://scientificrussia.ru/images/b/teb-full.jpg",
-    "https://fond-vsem-mirom.ru/wp-content/uploads/2020/06/gk_zdhbg784.jpg",
-    "https://oir.mobi/uploads/posts/2022-09/1662133482_1-oir-mobi-p-britanskaya-pryamoukhaya-koshka-krasivo-1.jpg",
-    "https://koshka.top/uploads/posts/2021-12/1638880950_1-koshka-top-p-britanskaya-golubaya-visloukhaya-1.jpg",
-  ];
+const MySwiper: React.FC<IProps> = ({ item, onClick }) => {
+  if (!item) return;
 
-  const sliders = images.map((image, index) => {
+  const sliders = item.images.map((image) => {
     return (
-      <SwiperSlide key={index}>
-        <img src={image} alt="image" />
+      <SwiperSlide key={image.id}>
+        <img src={image.image} alt="Картинка из проекта" />
       </SwiperSlide>
     );
   });
@@ -42,17 +39,15 @@ const MySwiper: React.FC<IProps> = ({ onClick }) => {
         onClick={onClick}
       >
         <div className="mySwiper__lower-part">
-          <h2 className="mySwiper__heading">
-            Название проекта Название проекта Название проекта
-          </h2>
+          <h2 className="mySwiper__heading">{item.title}</h2>
           <div className="mySwiper__action-bar">
             <div className="mySwiper__author-info">
               <Avatar
                 className="mySwiper__avatar"
                 alt="avatar"
-                src="https://storage.theoryandpractice.ru/tnp/uploads/image_unit/000/156/586/image/base_87716f252d.jpg"
+                src={item.author.photo}
               />
-              <p className="mySwiper__author-name">Имя Фамилия Имя Фамилия</p>
+              <p className="mySwiper__author-name">{`${item.author.first_name} ${item.author.last_name} `}</p>
             </div>
             <div className="mySwiper__icon-container">
               <IconButton
@@ -72,6 +67,9 @@ const MySwiper: React.FC<IProps> = ({ onClick }) => {
             </div>
           </div>
         </div>
+        <SwiperSlide>
+          <img src={item.avatar} alt="Обложка проекта" />
+        </SwiperSlide>
         {sliders}
       </Swiper>
     </StyledEngineProvider>
