@@ -6,10 +6,12 @@ import {
 } from "@mui/material";
 import "./ProfileInput.scss";
 import MyInput from "../MyInput/MyInput";
-import MyDropDown, {
-  TOnChangeMylty,
+import MySingleDropDown, {
   TOnChangeSingle,
-} from "../MyDropDown/MyDropDown";
+} from "../MySingleDropDown/MySingleDropDown";
+import MyMultipleDropDown, {
+  TOnChangeMylty,
+} from "../MyMultipleDropDown/MyMultipleDropDown";
 import ButtonUploadImg from "@/pages/DashboardPage/components/buttonUploadImg/ButtonUploadImg";
 import { IProfileInputProps } from "@/pages/DashboardPage/model/types";
 import { useState } from "react";
@@ -111,7 +113,7 @@ const ProfileInput: React.FC<IProfileInputProps> = ({
         <StyledEngineProvider injectFirst>
           <FormControl className="profileInputForm">
             <Typography className="profileInputLabel">{heading}</Typography>
-            <MyDropDown
+            <MySingleDropDown
               className="profileDropdown"
               options={options}
               value={value as string | null}
@@ -192,12 +194,11 @@ const ProfileInput: React.FC<IProfileInputProps> = ({
         <StyledEngineProvider injectFirst>
           <FormControl className="profileInputForm">
             <Typography className="profileInputLabel">{heading}</Typography>
-            <MyDropDown
+            <MyMultipleDropDown
               options={options}
               value={value as string[]}
               onChange={onChange as TOnChangeMylty}
               className="profileInputTags"
-              variant="multiple"
               placeholder={placeholder}
             />
           </FormControl>
