@@ -1,15 +1,15 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { MyCheckBox } from "@/shared/UI";
+import { Radio } from "@mui/material";
 
 const meta = {
-  title: "UI/MyCheckBox",
-  component: MyCheckBox,
+  title: "UI/Radio",
+  component: Radio,
   parameters: {
     layout: "centered",
   },
   tags: ["autodocs"],
   argTypes: {},
-} satisfies Meta<typeof MyCheckBox>;
+} satisfies Meta<typeof Radio>;
 
 export default meta;
 
@@ -17,7 +17,6 @@ type Story = StoryObj<typeof meta>;
 
 export const Checked: Story = {
   args: {
-    label: "MyCheckBox",
     checked: true,
   },
 };
