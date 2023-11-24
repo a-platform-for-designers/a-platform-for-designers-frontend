@@ -6,6 +6,7 @@ import { IProfileDataItem } from "../../model/types";
 import { directionsOptions, tools, spheres } from "../../model/constants";
 import ProfileInput from "@/shared/UI/ProfileInput/ProfileInput";
 import { MyButton } from "@/shared/UI";
+import getBase64 from "@/features/getBase64";
 
 const CaseCreation: React.FC = () => {
   const title = useInput("", { isEmpty: true });
@@ -122,7 +123,7 @@ const CaseCreation: React.FC = () => {
     setSelectedFiles((prev) => prev.filter((_, i) => i !== index));
   }
 
-  function handleSubmit(e: React.MouseEvent<HTMLButtonElement>) {
+  async function handleSubmit(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
     const values = {
       title: title.value,
@@ -130,7 +131,9 @@ const CaseCreation: React.FC = () => {
       description: description.value,
       directions,
       wrapper,
-      selectedFiles,
+      images: await Promise.all(
+        selectedFiles.map(async (item) => await getBase64(item))
+      ),
       sphereValue,
       toolsValue,
     };
