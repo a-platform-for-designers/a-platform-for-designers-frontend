@@ -4,6 +4,7 @@ import muiContainerCustom from "./MuiContainer";
 import muiPaperCustom from "./MuiPaper";
 import muiTypographyCustom from "./MuiTypography";
 import muiFilledInputCustom from "./MuiFilledInput";
+import muiCheckboxCustom from "./MuiCheckbox";
 
 const components: Components<Omit<Theme, "components">> = {
   // ------- Typography
@@ -20,6 +21,8 @@ const components: Components<Omit<Theme, "components">> = {
 
   //------ FilledInput
   ...muiFilledInputCustom,
+
+  ...muiCheckboxCustom,
 
   // ----- Other
 };
