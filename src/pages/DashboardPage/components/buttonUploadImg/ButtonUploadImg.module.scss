@@ -1,0 +1,31 @@
+.button {
+  &__upload {
+    &_btn {
+      color: var(--colors-black, #111);
+      text-align: center;
+      font-family: Roboto;
+      font-size: 20px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 28px;
+    }
+
+    &_wrapper {
+      display: flex;
+      flex-direction: column;
+      justify-content: end;
+      row-gap: 16px;
+      align-items: start;
+    }
+
+    &_subtitle {
+      white-space: pre-line;
+      color: var(--text-color-gray);
+      font-family: Roboto;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 24px; /* 150% */
+    }
+  }
+}

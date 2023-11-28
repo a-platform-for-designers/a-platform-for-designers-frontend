@@ -1,0 +1,10 @@
+.case {
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+
+  &__btn {
+    margin-top: 60px;
+    width: 330px;
+  }
+}
