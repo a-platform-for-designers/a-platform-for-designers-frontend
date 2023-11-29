@@ -1,0 +1,16 @@
+.asidebar {
+  &__nav {
+    flex-basis: 212px;
+    box-shadow: none;
+
+    &-item {
+      &_active {
+        color: #6e41e2//$button-active-color;
+      }
+
+      &_type_exit {
+        color: #c7302b; //$button-super-red;
+      }
+    }
+  }
+}

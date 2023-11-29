@@ -1,0 +1,62 @@
+.desinersCarousel {
+  &__list {
+    margin: 0 auto;
+    padding: 0;
+    list-style-type: none;
+    gap: 24px;
+  }
+
+  &-item {
+    width: 212px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    text-align: center;
+
+    cursor: pointer;
+
+    box-shadow: none;
+
+    &:hover &__image {
+      filter: grayscale(0);
+    }
+
+    &:hover &__content {
+      opacity: 1;
+    }
+
+    &__image {
+      border-radius: 50%;
+
+      filter: grayscale(1);
+    }
+
+    &__content {
+      padding: 0;
+      opacity: 0;
+
+      &:last-child {
+        padding-bottom: 0;
+      }
+    }
+
+    &__title {
+      padding-bottom: 3px;
+
+      font-size: 22px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 28px;
+    }
+
+    &__subtitle {
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 24px; /* 150% */
+      letter-spacing: 0.15px;
+    }
+  }
+}
