@@ -11,17 +11,27 @@ import { MyButton, MyInput, MyMultipleDropDown } from "@/shared/UI";
 import { LISTS } from "@/constants/constants";
 import { useState } from "react";
 import useInput from "@/hooks/useInput";
+import resumeService from "@/api/services/resumeService";
 
 const Work: React.FC = () => {
   const [tools, setTools] = useState<string[]>([]);
   const [skills, setSkills] = useState<string[]>([]);
   const about = useInput("", {});
+  const [status, setStatus] = useState<boolean>(true);
+  const [toolsIds, setToolsIds] = useState<number[]>([]);
+  const [skillsIds, setSkillsIds] = useState<number[]>([]);
 
   function handleSetTools(
     _: React.SyntheticEvent<Element, Event>,
     newValue: string[]
   ) {
     setTools(newValue);
+    if (newValue[0] !== undefined) {
+      const newValueId =
+        LISTS.LIST_TOOLS.indexOf(newValue[newValue.length - 1]) + 1;
+      console.log(newValue[newValue.length - 1]);
+      setToolsIds([...toolsIds, newValueId]);
+    }
   }
 
   function handleSetSkills(
@@ -29,17 +39,31 @@ const Work: React.FC = () => {
     newValue: string[]
   ) {
     setSkills(newValue);
+    if (newValue[0] !== undefined) {
+      const newValueId =
+        LISTS.LIST_SKILLS.indexOf(newValue[newValue.length - 1]) + 1;
+      console.log(newValue[newValue.length - 1]);
+      setSkillsIds([...skillsIds, newValueId]);
+    }
+  }
+
+  function handleUnactive() {
+    setStatus(false);
+  }
+
+  function handleActive() {
+    setStatus(true);
   }
 
   async function handleSubmit(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
     const values = {
-      //radio to do
-      skills,
-      tools,
+      skills: skillsIds,
+      instruments: toolsIds,
       about: about.value,
+      status,
     };
-    console.log(values);
+    resumeService.postResume(values);
   }
 
   return (
@@ -58,12 +82,12 @@ const Work: React.FC = () => {
               >
                 <FormControlLabel
                   value="searching"
-                  control={<Radio />}
+                  control={<Radio onClick={handleActive} />}
                   label="Ищу заказы"
                 />
                 <FormControlLabel
                   value="not-searching"
-                  control={<Radio />}
+                  control={<Radio onClick={handleUnactive} />}
                   label="Не ищу заказы"
                 />
               </RadioGroup>
@@ -80,7 +104,7 @@ const Work: React.FC = () => {
               value={tools}
               options={LISTS.LIST_TOOLS}
               onChange={handleSetTools}
-              placeholder="Какие программы используете"
+              placeholder={tools.length ? "" : "Какие программы используете"}
             />
           </div>
         </Box>
@@ -94,7 +118,7 @@ const Work: React.FC = () => {
               value={skills}
               options={LISTS.LIST_SKILLS}
               onChange={handleSetSkills}
-              placeholder="Выберите навыки"
+              placeholder={skills.length ? "" : "Выберите навыки"}
             />
           </div>
         </Box>
