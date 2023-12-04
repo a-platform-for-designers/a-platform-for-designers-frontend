@@ -117,3 +117,10 @@ export interface ICaseRespons extends IListRespons {
 export interface IUserRespons extends IListRespons {
   results: IUserWithLastCases[];
 }
+
+export interface IResumeNew {
+  instruments: number[];
+  skills: number[];
+  about: string;
+  status: boolean;
+}
