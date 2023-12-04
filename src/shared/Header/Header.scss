@@ -12,6 +12,8 @@
   width: 100%;
   box-shadow: none;
   z-index: 500;
+  font-weight: 500;
+  font-size: 16px;
 
   &__container {
     display: flex;
@@ -72,7 +74,7 @@
       padding: 0;
 
       &_active {
-        list-style: url(../../assets/icons/Dot.svg);
+        color: #6900EE;
       }
       &:hover {
         color: #21005d;
@@ -84,8 +86,11 @@
   &__avatar {
     width: 40px;
     height: 40px;
+    background-color: "#4F378B";
+    color: "#EADDFF";
     &:hover {
       opacity: 0.8;
+      cursor: pointer;
     }
   }
 
@@ -121,11 +126,14 @@
   }
 
   &__signup-button {
-    color: #6900ee;
+    color: #6900EE;
     border: 1px solid var(--Primary, #6900ee);
     padding-left: 20px;
     padding-right: 20px;
     min-width: 142px;
+    min-height: 40px;
+    font-size: 14px;
+    font-weight: 500;
   }
 
   &__signin-button {
@@ -133,6 +141,9 @@
     padding-left: 30px;
     padding-right: 30px;
     min-width: 64px;
+    min-height: 40px;
+    font-size: 14px;
+    font-weight: 500;
   }
 
   &__checkbox {

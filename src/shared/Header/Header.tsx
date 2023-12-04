@@ -13,6 +13,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import FollowersIcon from "../../assets/icons/FollowersIcon.svg";
 import FavouritesIcon from "../../assets/icons/FavouritesDark.svg";
 import MessagesIcon from "../../assets/icons/MessagesIcon.svg";
+import OrdersIcon from "../../assets/icons/orders.svg";
 import { useAppSelector } from "@/hooks/reduxHooks";
 import { MyAuthForm, MyButton, MyPopup } from "../UI";
 import SignIn from "../SignIn/SignIn";
@@ -85,6 +86,15 @@ const Header: React.FC = () => {
                 >
                   Заказы
                 </ListItem>
+                <ListItem
+                  className={`header__menu-item ${
+                    location.pathname === "/orders"
+                      ? "header__menu-item_active"
+                      : ""
+                  }`}
+                >
+                  Менторы
+                </ListItem>
               </List>
             </Toolbar>
             <Toolbar className="header__auth-buttons">
@@ -113,6 +123,14 @@ const Header: React.FC = () => {
                       alt="Иконка меню"
                     />
                     <p className="header__list-text">Сообщения</p>
+                  </ListItem>
+                  <ListItem className="header__link">
+                    <img
+                      className="header__list-icon"
+                      src={OrdersIcon}
+                      alt="Иконка меню"
+                    />
+                    <p className="header__list-text">Мои&nbsp;заказы</p>
                   </ListItem>
                   <Avatar
                     className="header__avatar"
