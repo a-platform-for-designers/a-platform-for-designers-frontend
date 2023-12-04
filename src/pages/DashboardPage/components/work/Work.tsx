@@ -7,7 +7,7 @@ import {
   FormControlLabel,
 } from "@mui/material";
 import classes from "./Work.module.scss";
-import { MyButton, MyInput, MyMultipleDropDown } from "@/shared/UI";
+import { MyButton, MyInput, MyDropDown } from "@/shared/UI";
 import { LISTS } from "@/constants/constants";
 import { useState } from "react";
 import useInput from "@/hooks/useInput";
@@ -99,7 +99,8 @@ const Work: React.FC = () => {
             Инструменты
           </Typography>
           <div className={classes.work__section_wrapper}>
-            <MyMultipleDropDown
+            <MyDropDown
+              variant="multiple"
               className={classes.work__myDrowDown}
               value={tools}
               options={LISTS.LIST_TOOLS}
@@ -113,7 +114,8 @@ const Work: React.FC = () => {
             Навыки
           </Typography>
           <div className={classes.work__section_wrapper}>
-            <MyMultipleDropDown
+            <MyDropDown
+              variant="multiple"
               className={classes.work__myDrowDown}
               value={skills}
               options={LISTS.LIST_SKILLS}
