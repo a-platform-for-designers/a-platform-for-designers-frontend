@@ -43,62 +43,63 @@ const CasePage: React.FC = () => {
     );
   }
 
-  if (caseData)
-    return (
-      <StyledEngineProvider injectFirst>
-        <Container component="section" className="casePage">
+  if (!caseData) return <Preloader></Preloader>;
+
+  return (
+    <StyledEngineProvider injectFirst>
+      <Container component="section" className="casePage">
+        <Grid
+          container
+          className="casePage__aside"
+          gap="40px"
+          alignItems="flex-start"
+        >
+          <ProfileInfo data={caseData.author} />
+          <CaseInfo data={caseData} />
           <Grid
             container
-            className="casePage__aside"
-            gap="40px"
-            alignItems="flex-start"
+            gap="28px"
+            alignItems="center"
+            justifyContent="flex-start"
+            wrap="nowrap"
           >
-            <ProfileInfo data={caseData.author} />
-            <CaseInfo data={caseData} />
-            <Grid
-              container
-              gap="28px"
-              alignItems="center"
-              justifyContent="flex-start"
-              wrap="nowrap"
-            >
-              <ActionButton
-                active={isLiked}
-                onClick={() => setIsLiked(!isLiked)}
-              />
-              <ActionButton
-                active={isFavorite}
-                onClick={() => setIsFavorite(!isFavorite)}
-                variant="favorite"
-              />
-            </Grid>
+            <ActionButton
+              active={isLiked}
+              onClick={() => setIsLiked(!isLiked)}
+            />
+            <ActionButton
+              active={isFavorite}
+              onClick={() => setIsFavorite(!isFavorite)}
+              variant="favorite"
+            />
           </Grid>
-          <Grid container className="casePage__content" gap="40px">
-            <ImageList className="casePage__image-list" cols={2} gap={60}>
-              <ImageListItem>
+        </Grid>
+        <Grid container className="casePage__content" gap="40px">
+          <ImageList className="casePage__image-list" cols={2} gap={60}>
+            <ImageListItem>
+              <img
+                className="casePage__image-item"
+                src={`${caseData.avatar}`}
+                alt={`Обложка кейса`}
+                loading="lazy"
+              />
+            </ImageListItem>
+            {caseData.images.map((item) => (
+              <ImageListItem key={item.id}>
                 <img
                   className="casePage__image-item"
-                  src={`${caseData.avatar}`}
-                  alt={`Обложка кейса`}
+                  src={`${item.image}`}
+                  alt={`Изображение #${item.id}`}
                   loading="lazy"
                 />
               </ImageListItem>
-              {caseData.images.map((item) => (
-                <ImageListItem key={item.id}>
-                  <img
-                    className="casePage__image-item"
-                    src={`${item.image}`}
-                    alt={`Изображение #${item.id}`}
-                    loading="lazy"
-                  />
-                </ImageListItem>
-              ))}
-            </ImageList>
-            <AboutItem title="Инструменты" data={caseData.instruments} />
-          </Grid>
-        </Container>
-      </StyledEngineProvider>
-    );
+            ))}
+          </ImageList>
+          <AboutItem title="Инструменты" data={caseData.instruments} />
+        </Grid>
+      </Container>
+    </StyledEngineProvider>
+  );
 };
 
 export default CasePage;

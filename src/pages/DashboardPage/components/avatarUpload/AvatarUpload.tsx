@@ -4,14 +4,18 @@ import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import classes from "./AvatarUpload.module.scss";
 import ButtonUploadImg from "../buttonUploadImg/ButtonUploadImg";
 import { enqueueSnackbar } from "notistack";
+import imgProfilePlaceholder from "../../../../assets/images/designerscarousel-avatar.png";
+import { useAppSelector } from "@/hooks/reduxHooks";
 
 interface IAvatarUploadProps {
   cbFileChange: (file: File | null) => void;
 }
 
 const AvatarUpload: React.FC<IAvatarUploadProps> = ({ cbFileChange }) => {
+  const { user } = useAppSelector((state) => state.user);
+
   const [avatar, setAvatar] = useState<string | undefined>(
-    "https://uhd.name/uploads/posts/2022-08/1660089967_24-uhd-name-p-shakira-bez-makiyazha-devushka-krasivo-fot-49.jpg"
+    user?.photo || imgProfilePlaceholder
   );
 
   function validateImage(file: File): string | void {

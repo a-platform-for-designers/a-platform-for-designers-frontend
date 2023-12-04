@@ -11,12 +11,17 @@ import {
   MyMultipleDropDown,
   MySingleDropDown,
 } from "@/shared/UI";
-
+import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
+import { userService } from "@/api";
+import { setUserInfo } from "@/redux/slices/userSlice";
 
 const Profile: React.FC = () => {
+  const { user } = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
+
   const [specialization, setSpecialization] = useState<string | null>(null);
   const [country, setCountry] = useState<string | null>(null);
-  const [languages, setLanguages] = useState<string[]>([]);
+  const [language, setLanguage] = useState<string[]>([]);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const education = useInput("", {});
   const hobby = useInput("", {});
@@ -35,11 +40,11 @@ const Profile: React.FC = () => {
     setCountry(newValue);
   }
 
-  function handleSetLanguages(
+  function handleSetLanguage(
     _: React.SyntheticEvent<Element, Event>,
     newValue: string[]
   ) {
-    setLanguages(newValue);
+    setLanguage(newValue);
   }
 
   async function handleSubmit(e: React.MouseEvent<HTMLButtonElement>) {
@@ -47,12 +52,21 @@ const Profile: React.FC = () => {
     const values = {
       specialization,
       country,
-      languages,
+      language,
       avatar: await getBase64(selectedFile!),
       education: education.value,
       hobby: hobby.value,
     };
+
     console.log(values);
+
+    const user = await userService.updateInfoUserMe({
+      // ...values,
+      first_name: "aaa",
+    });
+    dispatch(setUserInfo(user));
+
+    console.log(user);
   }
 
   return (
@@ -70,14 +84,18 @@ const Profile: React.FC = () => {
               <FormLabel className={classes.profile__section_subtitle}>
                 Имя
               </FormLabel>
-              <Typography className={classes.profile__name}>Ирина</Typography>
+              <Typography className={classes.profile__name}>
+                {user?.first_name}
+              </Typography>
             </Box>
 
             <Box>
               <FormLabel className={classes.profile__section_subtitle}>
                 Фамилия
               </FormLabel>
-              <Typography className={classes.profile__name}>Петрова</Typography>
+              <Typography className={classes.profile__name}>
+                {user?.last_name}
+              </Typography>
             </Box>
 
             <FormControl>
@@ -122,9 +140,9 @@ const Profile: React.FC = () => {
           <div className={classes.profile__section_wrapper}>
             <MyMultipleDropDown
               className={classes.profile__myDrowDown}
-              value={languages}
+              value={language}
               options={LISTS.LIST_LANGUAGES}
-              onChange={handleSetLanguages}
+              onChange={handleSetLanguage}
             />
           </div>
         </Box>

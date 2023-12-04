@@ -124,3 +124,14 @@ export interface IResumeNew {
   about: string;
   status: boolean;
 }
+
+export interface IUpdateInfoUserMe {
+  photo?: File;
+  first_name?: string;
+  last_name?: string;
+  specialization?: number;
+  country?: string;
+  education?: string;
+  language?: number[];
+  hobby?: string;
+}

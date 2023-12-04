@@ -6,11 +6,12 @@ import { Info, ProfileNav, Portfolio, Work, Profile } from "./components";
 import { IProfileData } from "./components/Info/Info";
 import { IProfileNavPage } from "./components/ProfileNav/ProfileNav";
 import { useAppSelector } from "@/hooks/reduxHooks";
+import Preloader from "@/shared/Preloader/Preloader";
 
 const ProfilePage: React.FC = () => {
   const { user } = useAppSelector((state) => state.user);
 
-  if (!user) return;
+  if (!user) return <Preloader></Preloader>;
 
   const profileData: IProfileData = {
     first_name: user?.first_name,

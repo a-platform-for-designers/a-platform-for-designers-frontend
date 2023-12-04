@@ -3,6 +3,7 @@ import {
   IUserShort,
   IUser,
   IUserRespons,
+  IUpdateInfoUserMe,
 } from "../../types";
 import api from "../api";
 
@@ -30,6 +31,16 @@ const userService = {
       headers: {
         Authorization: `Token ${localStorage.getItem("token")}`,
       },
+    });
+    return response.data;
+  },
+
+  updateInfoUserMe: async (body: IUpdateInfoUserMe): Promise<IUser> => {
+    const response = await api.post<IUser>(`/profile_designer/`, {
+      headers: {
+        Authorization: `Token ${localStorage.getItem("token")}`,
+      },
+      body,
     });
     return response.data;
   },
