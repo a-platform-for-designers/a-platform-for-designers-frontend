@@ -96,3 +96,10 @@ export interface ICaseRespons extends IListRespons {
 export interface IUserRespons extends IListRespons {
   results: IUser[];
 }
+
+export interface IResumeNew {
+  instruments: number[];
+  skills: number[];
+  about: string;
+  status: boolean;
+}
