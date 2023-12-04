@@ -10,10 +10,10 @@ import { createUser } from "@/redux/slices/userSlice";
 
 interface ISignUpProps {
   openSignInPopup: () => void;
-  onClose: () => void;
+  isCustomer?: boolean;
 }
 
-const SignUp: FC<ISignUpProps> = ({ openSignInPopup }) => {
+const SignUp: FC<ISignUpProps> = ({ openSignInPopup, isCustomer }) => {
   const dispatch = useAppDispatch();
   const [error] = useState("");
   const [confirmPrivatePolicy, setConfirmPrivatePolicy] =
@@ -71,7 +71,7 @@ const SignUp: FC<ISignUpProps> = ({ openSignInPopup }) => {
         email: email.value,
         first_name: firstName.value,
         last_name: lastName.value,
-        is_customer: true,
+        is_customer: isCustomer,
         password: password.value,
       })
     );

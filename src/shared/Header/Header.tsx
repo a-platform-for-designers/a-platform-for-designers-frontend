@@ -24,6 +24,7 @@ const Header: React.FC = () => {
   const [isOpenSignIn, setIsOpenSignIn] = useState<boolean>(false);
   const [isOpenSignUp, setIsOpenSignUp] = useState<boolean>(false);
   const [isRoleSelected, setIsRoleSelected] = useState<boolean>(false);
+  const [isCustomer, setIsCustomer] = useState<boolean>(true);
   const { isAuth } = useAppSelector((state) => state.auth);
   const { user } = useAppSelector((state) => state.user);
 
@@ -31,8 +32,14 @@ const Header: React.FC = () => {
 
   const navigate = useNavigate();
 
-  function chooseRole() {
+  function chooseCustomerRole() {
     setIsRoleSelected(true);
+    setIsCustomer(true);
+  }
+
+  function chooseDesignerRole() {
+    setIsRoleSelected(true);
+    setIsCustomer(false);
   }
 
   useEffect(() => {
@@ -150,15 +157,18 @@ const Header: React.FC = () => {
 
       <MyPopup onClose={handleClose} open={isOpenSignIn}>
         <MyAuthForm title="Вход">
-          <SignIn openSignUpPopup={openSignUpPopup} onClose={handleClose} />
+          <SignIn openSignUpPopup={openSignUpPopup} />
         </MyAuthForm>
       </MyPopup>
       <MyPopup onClose={handleClose} open={isOpenSignUp}>
         {isRoleSelected === false ? (
-          <UserRole onClick={chooseRole} />
+          <UserRole
+            onChooseDesignerRole={chooseDesignerRole}
+            onChooseCustomerRole={chooseCustomerRole}
+          />
         ) : (
           <MyAuthForm title="Регистрация">
-            <SignUp openSignInPopup={openSignInPopup} onClose={handleClose} />
+            <SignUp openSignInPopup={openSignInPopup} isCustomer={isCustomer} />
           </MyAuthForm>
         )}
       </MyPopup>

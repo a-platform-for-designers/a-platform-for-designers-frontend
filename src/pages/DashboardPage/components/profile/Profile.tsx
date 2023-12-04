@@ -1,4 +1,4 @@
-import { Box, FormControl, FormLabel, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import classes from "./Profile.module.scss";
 import { useState } from "react";
 import useInput from "@/hooks/useInput";
@@ -19,12 +19,18 @@ const Profile: React.FC = () => {
   const { user } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 
-  const [specialization, setSpecialization] = useState<string | null>(null);
-  const [country, setCountry] = useState<string | null>(null);
-  const [language, setLanguage] = useState<string[]>([]);
+  const [specialization, setSpecialization] = useState<string | null>(
+    user?.profiledesigner?.specialization.name || null
+  );
+  const [country, setCountry] = useState<string | null>(
+    user?.profiledesigner?.country || null
+  );
+  const [language, setLanguage] = useState<string[]>(
+    user?.profiledesigner?.language || []
+  );
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const education = useInput("", {});
-  const hobby = useInput("", {});
+  const education = useInput(user?.profiledesigner?.education || "", {});
+  const hobby = useInput(user?.profiledesigner?.hobby || "", {});
 
   function handleSetSpecialization(
     _: React.SyntheticEvent<Element, Event>,
@@ -60,13 +66,10 @@ const Profile: React.FC = () => {
 
     console.log(values);
 
-    const user = await userService.updateInfoUserMe({
-      // ...values,
-      first_name: "aaa",
+    const userInfo = await userService.updateInfoUserMe({
+      ...values,
     });
-    dispatch(setUserInfo(user));
-
-    console.log(user);
+    dispatch(setUserInfo(userInfo));
   }
 
   return (
@@ -76,51 +79,51 @@ const Profile: React.FC = () => {
 
         <Box className={classes.profile__section}>
           <Typography className={classes.profile__section_title}>
-            Личные данные
+            Имя
           </Typography>
-
           <div className={classes.profile__section_wrapper}>
-            <Box>
-              <FormLabel className={classes.profile__section_subtitle}>
-                Имя
-              </FormLabel>
-              <Typography className={classes.profile__name}>
-                {user?.first_name}
-              </Typography>
-            </Box>
+            <Typography className={classes.profile__name}>
+              {user?.first_name}
+            </Typography>
+          </div>
+        </Box>
 
-            <Box>
-              <FormLabel className={classes.profile__section_subtitle}>
-                Фамилия
-              </FormLabel>
-              <Typography className={classes.profile__name}>
-                {user?.last_name}
-              </Typography>
-            </Box>
+        <Box className={classes.profile__section}>
+          <Typography className={classes.profile__section_title}>
+            Фамилия
+          </Typography>
+          <div className={classes.profile__section_wrapper}>
+            <Typography className={classes.profile__name}>
+              {user?.last_name}
+            </Typography>
+          </div>
+        </Box>
 
-            <FormControl>
-              <FormLabel className={classes.profile__section_subtitle}>
-                Специализация
-              </FormLabel>
-              <MySingleDropDown
-                className={classes.profile__myDrowDown}
-                value={specialization}
-                onChange={handleSetSpecialization}
-                options={LISTS.LIST_SPECIALITY}
-              />
-            </FormControl>
+        <Box className={classes.profile__section}>
+          <Typography className={classes.profile__section_title}>
+            Специализация
+          </Typography>
+          <div className={classes.profile__section_wrapper}>
+            <MySingleDropDown
+              className={classes.profile__myDrowDown}
+              value={specialization}
+              onChange={handleSetSpecialization}
+              options={LISTS.LIST_SPECIALITY}
+            />
+          </div>
+        </Box>
 
-            <FormControl>
-              <FormLabel className={classes.profile__section_subtitle}>
-                Страна
-              </FormLabel>
-              <MySingleDropDown
-                className={classes.profile__myDrowDown}
-                value={country}
-                onChange={handleSetCountry}
-                options={LISTS.LIST_COUNTRIES}
-              />
-            </FormControl>
+        <Box className={classes.profile__section}>
+          <Typography className={classes.profile__section_title}>
+            Страна
+          </Typography>
+          <div className={classes.profile__section_wrapper}>
+            <MySingleDropDown
+              className={classes.profile__myDrowDown}
+              value={country}
+              onChange={handleSetCountry}
+              options={LISTS.LIST_COUNTRIES}
+            />
           </div>
         </Box>
 

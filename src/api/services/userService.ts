@@ -36,11 +36,11 @@ const userService = {
   },
 
   updateInfoUserMe: async (body: IUpdateInfoUserMe): Promise<IUser> => {
-    const response = await api.post<IUser>(`/profile_designer/`, {
+    const response = await api.post<IUser>(`/profile_designer/`, body, {
       headers: {
         Authorization: `Token ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json",
       },
-      body,
     });
     return response.data;
   },
