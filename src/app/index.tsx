@@ -27,9 +27,16 @@ import { getInfoAboutMe } from "@/redux/slices/userSlice.ts";
 import { useAppDispatch } from "@/hooks/reduxHooks.tsx";
 import { useEffect } from "react";
 import { changeAuth } from "@/redux/slices/authSlice.ts";
+import { getData } from "@/redux/slices/dataSlice.ts";
 
 function App() {
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    (async () => {
+      await dispatch(getData());
+    })();
+  });
 
   useEffect(() => {
     (async () => {
