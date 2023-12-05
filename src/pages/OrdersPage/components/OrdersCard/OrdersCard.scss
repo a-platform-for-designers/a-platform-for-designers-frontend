@@ -1,21 +1,67 @@
 .ordersCard {
-  border: 1px solid grey;
-  border-radius: 20px;
+  font-family: Roboto;
+  border: 1px solid #c3c3c3;
+  border-radius: 24px;
   padding: 15px;
+  max-width: 330px;
+  min-height: 332px;
+
   &__header {
     display: flex;
     justify-content: space-between;
+    margin-bottom: 19px;
   }
+
   &__user {
     display: flex;
     gap: 10px;
     align-items: center;
   }
+
+  &__name {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 150%;
+    letter-spacing: 0.024px;
+  }
+
   &__favourite-icon {
     justify-self: flex-end;
   }
+
+  &__title {
+    max-height: 3em;
+    overflow: hidden;
+    text-overflow: ellipsis; // не получилось добавить многоточие в конце строки
+    white-space: wrap;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 150%;
+    letter-spacing: 0.024px;
+  }
+
+  &__specialization {
+    margin-top: 10px;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+  }
+
+  &__price {
+    color: #3BB440;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+    letter-spacing: 0.08px;
+    margin: 18px 0;
+  }
+
   &__buttons {
-    gap: 10px;
+    gap: 14px;
     display: flex;
   }
 }

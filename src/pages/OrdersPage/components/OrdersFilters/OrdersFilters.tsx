@@ -14,7 +14,7 @@ const OrdersFilters: React.FC = () => {
     setSpeciality(newValue);
   }
 
-  function handleSetSkills(
+  function handleSetSphere(
     _: SyntheticEvent<Element, Event>,
     newValue: string[]
   ) {
@@ -47,8 +47,9 @@ const OrdersFilters: React.FC = () => {
         <MyMultipleDropDown
           options={LISTS.LIST_SPHERE}
           value={sphere}
-          onChange={handleSetSkills}
+          onChange={handleSetSphere}
           className="ordersFilters__dropdown"
+          placeholder="Выбирите сферу"
         />
       </div>
     </div>
