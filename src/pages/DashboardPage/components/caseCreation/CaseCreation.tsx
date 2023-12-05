@@ -2,11 +2,13 @@ import Box from "@mui/material/Box";
 import classes from "./CaseCreation.module.scss";
 import useInput from "@/hooks/useInput";
 import { useState, SyntheticEvent } from "react";
+import React from "react";
 import { IProfileDataItem } from "../../model/types";
 import { directionsOptions, tools, spheres } from "../../model/constants";
 import ProfileInput from "@/shared/UI/ProfileInput/ProfileInput";
 import { MyButton } from "@/shared/UI";
-import getBase64 from "@/features/getBase64";
+import CasePreview from "../CasePreview/CasePreview";
+import { ICasePreview } from "@/types";
 
 const CaseCreation: React.FC = () => {
   const title = useInput("", { isEmpty: true });
@@ -17,6 +19,8 @@ const CaseCreation: React.FC = () => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [sphereValue, setSphereValue] = useState<string | null>(null);
   const [toolsValue, setToolsValue] = useState<string[]>([]);
+  const [previewMode, setPreviewMode] = useState<boolean>(false);
+  const [caseValues, setCaseValues] = useState<ICasePreview | null>(null);
 
   const profileData: IProfileDataItem[] = [
     {
@@ -86,7 +90,7 @@ const CaseCreation: React.FC = () => {
 
   function handleSetWrapper(
     _: React.ChangeEvent<HTMLInputElement>,
-    newValue: File | null
+    newValue: File
   ) {
     setWrapper(newValue);
   }
@@ -100,7 +104,7 @@ const CaseCreation: React.FC = () => {
 
   function handleSetDirections(
     _: React.SyntheticEvent<Element, Event>,
-    newValue: string | null
+    newValue: string
   ) {
     setDirections(newValue);
   }
@@ -114,7 +118,7 @@ const CaseCreation: React.FC = () => {
 
   function handleSetSphere(
     _: SyntheticEvent<Element, Event>,
-    newValue: string | null
+    newValue: string
   ) {
     setSphereValue(newValue);
   }
@@ -131,37 +135,47 @@ const CaseCreation: React.FC = () => {
       description: description.value,
       directions,
       wrapper,
-      images: await Promise.all(
+      images: selectedFiles,
+      /* images: await Promise.all(
         selectedFiles.map(async (item) => await getBase64(item))
-      ),
+      ), */
       sphereValue,
       toolsValue,
     };
-    console.log(values);
+    setCaseValues(values);
+    setPreviewMode(true);
   }
 
   return (
     <>
-      <Box className={classes.case}>
-        {profileData.map((item) => {
-          return (
-            <ProfileInput
-              key={item.heading}
-              handleDeleteCaseImage={handleDeleteCaseImage}
-              {...item}
-            />
-          );
-        })}
-      </Box>
-      <Box textAlign={"center"} marginLeft={15}>
-        <MyButton
-          className={classes.case__btn}
-          onClick={handleSubmit}
-          disabled={!!(title.error || !wrapper || selectedFiles.length === 0)}
-        >
-          Сохранить
-        </MyButton>
-      </Box>
+      {!previewMode ? (
+        <>
+          <Box className={classes.case}>
+            {profileData.map((item) => {
+              return (
+                <ProfileInput
+                  key={item.heading}
+                  handleDeleteCaseImage={handleDeleteCaseImage}
+                  {...item}
+                />
+              );
+            })}
+          </Box>
+          <Box textAlign={"center"} marginLeft={15}>
+            <MyButton
+              className={classes.case__btn}
+              onClick={handleSubmit}
+              disabled={
+                !!(title.error || !wrapper || selectedFiles.length === 0)
+              }
+            >
+              Сохранить
+            </MyButton>
+          </Box>
+        </>
+      ) : (
+        <CasePreview values={caseValues} />
+      )}
     </>
   );
 };

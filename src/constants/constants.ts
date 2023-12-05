@@ -428,4 +428,5 @@ export const LISTS = {
     "Французский",
     "Хинди",
   ],
+  LIST_SPHERE: [],
 };

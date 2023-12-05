@@ -117,3 +117,26 @@ export interface ICaseRespons extends IListRespons {
 export interface IUserRespons extends IListRespons {
   results: IUserWithLastCases[];
 }
+
+export interface ICasePreview {
+  title: string;
+  time: string;
+  description: string;
+  directions: string;
+  wrapper: File;
+  images: File[];
+  sphereValue: string;
+  toolsValue: string[];
+}
+
+export interface IOrderDataItem {
+  id: number;
+  photo: string | null;
+  first_name: string;
+  last_name: string;
+  title: string;
+  description: string;
+  price: number;
+  specialization: string;
+  sphere: string;
+}
