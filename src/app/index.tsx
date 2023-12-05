@@ -14,6 +14,7 @@ import {
   ErrorPage,
   MainPage,
   ProfilePage,
+  MentorsPage,
 } from "@/pages/index.ts";
 import {
   Portfolio,
@@ -53,6 +54,7 @@ function App() {
           <Routes>
             <Route path="/" Component={MainPage} />
             <Route path="/designers" Component={DesignersPage} />
+            <Route path="/mentors" Component={MentorsPage} />
             <Route
               path="/profile/:id/*"
               element={<ProtectedRoute Component={ProfilePage} />}

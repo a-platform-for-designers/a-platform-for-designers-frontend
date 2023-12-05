@@ -88,10 +88,11 @@ const Header: React.FC = () => {
                 </ListItem>
                 <ListItem
                   className={`header__menu-item ${
-                    location.pathname === "/orders"
+                    location.pathname === "/mentors"
                       ? "header__menu-item_active"
                       : ""
                   }`}
+                  onClick={() => navigate("/mentors")}
                 >
                   Менторы
                 </ListItem>
