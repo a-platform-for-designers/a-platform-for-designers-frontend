@@ -10,6 +10,7 @@ import Preloader from "@/shared/Preloader/Preloader";
 
 const ProfilePage: React.FC = () => {
   const { user } = useAppSelector((state) => state.user);
+  // const { user } = userService.getUserById(id);
 
   if (!user) return <Preloader></Preloader>;
 

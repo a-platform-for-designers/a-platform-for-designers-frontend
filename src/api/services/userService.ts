@@ -14,15 +14,11 @@ const userService = {
   },
 
   getUserById: async (id: number): Promise<IUser> => {
-    const response = await api.post<IUser>(
-      `/users/${id}`,
-      {},
-      {
-        headers: {
-          Authorization: `Token ${localStorage.getItem("token")}`,
-        },
-      }
-    );
+    const response = await api.get<IUser>(`/users/${id}`, {
+      headers: {
+        Authorization: `Token ${localStorage.getItem("token")}`,
+      },
+    });
     return response.data;
   },
 

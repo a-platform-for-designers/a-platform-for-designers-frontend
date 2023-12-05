@@ -95,9 +95,7 @@ const Info: React.FC<IInfoProps> = ({ data }) => {
               isCurrentUser={isCurrentUser}
               ifTrue={{
                 label: "Добавить проект",
-                onClick: () => {
-                  setIsCurrentUser(!isCurrentUser);
-                },
+                onClick: () => navigate("/dashboard/portfolio/create"),
               }}
               ifFalse={{
                 label: "Подписаться",
@@ -114,9 +112,7 @@ const Info: React.FC<IInfoProps> = ({ data }) => {
               }}
               ifFalse={{
                 label: "Написать",
-                onClick: () => {
-                  setIsCurrentUser(!isCurrentUser);
-                },
+                onClick: () => {},
               }}
               variant="outlined"
             />
