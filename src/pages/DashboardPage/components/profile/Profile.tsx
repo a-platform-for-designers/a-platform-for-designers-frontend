@@ -12,7 +12,6 @@ import {
   MySingleDropDown,
 } from "@/shared/UI";
 
-
 const Profile: React.FC = () => {
   const [specialization, setSpecialization] = useState<string | null>(null);
   const [country, setCountry] = useState<string | null>(null);

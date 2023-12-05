@@ -1,27 +1,26 @@
 .ordersPage {
-    flex-grow: 1;
-  
-    &__container {
-      max-width: 1440px;
-      box-sizing: border-box;
-      margin: 20px auto 20px;
-    }
-  
-    &__cards {
-      flex-wrap: wrap;
-      display: flex;
-      gap: 20px;
+  flex-grow: 1;
+
+  &__container {
+    max-width: 1440px;
+    box-sizing: border-box;
+    margin: 20px auto 20px;
+  }
+
+  &__cards {
+    flex-wrap: wrap;
+    display: flex;
+    gap: 20px;
+    padding-left: 42px;
+
+    &.MuiGrid-item {
       padding-left: 42px;
-  
-      &.MuiGrid-item {
-        padding-left: 42px;
-      }
-    }
-  
-    &__filters {
-      &.MuiGrid-item {
-        padding-left: 38px;
-      }
     }
   }
-  
+
+  &__filters {
+    &.MuiGrid-item {
+      padding-left: 38px;
+    }
+  }
+}
