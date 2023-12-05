@@ -3,19 +3,27 @@ import { dataService } from "@/api";
 import { IDataItem } from "@/types";
 
 interface IDataState {
-  specializations: IDataItem[];
-  skills: IDataItem[];
-  spheres: IDataItem[];
-  instruments: IDataItem[];
-  languages: IDataItem[];
+  specializations: object;
+  skills: object;
+  spheres: object;
+  instruments: object;
+  languages: object;
 }
 
 const initialState: IDataState = {
-  specializations: [],
-  skills: [],
-  spheres: [],
-  instruments: [],
-  languages: [],
+  specializations: {},
+  skills: {},
+  spheres: {},
+  instruments: {},
+  languages: {},
+};
+
+const convertData = (data: IDataItem[]) => {
+  const convertedObj: { [key: string]: number } = {};
+  data.forEach((item) => {
+    convertedObj[item.name] = item.id;
+  });
+  return convertedObj;
 };
 
 export const getData = createAsyncThunk("data/getData", async () => {
@@ -39,11 +47,11 @@ const dataSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getData.fulfilled, (state, action) => {
-      state.specializations = action.payload.specializations;
-      state.skills = action.payload.skills;
-      state.spheres = action.payload.spheres;
-      state.instruments = action.payload.instruments;
-      state.languages = action.payload.languages;
+      state.specializations = convertData(action.payload.specializations);
+      state.skills = convertData(action.payload.skills);
+      state.spheres = convertData(action.payload.spheres);
+      state.instruments = convertData(action.payload.instruments);
+      state.languages = convertData(action.payload.languages);
     });
 
     builder.addCase(getData.rejected, (state) => {
