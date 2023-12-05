@@ -27,12 +27,6 @@ const Asidebar: React.FC = () => {
       id: 1052,
     },
     {
-      title: "Заказы",
-      link: "orders",
-      id: 1053,
-    },
-
-    {
       title: "Настройки",
       link: "settings",
       id: 1054,
