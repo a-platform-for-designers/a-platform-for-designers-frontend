@@ -9,7 +9,6 @@ import { logIn } from "@/redux/slices/authSlice";
 
 interface ISignInProps {
   openSignUpPopup: () => void;
-  onClose: () => void;
 }
 
 const SignIn: FC<ISignInProps> = ({ openSignUpPopup }) => {

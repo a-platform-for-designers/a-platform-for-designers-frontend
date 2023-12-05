@@ -13,6 +13,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import FollowersIcon from "../../assets/icons/FollowersIcon.svg";
 import FavouritesIcon from "../../assets/icons/FavouritesDark.svg";
 import MessagesIcon from "../../assets/icons/MessagesIcon.svg";
+import OrdersIcon from "../../assets/icons/orders.svg";
 import { useAppSelector } from "@/hooks/reduxHooks";
 import { MyAuthForm, MyButton, MyPopup } from "../UI";
 import SignIn from "../SignIn/SignIn";
@@ -24,6 +25,7 @@ const Header: React.FC = () => {
   const [isOpenSignIn, setIsOpenSignIn] = useState<boolean>(false);
   const [isOpenSignUp, setIsOpenSignUp] = useState<boolean>(false);
   const [isRoleSelected, setIsRoleSelected] = useState<boolean>(false);
+  const [isCustomer, setIsCustomer] = useState<boolean>(true);
   const { isAuth } = useAppSelector((state) => state.auth);
   const { user } = useAppSelector((state) => state.user);
 
@@ -31,8 +33,14 @@ const Header: React.FC = () => {
 
   const navigate = useNavigate();
 
-  function chooseRole() {
+  function chooseCustomerRole() {
     setIsRoleSelected(true);
+    setIsCustomer(true);
+  }
+
+  function chooseDesignerRole() {
+    setIsRoleSelected(true);
+    setIsCustomer(false);
   }
 
   useEffect(() => {
@@ -85,6 +93,15 @@ const Header: React.FC = () => {
                 >
                   Заказы
                 </ListItem>
+                <ListItem
+                  className={`header__menu-item ${
+                    location.pathname === "/orders"
+                      ? "header__menu-item_active"
+                      : ""
+                  }`}
+                >
+                  Менторы
+                </ListItem>
               </List>
             </Toolbar>
             <Toolbar className="header__auth-buttons">
@@ -113,6 +130,14 @@ const Header: React.FC = () => {
                       alt="Иконка меню"
                     />
                     <p className="header__list-text">Сообщения</p>
+                  </ListItem>
+                  <ListItem className="header__link">
+                    <img
+                      className="header__list-icon"
+                      src={OrdersIcon}
+                      alt="Иконка меню"
+                    />
+                    <p className="header__list-text">Мои&nbsp;заказы</p>
                   </ListItem>
                   <Avatar
                     className="header__avatar"
@@ -150,15 +175,18 @@ const Header: React.FC = () => {
 
       <MyPopup onClose={handleClose} open={isOpenSignIn}>
         <MyAuthForm title="Вход">
-          <SignIn openSignUpPopup={openSignUpPopup} onClose={handleClose} />
+          <SignIn openSignUpPopup={openSignUpPopup} />
         </MyAuthForm>
       </MyPopup>
       <MyPopup onClose={handleClose} open={isOpenSignUp}>
         {isRoleSelected === false ? (
-          <UserRole onClick={chooseRole} />
+          <UserRole
+            onChooseDesignerRole={chooseDesignerRole}
+            onChooseCustomerRole={chooseCustomerRole}
+          />
         ) : (
           <MyAuthForm title="Регистрация">
-            <SignUp openSignInPopup={openSignInPopup} onClose={handleClose} />
+            <SignUp openSignInPopup={openSignInPopup} isCustomer={isCustomer} />
           </MyAuthForm>
         )}
       </MyPopup>

@@ -21,7 +21,7 @@ export interface ICreateUserRequest {
   first_name: string;
   last_name: string;
   password: string;
-  is_customer: boolean;
+  is_customer: boolean | undefined;
 }
 
 export interface IProfileCustomer {
@@ -139,4 +139,22 @@ export interface IOrderDataItem {
   price: number;
   specialization: string;
   sphere: string;
+}
+
+export interface IResumeNew {
+  instruments: number[];
+  skills: number[];
+  about: string;
+  status: boolean;
+}
+
+export interface IUpdateInfoUserMe {
+  photo?: File;
+  first_name?: string;
+  last_name?: string;
+  specialization?: string | null;
+  country?: string | null;
+  education?: string | null;
+  language?: string[] | null;
+  hobby?: string;
 }
