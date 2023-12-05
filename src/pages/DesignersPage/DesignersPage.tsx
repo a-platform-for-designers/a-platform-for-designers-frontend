@@ -4,6 +4,7 @@ import { DesignerFilters, DesignersCard } from "./components";
 import { useState, useEffect } from "react";
 import { IUserWithLastCases } from "@/types";
 import { userService } from "@/api";
+import Preloader from "@/shared/Preloader/Preloader";
 
 const DesignersPage: React.FC = () => {
   const [users, setUsers] = useState<IUserWithLastCases[]>([]);
@@ -28,12 +29,14 @@ const DesignersPage: React.FC = () => {
             alignItems="stretch"
             wrap="nowrap"
           >
-            {users.length > 0 && (
+            {users.length > 0 ? (
               <Grid xs={9} item className="designersPage__cards">
                 {users.map((item) => (
                   <DesignersCard key={item.id} user={item} />
                 ))}
               </Grid>
+            ) : (
+              <Preloader></Preloader>
             )}
 
             <Grid xs={3} item className="designersPage__filters">
