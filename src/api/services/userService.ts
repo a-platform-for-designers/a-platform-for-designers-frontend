@@ -35,11 +35,7 @@ const userService = {
   },
 
   getUsersList: async (limit: number, page: number): Promise<IUserRespons> => {
-    const token = `Token ${localStorage.getItem("token")}`;
     const response = await api.get<IUserRespons>("/users/", {
-      headers: {
-        Authorization: token,
-      },
       params: {
         limit: limit,
         page: page,
