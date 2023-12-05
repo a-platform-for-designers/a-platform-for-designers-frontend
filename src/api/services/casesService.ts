@@ -3,11 +3,7 @@ import api from "../api";
 
 const casesService = {
   getCasesList: async (limit: number, page: number): Promise<ICaseRespons> => {
-    const token = `Token ${localStorage.getItem("token")}` || "";
     const response = await api.get<ICaseRespons>("/cases", {
-      headers: {
-        Authorization: token,
-      },
       params: {
         limit: limit,
         page: page,
@@ -17,11 +13,7 @@ const casesService = {
   },
 
   getCaseById: async (id: number): Promise<ICase> => {
-    const response = await api.get<ICase>(`/cases/${id}/`, {
-      headers: {
-        Authorization: `Token ${localStorage.getItem("token")}`,
-      },
-    });
+    const response = await api.get<ICase>(`/cases/${id}/`);
     return response.data;
   },
 };
