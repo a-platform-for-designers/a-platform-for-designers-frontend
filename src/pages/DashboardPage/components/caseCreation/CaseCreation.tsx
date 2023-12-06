@@ -7,8 +7,6 @@ import { IProfileDataItem } from "../../model/types";
 import { directionsOptions, tools, spheres } from "../../model/constants";
 import ProfileInput from "@/shared/UI/ProfileInput/ProfileInput";
 import { MyButton } from "@/shared/UI";
-import CasePreview from "../CasePreview/CasePreview";
-import { ICasePreview } from "@/types";
 
 const CaseCreation: React.FC = () => {
   const title = useInput("", { isEmpty: true });
@@ -19,8 +17,6 @@ const CaseCreation: React.FC = () => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [sphereValue, setSphereValue] = useState<string | null>(null);
   const [toolsValue, setToolsValue] = useState<string[]>([]);
-  const [previewMode, setPreviewMode] = useState<boolean>(false);
-  const [caseValues, setCaseValues] = useState<ICasePreview | null>(null);
 
   const profileData: IProfileDataItem[] = [
     {
@@ -142,40 +138,33 @@ const CaseCreation: React.FC = () => {
       sphereValue,
       toolsValue,
     };
-    setCaseValues(values);
-    setPreviewMode(true);
+    console.log(values);
   }
 
   return (
     <>
-      {!previewMode ? (
-        <>
-          <Box className={classes.case}>
-            {profileData.map((item) => {
-              return (
-                <ProfileInput
-                  key={item.heading}
-                  handleDeleteCaseImage={handleDeleteCaseImage}
-                  {...item}
-                />
-              );
-            })}
-          </Box>
-          <Box textAlign={"center"} marginLeft={15}>
-            <MyButton
-              className={classes.case__btn}
-              onClick={handleSubmit}
-              disabled={
-                !!(title.error || !wrapper || selectedFiles.length === 0)
-              }
-            >
-              Сохранить
-            </MyButton>
-          </Box>
-        </>
-      ) : (
-        <CasePreview values={caseValues} />
-      )}
+      <>
+        <Box className={classes.case}>
+          {profileData.map((item) => {
+            return (
+              <ProfileInput
+                key={item.heading}
+                handleDeleteCaseImage={handleDeleteCaseImage}
+                {...item}
+              />
+            );
+          })}
+        </Box>
+        <Box textAlign={"center"} marginLeft={15}>
+          <MyButton
+            className={classes.case__btn}
+            onClick={handleSubmit}
+            disabled={!!(title.error || !wrapper || selectedFiles.length === 0)}
+          >
+            Сохранить
+          </MyButton>
+        </Box>
+      </>
     </>
   );
 };
