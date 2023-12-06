@@ -51,7 +51,7 @@
   }
 
   &__price {
-    color: #3BB440;
+    color: #3bb440;
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
@@ -61,7 +61,12 @@
   }
 
   &__buttons {
-    gap: 14px;
+    gap: 8px;
     display: flex;
+    max-width: 99%;
+  }
+
+  &__button {
+width: 170px;
   }
 }

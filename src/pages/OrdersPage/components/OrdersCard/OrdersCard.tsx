@@ -91,6 +91,7 @@ const DesignersCard: React.FC<IProps> = ({ order }) => {
           variant="outlined"
           size="large"
           onClick={handleReply}
+          className="ordersCard__button"
         >
           {!reply ? "Откликнуться" : "Удалить отклик"}
         </MyButton>
