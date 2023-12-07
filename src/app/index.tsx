@@ -14,6 +14,7 @@ import {
   ErrorPage,
   MainPage,
   ProfilePage,
+  OrdersPage,
 } from "@/pages/index.ts";
 import {
   Portfolio,
@@ -51,6 +52,8 @@ function App() {
     })();
   }, [dispatch]);
 
+  // localStorage.clear()
+
   return (
     <ThemeProvider theme={lightTheme}>
       <CssBaseline enableColorScheme />
@@ -74,6 +77,7 @@ function App() {
               <Route path="orders" element={<Orders />} />
               <Route path="settings" element={<Settings />} />
             </Route>
+            <Route path="/orders" Component={OrdersPage}></Route>
             <Route path="/case/:id" Component={CasePage} />
             <Route path="*" Component={ErrorPage} />
           </Routes>

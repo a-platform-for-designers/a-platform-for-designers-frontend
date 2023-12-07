@@ -1,0 +1,39 @@
+.ordersFilters {
+  &__title {
+    font-family: Roboto;
+    margin: 0 0 20px 0;
+    font-size: 24px;
+    line-height: 32px;
+    font-style: normal;
+    font-weight: 400;
+  }
+
+  &__container {
+    margin: 15px 0 45px;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  &__checkbox {
+    max-width: 287px;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 0 6px 8px;
+
+    & .myCheckBox {
+      margin: 0;
+    }
+
+    & .MuiFormControlLabel-label {
+      margin: 0;
+      color: var(--colors-black);
+    }
+  }
+  &__dropdown {
+    padding-top: 5px;
+    max-width: 300px;
+    height: 50px;
+  }
+}

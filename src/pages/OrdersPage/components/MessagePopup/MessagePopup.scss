@@ -1,0 +1,60 @@
+.messagePopup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+    width: 605px;
+    height: 500px;
+    background-color: white;
+    position: fixed;
+    padding: 32px;
+    border-radius: 24px;
+}
+
+&__header {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 13px;
+  margin-left: 14px;
+  margin-bottom: 30px;
+}
+
+&__avatar {
+  width: 56px;
+  height: 56px;
+}
+
+&__user {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+&__name {
+font-family: Roboto;
+font-size: 22px;
+font-style: normal;
+font-weight: 700;
+line-height: 28px;
+ }
+
+  &__close-button {
+    width: 44px;
+    height: 44px;
+    background: url(../../../../assets/icons/Close-btnutton.svg) center no-repeat;
+    border: none;
+    cursor: pointer;
+    opacity: 0.5;
+    align-self: flex-start;
+    margin-top: -15px;
+  }
+&__input {
+  background-color: #F7F2FA;
+  border-radius: 12px;
+  max-width: 542px;
+  height: 259px;
+  box-shadow: none;
+}
+}
