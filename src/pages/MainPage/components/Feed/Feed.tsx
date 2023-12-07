@@ -18,7 +18,7 @@ import { ICase } from "@/types";
 // Заглушка для категорий
 const workCategories: IWorkCategoryData[] = [
   {
-    title: "Иллюстратоции",
+    title: "Иллюстрации",
     link: "",
   },
   {
@@ -26,11 +26,11 @@ const workCategories: IWorkCategoryData[] = [
     link: "",
   },
   {
-    title: "3d визуализация",
+    title: "3D-визуализация",
     link: "",
   },
   {
-    title: "Веб дизайн",
+    title: "Веб-дизайн",
     link: "",
   },
 ];
