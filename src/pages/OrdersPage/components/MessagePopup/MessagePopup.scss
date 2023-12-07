@@ -44,7 +44,8 @@
   &__close-button {
     width: 44px;
     height: 44px;
-    background: url(../../../../assets/icons/Close-btnutton.svg) center no-repeat;
+    background: url(../../../../assets/icons/Close-btnutton.svg) center
+      no-repeat;
     border: none;
     cursor: pointer;
     opacity: 0.5;
@@ -65,7 +66,7 @@
     margin-bottom: 22px;
 
     &::placeholder {
-      color: #98979A;
+      color: #98979a;
       font-size: 16px;
       font-style: normal;
       font-weight: 400;
