@@ -1,8 +1,8 @@
 import { Modal, Box, Avatar, Typography } from "@mui/material";
 import AvatarIcon from "../../../../assets/images/designerscarousel-avatar.png";
 import "./MessagePopup.scss";
-import { MyButton, MyInput } from "@/shared/UI";
-import useInput from "@/hooks/useInput";
+import { useState } from "react";
+import { MyButton } from "@/shared/UI";
 
 type Props = {
   userInfo?: string;
@@ -10,15 +10,18 @@ type Props = {
   onClose?: () => void;
 };
 
+type TInputTextArea = HTMLInputElement | HTMLTextAreaElement;
+
 const MessagePopup: React.FC<Props> = ({ userInfo, open, onClose }) => {
-  const message = useInput("", {});
+  const [message, setMessage] = useState<string>("");
 
   function handleSubmit(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
-    const value = {
-      message: message.value,
-    };
-    console.log(value);
+    console.log(message);
+  }
+
+  function handleChangeMessage(event: React.ChangeEvent<TInputTextArea>) {
+    setMessage(event.target.value);
   }
 
   return (
@@ -37,11 +40,12 @@ const MessagePopup: React.FC<Props> = ({ userInfo, open, onClose }) => {
               onClick={onClose}
             ></button>
           </div>
-          <MyInput
-            variant="text"
+          <textarea
+            onChange={handleChangeMessage}
+            id="message"
+            name="message"
             className="messagePopup__input"
             placeholder="Текст сообщения"
-            data={message}
           />
           <MyButton
             type="submit"

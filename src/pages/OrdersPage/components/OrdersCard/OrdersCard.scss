@@ -32,14 +32,18 @@
 
   &__title {
     max-height: 3em;
-    overflow: hidden;
-    text-overflow: ellipsis; // не получилось добавить многоточие в конце строки
-    white-space: wrap;
     font-size: 16px;
     font-style: normal;
     font-weight: 500;
     line-height: 150%;
     letter-spacing: 0.024px;
+word-break: break-all;
+    margin: 0;  /* Исключает внешний отступ абзаца */ 
+    display: -webkit-box; 
+    -webkit-box-orient: vertical; 
+    overflow: hidden; 
+    -webkit-line-clamp: 2;
+
   }
 
   &__specialization {
