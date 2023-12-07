@@ -11,9 +11,10 @@ import AvatarIcon from "../../../../assets/images/designerscarousel-avatar.png";
 
 interface IProps {
   order: IOrderDataItem;
+  openPopup: (userInfo: string) => void;
 }
 
-const DesignersCard: React.FC<IProps> = ({ order }) => {
+const DesignersCard: React.FC<IProps> = ({ order, openPopup }) => {
   const [reply, setReply] = useState<boolean>(false);
   const [isFavourite, setIsFavourite] = useState<boolean>(false);
 
@@ -23,6 +24,12 @@ const DesignersCard: React.FC<IProps> = ({ order }) => {
       return;
     }
     setReply(false);
+  }
+
+  const userInfo = `${order.first_name} ${order.last_name}`;
+
+  function handlePopupOpen() {
+    openPopup(userInfo);
   }
 
   function handleFavourite() {
@@ -82,7 +89,7 @@ const DesignersCard: React.FC<IProps> = ({ order }) => {
           type="button"
           variant="outlined"
           size="large"
-          onClick={() => {}}
+          onClick={handlePopupOpen}
         >
           Написать
         </MyButton>

@@ -1,7 +1,8 @@
 import "./OrdersPage.scss";
 import { Box, Grid, StyledEngineProvider } from "@mui/material";
 import { IOrderDataItem } from "@/types";
-import { OrdersFilters, OrdersCard } from "./components";
+import { useState } from "react";
+import { OrdersFilters, OrdersCard, MessagePopup } from "./components";
 
 const OrdersPage: React.FC = () => {
   // временно, пока нет данных с сервера
@@ -56,6 +57,18 @@ const OrdersPage: React.FC = () => {
     },
   ];
 
+  const [openPopup, setOpenPopup] = useState<boolean>(false);
+  const [userInfo, setUserInfo] = useState<string>();
+
+  function handlePopupClose() {
+    setOpenPopup(false);
+  }
+
+  function handlePopupOpen(userInfo: string) {
+    setUserInfo(userInfo);
+    setOpenPopup(true);
+  }
+
   return (
     <StyledEngineProvider injectFirst>
       <Box component="main" className="ordersPage">
@@ -72,7 +85,11 @@ const OrdersPage: React.FC = () => {
             {orders.length > 0 && (
               <Grid xs={9} item className="ordersPage__cards">
                 {orders.map((item) => (
-                  <OrdersCard key={item.id} order={item} />
+                  <OrdersCard
+                    openPopup={handlePopupOpen}
+                    key={item.id}
+                    order={item}
+                  />
                 ))}
               </Grid>
             )}
@@ -83,6 +100,13 @@ const OrdersPage: React.FC = () => {
           </Grid>
         </Box>
       </Box>
+      {openPopup ? (
+        <MessagePopup
+          open={openPopup}
+          onClose={handlePopupClose}
+          userInfo={userInfo}
+        />
+      ) : null}
     </StyledEngineProvider>
   );
 };
