@@ -1,7 +1,5 @@
-import {
-  TOnChangeSingle,
-  TOnChangeMylty,
-} from "@/components/UI/MyDropDown/MyDropDown";
+import { TOnChangeMylty } from "@/shared/UI/MyMultipleDropDown/MyMultipleDropDown";
+import { TOnChangeSingle } from "@/shared/UI/MySingleDropDown/MySingleDropDown";
 import { objFromUseInput } from "@/hooks/useInput";
 
 export interface IProfileDataItem {

@@ -109,6 +109,7 @@ const Profile: React.FC = () => {
               value={specialization}
               onChange={handleSetSpecialization}
               options={LISTS.LIST_SPECIALITY}
+              placeholder="Добавьте из списка"
             />
           </div>
         </Box>
@@ -123,6 +124,7 @@ const Profile: React.FC = () => {
               value={country}
               onChange={handleSetCountry}
               options={LISTS.LIST_COUNTRIES}
+              placeholder="Добавьте из списка"
             />
           </div>
         </Box>
@@ -132,7 +134,11 @@ const Profile: React.FC = () => {
             Образование
           </Typography>
           <div className={classes.profile__section_wrapper}>
-            <MyInput data={education} variant="text-label-without" />
+            <MyInput
+              data={education}
+              variant="text-label-without"
+              placeholder="Напишите, где учились"
+            />
           </div>
         </Box>
 
@@ -146,6 +152,7 @@ const Profile: React.FC = () => {
               value={language}
               options={LISTS.LIST_LANGUAGES}
               onChange={handleSetLanguage}
+              placeholder="Добавьте из списка"
             />
           </div>
         </Box>
@@ -159,6 +166,7 @@ const Profile: React.FC = () => {
               data={hobby}
               variant="textarea-label-without"
               maxLength={200}
+              placeholder="Расскажите, чем увлекаетесь"
             />
           </div>
         </Box>
