@@ -1,7 +1,10 @@
 import { Grid, ListItem, StyledEngineProvider } from "@mui/material";
 import "./WorkCategories.scss";
-import React from "react";
+import React, { useEffect } from "react";
 import MyButton from "@/shared/UI/MyButton/MyButton";
+import { useAppSelector } from "@/hooks/reduxHooks";
+import { casesService } from "@/api";
+import { ICase } from "@/types";
 
 // интерфейс данных категории, которые нужно передать в пропсах
 export interface IWorkCategoryData {
@@ -22,6 +25,7 @@ interface IWorkCategoriesProps {
   setWorkCategoryState: React.Dispatch<
     React.SetStateAction<IActiveWorkCategoryState>
   >;
+  setCases: React.Dispatch<React.SetStateAction<ICase[]>>;
 }
 
 /* Логика работы категорий 
@@ -35,6 +39,7 @@ const WorkCategories: React.FC<IWorkCategoriesProps> = ({
   data, // сами категории/тэги
   workCategoryState,
   setWorkCategoryState,
+  setCases,
 }) => {
   const onCategoryClickHandler = (category: IWorkCategoryData) => {
     setWorkCategoryState((prev) => {
@@ -66,6 +71,38 @@ const WorkCategories: React.FC<IWorkCategoriesProps> = ({
       following: !prev.following,
     }));
   };
+
+  // getting the initial data with the categories and ids
+  const categoriesSelector = useAppSelector(
+    (state) => state.data.specializations
+  );
+
+  // converting categories to ids
+  const categoriesToIds = (categories: string[]) => {
+    return categories.map((key) => categoriesSelector[key]);
+  };
+
+  const memoizedCategoriesToIds = React.useCallback(categoriesToIds, [
+    categoriesToIds,
+  ]);
+
+  // every time the category state changes, get the list of cases and set it
+  useEffect(() => {
+    const currentfilters = memoizedCategoriesToIds(
+      workCategoryState.categories
+    );
+    // console.log(currentfilters);
+
+    (async () => {
+      const filteredList = await casesService.getCasesList(
+        12,
+        1,
+        currentfilters
+      );
+
+      setCases(filteredList.results);
+    })();
+  }, [workCategoryState.categories, setCases, memoizedCategoriesToIds]);
 
   return (
     <StyledEngineProvider injectFirst>
