@@ -86,7 +86,7 @@ const CaseCreation: React.FC = () => {
 
   function handleSetWrapper(
     _: React.ChangeEvent<HTMLInputElement>,
-    newValue: File
+    newValue: File | null
   ) {
     setWrapper(newValue);
   }
@@ -100,7 +100,7 @@ const CaseCreation: React.FC = () => {
 
   function handleSetDirections(
     _: React.SyntheticEvent<Element, Event>,
-    newValue: string
+    newValue: string | null
   ) {
     setDirections(newValue);
   }
@@ -114,7 +114,7 @@ const CaseCreation: React.FC = () => {
 
   function handleSetSphere(
     _: SyntheticEvent<Element, Event>,
-    newValue: string
+    newValue: string | null
   ) {
     setSphereValue(newValue);
   }

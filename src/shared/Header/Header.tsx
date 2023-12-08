@@ -90,6 +90,7 @@ const Header: React.FC = () => {
                       ? "header__menu-item_active"
                       : ""
                   }`}
+                  onClick={() => navigate("/orders")}
                 >
                   Заказы
                 </ListItem>
