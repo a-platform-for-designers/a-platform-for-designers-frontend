@@ -22,7 +22,7 @@ const MessagePopup: React.FC<Props> = ({ userInfo, open, onClose }) => {
     try {
       await ordersService.postMessage(message);
     } catch (error) {
-      console.error(error);
+      console.error("ошибка: ", { error });
     }
   }
 
