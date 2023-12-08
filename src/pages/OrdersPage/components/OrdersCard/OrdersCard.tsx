@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 
 import FavouritesIcon from "../../../../assets/icons/FavouritesDark.svg";
 import FavouritesIconActive from "../../../../assets/icons/FavouritesActive.svg";
+import { useAppSelector } from "@/hooks/reduxHooks";
 
 // import AvatarIcon from "../../../../assets/images/designerscarousel-avatar.png";
 
@@ -20,6 +21,10 @@ const OrdersCard: React.FC<IProps> = ({ order, openPopup }) => {
   const [customerSpecialization, setCustomerSpecialization] =
     useState<string>("");
 
+  const { specializations } = useAppSelector((state) => state.data);
+
+  console.log(Object.keys(specializations));
+
   useEffect(() => {
     if (order.specialization.name === "Графический дизайн") {
       setCustomerSpecialization("Графический дизайнер");
@@ -29,12 +34,12 @@ const OrdersCard: React.FC<IProps> = ({ order, openPopup }) => {
       setCustomerSpecialization("Иллюстратор");
       return;
     }
-    if (order.specialization.name === "3D визуализация") {
+    if (order.specialization.name === "3D-дизайн") {
       setCustomerSpecialization("3D визуализатор");
       return;
     }
-    if (order.specialization.name === "Веб дизайн") {
-      setCustomerSpecialization("Веб дизайнер");
+    if (order.specialization.name === "Веб-дизайн") {
+      setCustomerSpecialization("Веб-дизайнер");
       return;
     }
   }, [order.specialization.name]);
