@@ -21,4 +21,4 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/frontend-motivation
+          tags: ${{ secrets.DOCKER_USERNAME }}/design-collab
