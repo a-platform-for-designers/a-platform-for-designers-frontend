@@ -1,11 +1,12 @@
 import { Modal, Box, Avatar, Typography } from "@mui/material";
-import AvatarIcon from "../../../../assets/images/designerscarousel-avatar.png";
 import "./MessagePopup.scss";
 import { useState } from "react";
 import { MyButton } from "@/shared/UI";
+import { IUserInfo } from "@/types";
+import { ordersService } from "../../../../api";
 
 type Props = {
-  userInfo?: string;
+  userInfo: IUserInfo | undefined;
   open: boolean;
   onClose?: () => void;
 };
@@ -15,9 +16,14 @@ type TInputTextArea = HTMLInputElement | HTMLTextAreaElement;
 const MessagePopup: React.FC<Props> = ({ userInfo, open, onClose }) => {
   const [message, setMessage] = useState<string>("");
 
-  function handleSubmit(e: React.MouseEvent<HTMLButtonElement>) {
+  async function handleSubmit(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
-    console.log(message);
+    try {
+      await ordersService.postMessage(message);
+      console.log(message);
+    } catch (error) {
+      console.error("Произошла ошибка при отправке сообщения:", error);
+    }
   }
 
   function handleChangeMessage(event: React.ChangeEvent<TInputTextArea>) {
@@ -29,12 +35,16 @@ const MessagePopup: React.FC<Props> = ({ userInfo, open, onClose }) => {
       <Modal className="messagePopup" onClose={onClose} open={open}>
         <Box component="section" className="messagePopup__container">
           <div className="messagePopup__header">
-            <div className="messagePopup__user">
-              <Avatar className="messagePopup__avatar" src={AvatarIcon} />
-              <Typography component="h2" className="messagePopup__name">
-                {userInfo}
-              </Typography>
-            </div>
+            {userInfo ? (
+              <div className="messagePopup__user">
+                <Avatar className="messagePopup__avatar">
+                  {userInfo.avatar}
+                </Avatar>
+                <Typography component="h2" className="messagePopup__name">
+                  {userInfo.name}
+                </Typography>
+              </div>
+            ) : null}
             <button
               className="messagePopup__close-button"
               onClick={onClose}

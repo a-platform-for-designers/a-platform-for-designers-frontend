@@ -141,6 +141,40 @@ export interface IOrderDataItem {
   sphere: string;
 }
 
+export interface IOrdersResponse {
+  count: number;
+  next: string;
+  previous: string;
+  results: [];
+}
+
+export interface IOrdersList {
+  id: number;
+  customer: IOrdersCustomer;
+  title: string;
+  specialization: IDataItem;
+  payment: number;
+  sphere: IDataItem;
+  description: string;
+  pub_date: string;
+  is_responded_order: string;
+  is_favorited_order: string;
+  is_published: boolean;
+}
+
+export interface IOrdersCustomer {
+  id: 0;
+  first_name: string;
+  last_name: string;
+  photo: string;
+  post: string;
+}
+
+export interface IUserInfo {
+  name: string | null;
+  avatar: string | null;
+}
+
 export interface IResumeNew {
   instruments: number[];
   skills: number[];

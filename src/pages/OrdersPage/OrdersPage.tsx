@@ -1,70 +1,28 @@
 import "./OrdersPage.scss";
 import { Box, Grid, StyledEngineProvider } from "@mui/material";
-import { IOrderDataItem } from "@/types";
-import { useState } from "react";
+import { IOrdersList, IUserInfo } from "@/types";
+import { useState, useEffect } from "react";
 import { OrdersFilters, OrdersCard, MessagePopup } from "./components";
+import { ordersService } from "../../api";
 
 const OrdersPage: React.FC = () => {
-  // временно, пока нет данных с сервера
-  const orders: IOrderDataItem[] = [
-    {
-      id: 1002,
-      photo: null,
-      first_name: "Иван",
-      last_name: "Петров",
-      title: "Создание сайта",
-      description:
-        "Создания сайта для магазина одежды для магазина одежды магазина одежды для магазина одежды для магазина",
-      price: 1000,
-      specialization: "Веб дизайнер",
-      sphere: "Коммерция",
-    },
-    {
-      id: 1003,
-      photo: null,
-      first_name: "Иван",
-      last_name: "Петров",
-      title: "Создание сайта",
-      description:
-        "Создания сайта для магазина одежды для магазина одежды магазинаодежды для магазина одежды для магазина",
-      price: 1000,
-      specialization: "Веб дизайнер",
-      sphere: "Коммерция",
-    },
-    {
-      id: 1004,
-      photo: null,
-      first_name: "Иван",
-      last_name: "Петров",
-      title: "Создание сайта",
-      description:
-        "Создания сайта для магазина одежды для магазина одежды магазина одежды для магазина одежды для магазина Создания сайта для магазина одежды для магазина одежды магазина Создания сайта для магазина одежды для магазина одежды магазина одежды для магазина одежды для магазина Создания сайта для магазина одежды для магазина одежды магазина одежды для магазина одежды для магазин одежды для магазина одежды для магазина",
-      price: 1000,
-      specialization: "Веб дизайнер",
-      sphere: "Коммерция",
-    },
-    {
-      id: 1005,
-      photo: null,
-      first_name: "Иван",
-      last_name: "Петров",
-      title: "Создание сайта",
-      description:
-        "Создания сайта для магазина одежды для магазина одежды магазина одежды для магазина одежды для магазина",
-      price: 1000,
-      specialization: "Веб дизайнер",
-      sphere: "Коммерция",
-    },
-  ];
+  const [orders, setOrders] = useState<IOrdersList[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      const ordersData = await ordersService.getOrdersList();
+      setOrders(ordersData.results);
+    })();
+  }, []);
 
   const [openPopup, setOpenPopup] = useState<boolean>(false);
-  const [userInfo, setUserInfo] = useState<string>();
+  const [userInfo, setUserInfo] = useState<IUserInfo>();
 
   function handlePopupClose() {
     setOpenPopup(false);
   }
 
-  function handlePopupOpen(userInfo: string) {
+  function handlePopupOpen(userInfo: IUserInfo) {
     setUserInfo(userInfo);
     setOpenPopup(true);
   }
@@ -83,7 +41,7 @@ const OrdersPage: React.FC = () => {
             wrap="nowrap"
           >
             {orders.length > 0 && (
-              <Grid xs={9} item className="ordersPage__cards">
+              <Grid className="ordersPage__cards">
                 {orders.map((item) => (
                   <OrdersCard
                     openPopup={handlePopupOpen}
