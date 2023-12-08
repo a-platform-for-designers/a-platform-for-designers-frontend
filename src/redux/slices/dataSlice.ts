@@ -3,11 +3,11 @@ import { dataService } from "@/api";
 import { IDataItem } from "@/types";
 
 interface IDataState {
-  specializations: object;
+  specializations: { [key: string]: number };
   skills: object;
   spheres: object;
   instruments: object;
-  languages: object;
+  languages: { [key: string]: number };
 }
 
 const initialState: IDataState = {
@@ -55,11 +55,11 @@ const dataSlice = createSlice({
     });
 
     builder.addCase(getData.rejected, (state) => {
-      state.specializations = [];
+      state.specializations = {};
       state.skills = [];
       state.spheres = [];
       state.instruments = [];
-      state.languages = [];
+      state.languages = {};
     });
   },
 });

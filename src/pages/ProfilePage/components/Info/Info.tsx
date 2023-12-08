@@ -26,7 +26,7 @@ const statusStyles: SxProps<Theme> = {
 export interface IProfileData {
   first_name: string;
   last_name: string;
-  specialization: string;
+  specialization: string[] | string;
   image?: string;
   country: string;
   registrationDate: string;

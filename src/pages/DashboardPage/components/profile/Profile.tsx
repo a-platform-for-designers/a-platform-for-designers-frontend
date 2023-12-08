@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import classes from "./Profile.module.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useInput from "@/hooks/useInput";
 import AvatarUpload from "../avatarUpload/AvatarUpload";
 import { LISTS } from "@/constants/constants";
@@ -17,27 +17,44 @@ import { setUserInfo } from "@/redux/slices/userSlice";
 
 const Profile: React.FC = () => {
   const { user } = useAppSelector((state) => state.user);
+  const { specializations, languages } = useAppSelector((state) => state.data);
   const dispatch = useAppDispatch();
 
-  const [specialization, setSpecialization] = useState<string | null>(
-    user?.profiledesigner?.specialization.name || null
+  const [specializationValue, setSpecializationValue] = useState<string[]>(
+    user?.profiledesigner?.specialization || []
   );
+  const [specialization, setSpecialization] = useState<number[]>([]);
   const [country, setCountry] = useState<string | null>(
     user?.profiledesigner?.country || null
   );
-  const [language, setLanguage] = useState<string[]>(
+  const [languageValue, setLanguageValue] = useState<string[]>(
     user?.profiledesigner?.language || []
   );
+  const [language, setLanguage] = useState<number[]>([]);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const education = useInput(user?.profiledesigner?.education || "", {});
   const hobby = useInput(user?.profiledesigner?.hobby || "", {});
 
+  useEffect(() => {
+    setSpecialization(
+      specializationValue.map((key: string) => specializations[key])
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [specializationValue]);
+
+  useEffect(() => {
+    setLanguage(languageValue.map((key: string) => languages[key]));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [languageValue]);
+
   function handleSetSpecialization(
     _: React.SyntheticEvent<Element, Event>,
-    newValue: string | null
+    newValue: string[]
   ) {
-    setSpecialization(newValue);
+    setSpecializationValue(newValue);
   }
+
+  console.log(specialization);
 
   function handleSetCountry(
     _: React.SyntheticEvent<Element, Event>,
@@ -50,7 +67,7 @@ const Profile: React.FC = () => {
     _: React.SyntheticEvent<Element, Event>,
     newValue: string[]
   ) {
-    setLanguage(newValue);
+    setLanguageValue(newValue);
   }
 
   async function handleSubmit(e: React.MouseEvent<HTMLButtonElement>) {
@@ -59,7 +76,7 @@ const Profile: React.FC = () => {
       specialization,
       country,
       language,
-      avatar: await getBase64(selectedFile!),
+      photo: await getBase64(selectedFile!),
       education: education.value,
       hobby: hobby.value,
     };
@@ -69,6 +86,7 @@ const Profile: React.FC = () => {
     const userInfo = await userService.updateInfoUserMe({
       ...values,
     });
+
     dispatch(setUserInfo(userInfo));
   }
 
@@ -104,11 +122,11 @@ const Profile: React.FC = () => {
             Специализация
           </Typography>
           <div className={classes.profile__section_wrapper}>
-            <MySingleDropDown
+            <MyMultipleDropDown
               className={classes.profile__myDrowDown}
-              value={specialization}
+              value={specializationValue}
               onChange={handleSetSpecialization}
-              options={LISTS.LIST_SPECIALITY}
+              options={Object.keys(specializations)}
               placeholder="Добавьте из списка"
             />
           </div>
@@ -149,8 +167,8 @@ const Profile: React.FC = () => {
           <div className={classes.profile__section_wrapper}>
             <MyMultipleDropDown
               className={classes.profile__myDrowDown}
-              value={language}
-              options={LISTS.LIST_LANGUAGES}
+              value={languageValue}
+              options={Object.keys(languages)}
               onChange={handleSetLanguage}
               placeholder="Добавьте из списка"
             />

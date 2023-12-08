@@ -12,13 +12,15 @@ const ProfilePage: React.FC = () => {
   const { user } = useAppSelector((state) => state.user);
   // const { user } = userService.getUserById(id);
 
+  console.log(user?.profiledesigner);
+
   if (!user) return <Preloader></Preloader>;
 
   const profileData: IProfileData = {
     first_name: user?.first_name,
     last_name: user?.last_name,
     specialization:
-      user.profiledesigner?.specialization.name || "Не указана специализация",
+      user.profiledesigner?.specialization || "Не указана специализация",
     image: user.photo || imgProfilePlaceholder,
     country: user.profiledesigner?.country || "Не указана страна",
     registrationDate: new Date(user.date_joined).toLocaleDateString("ru-RU", {

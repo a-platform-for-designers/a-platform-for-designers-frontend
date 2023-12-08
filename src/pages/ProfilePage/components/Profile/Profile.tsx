@@ -11,7 +11,8 @@ interface IProps {
 const Profile: React.FC<IProps> = ({ profiledesigner }) => {
   if (!profiledesigner)
     return <EmptyData title="Дизайнер пока не заполнил профиль" />;
-  const { education, country, hobby, language } = profiledesigner;
+  const { education, country, hobby, language, specialization } =
+    profiledesigner;
 
   return (
     <StyledEngineProvider injectFirst>
@@ -29,11 +30,7 @@ const Profile: React.FC<IProps> = ({ profiledesigner }) => {
           className="profile__aside profile__aside_secondary"
           justifyContent="flex-end"
         >
-          <AboutItem
-            secondary
-            data={"Графический дизайнер"}
-            title="Специализация"
-          />
+          <AboutItem secondary data={specialization} title="Специализация" />
           <AboutItem secondary data={country} title="Страна" />
           <AboutItem secondary data={education} title="Образование" />
           <AboutItem secondary data={language} title="Язык" />

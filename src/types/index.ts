@@ -34,7 +34,7 @@ export interface IProfileDesigner {
   user: number;
   education: string;
   country: string;
-  specialization: IDataItem;
+  specialization: string[];
   hobby: string;
   language: string[];
 }
@@ -149,12 +149,12 @@ export interface IResumeNew {
 }
 
 export interface IUpdateInfoUserMe {
-  photo?: File;
+  photo?: File | unknown;
   first_name?: string;
   last_name?: string;
-  specialization?: string | null;
+  specialization?: number[];
   country?: string | null;
   education?: string | null;
-  language?: string[] | null;
+  language?: number[];
   hobby?: string;
 }
