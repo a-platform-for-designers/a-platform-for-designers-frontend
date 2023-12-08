@@ -4,12 +4,12 @@
   &__container {
     max-width: 1440px;
     box-sizing: border-box;
-    margin: 23px 0 20px;
+    margin: 23px auto 20px;
   }
 
   &__cards {
     flex-wrap: wrap;
-    display: grid;
+    display: flex;
     row-gap: 16px;
     column-gap: 24px;
     padding-left: 44px;

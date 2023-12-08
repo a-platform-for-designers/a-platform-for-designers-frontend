@@ -2,7 +2,7 @@ import { Avatar, Box, IconButton, Typography } from "@mui/material";
 import "./OrdersCard.scss";
 import MyButton from "@/shared/UI/MyButton/MyButton";
 import { IOrdersList, IUserInfo } from "@/types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import FavouritesIcon from "../../../../assets/icons/FavouritesDark.svg";
 import FavouritesIconActive from "../../../../assets/icons/FavouritesActive.svg";
@@ -14,9 +14,30 @@ interface IProps {
   openPopup: (userInfo: IUserInfo) => void;
 }
 
-const DesignersCard: React.FC<IProps> = ({ order, openPopup }) => {
+const OrdersCard: React.FC<IProps> = ({ order, openPopup }) => {
   const [reply, setReply] = useState<boolean>(false);
   const [isFavourite, setIsFavourite] = useState<boolean>(false);
+  const [customerSpecialization, setCustomerSpecialization] =
+    useState<string>("");
+
+  useEffect(() => {
+    if (order.specialization.name === "Графический дизайн") {
+      setCustomerSpecialization("Графический дизайнер");
+      return;
+    }
+    if (order.specialization.name === "Иллюстрация") {
+      setCustomerSpecialization("Иллюстратор");
+      return;
+    }
+    if (order.specialization.name === "3D визуализация") {
+      setCustomerSpecialization("3D визуализатор");
+      return;
+    }
+    if (order.specialization.name === "Веб дизайн") {
+      setCustomerSpecialization("Веб дизайнер");
+      return;
+    }
+  }, [order.specialization.name]);
 
   function handleReply() {
     if (!reply) {
@@ -77,7 +98,7 @@ const DesignersCard: React.FC<IProps> = ({ order, openPopup }) => {
           {order.description}
         </Typography>
         <Typography component="p" className="ordersCard__specialization">
-          Кто нужен: {order.specialization.name}
+          Кто нужен: {customerSpecialization}
         </Typography>
         <Typography component="p" className="ordersCard__specialization">
           Сфера: {order.sphere.name}
@@ -110,4 +131,4 @@ const DesignersCard: React.FC<IProps> = ({ order, openPopup }) => {
   );
 };
 
-export default DesignersCard;
+export default OrdersCard;

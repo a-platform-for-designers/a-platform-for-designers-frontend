@@ -4,6 +4,7 @@ import { IOrdersList, IUserInfo } from "@/types";
 import { useState, useEffect } from "react";
 import { OrdersFilters, OrdersCard, MessagePopup } from "./components";
 import { ordersService } from "../../api";
+import Preloader from "../../shared/Preloader/Preloader";
 
 const OrdersPage: React.FC = () => {
   const [orders, setOrders] = useState<IOrdersList[]>([]);
@@ -40,8 +41,8 @@ const OrdersPage: React.FC = () => {
             alignItems="stretch"
             wrap="nowrap"
           >
-            {orders.length > 0 && (
-              <Grid className="ordersPage__cards">
+            {orders.length > 0 ? (
+              <Grid xs={9} item className="ordersPage__cards">
                 {orders.map((item) => (
                   <OrdersCard
                     openPopup={handlePopupOpen}
@@ -49,6 +50,10 @@ const OrdersPage: React.FC = () => {
                     order={item}
                   />
                 ))}
+              </Grid>
+            ) : (
+              <Grid xs={9} item className="ordersPage__cards">
+                <Preloader></Preloader>
               </Grid>
             )}
 
