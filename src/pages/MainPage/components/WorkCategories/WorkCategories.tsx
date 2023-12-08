@@ -78,20 +78,16 @@ const WorkCategories: React.FC<IWorkCategoriesProps> = ({
   );
 
   // converting categories to ids
-  const categoriesToIds = (categories: string[]) => {
-    return categories.map((key) => categoriesSelector[key]);
-  };
-
-  const memoizedCategoriesToIds = React.useCallback(categoriesToIds, [
-    categoriesToIds,
-  ]);
+  const categoriesToIds = React.useCallback(
+    (categories: string[]) => {
+      return categories.map((key) => categoriesSelector[key]);
+    },
+    [categoriesSelector]
+  );
 
   // every time the category state changes, get the list of cases and set it
   useEffect(() => {
-    const currentfilters = memoizedCategoriesToIds(
-      workCategoryState.categories
-    );
-    // console.log(currentfilters);
+    const currentfilters = categoriesToIds(workCategoryState.categories);
 
     (async () => {
       const filteredList = await casesService.getCasesList(
@@ -99,10 +95,11 @@ const WorkCategories: React.FC<IWorkCategoriesProps> = ({
         1,
         currentfilters
       );
+      console.log("aaaaaaa");
 
       setCases(filteredList.results);
     })();
-  }, [workCategoryState.categories, setCases, memoizedCategoriesToIds]);
+  }, [setCases, workCategoryState.categories, categoriesToIds]);
 
   return (
     <StyledEngineProvider injectFirst>
