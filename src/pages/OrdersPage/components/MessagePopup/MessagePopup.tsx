@@ -18,9 +18,9 @@ const MessagePopup: React.FC<Props> = ({ userInfo, open, onClose }) => {
 
   async function handleSubmit(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
+    console.log(message);
     try {
       await ordersService.postMessage(message);
-      console.log(message);
     } catch (error) {
       console.error("Произошла ошибка при отправке сообщения:", error);
     }
