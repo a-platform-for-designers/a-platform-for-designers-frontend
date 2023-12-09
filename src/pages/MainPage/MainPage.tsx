@@ -107,7 +107,7 @@ const MainPage: React.FC = () => {
             <Intro />
             <DesinersCarousel data={desinersForCarousel} />
             <DesinersCategories data={desinersCategories} />
-            {cases.length > 0 && <Feed cases={cases} />}
+            {<Feed cases={cases} setCases={setCases} />}
           </Grid>
         }
       </Box>
