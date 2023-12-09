@@ -1,26 +1,37 @@
 import { Container, StyledEngineProvider } from "@mui/material";
 import "./ProfilePage.scss";
 import imgProfilePlaceholder from "../../assets/images/designerscarousel-avatar.png";
-import { Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes, Navigate, useParams } from "react-router-dom";
 import { Info, ProfileNav, Portfolio, Work, Profile } from "./components";
 import { IProfileData } from "./components/Info/Info";
 import { IProfileNavPage } from "./components/ProfileNav/ProfileNav";
 import { useAppSelector } from "@/hooks/reduxHooks";
 import Preloader from "@/shared/Preloader/Preloader";
+import { userService } from "@/api";
+import { useEffect, useState } from "react";
 
 const ProfilePage: React.FC = () => {
   const { user } = useAppSelector((state) => state.user);
-  // const { user } = userService.getUserById(id);
+  const { id } = useParams();
+  const [currentUser, setCurrentUser] = useState({});
 
-  console.log(user?.profiledesigner);
+  useEffect(() => {
+    (async () => {
+      const userInfo = await userService.getUserById(Number(id));
+      setCurrentUser(userInfo);
+    })();
+  }, [id]);
+
+  console.log(currentUser);
 
   if (!user) return <Preloader></Preloader>;
 
   const profileData: IProfileData = {
     first_name: user?.first_name,
     last_name: user?.last_name,
-    specialization:
-      user.profiledesigner?.specialization || "Не указана специализация",
+    specialization: user.profiledesigner?.specialization || [
+      "Не указана специализация",
+    ],
     image: user.photo || imgProfilePlaceholder,
     country: user.profiledesigner?.country || "Не указана страна",
     registrationDate: new Date(user.date_joined).toLocaleDateString("ru-RU", {

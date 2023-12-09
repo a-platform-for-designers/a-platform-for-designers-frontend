@@ -149,9 +149,8 @@ export interface IResumeNew {
 }
 
 export interface IUpdateInfoUserMe {
+  id?: number;
   photo?: File | unknown;
-  first_name?: string;
-  last_name?: string;
   specialization?: number[];
   country?: string | null;
   education?: string | null;

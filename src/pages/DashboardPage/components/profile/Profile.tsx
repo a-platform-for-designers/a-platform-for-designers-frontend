@@ -21,14 +21,14 @@ const Profile: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const [specializationValue, setSpecializationValue] = useState<string[]>(
-    user?.profiledesigner?.specialization || []
+    user?.profiledesigner?.specialization.map((obj) => obj["name"]) || []
   );
   const [specialization, setSpecialization] = useState<number[]>([]);
   const [country, setCountry] = useState<string | null>(
     user?.profiledesigner?.country || null
   );
   const [languageValue, setLanguageValue] = useState<string[]>(
-    user?.profiledesigner?.language || []
+    user?.profiledesigner?.language.map((obj) => obj["name"]) || []
   );
   const [language, setLanguage] = useState<number[]>([]);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -54,8 +54,6 @@ const Profile: React.FC = () => {
     setSpecializationValue(newValue);
   }
 
-  console.log(specialization);
-
   function handleSetCountry(
     _: React.SyntheticEvent<Element, Event>,
     newValue: string | null
@@ -80,8 +78,6 @@ const Profile: React.FC = () => {
       education: education.value,
       hobby: hobby.value,
     };
-
-    console.log(values);
 
     const userInfo = await userService.updateInfoUserMe({
       ...values,

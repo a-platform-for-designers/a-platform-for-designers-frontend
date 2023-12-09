@@ -26,7 +26,7 @@ const statusStyles: SxProps<Theme> = {
 export interface IProfileData {
   first_name: string;
   last_name: string;
-  specialization: string[] | string;
+  specialization: string[];
   image?: string;
   country: string;
   registrationDate: string;
@@ -61,6 +61,11 @@ const Info: React.FC<IInfoProps> = ({ data }) => {
 
   const initials = getInitials(name);
 
+  function setSpecializations() {
+    const name: string = "name";
+    return specialization.map((obj) => obj[name as keyof typeof obj]);
+  }
+
   return (
     <StyledEngineProvider injectFirst>
       <Grid
@@ -84,7 +89,7 @@ const Info: React.FC<IInfoProps> = ({ data }) => {
               </Typography>
             </Grid>
             <Typography className="info__subtitle" component="p">
-              {specialization}
+              {setSpecializations().join(", ")}
             </Typography>
             <Typography className="info__subtitle" component="p">
               {country}

@@ -14,6 +14,29 @@ const Profile: React.FC<IProps> = ({ profiledesigner }) => {
   const { education, country, hobby, language, specialization } =
     profiledesigner;
 
+  function setSpecializations() {
+    if (Array.isArray(specialization)) {
+      const name: string = "name";
+      const result = specialization.map((obj) =>
+        String(obj[name as keyof typeof obj])
+      );
+      return result;
+    }
+  }
+
+  function setLanguages() {
+    if (Array.isArray(language)) {
+      const name: string = "name";
+      const result = language.map((obj) =>
+        String(obj[name as keyof typeof obj])
+      );
+      return result;
+    }
+  }
+
+  console.log(specialization);
+  console.log(setSpecializations());
+
   return (
     <StyledEngineProvider injectFirst>
       <Grid
@@ -30,10 +53,14 @@ const Profile: React.FC<IProps> = ({ profiledesigner }) => {
           className="profile__aside profile__aside_secondary"
           justifyContent="flex-end"
         >
-          <AboutItem secondary data={specialization} title="Специализация" />
+          <AboutItem
+            secondary
+            data={setSpecializations()}
+            title="Специализация"
+          />
           <AboutItem secondary data={country} title="Страна" />
           <AboutItem secondary data={education} title="Образование" />
-          <AboutItem secondary data={language} title="Язык" />
+          <AboutItem secondary data={setLanguages()} title="Знание языков" />
         </Grid>
       </Grid>
     </StyledEngineProvider>
