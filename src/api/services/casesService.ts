@@ -2,11 +2,7 @@ import { ICase, ICaseRespons } from "../../types";
 import api from "../api";
 
 const casesService = {
-  getCasesList: async (
-    limit: number,
-    page: number,
-    specialization?: number[]
-  ): Promise<ICaseRespons> => {
+  getCasesList: async (limit: number, page: number): Promise<ICaseRespons> => {
     const token = `Token ${localStorage.getItem("token")}` || "";
     const response = await api.get<ICaseRespons>("/cases", {
       headers: {
@@ -15,7 +11,6 @@ const casesService = {
       params: {
         limit: limit,
         page: page,
-        specialization: specialization,
       },
     });
     return response.data;

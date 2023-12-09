@@ -3,8 +3,8 @@ import "./WorkCategories.scss";
 import React, { useEffect } from "react";
 import MyButton from "@/shared/UI/MyButton/MyButton";
 import { useAppSelector } from "@/hooks/reduxHooks";
-import { casesService } from "@/api";
 import { ICase } from "@/types";
+import { filterService } from "@/api/services/filterService";
 
 // интерфейс данных категории, которые нужно передать в пропсах
 export interface IWorkCategoryData {
@@ -90,12 +90,11 @@ const WorkCategories: React.FC<IWorkCategoriesProps> = ({
     const currentfilters = categoriesToIds(workCategoryState.categories);
 
     (async () => {
-      const filteredList = await casesService.getCasesList(
+      const filteredList = await filterService.getQuerySpecializations(
+        currentfilters,
         12,
-        1,
-        currentfilters
+        1
       );
-      console.log("aaaaaaa");
 
       setCases(filteredList.results);
     })();
@@ -139,6 +138,7 @@ const WorkCategories: React.FC<IWorkCategoriesProps> = ({
             size="small"
             variant="tag"
             onClick={() => onFollowingClickHandler()}
+            disabled={true}
           >
             Ваши подписки
           </MyButton>
