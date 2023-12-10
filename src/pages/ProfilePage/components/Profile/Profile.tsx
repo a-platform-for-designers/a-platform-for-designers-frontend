@@ -34,9 +34,6 @@ const Profile: React.FC<IProps> = ({ profiledesigner }) => {
     }
   }
 
-  console.log(specialization);
-  console.log(setSpecializations());
-
   return (
     <StyledEngineProvider injectFirst>
       <Grid

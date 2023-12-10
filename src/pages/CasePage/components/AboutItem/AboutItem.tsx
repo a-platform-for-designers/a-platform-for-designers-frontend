@@ -4,7 +4,7 @@ import React from "react";
 
 interface IAboutItemProps {
   title: string;
-  data?: string[] | string | undefined;
+  data?: string[] | string | undefined | null;
   secondary?: boolean;
 }
 

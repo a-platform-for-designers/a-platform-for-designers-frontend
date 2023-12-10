@@ -21,6 +21,16 @@ const CasePage: React.FC = () => {
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
 
+  function setInstruments() {
+    if (Array.isArray(caseData?.instruments)) {
+      const name: string = "name";
+      const result = caseData?.instruments.map((obj) =>
+        String(obj[name as keyof typeof obj])
+      );
+      return result;
+    }
+  }
+
   useEffect(() => {
     if (id) {
       casesService
@@ -31,6 +41,8 @@ const CasePage: React.FC = () => {
         .catch(console.log);
     }
   }, [id]);
+
+  console.log(caseData);
 
   const isLoading = false;
   if (isLoading) {
@@ -95,7 +107,7 @@ const CasePage: React.FC = () => {
               </ImageListItem>
             ))}
           </ImageList>
-          <AboutItem title="Инструменты" data={caseData.instruments} />
+          <AboutItem title="Инструменты" data={setInstruments()} />
         </Grid>
       </Container>
     </StyledEngineProvider>

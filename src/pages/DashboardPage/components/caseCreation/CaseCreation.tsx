@@ -4,9 +4,10 @@ import useInput from "@/hooks/useInput";
 import { useState, SyntheticEvent } from "react";
 import React from "react";
 import { IProfileDataItem } from "../../model/types";
-import { directionsOptions, tools, spheres } from "../../model/constants";
+import { tools } from "../../model/constants";
 import ProfileInput from "@/shared/UI/ProfileInput/ProfileInput";
 import { MyButton } from "@/shared/UI";
+import { useAppSelector } from "@/hooks/reduxHooks";
 
 const CaseCreation: React.FC = () => {
   const title = useInput("", { isEmpty: true });
@@ -17,6 +18,8 @@ const CaseCreation: React.FC = () => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [sphereValue, setSphereValue] = useState<string | null>(null);
   const [toolsValue, setToolsValue] = useState<string[]>([]);
+
+  const { specializations, spheres } = useAppSelector((state) => state.data);
 
   const profileData: IProfileDataItem[] = [
     {
@@ -30,7 +33,7 @@ const CaseCreation: React.FC = () => {
       heading: "Направление",
       variant: "drop-down",
       placeholder: "Выберите направление из списка",
-      options: [...directionsOptions],
+      options: [...Object.keys(specializations)],
       value: directions,
       onChange: handleSetDirections,
     },
@@ -55,7 +58,7 @@ const CaseCreation: React.FC = () => {
       heading: "Сфера",
       variant: "drop-down",
       placeholder: "Добавьте из списка",
-      options: [...spheres],
+      options: [...Object.keys(spheres)],
       value: sphereValue,
       onChange: handleSetSphere,
     },
@@ -100,7 +103,7 @@ const CaseCreation: React.FC = () => {
 
   function handleSetDirections(
     _: React.SyntheticEvent<Element, Event>,
-    newValue: string
+    newValue: string | null
   ) {
     setDirections(newValue);
   }
@@ -114,7 +117,7 @@ const CaseCreation: React.FC = () => {
 
   function handleSetSphere(
     _: SyntheticEvent<Element, Event>,
-    newValue: string
+    newValue: string | null
   ) {
     setSphereValue(newValue);
   }
