@@ -25,6 +25,12 @@ const dataService = {
     const response = await api.get<IDataItem[]>("/instruments");
     return response.data;
   },
+
+  // Получение списка языков
+  getLanguages: async (): Promise<IDataItem[]> => {
+    const response = await api.get<IDataItem[]>("/languages");
+    return response.data;
+  },
 };
 
 export default dataService;

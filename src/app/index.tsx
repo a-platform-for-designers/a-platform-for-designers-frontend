@@ -15,6 +15,7 @@ import {
   MainPage,
   ProfilePage,
   MentorsPage,
+  OrdersPage,
 } from "@/pages/index.ts";
 import {
   Portfolio,
@@ -28,9 +29,16 @@ import { getInfoAboutMe } from "@/redux/slices/userSlice.ts";
 import { useAppDispatch } from "@/hooks/reduxHooks.tsx";
 import { useEffect } from "react";
 import { changeAuth } from "@/redux/slices/authSlice.ts";
+import { getData } from "@/redux/slices/dataSlice.ts";
 
 function App() {
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    (async () => {
+      await dispatch(getData());
+    })();
+  });
 
   useEffect(() => {
     (async () => {
@@ -39,11 +47,14 @@ function App() {
           await dispatch(getInfoAboutMe());
           dispatch(changeAuth(true));
         } catch (error) {
+          console.log(error);
           dispatch(changeAuth(false));
         }
       }
     })();
   }, [dispatch]);
+
+  // localStorage.clear()
 
   return (
     <ThemeProvider theme={lightTheme}>
@@ -69,6 +80,7 @@ function App() {
               <Route path="orders" element={<Orders />} />
               <Route path="settings" element={<Settings />} />
             </Route>
+            <Route path="/orders" Component={OrdersPage}></Route>
             <Route path="/case/:id" Component={CasePage} />
             <Route path="*" Component={ErrorPage} />
           </Routes>

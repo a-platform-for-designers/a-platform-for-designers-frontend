@@ -3,6 +3,7 @@ import {
   IUserShort,
   IUser,
   IUserRespons,
+  IUpdateInfoUserMe,
 } from "../../types";
 import api from "../api";
 
@@ -13,15 +14,11 @@ const userService = {
   },
 
   getUserById: async (id: number): Promise<IUser> => {
-    const response = await api.post<IUser>(
-      `/users/${id}`,
-      {},
-      {
-        headers: {
-          Authorization: `Token ${localStorage.getItem("token")}`,
-        },
-      }
-    );
+    const response = await api.get<IUser>(`/users/${id}`, {
+      headers: {
+        Authorization: `Token ${localStorage.getItem("token")}`,
+      },
+    });
     return response.data;
   },
 
@@ -29,6 +26,16 @@ const userService = {
     const response = await api.get<IUser>(`/users/me/`, {
       headers: {
         Authorization: `Token ${localStorage.getItem("token")}`,
+      },
+    });
+    return response.data;
+  },
+
+  updateInfoUserMe: async (body: IUpdateInfoUserMe): Promise<IUser> => {
+    const response = await api.post<IUser>(`/profile_designer/`, body, {
+      headers: {
+        Authorization: `Token ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json",
       },
     });
     return response.data;

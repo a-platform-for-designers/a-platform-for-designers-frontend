@@ -18,7 +18,7 @@ import { ICase } from "@/types";
 // Заглушка для категорий
 const workCategories: IWorkCategoryData[] = [
   {
-    title: "Иллюстратоции",
+    title: "Иллюстрация",
     link: "",
   },
   {
@@ -26,20 +26,21 @@ const workCategories: IWorkCategoryData[] = [
     link: "",
   },
   {
-    title: "3d визуализация",
+    title: "3D-дизайн",
     link: "",
   },
   {
-    title: "Веб дизайн",
+    title: "Веб-дизайн",
     link: "",
   },
 ];
 
 interface IProps {
   cases: ICase[];
+  setCases: React.Dispatch<React.SetStateAction<ICase[]>>;
 }
 
-const Feed: React.FC<IProps> = ({ cases }) => {
+const Feed: React.FC<IProps> = ({ cases, setCases }) => {
   const initialState: IActiveWorkCategoryState = {
     allDirections: true,
     categories: [],
@@ -64,6 +65,7 @@ const Feed: React.FC<IProps> = ({ cases }) => {
           data={workCategories}
           workCategoryState={workCategoryState}
           setWorkCategoryState={setWorkCategoryState}
+          setCases={setCases}
         />
         <Grid className="feed__list" justifyContent="center" container>
           {cases.map((item) => (

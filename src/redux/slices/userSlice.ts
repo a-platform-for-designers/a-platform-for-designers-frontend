@@ -1,6 +1,6 @@
 import { userService } from "@/api";
-import { ICreateUserRequest, IUser } from "@/types";
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { ICreateUserRequest, IUpdateInfoUserMe, IUser } from "@/types";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { logIn } from "./authSlice";
 import { enqueueSnackbar } from "notistack";
 
@@ -18,6 +18,14 @@ export const getInfoAboutMe = createAsyncThunk(
   "user/fetchInfoUserStatus",
   async () => {
     const user = await userService.getInfoUserMe();
+    return user;
+  }
+);
+
+export const updateInfoAboutMe = createAsyncThunk(
+  "user/updateInfoUserStatus",
+  async (body: IUpdateInfoUserMe) => {
+    const user = await userService.updateInfoUserMe(body);
     return user;
   }
 );
@@ -46,6 +54,9 @@ export const userSlice = createSlice({
     /*     changeAuth: (state, action: PayloadAction<boolean>) => {
       state.user = action.payload;
     }, */
+    setUserInfo: (state, action: PayloadAction<IUser>) => {
+      state.user = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(createUser.fulfilled, (state, action) => {
@@ -73,6 +84,6 @@ export const userSlice = createSlice({
   },
 });
 
-/* export const { changeAuth } = userSlice.actions; */
+export const { setUserInfo } = userSlice.actions;
 
 export default userSlice.reducer;

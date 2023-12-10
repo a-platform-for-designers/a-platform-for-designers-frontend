@@ -21,7 +21,7 @@ export interface ICreateUserRequest {
   first_name: string;
   last_name: string;
   password: string;
-  is_customer: boolean;
+  is_customer: boolean | undefined;
 }
 
 export interface IProfileCustomer {
@@ -118,9 +118,77 @@ export interface IUserRespons extends IListRespons {
   results: IUserWithLastCases[];
 }
 
+export interface ICasePreview {
+  title: string;
+  time: string;
+  description: string;
+  directions: string;
+  wrapper: File;
+  images: File[];
+  sphereValue: string;
+  toolsValue: string[];
+}
+
+export interface IOrderDataItem {
+  id: number;
+  photo: string | null;
+  first_name: string;
+  last_name: string;
+  title: string;
+  description: string;
+  price: number;
+  specialization: string;
+  sphere: string;
+}
+
+export interface IOrdersResponse {
+  count: number;
+  next: string;
+  previous: string;
+  results: [];
+}
+
+export interface IOrdersList {
+  id: number;
+  customer: IOrdersCustomer;
+  title: string;
+  specialization: IDataItem;
+  payment: number;
+  sphere: IDataItem;
+  description: string;
+  pub_date: string;
+  is_responded_order: string;
+  is_favorited_order: string;
+  is_published: boolean;
+}
+
+export interface IOrdersCustomer {
+  id: 0;
+  first_name: string;
+  last_name: string;
+  photo: string;
+  post: string;
+}
+
+export interface IUserInfo {
+  name: string | null;
+  avatar: string | null;
+}
+
 export interface IResumeNew {
   instruments: number[];
   skills: number[];
   about: string;
   status: boolean;
+}
+
+export interface IUpdateInfoUserMe {
+  photo?: File;
+  first_name?: string;
+  last_name?: string;
+  specialization?: string | null;
+  country?: string | null;
+  education?: string | null;
+  language?: string[] | null;
+  hobby?: string;
 }

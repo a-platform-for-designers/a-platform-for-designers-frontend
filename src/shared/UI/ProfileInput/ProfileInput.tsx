@@ -103,6 +103,7 @@ const ProfileInput: React.FC<IProfileInputProps> = ({
               className="profileInput"
               minRows={minRows}
               maxLength={maxLength}
+              placeholder={placeholder}
             />
           </FormControl>
         </StyledEngineProvider>

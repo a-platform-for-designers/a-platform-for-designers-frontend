@@ -1,0 +1,27 @@
+.ordersPage {
+  flex-grow: 1;
+
+  &__container {
+    max-width: 1440px;
+    box-sizing: border-box;
+    margin: 23px auto 20px;
+  }
+
+  &__cards {
+    flex-wrap: wrap;
+    display: flex;
+    row-gap: 16px;
+    column-gap: 24px;
+    padding-left: 44px;
+
+    &.MuiGrid-item {
+      padding-left: 40px;
+    }
+  }
+
+  &__filters {
+    &.MuiGrid-item {
+      padding-left: 38px;
+    }
+  }
+}
