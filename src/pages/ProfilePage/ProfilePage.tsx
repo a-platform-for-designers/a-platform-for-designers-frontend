@@ -9,11 +9,14 @@ import { useAppSelector } from "@/hooks/reduxHooks";
 import Preloader from "@/shared/Preloader/Preloader";
 import { userService } from "@/api";
 import { useEffect, useState } from "react";
+import { IUser } from "@/types";
 
 const ProfilePage: React.FC = () => {
   const { user } = useAppSelector((state) => state.user);
   const { id } = useParams();
-  const [currentUser, setCurrentUser] = useState({});
+  const [currentUser, setCurrentUser] = useState<IUser>();
+
+  console.log(currentUser);
 
   useEffect(() => {
     (async () => {
@@ -22,24 +25,23 @@ const ProfilePage: React.FC = () => {
     })();
   }, [id]);
 
-  console.log(currentUser);
-
   if (!user) return <Preloader></Preloader>;
 
   const profileData: IProfileData = {
-    first_name: user?.first_name,
-    last_name: user?.last_name,
-    specialization: user.profiledesigner?.specialization || [
+    first_name: currentUser?.first_name,
+    last_name: currentUser?.last_name,
+    specialization: currentUser?.profiledesigner?.specialization || [
       "Не указана специализация",
     ],
-    image: user.photo || imgProfilePlaceholder,
-    country: user.profiledesigner?.country || "Не указана страна",
+    image: currentUser?.photo || imgProfilePlaceholder,
+    country: currentUser?.profiledesigner?.country || "Не указана страна",
+    // need to fix later
     registrationDate: new Date(user.date_joined).toLocaleDateString("ru-RU", {
       day: "2-digit",
       month: "long",
       year: "numeric",
     }),
-    status: user.resume?.status ? "Ищет заказы" : "Не ищет заказы",
+    status: currentUser?.resume?.status ? "Ищет заказы" : "Не ищет заказы",
     likes: 1001,
     followers: 98,
   };
@@ -70,7 +72,7 @@ const ProfilePage: React.FC = () => {
   return (
     <StyledEngineProvider injectFirst>
       <Container component="section" className="profilePage">
-        <Info data={profileData} />
+        <Info data={profileData} currentUser={currentUser} />
         <ProfileNav pages={profileNavPages} />
         <Routes>
           <Route path="/">

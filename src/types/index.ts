@@ -154,7 +154,7 @@ export interface IProfileDesigner {
   user?: number;
   education?: string | null;
   country?: string | null;
-  specialization?: string[] | number[];
+  specialization?: string[] | number[] | null;
   hobby?: string;
   language?: string[] | number[];
   photo?: File | unknown;

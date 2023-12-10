@@ -20,28 +20,20 @@ const Profile: React.FC = () => {
   const { specializations, languages } = useAppSelector((state) => state.data);
   const dispatch = useAppDispatch();
 
-  const specializationFromUser = user?.profiledesigner?.specialization || [];
-  const validSpecializations = specializationFromUser.filter(
-    (item): item is string | number =>
-      typeof item === "string" || typeof item === "number"
-  );
-  const specializationNames = validSpecializations.map(String);
-
   const [specializationValue, setSpecializationValue] = useState<string[]>(
-    specializationNames || []
+    (user?.profiledesigner?.specialization || []).map((obj) =>
+      typeof obj === "object" && "name" in obj ? obj["name"] : ""
+    )
   );
   const [specialization, setSpecialization] = useState<number[]>([]);
   const [country, setCountry] = useState<string | null>(
     user?.profiledesigner?.country || null
   );
-
-  const languageFromUser = user?.profiledesigner?.language || [];
-  const languageNames = languageFromUser.map(String);
-
   const [languageValue, setLanguageValue] = useState<string[]>(
-    languageNames || []
+    (user?.profiledesigner?.language || []).map((obj) =>
+      typeof obj === "object" && "name" in obj ? obj["name"] : ""
+    )
   );
-
   const [language, setLanguage] = useState<number[]>([]);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const education = useInput(user?.profiledesigner?.education || "", {});
