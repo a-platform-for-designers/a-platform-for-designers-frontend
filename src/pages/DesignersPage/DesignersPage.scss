@@ -11,6 +11,7 @@
     display: grid;
     row-gap: 48px;
     padding-left: 142px;
+    grid-template-rows: 240px;
 
     &.MuiGrid-item {
       padding-left: 142px;
