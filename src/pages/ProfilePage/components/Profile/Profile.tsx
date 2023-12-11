@@ -6,11 +6,11 @@ import { AboutItem, EmptyData } from "..";
 
 interface IProps {
   profiledesigner?: IProfileDesigner | null;
+  emptyTitle: string;
 }
 
-const Profile: React.FC<IProps> = ({ profiledesigner }) => {
-  if (!profiledesigner)
-    return <EmptyData title="Дизайнер пока не заполнил профиль" />;
+const Profile: React.FC<IProps> = ({ profiledesigner, emptyTitle }) => {
+  if (!profiledesigner) return <EmptyData title={emptyTitle} />;
   const { education, country, hobby, language, specialization } =
     profiledesigner;
 

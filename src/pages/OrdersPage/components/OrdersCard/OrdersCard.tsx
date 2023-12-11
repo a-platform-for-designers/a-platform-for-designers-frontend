@@ -8,8 +8,6 @@ import FavouritesIcon from "../../../../assets/icons/FavouritesDark.svg";
 import FavouritesIconActive from "../../../../assets/icons/FavouritesActive.svg";
 import { useAppSelector } from "@/hooks/reduxHooks";
 
-// import AvatarIcon from "../../../../assets/images/designerscarousel-avatar.png";
-
 interface IProps {
   order: IOrdersList;
   openPopup: (userInfo: IUserInfo) => void;
@@ -35,7 +33,7 @@ const OrdersCard: React.FC<IProps> = ({ order, openPopup }) => {
       return;
     }
     if (order.specialization.name === "3D-дизайн") {
-      setCustomerSpecialization("3D визуализатор");
+      setCustomerSpecialization("3D-визуализатор");
       return;
     }
     if (order.specialization.name === "Веб-дизайн") {

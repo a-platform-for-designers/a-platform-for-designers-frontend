@@ -59,7 +59,6 @@ const ProfileNav: React.FC<IProfileNavProps> = ({ pages }) => {
                 ? buttonActiveStyles
                 : {}),
             }}
-            disableRipple
             onClick={() => handleClick(page)}
           >
             {page.title}

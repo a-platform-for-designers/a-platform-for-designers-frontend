@@ -1,5 +1,5 @@
 import "./OrdersFilters.scss";
-import { SyntheticEvent, useState, useEffect, useCallback } from "react";
+import { SyntheticEvent, useState, useCallback } from "react";
 import { MyCheckBox, MyMultipleDropDown } from "@/shared/UI";
 import { IOrdersList } from "@/types";
 import { useAppSelector } from "@/hooks/reduxHooks";
@@ -12,7 +12,6 @@ interface IProps {
 const OrdersFilters: React.FC<IProps> = ({ setOrders }) => {
   const [speciality, setSpeciality] = useState<string[]>([]);
   const [sphereValue, setSphereValue] = useState<string[]>([]);
-  const [filteredOrders, setFilteredOrders] = useState<IOrdersList[]>([]);
 
   const { spheres } = useAppSelector((state) => state.data);
   const { specializations } = useAppSelector((state) => state.data);
@@ -40,7 +39,7 @@ const OrdersFilters: React.FC<IProps> = ({ setOrders }) => {
       ? speciality.filter((elem) => elem !== item)
       : [...speciality, item];
     setSpeciality(newValue);
-    setOrders(filteredOrders);
+    fetchData();
   }
   function handleSetSphere(
     _: SyntheticEvent<Element, Event>,
@@ -48,8 +47,9 @@ const OrdersFilters: React.FC<IProps> = ({ setOrders }) => {
   ) {
     if (newValue.length > 5) return;
     setSphereValue(newValue);
-    setOrders(filteredOrders);
+    fetchData();
   }
+
   const fetchData = useCallback(async () => {
     const filteredList = await filterService.getQueryOrders(
       spheresIds,
@@ -57,13 +57,8 @@ const OrdersFilters: React.FC<IProps> = ({ setOrders }) => {
       12,
       1
     );
-    setFilteredOrders(filteredList.results);
-  }, [spheresIds, specialityIds]);
-
-  useEffect(() => {
-    fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    setOrders(filteredList.results);
+  }, [setOrders, spheresIds, specialityIds]);
 
   return (
     <div className="ordersFilters">

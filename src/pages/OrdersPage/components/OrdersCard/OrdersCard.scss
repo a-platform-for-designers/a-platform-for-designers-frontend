@@ -4,7 +4,7 @@
   border-radius: 24px;
   padding: 15px;
   max-width: 330px;
-  max-height: 332px;
+  min-height: 332px;
   box-sizing: border-box;
 
   &__header {
@@ -38,7 +38,6 @@
     font-weight: 500;
     line-height: 150%;
     letter-spacing: 0.024px;
-    word-break: break-all;
     margin: 0; /* Исключает внешний отступ абзаца */
     display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -68,6 +67,7 @@
     gap: 8px;
     display: flex;
     max-width: 99%;
+    align-self: end;
   }
 
   &__button {
