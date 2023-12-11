@@ -21,6 +21,9 @@ const OrdersFilters: React.FC<IProps> = ({ setOrders }) => {
   const specialityIds = convertToIds(speciality, specializations);
   const spheresIds = convertToIds(sphereValue, spheres);
 
+  console.log(spheres);
+  console.log(specializations);
+
   function convertToIds(
     names: string[],
     specializations: Record<string, number>
@@ -62,7 +65,8 @@ const OrdersFilters: React.FC<IProps> = ({ setOrders }) => {
 
   useEffect(() => {
     fetchData();
-  }, [fetchData]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="ordersFilters">
