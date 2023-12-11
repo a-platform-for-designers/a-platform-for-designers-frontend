@@ -5,7 +5,7 @@ import { IResume } from "../../../../types";
 import { EmptyData, AboutItem } from "..";
 
 interface IProps {
-  resume?: IResume;
+  resume?: IResume | null;
 }
 
 const Work: React.FC<IProps> = ({ resume }) => {

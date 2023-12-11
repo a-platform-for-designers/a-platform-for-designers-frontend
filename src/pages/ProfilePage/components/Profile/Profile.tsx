@@ -5,7 +5,7 @@ import { IProfileDesigner } from "../../../../types";
 import { AboutItem, EmptyData } from "..";
 
 interface IProps {
-  profiledesigner?: IProfileDesigner;
+  profiledesigner?: IProfileDesigner | null;
 }
 
 const Profile: React.FC<IProps> = ({ profiledesigner }) => {

@@ -51,18 +51,22 @@ const ProfilePage: React.FC = () => {
     {
       title: "Портфолио",
       link: `portfolio`,
-      element: <Portfolio data={user.portfolio} />,
+      element: <Portfolio data={currentUser?.portfolio} />,
     },
     {
       title: "Работа",
       link: `work`,
-      element: user.resume ? <Work resume={user.resume} /> : <Work />,
+      element: currentUser?.resume ? (
+        <Work resume={currentUser?.resume} />
+      ) : (
+        <Work />
+      ),
     },
     {
       title: "Профиль",
       link: `file`,
-      element: user.profiledesigner ? (
-        <Profile profiledesigner={user.profiledesigner} />
+      element: currentUser?.profiledesigner ? (
+        <Profile profiledesigner={currentUser?.profiledesigner} />
       ) : (
         <Profile />
       ),
