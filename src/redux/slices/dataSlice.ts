@@ -3,11 +3,11 @@ import { dataService } from "@/api";
 import { IDataItem } from "@/types";
 
 interface IDataState {
-  specializations: Record<string, number>;
-  skills: Record<string, number>;
-  spheres: Record<string, number>;
-  instruments: Record<string, number>;
-  languages: Record<string, number>;
+  specializations: { [key: string]: number };
+  skills: object;
+  spheres: object;
+  instruments: object;
+  languages: { [key: string]: number };
 }
 
 const initialState: IDataState = {

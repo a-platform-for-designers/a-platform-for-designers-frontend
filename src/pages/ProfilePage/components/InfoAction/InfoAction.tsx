@@ -15,7 +15,7 @@ export interface IInfoActionData extends IMyButtonProps {
 }
 
 const InfoAction: React.FC<IInfoActionData> = ({
-  isCurrentUser = false,
+  isCurrentUser,
   ifTrue = { label: "Текст при login=true" },
   ifFalse = { label: "Текст при login=false" },
   ...data

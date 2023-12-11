@@ -1,5 +1,10 @@
 import { userService } from "@/api";
-import { ICreateUserRequest, IUpdateInfoUserMe, IUser } from "@/types";
+import {
+  ICreateUserRequest,
+  IProfileDesigner,
+  IUpdateInfoUserMe,
+  IUser,
+} from "@/types";
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { logIn } from "./authSlice";
 import { enqueueSnackbar } from "notistack";
@@ -54,8 +59,14 @@ export const userSlice = createSlice({
     /*     changeAuth: (state, action: PayloadAction<boolean>) => {
       state.user = action.payload;
     }, */
-    setUserInfo: (state, action: PayloadAction<IUser>) => {
-      state.user = action.payload;
+    setUserInfo: (state, action: PayloadAction<IProfileDesigner>) => {
+      const updatedUser = { ...action.payload };
+      if (state.user) {
+        state.user.profiledesigner = updatedUser;
+      }
+
+      // console.log(action.payload);
+      // console.log(state.user);
     },
   },
   extraReducers: (builder) => {
