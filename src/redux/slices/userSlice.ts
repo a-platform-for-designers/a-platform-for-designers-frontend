@@ -82,7 +82,7 @@ export const userSlice = createSlice({
       state.loading = "failed";
       enqueueSnackbar({
         variant: "error",
-        message: `Что-то пошло не так`,
+        message: `Введены некорректные данные`,
       });
     });
     builder.addCase(getInfoAboutMe.fulfilled, (state, action) => {
