@@ -5,19 +5,29 @@ import { useState, useEffect } from "react";
 import { OrdersFilters, OrdersCard, MessagePopup } from "./components";
 import { ordersService } from "../../api";
 import Preloader from "../../shared/Preloader/Preloader";
+import { EmptyData } from "../ProfilePage/components";
 
 const OrdersPage: React.FC = () => {
   const [orders, setOrders] = useState<IOrdersList[]>([]);
-
-  useEffect(() => {
-    (async () => {
-      const ordersData = await ordersService.getOrdersList();
-      setOrders(ordersData.results);
-    })();
-  }, []);
-
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [openPopup, setOpenPopup] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState<IUserInfo>();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setIsLoading(true);
+        const ordersData = await ordersService.getOrdersList();
+        setOrders(ordersData.results);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   function handlePopupClose() {
     setOpenPopup(false);
@@ -30,8 +40,8 @@ const OrdersPage: React.FC = () => {
 
   return (
     <StyledEngineProvider injectFirst>
-      <Box component="main" className="ordersPage">
-        <Box className="ordersPage__container">
+      <Box component="main" className="designersPage">
+        <Box className="designersPage__container">
           <Grid
             container
             columns={2}
@@ -40,8 +50,11 @@ const OrdersPage: React.FC = () => {
             justifyContent="flex-start"
             alignItems="stretch"
             wrap="nowrap"
+            className="designersPage__grid"
           >
-            {orders.length > 0 ? (
+            {isLoading ? (
+              <Preloader></Preloader>
+            ) : orders.length > 0 ? (
               <Grid xs={9} item className="ordersPage__cards">
                 {orders.map((item) => (
                   <OrdersCard
@@ -52,12 +65,10 @@ const OrdersPage: React.FC = () => {
                 ))}
               </Grid>
             ) : (
-              <Grid xs={9} item className="ordersPage__cards">
-                <Preloader></Preloader>
-              </Grid>
+              <EmptyData title="На сайте пока нет дизайнеров" />
             )}
 
-            <Grid xs={3} item className="orderPage__filters">
+            <Grid xs={3} item className="designersPage__filters">
               <OrdersFilters />
             </Grid>
           </Grid>

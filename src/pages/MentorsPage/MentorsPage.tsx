@@ -6,15 +6,26 @@ import { userService } from "@/api";
 import { IUserWithLastCases } from "@/types";
 import { useState, useEffect } from "react";
 import MentorsFilters from "./components/MentorsFilters/MentorsFilters";
+import { EmptyData } from "../ProfilePage/components";
 
 const MentorsPage: React.FC = () => {
   const [users, setUsers] = useState<IUserWithLastCases[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    (async () => {
-      const usersData = await userService.getUsersList(12, 1);
-      setUsers(usersData.results);
-    })();
+    const fetchData = async () => {
+      try {
+        setIsLoading(true);
+        const usersData = await userService.getUsersList(12, 1);
+        setUsers(usersData.results);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
   }, []);
 
   return (
@@ -29,15 +40,18 @@ const MentorsPage: React.FC = () => {
             justifyContent="flex-start"
             alignItems="stretch"
             wrap="nowrap"
+            className="designersPage__grid"
           >
-            {users.length > 0 ? (
+            {isLoading ? (
+              <Preloader></Preloader>
+            ) : users.length > 0 ? (
               <Grid xs={9} item className="designersPage__cards">
                 {users.map((item) => (
                   <DesignersCard key={item.id} user={item} />
                 ))}
               </Grid>
             ) : (
-              <Preloader></Preloader>
+              <EmptyData title="На сайте пока нет дизайнеров" />
             )}
 
             <Grid xs={3} item className="designersPage__filters">
