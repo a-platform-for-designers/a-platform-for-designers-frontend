@@ -52,6 +52,19 @@ const userService = {
     });
     return response.data;
   },
+
+  getMentorsList: async (
+    limit: number,
+    page: number
+  ): Promise<IUserRespons> => {
+    const response = await api.get<IUserRespons>("/mentors/", {
+      params: {
+        limit: limit,
+        page: page,
+      },
+    });
+    return response.data;
+  },
 };
 
 export default userService;

@@ -65,7 +65,7 @@ const OrdersPage: React.FC = () => {
                 ))}
               </Grid>
             ) : (
-              <EmptyData title="На сайте пока нет дизайнеров" />
+              <EmptyData title="На сайте пока нет заказов" />
             )}
             <Grid xs={3} item className="designersPage__filters">
               <OrdersFilters setOrders={setOrders} />

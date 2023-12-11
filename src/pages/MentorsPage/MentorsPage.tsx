@@ -16,7 +16,7 @@ const MentorsPage: React.FC = () => {
     const fetchData = async () => {
       try {
         setIsLoading(true);
-        const usersData = await userService.getUsersList(12, 1);
+        const usersData = await userService.getMentorsList(12, 1);
         setUsers(usersData.results);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -27,6 +27,24 @@ const MentorsPage: React.FC = () => {
 
     fetchData();
   }, []);
+
+  // function getMentors() {
+  //   users.map((user) => {
+  //     const name: string = "name";
+  //     const hasMentor =
+  //       Array.isArray(user.specialization) &&
+  //       user.specialization.some((obj: object) => String(obj[name as keyof typeof obj]) === "Ментор");
+  //     if (hasMentor) {
+  //       console.log("В массиве есть объект с name 'Ментор'");
+  //     } else {
+  //       console.log(
+  //         "В массиве нет объекта с name 'Ментор' или массив пуст или равен null"
+  //       );
+  //     }
+  //   });
+  // }
+
+  // getMentors();
 
   return (
     <StyledEngineProvider injectFirst>
@@ -51,7 +69,7 @@ const MentorsPage: React.FC = () => {
                 ))}
               </Grid>
             ) : (
-              <EmptyData title="На сайте пока нет дизайнеров" />
+              <EmptyData title="На сайте пока нет менторов" />
             )}
 
             <Grid xs={3} item className="designersPage__filters">

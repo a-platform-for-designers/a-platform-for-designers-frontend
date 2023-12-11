@@ -54,7 +54,7 @@ export interface IUser {
 
 export interface IUserWithLastCases extends IUser {
   last_cases: [ICase, ICase];
-  specialization: number;
+  specialization: object[];
 }
 
 export interface IUserCase {
