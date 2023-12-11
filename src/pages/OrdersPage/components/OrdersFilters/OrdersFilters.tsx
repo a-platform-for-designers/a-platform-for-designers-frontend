@@ -21,9 +21,6 @@ const OrdersFilters: React.FC<IProps> = ({ setOrders }) => {
   const specialityIds = convertToIds(speciality, specializations);
   const spheresIds = convertToIds(sphereValue, spheres);
 
-  console.log(spheres);
-  console.log(specializations);
-
   function convertToIds(
     names: string[],
     specializations: Record<string, number>
@@ -95,7 +92,7 @@ const OrdersFilters: React.FC<IProps> = ({ setOrders }) => {
           value={sphereValue}
           onChange={handleSetSphere}
           className="ordersFilters__dropdown"
-          placeholder="Выбирите сферу"
+          placeholder="Выберите сферу"
         />
       </div>
     </div>

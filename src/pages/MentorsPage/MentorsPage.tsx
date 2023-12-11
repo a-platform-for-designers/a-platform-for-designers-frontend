@@ -16,7 +16,7 @@ const MentorsPage: React.FC = () => {
     const fetchData = async () => {
       try {
         setIsLoading(true);
-        const usersData = await userService.getUsersList(12, 1);
+        const usersData = await userService.getMentorsList(12, 1);
         setUsers(usersData.results);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -51,7 +51,7 @@ const MentorsPage: React.FC = () => {
                 ))}
               </Grid>
             ) : (
-              <EmptyData title="На сайте пока нет дизайнеров" />
+              <EmptyData title="На сайте пока нет менторов" />
             )}
 
             <Grid xs={3} item className="designersPage__filters">
