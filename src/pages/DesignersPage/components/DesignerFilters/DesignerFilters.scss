@@ -13,6 +13,10 @@
     font-weight: 400;
   }
 
+  &__dropdown {
+    height: 56px;
+  }
+
   &__checkbox {
     display: flex;
     justify-content: space-between;
@@ -47,7 +51,7 @@
   }
 
   &__button {
-    color: var(--validation-light-error-color);
+    color: #49454F;
     font-family: Roboto;
     font-size: 14px;
     font-style: normal;
@@ -55,20 +59,25 @@
     line-height: 20px;
     letter-spacing: 0.1px;
     justify-content: flex-start;
+    border-color: #49454F;
+    width: 152px;
+    height: 28px;
+    margin-top: 20px;
 
     &:hover {
-      color: var(--validation-error-color);
+      color: #49454F;
+      border-color: #49454F;
 
       & svg {
-        color: var(--validation-error-color);
+        color: #49454F;
       }
     }
 
     & svg {
-      color: var(--validation-light-error-color);
+      color: #49454F;
     }
     &:disabled svg {
-      color: var(--text-color-gray);
+      color: #49454F;
     }
   }
 

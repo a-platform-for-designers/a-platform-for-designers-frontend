@@ -25,6 +25,7 @@ const Work: React.FC = () => {
     _: React.SyntheticEvent<Element, Event>,
     newValue: string[]
   ) {
+    if (newValue.length > 5) return;
     setTools(newValue);
     if (newValue[0] !== undefined) {
       const newValueId =
@@ -38,6 +39,7 @@ const Work: React.FC = () => {
     _: React.SyntheticEvent<Element, Event>,
     newValue: string[]
   ) {
+    if (newValue.length > 5) return;
     setSkills(newValue);
     if (newValue[0] !== undefined) {
       const newValueId =

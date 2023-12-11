@@ -61,19 +61,6 @@ const DesignerFilters: React.FC = () => {
   return (
     <div className="designerFilters">
       <div className="designerFilters__container">
-        <MyButton
-          onClick={handleClearFilters}
-          disabled={false}
-          className="designerFilters__button"
-          type="button"
-          variant="text"
-          startIcon={<CloseIcon />}
-        >
-          {DESIGNER_FILTERS_CLEAR_BTN_LABEL}
-        </MyButton>
-      </div>
-
-      <div className="designerFilters__container">
         <h2 className="designerFilters__title">{SPECIALIZATION_TITLE}</h2>
         {FILTER_OPTIONS.specialityOptions.map((item, i) => {
           return (
@@ -125,6 +112,7 @@ const DesignerFilters: React.FC = () => {
           value={skills}
           onChange={handleSetSkills}
           className="designerFilters__dropdown"
+          placeholder={skills.length ? "" : "Выберите навыки"}
         />
       </div>
 
@@ -135,7 +123,20 @@ const DesignerFilters: React.FC = () => {
           value={tools}
           onChange={handleSetTools}
           className="designerFilters__dropdown"
+          placeholder={tools.length ? "" : "Выберите инструменты"}
         />
+      </div>
+      <div className="designerFilters__container">
+        <MyButton
+          onClick={handleClearFilters}
+          disabled={false}
+          className="designerFilters__button"
+          type="button"
+          variant="outlined"
+          startIcon={<CloseIcon />}
+        >
+          {DESIGNER_FILTERS_CLEAR_BTN_LABEL}
+        </MyButton>
       </div>
     </div>
   );
