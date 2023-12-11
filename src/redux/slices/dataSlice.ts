@@ -4,9 +4,9 @@ import { IDataItem } from "@/types";
 
 interface IDataState {
   specializations: { [key: string]: number };
-  skills: object;
-  spheres: object;
-  instruments: object;
+  skills: { [key: string]: number };
+  spheres: { [key: string]: number };
+  instruments: { [key: string]: number };
   languages: { [key: string]: number };
 }
 
