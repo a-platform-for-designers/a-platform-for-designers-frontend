@@ -9,13 +9,13 @@ import { BASE_PATH } from "@/constants/constants";
 import caseCart from "@/assets/images/caseCart.png";
 
 interface IPortfolioProps {
-  data: IUserCase[];
+  data?: IUserCase[];
 }
 
 const Portfolio: React.FC<IPortfolioProps> = ({ data }) => {
   const navigate = useNavigate();
 
-  if (!data.length) {
+  if (!data?.length) {
     return <EmptyData title="У дизайнера пока нет проектов" />;
   }
 

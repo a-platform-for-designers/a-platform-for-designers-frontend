@@ -29,16 +29,6 @@ export interface IProfileCustomer {
   post: string;
 }
 
-export interface IProfileDesigner {
-  id: number;
-  user: number;
-  education: string;
-  country: string;
-  specialization: IDataItem;
-  hobby: string;
-  language: string[];
-}
-
 export interface IResume {
   id: number;
   instruments: IDataItem[];
@@ -183,12 +173,23 @@ export interface IResumeNew {
 }
 
 export interface IUpdateInfoUserMe {
-  photo?: File;
-  first_name?: string;
-  last_name?: string;
-  specialization?: string | null;
+  id?: number;
+  photo?: File | unknown;
+  specialization?: number[] | string[];
   country?: string | null;
   education?: string | null;
-  language?: string[] | null;
+  language?: number[] | string[];
   hobby?: string;
+  user?: number;
+}
+
+export interface IProfileDesigner {
+  id?: number;
+  user?: number;
+  education?: string | null;
+  country?: string | null;
+  specialization?: string[] | number[] | null;
+  hobby?: string;
+  language?: string[] | number[];
+  photo?: File | unknown;
 }

@@ -18,7 +18,7 @@ const SignIn: FC<ISignInProps> = ({ openSignUpPopup }) => {
     "",
     {
       isEmpty: true,
-      minLength: 6,
+      minLength: 8,
       maxLength: 70,
       isEmail: true,
     },
@@ -27,7 +27,7 @@ const SignIn: FC<ISignInProps> = ({ openSignUpPopup }) => {
 
   const password = useInput("", {
     isEmpty: true,
-    minLength: 6,
+    minLength: 8,
     maxLength: 32,
   });
 

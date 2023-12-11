@@ -8,10 +8,12 @@ import {
   Typography,
 } from "@mui/material";
 import "./Info.scss";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { InfoAction, SocialIndicator } from "..";
 import { getInitials } from "../../../../features";
 import { useNavigate } from "react-router-dom";
+import { IUser } from "@/types";
+import { useAppSelector } from "@/hooks/reduxHooks";
 
 const avatarStyles: SxProps<Theme> = {
   height: "212px",
@@ -24,22 +26,23 @@ const statusStyles: SxProps<Theme> = {
 };
 
 export interface IProfileData {
-  first_name: string;
-  last_name: string;
-  specialization: string;
+  first_name?: string;
+  last_name?: string;
+  specialization?: string[] | number[];
   image?: string;
-  country: string;
+  country?: string;
   registrationDate: string;
-  status: string;
-  likes: number;
-  followers: number;
+  status?: string;
+  likes?: number;
+  followers?: number;
 }
 
 interface IInfoProps {
   data: IProfileData;
+  currentUser?: IUser;
 }
 
-const Info: React.FC<IInfoProps> = ({ data }) => {
+const Info: React.FC<IInfoProps> = ({ data, currentUser }) => {
   const {
     first_name,
     last_name,
@@ -56,10 +59,25 @@ const Info: React.FC<IInfoProps> = ({ data }) => {
   const [isLiked, setIsLiked] = useState(true);
   const [isCurrentUser, setIsCurrentUser] = useState(true);
   const navigate = useNavigate();
+  const { user } = useAppSelector((state) => state.user);
+
+  useEffect(() => {
+    if (!user) return;
+    if (user.id === currentUser?.id) {
+      setIsCurrentUser(true);
+    } else {
+      setIsCurrentUser(false);
+    }
+  }, [user, currentUser]);
 
   const name = `${first_name} ${last_name}`;
 
   const initials = getInitials(name);
+
+  function setSpecializations() {
+    const name: string = "name";
+    return specialization?.map((obj) => obj[name as keyof typeof obj]);
+  }
 
   return (
     <StyledEngineProvider injectFirst>
@@ -84,7 +102,7 @@ const Info: React.FC<IInfoProps> = ({ data }) => {
               </Typography>
             </Grid>
             <Typography className="info__subtitle" component="p">
-              {specialization}
+              {setSpecializations()?.join(", ")}
             </Typography>
             <Typography className="info__subtitle" component="p">
               {country}
