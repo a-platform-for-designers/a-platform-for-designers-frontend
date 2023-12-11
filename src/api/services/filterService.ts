@@ -1,5 +1,5 @@
 import api from "../api";
-import { ICaseRespons } from "../../types";
+import { ICaseRespons, IOrdersResponse } from "../../types";
 
 export const filterService = {
   getQuerySpecializations: async (
@@ -14,6 +14,24 @@ export const filterService = {
     const response = await api.get<ICaseRespons>(formattedEndpoint);
     console.log(response.data);
 
+    return response.data;
+  },
+
+  getQueryOrders: async (
+    spheresId: number[],
+    specializationId: number[],
+    limit: number,
+    page: number
+  ): Promise<IOrdersResponse> => {
+    const formattedSpecializationArray = specializationId
+      .map((id) => `specialization=${id}`)
+      .join("&");
+    const formattedSphereArray = spheresId
+      .map((id) => `sphere=${id}`)
+      .join("&");
+    const response =
+      await api.get<IOrdersResponse>(`/orders/?limit=${limit}&page=${page}&${formattedSpecializationArray}&${formattedSphereArray}
+    `);
     return response.data;
   },
 };

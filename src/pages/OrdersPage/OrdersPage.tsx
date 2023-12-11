@@ -58,7 +58,7 @@ const OrdersPage: React.FC = () => {
             )}
 
             <Grid xs={3} item className="orderPage__filters">
-              <OrdersFilters orders={orders} />
+              <OrdersFilters setOrders={setOrders} />
             </Grid>
           </Grid>
         </Box>
