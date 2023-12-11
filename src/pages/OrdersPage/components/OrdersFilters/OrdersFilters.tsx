@@ -1,11 +1,21 @@
 import "./OrdersFilters.scss";
 import { SyntheticEvent, useState } from "react";
 import { MyCheckBox, MyMultipleDropDown } from "@/shared/UI";
-import { LISTS } from "@/constants/constants";
+import { IOrdersList } from "@/types";
+import { useAppSelector } from "@/hooks/reduxHooks";
 
-const OrdersFilters: React.FC = () => {
+interface IProps {
+  orders?: IOrdersList[];
+}
+
+const OrdersFilters: React.FC<IProps> = ({ orders }) => {
   const [speciality, setSpeciality] = useState<string[]>([]);
-  const [sphere, setSphere] = useState<string[]>([]);
+  const [sphereValue, setSphereValue] = useState<string[]>([]);
+
+  const { spheres } = useAppSelector((state) => state.data);
+  const { specializations } = useAppSelector((state) => state.data);
+
+  const specializationsList = Object.keys(specializations);
 
   function handleSpeciality(item: string) {
     const newValue = speciality.includes(item)
@@ -13,20 +23,21 @@ const OrdersFilters: React.FC = () => {
       : [...speciality, item];
     setSpeciality(newValue);
   }
+  console.log(orders);
 
   function handleSetSphere(
     _: SyntheticEvent<Element, Event>,
     newValue: string[]
   ) {
     if (newValue.length > 5) return;
-    setSphere(newValue);
+    setSphereValue(newValue);
   }
 
   return (
     <div className="ordersFilters">
       <div className="ordersFilters__container">
         <h2 className="ordersFilters__title">Специализация</h2>
-        {LISTS.LIST_SPECIALITY.map((item, i) => {
+        {specializationsList.map((item, i) => {
           return (
             <MyCheckBox
               key={i}
@@ -45,8 +56,8 @@ const OrdersFilters: React.FC = () => {
       <div className="ordersFilters__container">
         <h2 className="ordersFilters__title">Сфера</h2>
         <MyMultipleDropDown
-          options={LISTS.LIST_SPHERE}
-          value={sphere}
+          options={Object.keys(spheres)}
+          value={sphereValue}
           onChange={handleSetSphere}
           className="ordersFilters__dropdown"
           placeholder="Выбирите сферу"
