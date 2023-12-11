@@ -28,24 +28,6 @@ const MentorsPage: React.FC = () => {
     fetchData();
   }, []);
 
-  // function getMentors() {
-  //   users.map((user) => {
-  //     const name: string = "name";
-  //     const hasMentor =
-  //       Array.isArray(user.specialization) &&
-  //       user.specialization.some((obj: object) => String(obj[name as keyof typeof obj]) === "Ментор");
-  //     if (hasMentor) {
-  //       console.log("В массиве есть объект с name 'Ментор'");
-  //     } else {
-  //       console.log(
-  //         "В массиве нет объекта с name 'Ментор' или массив пуст или равен null"
-  //       );
-  //     }
-  //   });
-  // }
-
-  // getMentors();
-
   return (
     <StyledEngineProvider injectFirst>
       <Box component="main" className="designersPage">
