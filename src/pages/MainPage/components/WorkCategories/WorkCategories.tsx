@@ -1,7 +1,10 @@
 import { Grid, ListItem, StyledEngineProvider } from "@mui/material";
 import "./WorkCategories.scss";
-import React from "react";
+import React, { useEffect } from "react";
 import MyButton from "@/shared/UI/MyButton/MyButton";
+import { useAppSelector } from "@/hooks/reduxHooks";
+import { ICase } from "@/types";
+import { filterService } from "@/api/services/filterService";
 
 // интерфейс данных категории, которые нужно передать в пропсах
 export interface IWorkCategoryData {
@@ -22,6 +25,7 @@ interface IWorkCategoriesProps {
   setWorkCategoryState: React.Dispatch<
     React.SetStateAction<IActiveWorkCategoryState>
   >;
+  setCases: React.Dispatch<React.SetStateAction<ICase[]>>;
 }
 
 /* Логика работы категорий 
@@ -35,6 +39,7 @@ const WorkCategories: React.FC<IWorkCategoriesProps> = ({
   data, // сами категории/тэги
   workCategoryState,
   setWorkCategoryState,
+  setCases,
 }) => {
   const onCategoryClickHandler = (category: IWorkCategoryData) => {
     setWorkCategoryState((prev) => {
@@ -66,6 +71,34 @@ const WorkCategories: React.FC<IWorkCategoriesProps> = ({
       following: !prev.following,
     }));
   };
+
+  // getting the initial data with the categories and ids
+  const categoriesSelector = useAppSelector(
+    (state) => state.data.specializations
+  );
+
+  // converting categories to ids
+  const categoriesToIds = React.useCallback(
+    (categories: string[]) => {
+      return categories.map((key) => categoriesSelector[key]);
+    },
+    [categoriesSelector]
+  );
+
+  // every time the category state changes, get the list of cases and set it
+  useEffect(() => {
+    const currentfilters = categoriesToIds(workCategoryState.categories);
+
+    (async () => {
+      const filteredList = await filterService.getQuerySpecializations(
+        currentfilters,
+        12,
+        1
+      );
+
+      setCases(filteredList.results);
+    })();
+  }, [setCases, workCategoryState.categories, categoriesToIds]);
 
   return (
     <StyledEngineProvider injectFirst>
@@ -105,6 +138,7 @@ const WorkCategories: React.FC<IWorkCategoriesProps> = ({
             size="small"
             variant="tag"
             onClick={() => onFollowingClickHandler()}
+            disabled={true}
           >
             Ваши подписки
           </MyButton>

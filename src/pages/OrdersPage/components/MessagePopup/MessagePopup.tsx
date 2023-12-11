@@ -1,24 +1,33 @@
 import { Modal, Box, Avatar, Typography } from "@mui/material";
-import AvatarIcon from "../../../../assets/images/designerscarousel-avatar.png";
 import "./MessagePopup.scss";
-import { MyButton, MyInput } from "@/shared/UI";
-import useInput from "@/hooks/useInput";
+import { useState } from "react";
+import { MyButton } from "@/shared/UI";
+import { IUserInfo } from "@/types";
+import { ordersService } from "../../../../api";
 
 type Props = {
-  userInfo?: string;
+  userInfo: IUserInfo | undefined;
   open: boolean;
   onClose?: () => void;
 };
 
-const MessagePopup: React.FC<Props> = ({ userInfo, open, onClose }) => {
-  const message = useInput("", {});
+type TInputTextArea = HTMLInputElement | HTMLTextAreaElement;
 
-  function handleSubmit(e: React.MouseEvent<HTMLButtonElement>) {
+const MessagePopup: React.FC<Props> = ({ userInfo, open, onClose }) => {
+  const [message, setMessage] = useState<string>("");
+
+  async function handleSubmit(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
-    const value = {
-      message: message.value,
-    };
-    console.log(value);
+    console.log(message);
+    try {
+      await ordersService.postMessage(message);
+    } catch (error) {
+      console.error("ошибка: ", { error });
+    }
+  }
+
+  function handleChangeMessage(event: React.ChangeEvent<TInputTextArea>) {
+    setMessage(event.target.value);
   }
 
   return (
@@ -26,22 +35,27 @@ const MessagePopup: React.FC<Props> = ({ userInfo, open, onClose }) => {
       <Modal className="messagePopup" onClose={onClose} open={open}>
         <Box component="section" className="messagePopup__container">
           <div className="messagePopup__header">
-            <div className="messagePopup__user">
-              <Avatar className="messagePopup__avatar" src={AvatarIcon} />
-              <Typography component="h2" className="messagePopup__name">
-                {userInfo}
-              </Typography>
-            </div>
+            {userInfo ? (
+              <div className="messagePopup__user">
+                <Avatar className="messagePopup__avatar">
+                  {userInfo.avatar}
+                </Avatar>
+                <Typography component="h2" className="messagePopup__name">
+                  {userInfo.name}
+                </Typography>
+              </div>
+            ) : null}
             <button
               className="messagePopup__close-button"
               onClick={onClose}
             ></button>
           </div>
-          <MyInput
-            variant="text"
+          <textarea
+            onChange={handleChangeMessage}
+            id="message"
+            name="message"
             className="messagePopup__input"
             placeholder="Текст сообщения"
-            data={message}
           />
           <MyButton
             type="submit"

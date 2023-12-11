@@ -90,15 +90,17 @@ const Header: React.FC = () => {
                       ? "header__menu-item_active"
                       : ""
                   }`}
+                  onClick={() => navigate("/orders")}
                 >
                   Заказы
                 </ListItem>
                 <ListItem
                   className={`header__menu-item ${
-                    location.pathname === "/orders"
+                    location.pathname === "/mentors"
                       ? "header__menu-item_active"
                       : ""
                   }`}
+                  onClick={() => navigate("/mentors")}
                 >
                   Менторы
                 </ListItem>

@@ -89,7 +89,7 @@ const CaseCreation: React.FC = () => {
 
   function handleSetWrapper(
     _: React.ChangeEvent<HTMLInputElement>,
-    newValue: File
+    newValue: File | null
   ) {
     setWrapper(newValue);
   }

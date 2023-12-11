@@ -9,7 +9,7 @@ const authService = {
 
   logout: async (): Promise<void> => {
     await api.post<IToken>(
-      "/auth/token/login",
+      "/auth/token/logout",
       {},
       {
         headers: {

@@ -14,6 +14,7 @@ import {
   ErrorPage,
   MainPage,
   ProfilePage,
+  MentorsPage,
   OrdersPage,
 } from "@/pages/index.ts";
 import {
@@ -46,6 +47,7 @@ function App() {
           await dispatch(getInfoAboutMe());
           dispatch(changeAuth(true));
         } catch (error) {
+          console.log(error);
           dispatch(changeAuth(false));
         }
       }
@@ -63,6 +65,7 @@ function App() {
           <Routes>
             <Route path="/" Component={MainPage} />
             <Route path="/designers" Component={DesignersPage} />
+            <Route path="/mentors" Component={MentorsPage} />
             <Route
               path="/profile/:id/*"
               element={<ProtectedRoute Component={ProfilePage} />}

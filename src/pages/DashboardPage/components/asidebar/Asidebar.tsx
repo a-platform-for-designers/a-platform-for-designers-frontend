@@ -1,5 +1,7 @@
 import { Paper, List, ListItemButton, ListItemText } from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom";
+import authService from "../../../../api/services/authService";
+
 import "./Asidebar.scss";
 
 const Asidebar: React.FC = () => {
@@ -47,7 +49,10 @@ const Asidebar: React.FC = () => {
     );
   });
 
-  function logout() {}
+  function logout() {
+    authService.logout();
+    localStorage.clear();
+  }
 
   return (
     <Paper className="asidebar__nav">
