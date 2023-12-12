@@ -16,7 +16,9 @@ const OrdersFilters: React.FC<IProps> = ({ setOrders }) => {
   const { spheres } = useAppSelector((state) => state.data);
   const { specializations } = useAppSelector((state) => state.data);
 
-  const specializationsList = Object.keys(specializations);
+  const specializationsList = Object.keys(specializations).filter(
+    (item) => item !== "Менторство"
+  );
   const specialityIds = convertToIds(speciality, specializations);
   const spheresIds = convertToIds(sphereValue, spheres);
 
