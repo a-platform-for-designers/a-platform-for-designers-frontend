@@ -124,6 +124,14 @@
   &__list-text {
     padding: 0;
     margin: 0;
+
+    &_active {
+      color: #6900ee;
+    }
+    &:hover {
+      color: #21005d;
+      cursor: pointer;
+    }
   }
 
   &__signup-button {

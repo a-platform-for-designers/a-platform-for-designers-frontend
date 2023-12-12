@@ -125,13 +125,24 @@ const Header: React.FC = () => {
                     />
                     <p className="header__list-text">Избранное</p>
                   </ListItem>
-                  <ListItem className="header__link">
+                  <ListItem
+                    className="header__link"
+                    onClick={() => navigate(`/chats`)}
+                  >
                     <img
                       className="header__list-icon"
                       src={MessagesIcon}
                       alt="Иконка меню"
                     />
-                    <p className="header__list-text">Сообщения</p>
+                    <p
+                      className={`header__list-text ${
+                        location.pathname === "/chats"
+                          ? "header__list-text_active"
+                          : ""
+                      }`}
+                    >
+                      Сообщения
+                    </p>
                   </ListItem>
                   <ListItem className="header__link">
                     <img

@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import { casesService } from "../../api";
 import { ICase } from "../../types";
 import { ActionButton, CaseInfo, ProfileInfo } from "./components";
-import { AboutItem } from "../ProfilePage/components";
+import { AboutItem, EmptyData } from "../ProfilePage/components";
 import Preloader from "@/shared/Preloader/Preloader";
 
 const CasePage: React.FC = () => {
@@ -55,7 +55,7 @@ const CasePage: React.FC = () => {
     );
   }
 
-  if (!caseData) return <Preloader></Preloader>;
+  if (!caseData) return <EmptyData title="Кейс не найден"></EmptyData>;
 
   return (
     <StyledEngineProvider injectFirst>
