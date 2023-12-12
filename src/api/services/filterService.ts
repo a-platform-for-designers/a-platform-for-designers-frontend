@@ -36,7 +36,7 @@ export const filterService = {
   },
 
   getQueryUsers: async (
-    spheresId: number[],
+    skillId: number[],
     specializationId: number[],
     toolsId: number[],
     limit: number,
@@ -45,14 +45,12 @@ export const filterService = {
     const formattedSpecializationArray = specializationId
       .map((id) => `specialization=${id}`)
       .join("&");
-    const formattedSphereArray = spheresId
-      .map((id) => `sphere=${id}`)
-      .join("&");
+    const formattedSphereArray = skillId.map((id) => `skills=${id}`).join("&");
     const formattedToolsArray = toolsId
-      .map((id) => `instrument=${id}`)
+      .map((id) => `instruments=${id}`)
       .join("&");
     const response =
-      await api.get<IUserRespons>(`/users/?limit=${limit}&page=${page}&${formattedSpecializationArray}&${formattedSphereArray}&${formattedToolsArray}
+      await api.get<IUserRespons>(`/users/?limit=${limit}&page=${page}&${formattedSpecializationArray}${formattedSphereArray}${formattedToolsArray}
     `);
     return response.data;
   },
