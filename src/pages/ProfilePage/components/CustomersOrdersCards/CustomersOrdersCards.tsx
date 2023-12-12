@@ -32,6 +32,8 @@ const CustomersOrdersCards: React.FC<IProps> = ({ userId }) => {
     setOpenPopup(false);
   }
 
+  console.log(userInfo);
+
   function handlePopupOpen(userInfo: IUserInfo) {
     setUserInfo(userInfo);
     setOpenPopup(true);
@@ -55,11 +57,7 @@ const CustomersOrdersCards: React.FC<IProps> = ({ userId }) => {
         )}
       </Box>
       {openPopup ? (
-        <MessagePopup
-          open={openPopup}
-          onClose={handlePopupClose}
-          userInfo={userInfo}
-        />
+        <MessagePopup open={openPopup} onClose={handlePopupClose} />
       ) : null}
     </StyledEngineProvider>
   );
