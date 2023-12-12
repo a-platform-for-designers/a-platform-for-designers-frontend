@@ -12,7 +12,8 @@ import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import FollowersIcon from "../../assets/icons/FollowersIcon.svg";
 import FavouritesIcon from "../../assets/icons/FavouritesDark.svg";
-import MessagesIcon from "../../assets/icons/MessagesIcon.svg";
+import MessagesIcon from "../../assets/icons/MessageBlack.svg";
+import MessagesIconActive from "../../assets/icons/MessagePurple.svg";
 import OrdersIcon from "../../assets/icons/orders.svg";
 import { useAppSelector } from "@/hooks/reduxHooks";
 import { MyAuthForm, MyButton, MyPopup } from "../UI";
@@ -131,7 +132,11 @@ const Header: React.FC = () => {
                   >
                     <img
                       className="header__list-icon"
-                      src={MessagesIcon}
+                      src={
+                        location.pathname === "/chats"
+                          ? MessagesIconActive
+                          : MessagesIcon
+                      }
                       alt="Иконка меню"
                     />
                     <p
