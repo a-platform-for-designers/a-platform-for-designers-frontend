@@ -6,6 +6,9 @@
   max-width: 330px;
   min-height: 332px;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
   &__header {
     display: flex;
@@ -32,6 +35,22 @@
   }
 
   &__title {
+    max-height: 1.5em;
+    text-overflow: ellipsis;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 150%;
+    letter-spacing: 0.024px;
+    margin: 0; /* Исключает внешний отступ абзаца */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    -webkit-line-clamp: 2;
+  }
+
+  &__description {
+    text-overflow: ellipsis;
     max-height: 3em;
     font-size: 16px;
     font-style: normal;
