@@ -55,7 +55,7 @@ const MentorsPage: React.FC = () => {
             )}
 
             <Grid xs={3} item className="designersPage__filters">
-              <MentorsFilters />
+              <MentorsFilters setMentors={setUsers} />
             </Grid>
           </Grid>
         </Box>

@@ -4,7 +4,6 @@ import { DesignerFilters, DesignersCard } from "./components";
 import { useState, useEffect } from "react";
 import { IUserWithLastCases } from "@/types";
 import { userService } from "@/api";
-import { filterService } from "@/api/services/filterService";
 import Preloader from "@/shared/Preloader/Preloader";
 import { EmptyData } from "../ProfilePage/components";
 
@@ -25,22 +24,6 @@ const DesignersPage: React.FC = () => {
       }
     };
     fetchData();
-  }, []);
-
-  useEffect(() => {
-    const filterData = async () => {
-      try {
-        setIsLoading(true);
-        const usersData = await filterService.getQueryUsers([], [], [], 12, 1);
-        setUsers(usersData.results);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    filterData();
   }, []);
 
   return (
@@ -71,7 +54,7 @@ const DesignersPage: React.FC = () => {
 
             <Grid xs={3} item className="designersPage__filters">
               {/* ! Компонент фильтров */}
-              <DesignerFilters />
+              <DesignerFilters setDesigners={setUsers} />
               {/* ! Компонент фильтров */}
             </Grid>
           </Grid>

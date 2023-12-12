@@ -1,4 +1,4 @@
-import { SyntheticEvent, useState } from "react";
+import { SyntheticEvent, useEffect, useState } from "react";
 import "./MentorsFilters.scss";
 import CloseIcon from "@mui/icons-material/Close";
 import {
@@ -6,20 +6,43 @@ import {
   SKILLS_TITLE,
   SPECIALIZATION_TITLE,
   TOOLS_TITLE,
-  FILTER_OPTIONS,
 } from "../../model/constants";
-import { LISTS } from "@/constants/constants";
 import { MyButton, MyCheckBox, MyMultipleDropDown } from "@/shared/UI";
+import { useAppSelector } from "@/hooks/reduxHooks";
+import { IUserWithLastCases } from "@/types";
+import { filterService } from "@/api/services/filterService";
 
-const DesignerFilters: React.FC = () => {
+interface IProps {
+  setMentors: (IMentorsList: IUserWithLastCases[]) => void;
+}
+
+const DesignerFilters: React.FC<IProps> = ({ setMentors }) => {
   const [speciality, setSpeciality] = useState<string[]>([]);
-  const [skills, setSkills] = useState<string[]>([]);
+  const [skillsValue, setSkillsValue] = useState<string[]>([]);
   const [tools, setTools] = useState<string[]>([]);
+
+  const { skills } = useAppSelector((state) => state.data);
+  const { specializations } = useAppSelector((state) => state.data);
+  const { instruments } = useAppSelector((state) => state.data);
 
   function handleClearFilters() {
     setSpeciality([]);
-    setSkills([]);
+    setSkillsValue([]);
     setTools([]);
+  }
+
+  function convertToIds(
+    names: string[],
+    specializations: Record<string, number>
+  ): number[] {
+    const idValues: number[] = [];
+    names.forEach((name) => {
+      const id = specializations[name];
+      if (id) {
+        idValues.push(id);
+      }
+    });
+    return idValues;
   }
 
   function handleSetSkills(
@@ -27,7 +50,7 @@ const DesignerFilters: React.FC = () => {
     newValue: string[]
   ) {
     if (newValue.length > 5) return;
-    setSkills(newValue);
+    setSkillsValue(newValue);
   }
 
   function handleSetTools(
@@ -44,6 +67,29 @@ const DesignerFilters: React.FC = () => {
       : [...speciality, item];
     setSpeciality(newValue);
   }
+
+  useEffect(() => {
+    const specialityIds = convertToIds(speciality, specializations);
+    const skillsIds = convertToIds(skillsValue, skills);
+    const instrumentsIds = convertToIds(tools, instruments);
+
+    (async () => {
+      const filteredList = await filterService.getQueryUsers(
+        skillsIds, //skills
+        specialityIds, //specialization
+        instrumentsIds, //tools
+        12,
+        1
+      );
+
+      setMentors(filteredList.results);
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [skillsValue, speciality, tools]);
+
+  const specializationMentors = Object.keys(specializations).filter(
+    (item) => item !== "Менторство"
+  );
 
   return (
     <div className="designerFilters">
@@ -62,7 +108,7 @@ const DesignerFilters: React.FC = () => {
 
       <div className="designerFilters__container">
         <h2 className="designerFilters__title">{SPECIALIZATION_TITLE}</h2>
-        {FILTER_OPTIONS.specialityOptions.map((item, i) => {
+        {specializationMentors.map((item, i) => {
           return (
             <MyCheckBox
               key={i}
@@ -81,20 +127,22 @@ const DesignerFilters: React.FC = () => {
       <div className="designerFilters__container">
         <h2 className="designerFilters__title">{SKILLS_TITLE}</h2>
         <MyMultipleDropDown
-          options={LISTS.LIST_SKILLS}
-          value={skills}
+          options={Object.keys(skills)}
+          value={skillsValue}
           onChange={handleSetSkills}
           className="designerFilters__dropdown"
+          placeholder={skillsValue.length ? "" : "Выберите навыки"}
         />
       </div>
 
       <div className="designerFilters__container">
         <h2 className="designerFilters__title">{TOOLS_TITLE}</h2>
         <MyMultipleDropDown
-          options={LISTS.LIST_TOOLS}
+          options={Object.keys(instruments)}
           value={tools}
           onChange={handleSetTools}
           className="designerFilters__dropdown"
+          placeholder={tools.length ? "" : "Выберите инструменты"}
         />
       </div>
     </div>
