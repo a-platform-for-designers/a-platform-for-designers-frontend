@@ -1,6 +1,6 @@
 import "./OrdersPage.scss";
 import { Box, Grid, StyledEngineProvider } from "@mui/material";
-import { IOrdersList, IUserInfo } from "@/types";
+import { IOrdersList } from "@/types";
 import { useState, useEffect } from "react";
 import { OrdersFilters, OrdersCard, MessagePopup } from "./components";
 import { ordersService } from "../../api";
@@ -11,7 +11,6 @@ const OrdersPage: React.FC = () => {
   const [orders, setOrders] = useState<IOrdersList[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [openPopup, setOpenPopup] = useState<boolean>(false);
-  const [userInfo, setUserInfo] = useState<IUserInfo>();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,8 +32,7 @@ const OrdersPage: React.FC = () => {
     setOpenPopup(false);
   }
 
-  function handlePopupOpen(userInfo: IUserInfo) {
-    setUserInfo(userInfo);
+  function handlePopupOpen() {
     setOpenPopup(true);
   }
 
@@ -74,11 +72,7 @@ const OrdersPage: React.FC = () => {
         </Box>
       </Box>
       {openPopup ? (
-        <MessagePopup
-          open={openPopup}
-          onClose={handlePopupClose}
-          userInfo={userInfo}
-        />
+        <MessagePopup open={openPopup} onClose={handlePopupClose} />
       ) : null}
     </StyledEngineProvider>
   );

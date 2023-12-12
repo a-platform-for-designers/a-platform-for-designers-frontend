@@ -34,7 +34,7 @@ export interface IProfileData {
   specialization?: string[] | number[];
   image?: string;
   country?: string;
-  registrationDate: string;
+  registrationDate?: string;
   status?: string;
   likes?: number;
   followers?: number;

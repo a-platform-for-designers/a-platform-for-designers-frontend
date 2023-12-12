@@ -1,3 +1,4 @@
+import { useAppSelector } from "@/hooks/reduxHooks";
 import { Navigate } from "react-router";
 
 interface ProtectedRouteProps {
@@ -8,7 +9,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   Component,
   ...props
 }) => {
-  const isAuth = true;
+  const { isAuth } = useAppSelector((state) => state.auth);
 
   return <>{isAuth ? <Component {...props} /> : <Navigate to="/" replace />}</>;
 };

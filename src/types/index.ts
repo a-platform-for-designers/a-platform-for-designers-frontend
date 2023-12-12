@@ -194,3 +194,14 @@ export interface IProfileDesigner {
   language?: string[] | number[];
   photo?: File | unknown;
 }
+
+export interface ICaseCreation {
+  title: string;
+  specialization?: number;
+  avatar: string;
+  images: { image: string };
+  working_term?: string;
+  instruments?: string[] | number[] | null;
+  description?: string;
+  sphere?: number;
+}

@@ -68,21 +68,30 @@ function App() {
             <Route path="/chats" Component={ChatPage} />
             <Route path="/designers" Component={DesignersPage} />
             <Route path="/mentors" Component={MentorsPage} />
+            <Route path="/profile/:id/*" Component={ProfilePage} />
             <Route
-              path="/profile/:id/*"
-              element={<ProtectedRoute Component={ProfilePage} />}
-            />
-            <Route path="/dashboard" Component={Dashboard}>
+              path="/dashboard"
+              element={<ProtectedRoute Component={Dashboard} />}
+            >
               <Route index element={<Navigate replace to="profile" />} />
-              <Route path="profile" element={<Profile />} />
-              <Route path="portfolio" element={<Portfolio />}>
-                <Route path="create" element={<CaseCreation />} />
+              <Route
+                path="profile"
+                element={<ProtectedRoute Component={Profile} />}
+              />
+              <Route
+                path="portfolio"
+                element={<ProtectedRoute Component={Portfolio} />}
+              >
+                <Route
+                  path="create"
+                  element={<ProtectedRoute Component={CaseCreation} />}
+                />
               </Route>
               <Route path="work" element={<Work />} />
               <Route path="orders" element={<Orders />} />
               <Route path="settings" element={<Settings />} />
             </Route>
-            <Route path="/orders" Component={OrdersPage}></Route>
+            <Route path="/orders" Component={OrdersPage} />
             <Route path="/case/:id" Component={CasePage} />
             <Route path="*" Component={ErrorPage} />
           </Routes>
