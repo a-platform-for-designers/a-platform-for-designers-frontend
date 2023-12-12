@@ -1,10 +1,14 @@
 import { Avatar, Box, IconButton, Typography } from "@mui/material";
 import "./OrdersCard.scss";
 import MyButton from "@/shared/UI/MyButton/MyButton";
-import { IOrdersList, IUserInfo } from "@/types";
+import { IOrdersList, IUserInfo, IUser } from "@/types";
 import { useEffect, useState } from "react";
 import FavouritesIcon from "../../../../assets/icons/FavouritesDark.svg";
 import FavouritesIconActive from "../../../../assets/icons/FavouritesActive.svg";
+import EditIcon from "../../../../assets/icons/editCardButton.svg";
+import { useAppSelector } from "@/hooks/reduxHooks";
+import { useParams } from "react-router-dom";
+import { userService } from "@/api";
 
 interface IProps {
   order: IOrdersList;
@@ -16,8 +20,23 @@ const OrdersCard: React.FC<IProps> = ({ order, openPopup }) => {
   const [isFavourite, setIsFavourite] = useState<boolean>(false);
   const [customerSpecialization, setCustomerSpecialization] =
     useState<string>("");
+
   const [isCurrentUser, setIsCurrentUser] = useState<boolean>(false); // при значении true карточка выглядит как будто она создана самим заказчиком. False - так видят все остальные
-  const countResponse = 10; //количество откликов
+  console.log(isCurrentUser);
+  const countResponse = "1 new"; //количество откликов
+
+  const { user } = useAppSelector((state) => state.user); // авторизованный пользователь
+  const { id } = useParams();
+  const [currentUser, setCurrentUser] = useState<IUser>(); // пользователь чей профиль(id через путь)
+  const isMyProfile = currentUser?.id === user?.id;
+
+  useEffect(() => {
+    (async () => {
+      const userInfo = await userService.getUserById(Number(id));
+      setCurrentUser(userInfo);
+    })();
+  }, [id]);
+
   useEffect(() => {
     if (order.specialization.name === "Графический дизайн") {
       setCustomerSpecialization("Графический дизайнер");
@@ -76,7 +95,7 @@ const OrdersCard: React.FC<IProps> = ({ order, openPopup }) => {
               {userInfo.name}
             </Typography>
           </div>
-          {!isCurrentUser ? (
+          {!isMyProfile ? (
             <>
               <IconButton aria-label="favourite" onClick={handleFavourite}>
                 {!isFavourite ? (
@@ -97,10 +116,10 @@ const OrdersCard: React.FC<IProps> = ({ order, openPopup }) => {
           ) : (
             <>
               <div className="ordersCard__counts">{countResponse}</div>
-              <IconButton aria-label="favourite" onClick={handleFavourite}>
+              <IconButton aria-label="favourite" onClick={handleEditCard}>
                 <img
                   className="ordersCard__favourite-icon"
-                  src={FavouritesIconActive}
+                  src={EditIcon}
                   alt="Иконка редактирования"
                 />
               </IconButton>
@@ -126,7 +145,7 @@ const OrdersCard: React.FC<IProps> = ({ order, openPopup }) => {
           </Typography>
         </div>
       </div>
-      {!isCurrentUser ? (
+      {!isMyProfile ? (
         <>
           <div className="ordersCard__buttons">
             <MyButton
@@ -149,9 +168,14 @@ const OrdersCard: React.FC<IProps> = ({ order, openPopup }) => {
           </div>
         </>
       ) : (
-        <div className="ordersCard__buttons">
-          <MyButton type="button" size="large" onClick={handleEditCard}>
-            Написать
+        <div className="ordersCard__button-in-profile">
+          <MyButton
+            type="button"
+            size="large"
+            variant="outlined"
+            onClick={handleEditCard}
+          >
+            Посмотреть все отклики
           </MyButton>
         </div>
       )}

@@ -20,9 +20,7 @@ const ProfilePage: React.FC = () => {
   const isCustomerUserPrifile = user?.is_customer;
   const isCustomerCurrentUser = currentUser?.is_customer;
   const isMyProfile = currentUser?.id === user?.id;
-  console.log(isMyProfile, isCustomerUserPrifile);
-
-  console.log(currentUser);
+  console.log(isCustomerUserPrifile, isMyProfile);
 
   useEffect(() => {
     (async () => {
