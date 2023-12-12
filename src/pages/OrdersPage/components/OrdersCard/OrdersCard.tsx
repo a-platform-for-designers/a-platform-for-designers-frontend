@@ -97,19 +97,19 @@ const OrdersCard: React.FC<IProps> = ({ order, openPopup }) => {
 
       <div>
         <Typography component="h3" className="ordersCard__title">
-          {order.title}
+          {order.title && order.title}
         </Typography>
         <Typography component="p" className="ordersCard__title">
-          {order.description}
+          {order.description && order.description}
         </Typography>
         <Typography component="p" className="ordersCard__specialization">
           Кто нужен: {customerSpecialization}
         </Typography>
         <Typography component="p" className="ordersCard__specialization">
-          Сфера: {order.sphere.name}
+          Сфера: {order.sphere && order.sphere.name}
         </Typography>
         <Typography component="p" className="ordersCard__price">
-          {order.payment} ₽
+          {order.payment && order.payment} ₽
         </Typography>
       </div>
 

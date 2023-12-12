@@ -30,6 +30,7 @@ import { useAppDispatch } from "@/hooks/reduxHooks.tsx";
 import { useEffect } from "react";
 import { changeAuth } from "@/redux/slices/authSlice.ts";
 import { getData } from "@/redux/slices/dataSlice.ts";
+import ChatPage from "@/pages/ChatPage/ChatPage.tsx";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -64,6 +65,7 @@ function App() {
           <Header />
           <Routes>
             <Route path="/" Component={MainPage} />
+            <Route path="/chats" Component={ChatPage} />
             <Route path="/designers" Component={DesignersPage} />
             <Route path="/mentors" Component={MentorsPage} />
             <Route
