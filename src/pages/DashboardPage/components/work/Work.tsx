@@ -12,25 +12,27 @@ import { LISTS } from "@/constants/constants";
 import { useState } from "react";
 import useInput from "@/hooks/useInput";
 import resumeService from "@/api/services/resumeService";
+import { useAppSelector } from "@/hooks/reduxHooks";
 
 const Work: React.FC = () => {
-  const [tools, setTools] = useState<string[]>([]);
-  const [skills, setSkills] = useState<string[]>([]);
+  const [toolsValue, setToolsValue] = useState<string[]>([]);
+  const [skillsValue, setSkillsValue] = useState<string[]>([]);
   const about = useInput("", {});
   const [status, setStatus] = useState<boolean>(true);
   const [toolsIds, setToolsIds] = useState<number[]>([]);
   const [skillsIds, setSkillsIds] = useState<number[]>([]);
+
+  const { skills } = useAppSelector((state) => state.data);
 
   function handleSetTools(
     _: React.SyntheticEvent<Element, Event>,
     newValue: string[]
   ) {
     if (newValue.length > 5) return;
-    setTools(newValue);
+    setToolsValue(newValue);
     if (newValue[0] !== undefined) {
       const newValueId =
         LISTS.LIST_TOOLS.indexOf(newValue[newValue.length - 1]) + 1;
-      console.log(newValue[newValue.length - 1]);
       setToolsIds([...toolsIds, newValueId]);
     }
   }
@@ -40,12 +42,10 @@ const Work: React.FC = () => {
     newValue: string[]
   ) {
     if (newValue.length > 5) return;
-    setSkills(newValue);
+    setSkillsValue(newValue);
     if (newValue[0] !== undefined) {
-      const newValueId =
-        LISTS.LIST_SKILLS.indexOf(newValue[newValue.length - 1]) + 1;
-      console.log(newValue[newValue.length - 1]);
-      setSkillsIds([...skillsIds, newValueId]);
+      const newValueId = newValue.map((key) => skills[key]);
+      setSkillsIds([...newValueId]);
     }
   }
 
@@ -103,10 +103,12 @@ const Work: React.FC = () => {
           <div className={classes.work__section_wrapper}>
             <MyMultipleDropDown
               className={classes.work__myDrowDown}
-              value={tools}
+              value={toolsValue}
               options={LISTS.LIST_TOOLS}
               onChange={handleSetTools}
-              placeholder={tools.length ? "" : "Какие программы используете"}
+              placeholder={
+                toolsValue.length ? "" : "Какие программы используете"
+              }
             />
           </div>
         </Box>
@@ -117,10 +119,10 @@ const Work: React.FC = () => {
           <div className={classes.work__section_wrapper}>
             <MyMultipleDropDown
               className={classes.work__myDrowDown}
-              value={skills}
-              options={LISTS.LIST_SKILLS}
+              value={skillsValue}
+              options={Object.keys(skills)}
               onChange={handleSetSkills}
-              placeholder={skills.length ? "" : "Выберите навыки"}
+              placeholder={skillsValue.length ? "" : "Выберите навыки"}
             />
           </div>
         </Box>
