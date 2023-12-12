@@ -6,10 +6,13 @@ import Avatar from "@mui/material/Avatar";
 import "swiper/css";
 import "swiper/css/navigation";
 import "./MySwiper.scss";
-import Favourites from "../../../assets/icons/Favourites.svg";
-import Likes from "../../../assets/icons/Likes.svg";
+import Favourites from "@/assets/icons/FavouritesWhite.svg";
+import Likes from "@/assets/icons/Likes.svg";
+import FavouritesActive from "@/assets/icons/FavouritesWhiteActive.svg";
+import LikesActive from "@/assets/icons/LikesActive.svg";
 import { IconButton } from "@mui/material";
 import { ICase } from "@/types";
+import { useState } from "react";
 
 interface IProps {
   onClick?: () => void;
@@ -17,6 +20,9 @@ interface IProps {
 }
 
 const MySwiper: React.FC<IProps> = ({ item, onClick }) => {
+  const [isLiked, setIsLiked] = useState<boolean>(false);
+  const [isFavorite, setIsFavorite] = useState<boolean>(false);
+
   if (!item) return;
 
   const sliders = item.images.map((image) => {
@@ -46,7 +52,10 @@ const MySwiper: React.FC<IProps> = ({ item, onClick }) => {
                 className="mySwiper__avatar"
                 alt="avatar"
                 src={item.author.photo}
-              />
+              >
+                {!item.author.photo &&
+                  `${item.author?.first_name[0]}${item.author?.last_name[0]}`}
+              </Avatar>
               <p className="mySwiper__author-name">{`${item.author.first_name} ${item.author.last_name} `}</p>
             </div>
             <div className="mySwiper__icon-container">
@@ -54,15 +63,21 @@ const MySwiper: React.FC<IProps> = ({ item, onClick }) => {
                 className="mySwiper__icon"
                 aria-label="add to favourites"
                 edge="end"
+                onClick={() => {
+                  setIsFavorite(!isFavorite);
+                }}
               >
-                <img src={Favourites} />
+                <img src={isFavorite ? FavouritesActive : Favourites} />
               </IconButton>
               <IconButton
                 className="mySwiper__icon"
                 aria-label="put like"
                 edge="end"
+                onClick={() => {
+                  setIsLiked(!isLiked);
+                }}
               >
-                <img src={Likes} />
+                <img src={isLiked ? LikesActive : Likes} />
               </IconButton>
             </div>
           </div>

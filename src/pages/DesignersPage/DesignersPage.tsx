@@ -4,6 +4,7 @@ import { DesignerFilters, DesignersCard } from "./components";
 import { useState, useEffect } from "react";
 import { IUserWithLastCases } from "@/types";
 import { userService } from "@/api";
+import { filterService } from "@/api/services/filterService";
 import Preloader from "@/shared/Preloader/Preloader";
 import { EmptyData } from "../ProfilePage/components";
 
@@ -23,8 +24,23 @@ const DesignersPage: React.FC = () => {
         setIsLoading(false);
       }
     };
-
     fetchData();
+  }, []);
+
+  useEffect(() => {
+    const filterData = async () => {
+      try {
+        setIsLoading(true);
+        const usersData = await filterService.getQueryUsers([], [], [], 12, 1);
+        setUsers(usersData.results);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    filterData();
   }, []);
 
   return (

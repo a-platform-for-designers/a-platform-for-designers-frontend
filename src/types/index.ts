@@ -55,6 +55,7 @@ export interface IUser {
 export interface IUserWithLastCases extends IUser {
   last_cases: [ICase, ICase];
   specialization: object[];
+  country: string;
 }
 
 export interface IUserCase {

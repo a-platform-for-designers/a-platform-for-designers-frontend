@@ -12,18 +12,21 @@ import {
 } from "../../model/constants";
 import { LISTS } from "@/constants/constants";
 import { MyButton, MyCheckBox, MyMultipleDropDown } from "@/shared/UI";
+import { useAppSelector } from "@/hooks/reduxHooks";
 
 const DesignerFilters: React.FC = () => {
   const [speciality, setSpeciality] = useState<string[]>([]);
-  const [skills, setSkills] = useState<string[]>([]);
+  const [skillsValue, setSkillsValue] = useState<string[]>([]);
   const [tools, setTools] = useState<string[]>([]);
   const [readyForJob, setReadyForJob] = useState<string[]>([
     FILTER_OPTIONS.readyForJobOptions[0],
   ]);
 
+  const { skills } = useAppSelector((state) => state.data);
+
   function handleClearFilters() {
     setSpeciality([]);
-    setSkills([]);
+    setSkillsValue([]);
     setTools([]);
     setReadyForJob([FILTER_OPTIONS.readyForJobOptions[0]]);
   }
@@ -33,7 +36,7 @@ const DesignerFilters: React.FC = () => {
     newValue: string[]
   ) {
     if (newValue.length > 5) return;
-    setSkills(newValue);
+    setSkillsValue(newValue);
   }
 
   function handleSetTools(
@@ -60,19 +63,6 @@ const DesignerFilters: React.FC = () => {
 
   return (
     <div className="designerFilters">
-      <div className="designerFilters__container">
-        <MyButton
-          onClick={handleClearFilters}
-          disabled={false}
-          className="designerFilters__button"
-          type="button"
-          variant="text"
-          startIcon={<CloseIcon />}
-        >
-          {DESIGNER_FILTERS_CLEAR_BTN_LABEL}
-        </MyButton>
-      </div>
-
       <div className="designerFilters__container">
         <h2 className="designerFilters__title">{SPECIALIZATION_TITLE}</h2>
         {FILTER_OPTIONS.specialityOptions.map((item, i) => {
@@ -121,10 +111,11 @@ const DesignerFilters: React.FC = () => {
       <div className="designerFilters__container">
         <h2 className="designerFilters__title">{SKILLS_TITLE}</h2>
         <MyMultipleDropDown
-          options={LISTS.LIST_SKILLS}
-          value={skills}
+          options={Object.keys(skills)}
+          value={skillsValue}
           onChange={handleSetSkills}
           className="designerFilters__dropdown"
+          placeholder={skillsValue.length ? "" : "Выберите навыки"}
         />
       </div>
 
@@ -135,7 +126,20 @@ const DesignerFilters: React.FC = () => {
           value={tools}
           onChange={handleSetTools}
           className="designerFilters__dropdown"
+          placeholder={tools.length ? "" : "Выберите инструменты"}
         />
+      </div>
+      <div className="designerFilters__container">
+        <MyButton
+          onClick={handleClearFilters}
+          disabled={false}
+          className="designerFilters__button"
+          type="button"
+          variant="outlined"
+          startIcon={<CloseIcon />}
+        >
+          {DESIGNER_FILTERS_CLEAR_BTN_LABEL}
+        </MyButton>
       </div>
     </div>
   );

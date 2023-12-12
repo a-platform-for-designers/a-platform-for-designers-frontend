@@ -1,5 +1,5 @@
 import api from "../api";
-import { ICaseRespons, IOrdersResponse } from "../../types";
+import { ICaseRespons, IOrdersResponse, IUserRespons } from "../../types";
 
 export const filterService = {
   getQuerySpecializations: async (
@@ -31,6 +31,28 @@ export const filterService = {
       .join("&");
     const response =
       await api.get<IOrdersResponse>(`/orders/?limit=${limit}&page=${page}&${formattedSpecializationArray}&${formattedSphereArray}
+    `);
+    return response.data;
+  },
+
+  getQueryUsers: async (
+    spheresId: number[],
+    specializationId: number[],
+    toolsId: number[],
+    limit: number,
+    page: number
+  ): Promise<IUserRespons> => {
+    const formattedSpecializationArray = specializationId
+      .map((id) => `specialization=${id}`)
+      .join("&");
+    const formattedSphereArray = spheresId
+      .map((id) => `sphere=${id}`)
+      .join("&");
+    const formattedToolsArray = toolsId
+      .map((id) => `instrument=${id}`)
+      .join("&");
+    const response =
+      await api.get<IUserRespons>(`/users/?limit=${limit}&page=${page}&${formattedSpecializationArray}&${formattedSphereArray}&${formattedToolsArray}
     `);
     return response.data;
   },

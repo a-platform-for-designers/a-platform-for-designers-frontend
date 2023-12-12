@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
-import { Box } from "@mui/material";
+import { Avatar, Box } from "@mui/material";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import classes from "./AvatarUpload.module.scss";
 import ButtonUploadImg from "../buttonUploadImg/ButtonUploadImg";
 import { enqueueSnackbar } from "notistack";
-import imgProfilePlaceholder from "../../../../assets/images/designerscarousel-avatar.png";
 import { useAppSelector } from "@/hooks/reduxHooks";
 
 interface IAvatarUploadProps {
@@ -14,9 +13,7 @@ interface IAvatarUploadProps {
 const AvatarUpload: React.FC<IAvatarUploadProps> = ({ cbFileChange }) => {
   const { user } = useAppSelector((state) => state.user);
 
-  const [avatar, setAvatar] = useState<string | undefined>(
-    user?.photo || imgProfilePlaceholder
-  );
+  const [avatar, setAvatar] = useState<string | undefined>(user?.photo);
 
   function validateImage(file: File): string | void {
     const filetype = "image/jpeg, image/jpg, image/tiff, image/tif, image/png";
@@ -55,13 +52,17 @@ const AvatarUpload: React.FC<IAvatarUploadProps> = ({ cbFileChange }) => {
 
   return (
     <Box display={"flex"} className={classes.avatar_upload__image_wrapper}>
-      <img className={classes.avatar_upload__image} src={avatar} />
+      <Avatar
+        className={classes.avatar_upload__image}
+        alt="avatar"
+        src={avatar}
+      >{`${user?.first_name[0]}${user?.last_name[0]}`}</Avatar>
 
       <ButtonUploadImg
         label="Загрузить фото"
         startIcon={<AddAPhotoIcon />}
         handleFileChange={handleFileChange}
-        description="Рекомендуемый размер 212x212 px"
+        description={`Рекомендуемый размер\n 212x212 px`}
       />
     </Box>
   );
