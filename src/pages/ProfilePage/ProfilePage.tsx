@@ -5,7 +5,7 @@ import { Info, ProfileNav, Portfolio, Work, Profile } from "./components";
 import { IProfileData } from "./components/Info/Info";
 import { IProfileNavPage } from "./components/ProfileNav/ProfileNav";
 import { useAppSelector } from "@/hooks/reduxHooks";
-import Preloader from "@/shared/Preloader/Preloader";
+// import Preloader from "@/shared/Preloader/Preloader";
 import { userService } from "@/api";
 import { useEffect, useState } from "react";
 import { IUser } from "@/types";
@@ -15,14 +15,14 @@ const ProfilePage: React.FC = () => {
   const { id } = useParams();
   const [currentUser, setCurrentUser] = useState<IUser>();
 
+  console.log(currentUser);
+
   useEffect(() => {
     (async () => {
       const userInfo = await userService.getUserById(Number(id));
       setCurrentUser(userInfo);
     })();
   }, [id]);
-
-  if (!user) return <Preloader></Preloader>;
 
   const profileData: IProfileData = {
     first_name: currentUser?.first_name,
@@ -33,7 +33,9 @@ const ProfilePage: React.FC = () => {
     image: currentUser?.photo,
     country: currentUser?.profiledesigner?.country || "Не указана страна",
     // need to fix later
-    registrationDate: new Date(user.date_joined).toLocaleDateString("ru-RU", {
+    registrationDate: new Date(
+      user?.date_joined ?? new Date().getDate()
+    ).toLocaleDateString("ru-RU", {
       day: "2-digit",
       month: "long",
       year: "numeric",
@@ -69,8 +71,6 @@ const ProfilePage: React.FC = () => {
       ),
     },
   ];
-
-  console.log(currentUser);
 
   return (
     <StyledEngineProvider injectFirst>

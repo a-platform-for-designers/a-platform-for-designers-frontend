@@ -12,7 +12,8 @@ import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import FollowersIcon from "../../assets/icons/FollowersIcon.svg";
 import FavouritesIcon from "../../assets/icons/FavouritesDark.svg";
-import MessagesIcon from "../../assets/icons/MessagesIcon.svg";
+import MessagesIcon from "../../assets/icons/MessageBlack.svg";
+import MessagesIconActive from "../../assets/icons/MessagePurple.svg";
 import OrdersIcon from "../../assets/icons/orders.svg";
 import { useAppSelector } from "@/hooks/reduxHooks";
 import { MyAuthForm, MyButton, MyPopup } from "../UI";
@@ -63,13 +64,18 @@ const Header: React.FC = () => {
     setIsOpenSignUp(true);
   }
 
+  function handleCkick() {
+    navigate("/");
+    window.scrollTo(0, 0);
+  }
+
   return (
     <StyledEngineProvider injectFirst>
       <AppBar className="header" position="static">
         <Box>
           <Box className="header__container">
             <Toolbar className="header__toolbar" variant="dense">
-              <Box className="header__logo" onClick={() => navigate("/")} />
+              <Box className="header__logo" onClick={() => handleCkick()} />
               <List
                 className="header__pages-list"
                 sx={{ flexGrow: 1, display: "flex" }}
@@ -131,7 +137,11 @@ const Header: React.FC = () => {
                   >
                     <img
                       className="header__list-icon"
-                      src={MessagesIcon}
+                      src={
+                        location.pathname === "/chats"
+                          ? MessagesIconActive
+                          : MessagesIcon
+                      }
                       alt="Иконка меню"
                     />
                     <p

@@ -26,6 +26,10 @@ const DesignersPage: React.FC = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+    
   return (
     <StyledEngineProvider injectFirst>
       <Box component="main" className="designersPage">
@@ -45,7 +49,7 @@ const DesignersPage: React.FC = () => {
             ) : users.length > 0 ? (
               <Grid xs={9} item className="designersPage__cards">
                 {users.map((item) => (
-                  <DesignersCard key={item.id} user={item} />
+                  <DesignersCard key={item.id} cardOwner={item} />
                 ))}
               </Grid>
             ) : (

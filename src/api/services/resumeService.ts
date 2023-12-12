@@ -1,15 +1,27 @@
+import { enqueueSnackbar } from "notistack";
 import { IResumeNew } from "../../types";
 import api from "../api";
 
 const resumeService = {
   postResume: async (data: IResumeNew): Promise<IResumeNew> => {
-    const response = await api.post<IResumeNew>("/resume/", data, {
-      headers: {
-        Authorization: `Token ${localStorage.getItem("token")}`,
-      },
-    });
-    console.log(response.data);
-    return response.data;
+    try {
+      const response = await api.post<IResumeNew>("/resume/", data, {
+        headers: {
+          Authorization: `Token ${localStorage.getItem("token")}`,
+        },
+      });
+      enqueueSnackbar({
+        variant: "success",
+        message: `Данные успешно обновлены`,
+      });
+      return response.data;
+    } catch (error) {
+      enqueueSnackbar({
+        variant: "error",
+        message: `Заполните хотя бы одно поле`,
+      });
+      throw error;
+    }
   },
 };
 

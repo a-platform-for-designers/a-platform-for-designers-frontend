@@ -8,6 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import "./DesinersCategories.scss";
+import { useNavigate } from "react-router-dom";
 
 export interface IDesinerCategoriesData {
   title: string;
@@ -21,8 +22,10 @@ interface IDesinersCategoriesProps {
 }
 
 const DesinersCategories: React.FC<IDesinersCategoriesProps> = ({ data }) => {
-  const onClickHandler: React.MouseEventHandler = (e) => {
-    console.log(e.target);
+  const navigate = useNavigate();
+
+  const onClickHandler: React.MouseEventHandler = () => {
+    navigate("/designers");
   };
 
   return (

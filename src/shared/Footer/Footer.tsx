@@ -5,11 +5,16 @@ import "./Footer.scss";
 const Footer: React.FC = () => {
   const navigate = useNavigate();
 
+  function handleCkick() {
+    navigate("/");
+    window.scrollTo(0, 0);
+  }
+
   return (
     <StyledEngineProvider injectFirst>
       <footer className="footer">
         <Box className="footer__container">
-          <Box className="footer__logo" onClick={() => navigate("/")}></Box>
+          <Box className="footer__logo" onClick={() => handleCkick()}></Box>
           <List className="footer__links">
             <ListItem className="footer__link">Правила пользования</ListItem>
             <ListItem className="footer__link">
