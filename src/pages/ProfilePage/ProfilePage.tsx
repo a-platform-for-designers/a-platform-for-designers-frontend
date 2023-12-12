@@ -1,11 +1,12 @@
 import { Container, StyledEngineProvider } from "@mui/material";
 import "./ProfilePage.scss";
+import imgProfilePlaceholder from "../../assets/images/designerscarousel-avatar.png";
 import { Route, Routes, Navigate, useParams } from "react-router-dom";
 import { Info, ProfileNav, Portfolio, Work, Profile } from "./components";
 import { IProfileData } from "./components/Info/Info";
 import { IProfileNavPage } from "./components/ProfileNav/ProfileNav";
 import { useAppSelector } from "@/hooks/reduxHooks";
-import Preloader from "@/shared/Preloader/Preloader";
+// import Preloader from "@/shared/Preloader/Preloader";
 import { userService } from "@/api";
 import { useEffect, useState } from "react";
 import { IUser } from "@/types";
@@ -21,6 +22,8 @@ const ProfilePage: React.FC = () => {
   const isMyProfile = currentUser?.id === user?.id;
   console.log(isMyProfile, isCustomerUserPrifile);
 
+  console.log(currentUser);
+
   useEffect(() => {
     (async () => {
       const userInfo = await userService.getUserById(Number(id));
@@ -28,18 +31,18 @@ const ProfilePage: React.FC = () => {
     })();
   }, [id]);
 
-  if (!user) return <Preloader></Preloader>;
-
   const profileData: IProfileData = {
     first_name: currentUser?.first_name,
     last_name: currentUser?.last_name,
     specialization: currentUser?.profiledesigner?.specialization || [
       "Не указана специализация",
     ],
-    image: currentUser?.photo,
+    image: currentUser?.photo || imgProfilePlaceholder,
     country: currentUser?.profiledesigner?.country || "Не указана страна",
     // need to fix later
-    registrationDate: new Date(user.date_joined).toLocaleDateString("ru-RU", {
+    registrationDate: new Date(
+      user?.date_joined ?? new Date().getDate()
+    ).toLocaleDateString("ru-RU", {
       day: "2-digit",
       month: "long",
       year: "numeric",
@@ -98,8 +101,6 @@ const ProfilePage: React.FC = () => {
       ),
     },
   ];
-
-  console.log(currentUser);
 
   return (
     <StyledEngineProvider injectFirst>

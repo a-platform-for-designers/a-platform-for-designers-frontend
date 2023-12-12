@@ -36,19 +36,24 @@ const CaseInfo: React.FC<ICaseInfoProps> = ({ data }) => {
         <Typography className="caseInfo__deadline" component="p">
           Срок реализации: {working_term}
         </Typography>
-        <Stack
-          className={`${"caseInfo__list"}`}
-          component="ul"
-          color="secondary"
-          sx={{
-            color: (theme) => theme.palette.text.secondary,
-            borderColor: (theme) => theme.palette.text.secondary,
-          }}
-        >
-          <li className={`${"caseInfo__list-item"}`} key={sphere && sphere.id}>
-            {sphere && sphere.name}
-          </li>
-        </Stack>
+        {sphere && (
+          <Stack
+            className={`${"caseInfo__list"}`}
+            component="ul"
+            color="secondary"
+            sx={{
+              color: (theme) => theme.palette.text.secondary,
+              borderColor: (theme) => theme.palette.text.secondary,
+            }}
+          >
+            <li
+              className={`${"caseInfo__list-item"}`}
+              key={sphere && sphere.id}
+            >
+              {sphere.name}
+            </li>
+          </Stack>
+        )}
       </Grid>
     </StyledEngineProvider>
   );

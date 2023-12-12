@@ -1,4 +1,4 @@
-import { ICase, ICaseRespons } from "../../types";
+import { ICase, ICaseCreation, ICaseRespons } from "../../types";
 import api from "../api";
 
 const casesService = {
@@ -21,6 +21,17 @@ const casesService = {
         "Content-Type": "application/json",
       },
     });
+    return response.data;
+  },
+
+  createCase: async (data: ICaseCreation): Promise<ICase> => {
+    const response = await api.post<ICase>("/cases/", data, {
+      headers: {
+        Authorization: `Token ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json",
+      },
+    });
+    console.log(response.data);
     return response.data;
   },
 };

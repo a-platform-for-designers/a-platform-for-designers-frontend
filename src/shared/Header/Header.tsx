@@ -64,13 +64,18 @@ const Header: React.FC = () => {
     setIsOpenSignUp(true);
   }
 
+  function handleCkick() {
+    navigate("/");
+    window.scrollTo(0, 0);
+  }
+
   return (
     <StyledEngineProvider injectFirst>
       <AppBar className="header" position="static">
         <Box>
           <Box className="header__container">
             <Toolbar className="header__toolbar" variant="dense">
-              <Box className="header__logo" onClick={() => navigate("/")} />
+              <Box className="header__logo" onClick={() => handleCkick()} />
               <List
                 className="header__pages-list"
                 sx={{ flexGrow: 1, display: "flex" }}

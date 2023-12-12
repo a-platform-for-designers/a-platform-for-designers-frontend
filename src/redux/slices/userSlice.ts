@@ -59,6 +59,9 @@ export const userSlice = createSlice({
     /*     changeAuth: (state, action: PayloadAction<boolean>) => {
       state.user = action.payload;
     }, */
+    deleteUserInfo: (state) => {
+      state.user = null;
+    },
     setUserInfo: (state, action: PayloadAction<IProfileDesigner>) => {
       const updatedUser = { ...action.payload };
       if (state.user) {
@@ -95,6 +98,6 @@ export const userSlice = createSlice({
   },
 });
 
-export const { setUserInfo } = userSlice.actions;
+export const { setUserInfo, deleteUserInfo } = userSlice.actions;
 
 export default userSlice.reducer;

@@ -4,10 +4,14 @@ import authService from "../../../../api/services/authService";
 import { useAppSelector } from "@/hooks/reduxHooks";
 
 import "./Asidebar.scss";
+import { useAppDispatch } from "@/hooks/reduxHooks";
+import { deleteUserInfo } from "@/redux/slices/userSlice";
+import { changeAuth } from "@/redux/slices/authSlice";
 
 const Asidebar: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useAppDispatch();
 
   const isActive = (path: string): boolean => {
     return location.pathname.includes(path);
@@ -71,7 +75,8 @@ const Asidebar: React.FC = () => {
   function logout() {
     authService.logout();
     localStorage.clear();
-    navigate("/");
+    dispatch(deleteUserInfo());
+    dispatch(changeAuth(false));
   }
 
   return (
