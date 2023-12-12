@@ -38,7 +38,7 @@ const AboutItem: React.FC<IAboutItemProps> = ({
                 ? "aboutItem-secondary__list-item"
                 : "aboutItem__list-item"
             }`}
-            // key={item.length}
+            key={data.indexOf(item)}
           >
             {item}
           </li>

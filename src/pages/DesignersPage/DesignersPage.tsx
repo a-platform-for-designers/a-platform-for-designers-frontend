@@ -28,10 +28,6 @@ const DesignersPage: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    console.log(users);
-  }, [users]);
-
-  useEffect(() => {
     const filterData = async () => {
       try {
         setIsLoading(true);

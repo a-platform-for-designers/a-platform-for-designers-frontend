@@ -1,6 +1,5 @@
 import { Container, StyledEngineProvider } from "@mui/material";
 import "./ProfilePage.scss";
-import imgProfilePlaceholder from "../../assets/images/designerscarousel-avatar.png";
 import { Route, Routes, Navigate, useParams } from "react-router-dom";
 import { Info, ProfileNav, Portfolio, Work, Profile } from "./components";
 import { IProfileData } from "./components/Info/Info";
@@ -15,8 +14,6 @@ const ProfilePage: React.FC = () => {
   const { user } = useAppSelector((state) => state.user);
   const { id } = useParams();
   const [currentUser, setCurrentUser] = useState<IUser>();
-
-  console.log(currentUser);
 
   useEffect(() => {
     (async () => {
@@ -33,7 +30,7 @@ const ProfilePage: React.FC = () => {
     specialization: currentUser?.profiledesigner?.specialization || [
       "Не указана специализация",
     ],
-    image: currentUser?.photo || imgProfilePlaceholder,
+    image: currentUser?.photo,
     country: currentUser?.profiledesigner?.country || "Не указана страна",
     // need to fix later
     registrationDate: new Date(user.date_joined).toLocaleDateString("ru-RU", {
@@ -72,6 +69,8 @@ const ProfilePage: React.FC = () => {
       ),
     },
   ];
+
+  console.log(currentUser);
 
   return (
     <StyledEngineProvider injectFirst>

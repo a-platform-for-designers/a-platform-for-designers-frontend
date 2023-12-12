@@ -45,8 +45,8 @@ const CaseInfo: React.FC<ICaseInfoProps> = ({ data }) => {
             borderColor: (theme) => theme.palette.text.secondary,
           }}
         >
-          <li className={`${"caseInfo__list-item"}`} key={sphere.id}>
-            {sphere.name}
+          <li className={`${"caseInfo__list-item"}`} key={sphere && sphere.id}>
+            {sphere && sphere.name}
           </li>
         </Stack>
       </Grid>

@@ -146,8 +146,11 @@ const Header: React.FC = () => {
                     alt="avatar"
                     src={user?.photo}
                     onClick={() => navigate(`/profile/${myId}`)}
-                    sx={{ backgroundColor: "#4F378B", color: "#EADDFF" }} //! Убрать хардкод
-                  >{`${user?.first_name[0]}${user?.last_name[0]}`}</Avatar>
+                    sx={{ backgroundColor: "#4F378B", color: "#EADDFF" }}
+                  >
+                    {!user?.photo &&
+                      `${user?.first_name[0]}${user?.last_name[0]}`}
+                  </Avatar>
                 </List>
               ) : (
                 <>

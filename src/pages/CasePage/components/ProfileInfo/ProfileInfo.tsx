@@ -17,6 +17,9 @@ const avatarStyles: SxProps<Theme> = {
   height: "94px",
   width: "94px",
   borderRadius: "50%",
+  fontSize: "30px",
+  backgroundColor: "#4F378B",
+  color: "#EADDFF",
 };
 
 interface IProfileInfoProps {

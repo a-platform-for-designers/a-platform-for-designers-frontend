@@ -19,6 +19,9 @@ const avatarStyles: SxProps<Theme> = {
   height: "212px",
   width: "212px",
   borderRadius: "50%",
+  fontSize: "70px",
+  backgroundColor: "#4F378B",
+  color: "#EADDFF",
 };
 
 const statusStyles: SxProps<Theme> = {
@@ -117,9 +120,6 @@ const Info: React.FC<IInfoProps> = ({ data, currentUser }) => {
               }}
               ifFalse={{
                 label: "Подписаться",
-                onClick: () => {
-                  setIsCurrentUser(!isCurrentUser);
-                },
               }}
             />
             <InfoAction

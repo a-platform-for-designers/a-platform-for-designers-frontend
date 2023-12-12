@@ -2,14 +2,14 @@
   &__image {
     width: 212px;
     height: 212px;
+    margin-right: 20px;
     border-radius: 50%;
     object-fit: cover;
     object-position: center;
-    display: block;
-    cursor: pointer;
-
-    &:hover {
-      opacity: 0.9;
-    }
+    display: flex;
+    background-color: #4F378B;
+    color: #EADDFF;
+    font-size: 70px;
+    text-align: center;
   }
 }
