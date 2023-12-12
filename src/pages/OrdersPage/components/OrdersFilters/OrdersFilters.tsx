@@ -1,15 +1,18 @@
 import "./OrdersFilters.scss";
 import { SyntheticEvent, useState, useCallback } from "react";
-import { MyCheckBox, MyMultipleDropDown } from "@/shared/UI";
+import { MyCheckBox, MyMultipleDropDown, MyButton } from "@/shared/UI";
 import { IOrdersList } from "@/types";
 import { useAppSelector } from "@/hooks/reduxHooks";
 import { filterService } from "@/api/services/filterService";
+import CloseIcon from "@mui/icons-material/Close";
+import { DESIGNER_FILTERS_CLEAR_BTN_LABEL } from "../../../DesignersPage/model/constants";
 
 interface IProps {
   setOrders: (IOrdersList: IOrdersList[]) => void;
+  orders: IOrdersList[];
 }
 
-const OrdersFilters: React.FC<IProps> = ({ setOrders }) => {
+const OrdersFilters: React.FC<IProps> = ({ setOrders, orders }) => {
   const [speciality, setSpeciality] = useState<string[]>([]);
   const [sphereValue, setSphereValue] = useState<string[]>([]);
 
@@ -62,9 +65,27 @@ const OrdersFilters: React.FC<IProps> = ({ setOrders }) => {
     setOrders(filteredList.results);
   }, [setOrders, spheresIds, specialityIds]);
 
+  // фильтрация не работает
+  function handleClearFilters() {
+    setSpeciality([]);
+    setSphereValue([]);
+    setOrders(orders);
+  }
+
   return (
     <div className="ordersFilters">
       <div className="ordersFilters__container">
+        <MyButton
+          onClick={handleClearFilters}
+          disabled={false}
+          className="designerFilters__button"
+          type="button"
+          variant="text"
+          startIcon={<CloseIcon />}
+        >
+          {DESIGNER_FILTERS_CLEAR_BTN_LABEL}
+        </MyButton>
+
         <h2 className="ordersFilters__title">Специализация</h2>
         {specializationsList.map((item, i) => {
           return (

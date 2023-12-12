@@ -13,12 +13,14 @@ import { IUser } from "@/types";
 import CustomersOrderCard from "./components/CustomersOrdersCards/CustomersOrdersCards";
 
 const ProfilePage: React.FC = () => {
-  const { user } = useAppSelector((state) => state.user);
+  const { user } = useAppSelector((state) => state.user); // авторизованный пользователь
   const { id } = useParams();
-  const [currentUser, setCurrentUser] = useState<IUser>();
+  const [currentUser, setCurrentUser] = useState<IUser>(); // пользователь чей профиль(id через путь)
 
-  const isCustomer = currentUser?.is_customer;
-  console.log(isCustomer);
+  const isCustomerUserPrifile = user?.is_customer;
+  const isCustomerCurrentUser = currentUser?.is_customer;
+  const isMyProfile = currentUser?.id === user?.id;
+  console.log(isMyProfile, isCustomerUserPrifile);
 
   useEffect(() => {
     (async () => {
@@ -43,7 +45,7 @@ const ProfilePage: React.FC = () => {
       month: "long",
       year: "numeric",
     }),
-    status: currentUser?.resume?.status ? "Ищет заказы" : "Не ищет заказы",
+    status: currentUser?.resume?.status ? "Ищет работу" : "Не ищет работу",
     likes: 1001,
     followers: 98,
   };
@@ -82,7 +84,7 @@ const ProfilePage: React.FC = () => {
     {
       title: "Активные заказы",
       link: `orders`,
-      element: <CustomersOrderCard />,
+      element: <CustomersOrderCard userId={currentUser?.id} />,
     },
     {
       title: "Профиль",
@@ -102,7 +104,7 @@ const ProfilePage: React.FC = () => {
     <StyledEngineProvider injectFirst>
       <Container component="section" className="profilePage">
         <Info data={profileData} currentUser={currentUser} />
-        {!isCustomer ? (
+        {!isCustomerCurrentUser ? (
           <>
             <ProfileNav pages={profileNavPages} />
             <Routes>

@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 
 import FavouritesIcon from "../../../../assets/icons/FavouritesDark.svg";
 import FavouritesIconActive from "../../../../assets/icons/FavouritesActive.svg";
-import { useAppSelector } from "@/hooks/reduxHooks";
 
 interface IProps {
   order: IOrdersList;
@@ -18,10 +17,6 @@ const OrdersCard: React.FC<IProps> = ({ order, openPopup }) => {
   const [isFavourite, setIsFavourite] = useState<boolean>(false);
   const [customerSpecialization, setCustomerSpecialization] =
     useState<string>("");
-
-  const { specializations } = useAppSelector((state) => state.data);
-
-  console.log(Object.keys(specializations));
 
   useEffect(() => {
     if (order.specialization.name === "Графический дизайн") {

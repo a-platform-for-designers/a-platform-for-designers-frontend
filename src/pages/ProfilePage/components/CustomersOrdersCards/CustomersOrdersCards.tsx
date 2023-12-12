@@ -6,11 +6,15 @@ import { OrdersCard, MessagePopup } from "../../../OrdersPage/components";
 import { ordersService } from "../../../../api";
 import { EmptyData } from "..";
 
-const CustomersOrdersCards: React.FC = () => {
+interface IProps {
+  userId?: number;
+}
+
+const CustomersOrdersCards: React.FC<IProps> = ({ userId }) => {
   const [orders, setOrders] = useState<IOrdersList[]>([]);
   const [openPopup, setOpenPopup] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState<IUserInfo>();
-
+  const filteredItems = orders.filter((item) => item.customer.id === userId);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -36,9 +40,9 @@ const CustomersOrdersCards: React.FC = () => {
   return (
     <StyledEngineProvider injectFirst>
       <Box className="customersOrders">
-        {orders.length > 0 ? (
+        {filteredItems.length > 0 ? (
           <Grid xs={9} item className="customersOrders__cards">
-            {orders.map((item) => (
+            {filteredItems.map((item) => (
               <OrdersCard
                 openPopup={handlePopupOpen}
                 key={item.id}
@@ -47,7 +51,7 @@ const CustomersOrdersCards: React.FC = () => {
             ))}
           </Grid>
         ) : (
-          <EmptyData title="На сайте пока нет заказов" />
+          <EmptyData title="Нет активных заказов" />
         )}
       </Box>
       {openPopup ? (
