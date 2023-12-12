@@ -84,12 +84,12 @@ const Work: React.FC = () => {
                 <FormControlLabel
                   value="searching"
                   control={<Radio onClick={handleActive} />}
-                  label="Ищу заказы"
+                  label="Ищу работу"
                 />
                 <FormControlLabel
                   value="not-searching"
                   control={<Radio onClick={handleUnactive} />}
-                  label="Не ищу заказы"
+                  label="Не ищу работу"
                 />
               </RadioGroup>
             </FormControl>

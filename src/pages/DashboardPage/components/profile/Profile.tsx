@@ -19,6 +19,8 @@ const Profile: React.FC = () => {
   const { user } = useAppSelector((state) => state.user);
   const { specializations, languages } = useAppSelector((state) => state.data);
   const dispatch = useAppDispatch();
+  const isCustomer = user?.is_customer;
+  console.log(user);
 
   const [specializationValue, setSpecializationValue] = useState<string[]>(
     (user?.profiledesigner?.specialization || []).map((obj) =>
@@ -38,6 +40,8 @@ const Profile: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const education = useInput(user?.profiledesigner?.education || "", {});
   const hobby = useInput(user?.profiledesigner?.hobby || "", {});
+  const customersWorkPlace = useInput(user?.profilecustomer?.post || "", {}); //костыли, желательно переделать
+  const aboutMe = useInput(user?.profilecustomer?.post || "", {}); //костыли, нужно переделать
 
   useEffect(() => {
     setSpecialization(
@@ -74,20 +78,37 @@ const Profile: React.FC = () => {
 
   async function handleSubmit(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
-    const values = {
-      specialization,
-      country,
-      language,
-      photo: await getBase64(selectedFile!),
-      education: education.value,
-      hobby: hobby.value,
-    };
+    if (!isCustomer) {
+      const values = {
+        specialization,
+        country,
+        language,
+        photo: await getBase64(selectedFile!),
+        education: education.value,
+        hobby: hobby.value,
+        customersWorkPlace: customersWorkPlace.value,
+      };
 
-    const userInfo = await userService.updateInfoUserMe({
-      ...values,
-    });
+      const userInfo = await userService.updateInfoUserMe({
+        ...values,
+      });
+      dispatch(setUserInfo(userInfo));
+      return;
+    }
+    if (isCustomer) {
+      const values = {
+        country,
+        photo: await getBase64(selectedFile!),
+        customersWorkPlace: customersWorkPlace.value,
+        aboutMe: aboutMe.value,
+      };
 
-    dispatch(setUserInfo(userInfo));
+      const userInfo = await userService.updateInfoUserMe({
+        ...values,
+      });
+      dispatch(setUserInfo(userInfo));
+      return;
+    }
   }
 
   return (
@@ -117,20 +138,22 @@ const Profile: React.FC = () => {
           </div>
         </Box>
 
-        <Box className={classes.profile__section}>
-          <Typography className={classes.profile__section_title}>
-            Специализация
-          </Typography>
-          <div className={classes.profile__section_wrapper}>
-            <MyMultipleDropDown
-              className={classes.profile__myDrowDown}
-              value={specializationValue}
-              onChange={handleSetSpecialization}
-              options={Object.keys(specializations)}
-              placeholder="Добавьте из списка"
-            />
-          </div>
-        </Box>
+        {!isCustomer ? (
+          <Box className={classes.profile__section}>
+            <Typography className={classes.profile__section_title}>
+              Специализация
+            </Typography>
+            <div className={classes.profile__section_wrapper}>
+              <MyMultipleDropDown
+                className={classes.profile__myDrowDown}
+                value={specializationValue}
+                onChange={handleSetSpecialization}
+                options={Object.keys(specializations)}
+                placeholder="Добавьте из списка"
+              />
+            </div>
+          </Box>
+        ) : null}
 
         <Box className={classes.profile__section}>
           <Typography className={classes.profile__section_title}>
@@ -146,48 +169,82 @@ const Profile: React.FC = () => {
             />
           </div>
         </Box>
+        {!isCustomer ? (
+          <>
+            <Box className={classes.profile__section}>
+              <Typography className={classes.profile__section_title}>
+                Образование
+              </Typography>
+              <div className={classes.profile__section_wrapper}>
+                <MyInput
+                  data={education}
+                  variant="text-label-without"
+                  placeholder="Напишите, где учились"
+                />
+              </div>
+            </Box>
 
-        <Box className={classes.profile__section}>
-          <Typography className={classes.profile__section_title}>
-            Образование
-          </Typography>
-          <div className={classes.profile__section_wrapper}>
-            <MyInput
-              data={education}
-              variant="text-label-without"
-              placeholder="Напишите, где учились"
-            />
-          </div>
-        </Box>
+            <Box className={classes.profile__section}>
+              <Typography className={classes.profile__section_title}>
+                Знание языков
+              </Typography>
+              <div className={classes.profile__section_wrapper}>
+                <MyMultipleDropDown
+                  className={classes.profile__myDrowDown}
+                  value={languageValue}
+                  options={Object.keys(languages)}
+                  onChange={handleSetLanguage}
+                  placeholder="Добавьте из списка"
+                />
+              </div>
+            </Box>
 
-        <Box className={classes.profile__section}>
-          <Typography className={classes.profile__section_title}>
-            Знание языков
-          </Typography>
-          <div className={classes.profile__section_wrapper}>
-            <MyMultipleDropDown
-              className={classes.profile__myDrowDown}
-              value={languageValue}
-              options={Object.keys(languages)}
-              onChange={handleSetLanguage}
-              placeholder="Добавьте из списка"
-            />
-          </div>
-        </Box>
+            <Box className={classes.profile__section}>
+              <Typography className={classes.profile__section_title}>
+                Хобби
+              </Typography>
+              <div className={classes.profile__section_wrapper}>
+                <MyInput
+                  data={hobby}
+                  variant="textarea-label-without"
+                  maxLength={200}
+                  placeholder="Расскажите, чем увлекаетесь"
+                />
+              </div>
+            </Box>
+          </>
+        ) : (
+          <>
+            <Box className={classes.profile__section}>
+              <Typography className={classes.profile__section_title}>
+                Место работы
+              </Typography>
+              <div className={classes.profile__section_wrapper}>
+                <MyInput
+                  data={customersWorkPlace}
+                  variant="textarea-label-without"
+                  maxLength={50}
+                  placeholder="Компания и должность"
+                />
+              </div>
+            </Box>
 
-        <Box className={classes.profile__section}>
-          <Typography className={classes.profile__section_title}>
-            Хобби
-          </Typography>
-          <div className={classes.profile__section_wrapper}>
-            <MyInput
-              data={hobby}
-              variant="textarea-label-without"
-              maxLength={200}
-              placeholder="Расскажите, чем увлекаетесь"
-            />
-          </div>
-        </Box>
+            <Box className={classes.profile__section}>
+              <Typography className={classes.profile__section_title}>
+                О себе
+              </Typography>
+              <div className={classes.profile__section_wrapper}>
+                <MyInput
+                  data={aboutMe}
+                  variant="textarea-label-without"
+                  maxLength={200}
+                  placeholder="Расскажите о себе..."
+                  className={classes.profile__aboutMe}
+                />
+              </div>
+            </Box>
+          </>
+        )}
 
         <Box textAlign={"center"}>
           <MyButton

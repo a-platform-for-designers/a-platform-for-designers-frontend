@@ -9,13 +9,17 @@ import { useAppSelector } from "@/hooks/reduxHooks";
 import { userService } from "@/api";
 import { useEffect, useState } from "react";
 import { IUser } from "@/types";
+import CustomersOrderCard from "./components/CustomersOrdersCards/CustomersOrdersCards";
 
 const ProfilePage: React.FC = () => {
-  const { user } = useAppSelector((state) => state.user);
+  const { user } = useAppSelector((state) => state.user); // авторизованный пользователь
   const { id } = useParams();
-  const [currentUser, setCurrentUser] = useState<IUser>();
+  const [currentUser, setCurrentUser] = useState<IUser>(); // пользователь чей профиль(id через путь)
 
-  console.log(currentUser);
+  const isCustomerUserPrifile = user?.is_customer;
+  const isCustomerCurrentUser = currentUser?.is_customer;
+  const isMyProfile = currentUser?.id === user?.id;
+  console.log(isCustomerUserPrifile, isMyProfile);
 
   useEffect(() => {
     (async () => {
@@ -40,7 +44,7 @@ const ProfilePage: React.FC = () => {
       month: "long",
       year: "numeric",
     }),
-    status: currentUser?.resume?.status ? "Ищет заказы" : "Не ищет заказы",
+    status: currentUser?.resume?.status ? "Ищет работу" : "Не ищет работу",
     likes: 1001,
     followers: 98,
   };
@@ -65,9 +69,32 @@ const ProfilePage: React.FC = () => {
       title: "Профиль",
       link: `file`,
       element: currentUser?.profiledesigner ? (
-        <Profile profiledesigner={currentUser?.profiledesigner} />
+        <Profile
+          profiledesigner={currentUser?.profiledesigner}
+          emptyTitle="Дизайнер пока не заполнил профиль"
+        />
       ) : (
-        <Profile />
+        <Profile emptyTitle="Здесь пока ничего нет" />
+      ),
+    },
+  ];
+
+  const profileCustomerNavPages: IProfileNavPage[] = [
+    {
+      title: "Активные заказы",
+      link: `orders`,
+      element: <CustomersOrderCard userId={currentUser?.id} />,
+    },
+    {
+      title: "Профиль",
+      link: `file`,
+      element: currentUser?.profiledesigner ? (
+        <Profile
+          profiledesigner={currentUser?.profiledesigner}
+          emptyTitle="Заказчик пока не заполнил профиль"
+        />
+      ) : (
+        <Profile emptyTitle="Заказчик пока не заполнил профиль" />
       ),
     },
   ];
@@ -76,18 +103,39 @@ const ProfilePage: React.FC = () => {
     <StyledEngineProvider injectFirst>
       <Container component="section" className="profilePage">
         <Info data={profileData} currentUser={currentUser} />
-        <ProfileNav pages={profileNavPages} />
-        <Routes>
-          <Route path="/">
-            <Route
-              index
-              element={<Navigate replace to={profileNavPages[0].link} />}
-            />
-            {profileNavPages.map((page, idx) => (
-              <Route key={idx} path={page.link} element={page.element} />
-            ))}
-          </Route>
-        </Routes>
+        {!isCustomerCurrentUser ? (
+          <>
+            <ProfileNav pages={profileNavPages} />
+            <Routes>
+              <Route path="/">
+                <Route
+                  index
+                  element={<Navigate replace to={profileNavPages[0].link} />}
+                />
+                {profileNavPages.map((page, idx) => (
+                  <Route key={idx} path={page.link} element={page.element} />
+                ))}
+              </Route>
+            </Routes>
+          </>
+        ) : (
+          <>
+            <ProfileNav pages={profileCustomerNavPages} />
+            <Routes>
+              <Route path="/">
+                <Route
+                  index
+                  element={
+                    <Navigate replace to={profileCustomerNavPages[0].link} />
+                  }
+                />
+                {profileCustomerNavPages.map((page, idx) => (
+                  <Route key={idx} path={page.link} element={page.element} />
+                ))}
+              </Route>
+            </Routes>
+          </>
+        )}
       </Container>
     </StyledEngineProvider>
   );

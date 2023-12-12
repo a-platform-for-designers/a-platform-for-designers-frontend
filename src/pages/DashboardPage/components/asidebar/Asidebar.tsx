@@ -1,6 +1,7 @@
 import { Paper, List, ListItemButton, ListItemText } from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom";
 import authService from "../../../../api/services/authService";
+import { useAppSelector } from "@/hooks/reduxHooks";
 
 import "./Asidebar.scss";
 import { useAppDispatch } from "@/hooks/reduxHooks";
@@ -15,6 +16,9 @@ const Asidebar: React.FC = () => {
   const isActive = (path: string): boolean => {
     return location.pathname.includes(path);
   };
+
+  const { user } = useAppSelector((state) => state.user);
+  const isCustomer = user?.is_customer;
 
   const navItems = [
     {
@@ -39,7 +43,22 @@ const Asidebar: React.FC = () => {
     },
   ];
 
-  const navElement = navItems.map((item) => {
+  const customerNavItems = [
+    {
+      title: "Профиль",
+      link: "profile",
+      id: 1050,
+    },
+    {
+      title: "Настройки",
+      link: "settings",
+      id: 1054,
+    },
+  ];
+
+  const items = isCustomer ? customerNavItems : navItems;
+
+  const navElement = items.map((item) => {
     return (
       <ListItemButton
         key={item.id}

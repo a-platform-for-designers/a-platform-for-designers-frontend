@@ -1,23 +1,27 @@
 import "./OrdersFilters.scss";
-import { SyntheticEvent, useState, useEffect, useCallback } from "react";
-import { MyCheckBox, MyMultipleDropDown } from "@/shared/UI";
+import { SyntheticEvent, useState, useCallback } from "react";
+import { MyCheckBox, MyMultipleDropDown, MyButton } from "@/shared/UI";
 import { IOrdersList } from "@/types";
 import { useAppSelector } from "@/hooks/reduxHooks";
 import { filterService } from "@/api/services/filterService";
+import CloseIcon from "@mui/icons-material/Close";
+import { DESIGNER_FILTERS_CLEAR_BTN_LABEL } from "../../../DesignersPage/model/constants";
 
 interface IProps {
   setOrders: (IOrdersList: IOrdersList[]) => void;
+  orders: IOrdersList[];
 }
 
-const OrdersFilters: React.FC<IProps> = ({ setOrders }) => {
+const OrdersFilters: React.FC<IProps> = ({ setOrders, orders }) => {
   const [speciality, setSpeciality] = useState<string[]>([]);
   const [sphereValue, setSphereValue] = useState<string[]>([]);
-  const [filteredOrders, setFilteredOrders] = useState<IOrdersList[]>([]);
 
   const { spheres } = useAppSelector((state) => state.data);
   const { specializations } = useAppSelector((state) => state.data);
 
-  const specializationsList = Object.keys(specializations);
+  const specializationsList = Object.keys(specializations).filter(
+    (item) => item !== "Менторство"
+  );
   const specialityIds = convertToIds(speciality, specializations);
   const spheresIds = convertToIds(sphereValue, spheres);
 
@@ -40,7 +44,7 @@ const OrdersFilters: React.FC<IProps> = ({ setOrders }) => {
       ? speciality.filter((elem) => elem !== item)
       : [...speciality, item];
     setSpeciality(newValue);
-    setOrders(filteredOrders);
+    fetchData();
   }
   function handleSetSphere(
     _: SyntheticEvent<Element, Event>,
@@ -48,8 +52,9 @@ const OrdersFilters: React.FC<IProps> = ({ setOrders }) => {
   ) {
     if (newValue.length > 5) return;
     setSphereValue(newValue);
-    setOrders(filteredOrders);
+    fetchData();
   }
+
   const fetchData = useCallback(async () => {
     const filteredList = await filterService.getQueryOrders(
       spheresIds,
@@ -57,17 +62,30 @@ const OrdersFilters: React.FC<IProps> = ({ setOrders }) => {
       12,
       1
     );
-    setFilteredOrders(filteredList.results);
-  }, [spheresIds, specialityIds]);
+    setOrders(filteredList.results);
+  }, [setOrders, spheresIds, specialityIds]);
 
-  useEffect(() => {
-    fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // фильтрация не работает
+  function handleClearFilters() {
+    setSpeciality([]);
+    setSphereValue([]);
+    setOrders(orders);
+  }
 
   return (
     <div className="ordersFilters">
       <div className="ordersFilters__container">
+        <MyButton
+          onClick={handleClearFilters}
+          disabled={false}
+          className="designerFilters__button"
+          type="button"
+          variant="text"
+          startIcon={<CloseIcon />}
+        >
+          {DESIGNER_FILTERS_CLEAR_BTN_LABEL}
+        </MyButton>
+
         <h2 className="ordersFilters__title">Специализация</h2>
         {specializationsList.map((item, i) => {
           return (

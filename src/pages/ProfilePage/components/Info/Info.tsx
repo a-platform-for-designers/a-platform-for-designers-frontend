@@ -77,6 +77,9 @@ const Info: React.FC<IInfoProps> = ({ data, currentUser }) => {
     setOpenPopup(false);
   }
 
+  const isCustomer = currentUser?.is_customer;
+  console.log(isCustomer);
+
   useEffect(() => {
     if (!user) return;
     if (user.id === currentUser?.id) {
@@ -113,9 +116,11 @@ const Info: React.FC<IInfoProps> = ({ data, currentUser }) => {
               <Typography className="info__title" component="h2">
                 {name}
               </Typography>
-              <Typography sx={statusStyles} className="info__status">
-                {status}
-              </Typography>
+              {!isCustomer ? (
+                <Typography sx={statusStyles} className="info__status">
+                  {status}
+                </Typography>
+              ) : null}
             </Grid>
             <Typography className="info__subtitle" component="p">
               {setSpecializations()?.join(", ")}
@@ -125,30 +130,66 @@ const Info: React.FC<IInfoProps> = ({ data, currentUser }) => {
             </Typography>
           </Grid>
           <Grid container gap="24px">
-            <InfoAction
-              isCurrentUser={isCurrentUser}
-              ifTrue={{
-                label: "Добавить проект",
-                onClick: () => navigate("/dashboard/portfolio/create"),
-              }}
-              ifFalse={{
-                label: "Подписаться",
-              }}
-            />
-            <InfoAction
-              isCurrentUser={isCurrentUser}
-              ifTrue={{
-                label: "Редактировать профиль",
-                onClick: () => navigate("/dashboard"),
-              }}
-              ifFalse={{
-                label: "Написать",
-                onClick: () => {
-                  handleClick();
-                },
-              }}
-              variant="outlined"
-            />
+            {!isCustomer ? (
+              <>
+                <InfoAction
+                  isCurrentUser={isCurrentUser}
+                  ifTrue={{
+                    label: "Добавить проект",
+                    onClick: () => navigate("/dashboard/portfolio/create"),
+                  }}
+                  ifFalse={{
+                    label: "Подписаться",
+                    onClick: () => {
+                      setIsCurrentUser(!isCurrentUser);
+                    },
+                  }}
+                />
+                <InfoAction
+                  isCurrentUser={isCurrentUser}
+                  ifTrue={{
+                    label: "Редактировать профиль",
+                    onClick: () => navigate("/dashboard"),
+                  }}
+                  ifFalse={{
+                    label: "Написать",
+                    onClick: () => {
+                      handleClick();
+                    },
+                  }}
+                  variant="outlined"
+                />
+              </>
+            ) : (
+              <>
+                <InfoAction
+                  isCurrentUser={isCurrentUser}
+                  ifTrue={{
+                    label: "Редактировать профиль",
+                    onClick: () => navigate("/dashboard"),
+                  }}
+                  ifFalse={{
+                    label: "Подписаться",
+                    onClick: () => {},
+                  }}
+                />
+
+                <InfoAction
+                  isCurrentUser={isCurrentUser}
+                  ifTrue={{
+                    label: "Создать заказ",
+                    onClick: () => navigate("/dashboard/portfolio/create"),
+                  }}
+                  ifFalse={{
+                    label: "Написать",
+                    onClick: () => {
+                      setIsCurrentUser(!isCurrentUser);
+                    },
+                  }}
+                  variant="outlined"
+                />
+              </>
+            )}
           </Grid>
         </Grid>
         <Grid
@@ -162,32 +203,34 @@ const Info: React.FC<IInfoProps> = ({ data, currentUser }) => {
           <Typography className="info__reg-date">
             На&nbsp;сайте&nbsp;с&nbsp;{registrationDate}
           </Typography>
-          <Grid
-            container
-            gap="16px"
-            justifyContent="flex-end"
-            flexGrow={0}
-            paddingBottom="15px"
-          >
-            <SocialIndicator
-              variant="likes"
-              count={likes}
-              active={isLiked}
-              onClick={() => {
-                setLikes((prev) => {
-                  // чисто потестить
-                  if (isLiked) {
-                    setIsLiked(false);
-                    return --prev;
-                  } else {
-                    setIsLiked(true);
-                    return ++prev;
-                  }
-                });
-              }}
-            />
-            <SocialIndicator variant="followers" count={98} />
-          </Grid>
+          {!isCustomer ? (
+            <Grid
+              container
+              gap="16px"
+              justifyContent="flex-end"
+              flexGrow={0}
+              paddingBottom="15px"
+            >
+              <SocialIndicator
+                variant="likes"
+                count={likes}
+                active={isLiked}
+                onClick={() => {
+                  setLikes((prev) => {
+                    // чисто потестить
+                    if (isLiked) {
+                      setIsLiked(false);
+                      return --prev;
+                    } else {
+                      setIsLiked(true);
+                      return ++prev;
+                    }
+                  });
+                }}
+              />
+              <SocialIndicator variant="followers" count={98} />
+            </Grid>
+          ) : null}
         </Grid>
       </Grid>
       {openPopup ? (
