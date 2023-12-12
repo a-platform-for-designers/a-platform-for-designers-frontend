@@ -29,8 +29,9 @@
 
     &__image {
       border-radius: 50%;
-
       filter: grayscale(1);
+      width: 212px;
+      height: 212px;
     }
 
     &__content {

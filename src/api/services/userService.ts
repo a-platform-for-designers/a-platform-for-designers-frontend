@@ -6,6 +6,7 @@ import {
   IUpdateInfoUserMe,
 } from "../../types";
 import api from "../api";
+import { enqueueSnackbar } from "notistack";
 
 const userService = {
   createUser: async (data: ICreateUserRequest): Promise<IUserShort> => {
@@ -30,17 +31,30 @@ const userService = {
   updateInfoUserMe: async (
     body: IUpdateInfoUserMe
   ): Promise<IUpdateInfoUserMe> => {
-    const response = await api.post<IUpdateInfoUserMe>(
-      `/profile_designer/`,
-      body,
-      {
-        headers: {
-          Authorization: `Token ${localStorage.getItem("token")}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    return response.data;
+    try {
+      const response = await api.post<IUpdateInfoUserMe>(
+        `/profile_designer/`,
+        body,
+        {
+          headers: {
+            Authorization: `Token ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      enqueueSnackbar({
+        variant: "success",
+        message: `Данные успешно обновлены`,
+      });
+      return response.data;
+    } catch (error) {
+      enqueueSnackbar({
+        variant: "error",
+        message: `Введены некорректные данные`,
+      });
+      console.log(error);
+      throw error;
+    }
   },
 
   getUsersList: async (limit: number, page: number): Promise<IUserRespons> => {
