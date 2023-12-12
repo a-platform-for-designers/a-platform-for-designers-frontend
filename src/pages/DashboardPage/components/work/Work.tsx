@@ -22,7 +22,7 @@ const Work: React.FC = () => {
   const [toolsIds, setToolsIds] = useState<number[]>([]);
   const [skillsIds, setSkillsIds] = useState<number[]>([]);
 
-  const { skills } = useAppSelector((state) => state.data);
+  const { skills, instruments } = useAppSelector((state) => state.data);
 
   function handleSetTools(
     _: React.SyntheticEvent<Element, Event>,
@@ -31,9 +31,8 @@ const Work: React.FC = () => {
     if (newValue.length > 5) return;
     setToolsValue(newValue);
     if (newValue[0] !== undefined) {
-      const newValueId =
-        LISTS.LIST_TOOLS.indexOf(newValue[newValue.length - 1]) + 1;
-      setToolsIds([...toolsIds, newValueId]);
+      const newValueId = newValue.map((key) => instruments[key]);
+      setToolsIds([...newValueId]);
     }
   }
 

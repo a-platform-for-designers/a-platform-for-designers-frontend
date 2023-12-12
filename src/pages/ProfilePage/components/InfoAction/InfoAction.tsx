@@ -2,6 +2,7 @@ import { StyledEngineProvider } from "@mui/material";
 import "./InfoAction.scss";
 import React from "react";
 import MyButton, { IMyButtonProps } from "@/shared/UI/MyButton/MyButton";
+import { useAppSelector } from "@/hooks/reduxHooks";
 
 interface IIsLoggedData {
   label: string;
@@ -20,7 +21,9 @@ const InfoAction: React.FC<IInfoActionData> = ({
   ifFalse = { label: "Текст при login=false" },
   ...data
 }) => {
-  if (isCurrentUser) {
+  const { isAuth } = useAppSelector((state) => state.auth);
+
+  if (isCurrentUser && isAuth) {
     return (
       <StyledEngineProvider injectFirst>
         <MyButton

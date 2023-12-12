@@ -14,6 +14,7 @@ import { getInitials } from "../../../../features";
 import { useNavigate } from "react-router-dom";
 import { IUser } from "@/types";
 import { useAppSelector } from "@/hooks/reduxHooks";
+import { MessagePopup } from "@/pages/OrdersPage/components";
 
 const avatarStyles: SxProps<Theme> = {
   height: "212px",
@@ -63,6 +64,18 @@ const Info: React.FC<IInfoProps> = ({ data, currentUser }) => {
   const [isCurrentUser, setIsCurrentUser] = useState(true);
   const navigate = useNavigate();
   const { user } = useAppSelector((state) => state.user);
+  const { isAuth } = useAppSelector((state) => state.auth);
+  const [openPopup, setOpenPopup] = useState<boolean>(false);
+
+  function handleClick() {
+    if (isAuth) {
+      setOpenPopup(true);
+    }
+  }
+
+  function handlePopupClose() {
+    setOpenPopup(false);
+  }
 
   const isCustomer = currentUser?.is_customer;
   console.log(isCustomer);
@@ -140,7 +153,9 @@ const Info: React.FC<IInfoProps> = ({ data, currentUser }) => {
                   }}
                   ifFalse={{
                     label: "Написать",
-                    onClick: () => {},
+                    onClick: () => {
+                      handleClick();
+                    },
                   }}
                   variant="outlined"
                 />
@@ -218,6 +233,9 @@ const Info: React.FC<IInfoProps> = ({ data, currentUser }) => {
           ) : null}
         </Grid>
       </Grid>
+      {openPopup ? (
+        <MessagePopup open={openPopup} onClose={handlePopupClose} />
+      ) : null}
     </StyledEngineProvider>
   );
 };

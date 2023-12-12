@@ -8,13 +8,13 @@ import {
   Typography,
 } from "@mui/material";
 import "./DesinersCarousel.scss";
+import { useNavigate } from "react-router-dom";
 
 export interface IDesinerCarouselData {
-  name: string;
-  specialization: string;
-  image: string;
+  name?: string;
+  specialization?: string;
+  image?: string;
   link: string;
-  onClick?: () => void;
 }
 
 interface IDesinersCarouselProps {
@@ -22,9 +22,7 @@ interface IDesinersCarouselProps {
 }
 
 const DesinersCarousel: React.FC<IDesinersCarouselProps> = ({ data }) => {
-  const onClickHandler: React.MouseEventHandler = (e) => {
-    console.log(e.target);
-  };
+  const navigate = useNavigate();
 
   return (
     <StyledEngineProvider injectFirst>
@@ -45,7 +43,9 @@ const DesinersCarousel: React.FC<IDesinersCarouselProps> = ({ data }) => {
                 key={idx}
                 className="desinersCarousel-item
               "
-                onClick={onClickHandler}
+                onClick={() => {
+                  navigate(item.link);
+                }}
               >
                 <CardMedia
                   className="desinersCarousel-item__image"
