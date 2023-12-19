@@ -6,7 +6,6 @@ import {
   StyledEngineProvider,
 } from "@mui/material";
 import "./CasePage.scss";
-
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { casesService } from "../../api";

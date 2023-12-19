@@ -12,8 +12,6 @@ export const filterService = {
       .join("&");
     const formattedEndpoint = `/cases/?${formattedArray}&limit=${limit}&page=${page}`;
     const response = await api.get<ICaseRespons>(formattedEndpoint);
-    console.log(response.data);
-
     return response.data;
   },
 

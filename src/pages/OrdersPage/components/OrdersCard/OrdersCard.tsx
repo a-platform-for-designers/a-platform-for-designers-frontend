@@ -21,8 +21,6 @@ const OrdersCard: React.FC<IProps> = ({ order, openPopup }) => {
   const [customerSpecialization, setCustomerSpecialization] =
     useState<string>("");
 
-  const [isCurrentUser, setIsCurrentUser] = useState<boolean>(false); // при значении true карточка выглядит как будто она создана самим заказчиком. False - так видят все остальные
-  console.log(isCurrentUser);
   const countResponse = "1 new"; //количество откликов
 
   const { user } = useAppSelector((state) => state.user); // авторизованный пользователь
@@ -82,7 +80,7 @@ const OrdersCard: React.FC<IProps> = ({ order, openPopup }) => {
   }
 
   function handleEditCard() {
-    setIsCurrentUser(false);
+    console.log("Здесь пока ничего нет");
   }
 
   return (

@@ -1,5 +1,5 @@
 import "./OrdersFilters.scss";
-import { SyntheticEvent, useState, useCallback } from "react";
+import { SyntheticEvent, useState, useEffect } from "react";
 import { MyCheckBox, MyMultipleDropDown, MyButton } from "@/shared/UI";
 import { IOrdersList } from "@/types";
 import { useAppSelector } from "@/hooks/reduxHooks";
@@ -15,15 +15,11 @@ interface IProps {
 const OrdersFilters: React.FC<IProps> = ({ setOrders, orders }) => {
   const [speciality, setSpeciality] = useState<string[]>([]);
   const [sphereValue, setSphereValue] = useState<string[]>([]);
-
   const { spheres } = useAppSelector((state) => state.data);
   const { specializations } = useAppSelector((state) => state.data);
-
   const specializationsList = Object.keys(specializations).filter(
     (item) => item !== "Менторство"
   );
-  const specialityIds = convertToIds(speciality, specializations);
-  const spheresIds = convertToIds(sphereValue, spheres);
 
   function convertToIds(
     names: string[],
@@ -44,7 +40,6 @@ const OrdersFilters: React.FC<IProps> = ({ setOrders, orders }) => {
       ? speciality.filter((elem) => elem !== item)
       : [...speciality, item];
     setSpeciality(newValue);
-    fetchData();
   }
   function handleSetSphere(
     _: SyntheticEvent<Element, Event>,
@@ -52,20 +47,24 @@ const OrdersFilters: React.FC<IProps> = ({ setOrders, orders }) => {
   ) {
     if (newValue.length > 5) return;
     setSphereValue(newValue);
-    fetchData();
   }
 
-  const fetchData = useCallback(async () => {
-    const filteredList = await filterService.getQueryOrders(
-      spheresIds,
-      specialityIds,
-      12,
-      1
-    );
-    setOrders(filteredList.results);
-  }, [setOrders, spheresIds, specialityIds]);
+  useEffect(() => {
+    const specialityIds = convertToIds(speciality, specializations);
+    const spheresIds = convertToIds(sphereValue, spheres);
 
-  // фильтрация не работает
+    (async () => {
+      const filteredList = await filterService.getQueryOrders(
+        spheresIds,
+        specialityIds,
+        12,
+        1
+      );
+      setOrders(filteredList.results);
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [speciality, sphereValue]);
+
   function handleClearFilters() {
     setSpeciality([]);
     setSphereValue([]);
