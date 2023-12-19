@@ -25,12 +25,7 @@ const casesService = {
   },
 
   createCase: async (data: ICaseCreation): Promise<ICase> => {
-    const response = await api.post<ICase>("/cases/", data, {
-      headers: {
-        Authorization: `Token ${localStorage.getItem("token")}`,
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await api.post<ICase>("/cases/", data);
     console.log(response.data);
     return response.data;
   },

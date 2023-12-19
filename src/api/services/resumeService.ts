@@ -5,11 +5,7 @@ import api from "../api";
 const resumeService = {
   postResume: async (data: IResumeNew): Promise<IResumeNew> => {
     try {
-      const response = await api.post<IResumeNew>("/resume/", data, {
-        headers: {
-          Authorization: `Token ${localStorage.getItem("token")}`,
-        },
-      });
+      const response = await api.post<IResumeNew>("/resume/", data);
       enqueueSnackbar({
         variant: "success",
         message: `Данные успешно обновлены`,
