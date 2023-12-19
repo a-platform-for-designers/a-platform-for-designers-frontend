@@ -1,11 +1,12 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import "./SignIn.scss";
 import useInput from "../../hooks/useInput";
 import MyInput from "../UI/MyInput/MyInput";
 import MyButton from "../UI/MyButton/MyButton";
 import { SigninText } from "../../constants/constants";
-import { useAppDispatch } from "@/hooks/reduxHooks";
-import { logIn } from "@/redux/slices/authSlice";
+import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
+import { logIn, resetAuthErrors } from "@/redux/slices/authSlice";
+import { enqueueSnackbar } from "notistack";
 
 interface ISignInProps {
   openSignUpPopup: () => void;
@@ -14,6 +15,7 @@ interface ISignInProps {
 const SignIn: FC<ISignInProps> = ({ openSignUpPopup }) => {
   const [error] = useState("");
   const dispatch = useAppDispatch();
+  const { errorMessages, isAuth } = useAppSelector((state) => state.auth);
   const email = useInput(
     "",
     {
@@ -30,6 +32,26 @@ const SignIn: FC<ISignInProps> = ({ openSignUpPopup }) => {
     minLength: 8,
     maxLength: 32,
   });
+
+
+  useEffect(()=> {
+    errorMessages.forEach(message => {
+      enqueueSnackbar({
+        variant: "error",
+        message,
+      });
+    })
+    return () => {dispatch(resetAuthErrors())}
+  }, [errorMessages, dispatch])
+
+  useEffect(()=> {
+    if(isAuth) {
+      enqueueSnackbar({
+        variant: "success",
+        message: "Вы успешно вошли",
+      });
+    }
+  }, [isAuth])
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
