@@ -1,8 +1,8 @@
 import "./CustomersOrdersCards.scss";
 import { Box, Grid, StyledEngineProvider } from "@mui/material";
-import { IOrdersList, IUserInfo } from "@/types";
+import { IOrdersList } from "@/types";
 import { useState, useEffect } from "react";
-import { OrdersCard, MessagePopup } from "../../../OrdersPage/components";
+import { MyOrdersCard, MyMessagePopup } from "@/shared/UI";
 import { ordersService } from "../../../../api";
 import { EmptyData } from "..";
 
@@ -13,8 +13,9 @@ interface IProps {
 const CustomersOrdersCards: React.FC<IProps> = ({ userId }) => {
   const [orders, setOrders] = useState<IOrdersList[]>([]);
   const [openPopup, setOpenPopup] = useState<boolean>(false);
-  const [userInfo, setUserInfo] = useState<IUserInfo>();
+  // const [userInfo, setUserInfo] = useState<IUserInfo>();
   const filteredItems = orders.filter((item) => item.customer.id === userId);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -32,10 +33,8 @@ const CustomersOrdersCards: React.FC<IProps> = ({ userId }) => {
     setOpenPopup(false);
   }
 
-  console.log(userInfo);
-
-  function handlePopupOpen(userInfo: IUserInfo) {
-    setUserInfo(userInfo);
+  function handlePopupOpen() {
+    // setUserInfo(userInfo);
     setOpenPopup(true);
   }
 
@@ -45,7 +44,7 @@ const CustomersOrdersCards: React.FC<IProps> = ({ userId }) => {
         {filteredItems.length > 0 ? (
           <Grid xs={9} item className="customersOrders__cards">
             {filteredItems.map((item) => (
-              <OrdersCard
+              <MyOrdersCard
                 openPopup={handlePopupOpen}
                 key={item.id}
                 order={item}
@@ -57,7 +56,7 @@ const CustomersOrdersCards: React.FC<IProps> = ({ userId }) => {
         )}
       </Box>
       {openPopup ? (
-        <MessagePopup open={openPopup} onClose={handlePopupClose} />
+        <MyMessagePopup open={openPopup} onClose={handlePopupClose} />
       ) : null}
     </StyledEngineProvider>
   );

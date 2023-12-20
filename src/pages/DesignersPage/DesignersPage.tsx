@@ -29,7 +29,7 @@ const DesignersPage: React.FC = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-    
+
   return (
     <StyledEngineProvider injectFirst>
       <Box component="main" className="designersPage">

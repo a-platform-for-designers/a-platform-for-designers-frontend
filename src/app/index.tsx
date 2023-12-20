@@ -47,7 +47,6 @@ function App() {
         try {
           await dispatch(getInfoAboutMe());
           dispatch(changeAuth(true));
-          console.log(changeAuth);
         } catch (error) {
           console.log(error);
           dispatch(changeAuth(false));

@@ -2,9 +2,10 @@ import "./OrdersPage.scss";
 import { Box, Grid, StyledEngineProvider } from "@mui/material";
 import { IOrdersList } from "@/types";
 import { useState, useEffect } from "react";
-import { OrdersFilters, OrdersCard, MessagePopup } from "./components";
-import { ordersService } from "../../api";
-import Preloader from "../../shared/Preloader/Preloader";
+import { OrdersFilters } from "./components";
+import { MyOrdersCard, MyMessagePopup } from "@/shared/UI";
+import { ordersService } from "@/api";
+import Preloader from "@/shared/Preloader/Preloader";
 import { EmptyData } from "../ProfilePage/components";
 
 const OrdersPage: React.FC = () => {
@@ -55,7 +56,7 @@ const OrdersPage: React.FC = () => {
             ) : orders.length > 0 ? (
               <Grid xs={9} item className="ordersPage__cards">
                 {orders.map((item) => (
-                  <OrdersCard
+                  <MyOrdersCard
                     openPopup={handlePopupOpen}
                     key={item.id}
                     order={item}
@@ -72,7 +73,7 @@ const OrdersPage: React.FC = () => {
         </Box>
       </Box>
       {openPopup ? (
-        <MessagePopup open={openPopup} onClose={handlePopupClose} />
+        <MyMessagePopup open={openPopup} onClose={handlePopupClose} />
       ) : null}
     </StyledEngineProvider>
   );

@@ -4,7 +4,7 @@ import MyButton from "@/shared/UI/MyButton/MyButton";
 import MySwiper from "@/shared/UI/MySwiper/MySwiper";
 import { IUserWithLastCases } from "@/types";
 import { useNavigate } from "react-router-dom";
-import { MessagePopup } from "@/pages/OrdersPage/components";
+import { MyMessagePopup } from "@/shared/UI";
 import { useAppSelector } from "@/hooks/reduxHooks";
 import { useState } from "react";
 
@@ -83,7 +83,7 @@ const DesignersCard: React.FC<IProps> = ({ user }) => {
         ))}
       </Box>
       {openPopup ? (
-        <MessagePopup open={openPopup} onClose={handlePopupClose} />
+        <MyMessagePopup open={openPopup} onClose={handlePopupClose} />
       ) : null}
     </StyledEngineProvider>
   );
