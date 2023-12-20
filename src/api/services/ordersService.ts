@@ -4,7 +4,6 @@ import api from "../api";
 const ordersService = {
   getOrdersList: async (): Promise<IOrdersResponse> => {
     const response = await api.get<IOrdersResponse>("/orders", {});
-    console.log(response.data);
     return response.data;
   },
 

@@ -2,24 +2,18 @@ import { Container, StyledEngineProvider } from "@mui/material";
 import "./ProfilePage.scss";
 import { Route, Routes, Navigate, useParams } from "react-router-dom";
 import { Info, ProfileNav, Portfolio, Work, Profile } from "./components";
-import { IProfileData } from "./components/Info/Info";
 import { IProfileNavPage } from "./components/ProfileNav/ProfileNav";
 import { useAppSelector } from "@/hooks/reduxHooks";
-// import Preloader from "@/shared/Preloader/Preloader";
 import { userService } from "@/api";
 import { useEffect, useState } from "react";
-import { IUser } from "@/types";
+import { IUser, IProfileData } from "@/types";
 import CustomersOrderCard from "./components/CustomersOrdersCards/CustomersOrdersCards";
 
 const ProfilePage: React.FC = () => {
   const { user } = useAppSelector((state) => state.user); // авторизованный пользователь
   const { id } = useParams();
   const [currentUser, setCurrentUser] = useState<IUser>(); // пользователь чей профиль(id через путь)
-
-  const isCustomerUserPrifile = user?.is_customer;
   const isCustomerCurrentUser = currentUser?.is_customer;
-  const isMyProfile = currentUser?.id === user?.id;
-  console.log(isCustomerUserPrifile, isMyProfile);
 
   useEffect(() => {
     (async () => {
@@ -103,7 +97,7 @@ const ProfilePage: React.FC = () => {
     <StyledEngineProvider injectFirst>
       <Container component="section" className="profilePage">
         <Info data={profileData} currentUser={currentUser} />
-        {!isCustomerCurrentUser ? (
+        {isCustomerCurrentUser !== undefined && !isCustomerCurrentUser ? (
           <>
             <ProfileNav pages={profileNavPages} />
             <Routes>

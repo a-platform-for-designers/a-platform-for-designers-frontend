@@ -12,9 +12,9 @@ import React, { useEffect, useState } from "react";
 import { InfoAction, SocialIndicator } from "..";
 import { getInitials } from "../../../../features";
 import { useNavigate } from "react-router-dom";
-import { IUser } from "@/types";
+import { IUser, IProfileData } from "@/types";
 import { useAppSelector } from "@/hooks/reduxHooks";
-import { MessagePopup } from "@/pages/OrdersPage/components";
+import { MyMessagePopup } from "@/shared/UI";
 
 const avatarStyles: SxProps<Theme> = {
   height: "212px",
@@ -28,18 +28,6 @@ const avatarStyles: SxProps<Theme> = {
 const statusStyles: SxProps<Theme> = {
   color: (theme) => theme.palette.success.main,
 };
-
-export interface IProfileData {
-  first_name?: string;
-  last_name?: string;
-  specialization?: string[] | number[];
-  image?: string;
-  country?: string;
-  registrationDate?: string;
-  status?: string;
-  likes?: number;
-  followers?: number;
-}
 
 interface IInfoProps {
   data: IProfileData;
@@ -78,7 +66,6 @@ const Info: React.FC<IInfoProps> = ({ data, currentUser }) => {
   }
 
   const isCustomer = currentUser?.is_customer;
-  console.log(isCustomer);
 
   useEffect(() => {
     if (!user) return;
@@ -141,7 +128,7 @@ const Info: React.FC<IInfoProps> = ({ data, currentUser }) => {
                   ifFalse={{
                     label: "Подписаться",
                     onClick: () => {
-                      setIsCurrentUser(!isCurrentUser);
+                      console.log("Подписались!");
                     },
                   }}
                 />
@@ -170,7 +157,9 @@ const Info: React.FC<IInfoProps> = ({ data, currentUser }) => {
                   }}
                   ifFalse={{
                     label: "Подписаться",
-                    onClick: () => {},
+                    onClick: () => {
+                      console.log("Подписались!");
+                    },
                   }}
                 />
 
@@ -178,12 +167,12 @@ const Info: React.FC<IInfoProps> = ({ data, currentUser }) => {
                   isCurrentUser={isCurrentUser}
                   ifTrue={{
                     label: "Создать заказ",
-                    onClick: () => navigate("/dashboard/portfolio/create"),
+                    onClick: () => navigate("/orders/create"),
                   }}
                   ifFalse={{
                     label: "Написать",
                     onClick: () => {
-                      setIsCurrentUser(!isCurrentUser);
+                      handleClick();
                     },
                   }}
                   variant="outlined"
@@ -234,7 +223,7 @@ const Info: React.FC<IInfoProps> = ({ data, currentUser }) => {
         </Grid>
       </Grid>
       {openPopup ? (
-        <MessagePopup open={openPopup} onClose={handlePopupClose} />
+        <MyMessagePopup open={openPopup} onClose={handlePopupClose} />
       ) : null}
     </StyledEngineProvider>
   );

@@ -40,8 +40,8 @@ const Profile: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const education = useInput(user?.profiledesigner?.education || "", {});
   const hobby = useInput(user?.profiledesigner?.hobby || "", {});
-  const customersWorkPlace = useInput(user?.profilecustomer?.post || "", {}); //костыли, желательно переделать
-  const aboutMe = useInput(user?.profilecustomer?.post || "", {}); //костыли, нужно переделать
+  const customersWorkPlace = useInput(user?.profilecustomer?.post || "", {});
+  const aboutMe = useInput(user?.profilecustomer?.post || "", {});
 
   useEffect(() => {
     setSpecialization(
@@ -103,7 +103,7 @@ const Profile: React.FC = () => {
         aboutMe: aboutMe.value,
       };
 
-      const userInfo = await userService.updateInfoUserMe({
+      const userInfo = await userService.updateInfoUserMeCustomer({
         ...values,
       });
       dispatch(setUserInfo(userInfo));

@@ -184,6 +184,13 @@ export interface IUpdateInfoUserMe {
   user?: number;
 }
 
+export interface IUpdateInfoMeCustomer {
+  country: string | null;
+  photo: File | unknown;
+  customersWorkPlace: string | null;
+  aboutMe: string | null;
+}
+
 export interface IProfileDesigner {
   id?: number;
   user?: number;
@@ -193,6 +200,18 @@ export interface IProfileDesigner {
   hobby?: string;
   language?: string[] | number[];
   photo?: File | unknown;
+}
+
+export interface IProfileData {
+  first_name?: string;
+  last_name?: string;
+  specialization?: string[] | number[];
+  image?: string;
+  country?: string;
+  registrationDate?: string;
+  status?: string;
+  likes?: number;
+  followers?: number;
 }
 
 export interface ICaseCreation {
