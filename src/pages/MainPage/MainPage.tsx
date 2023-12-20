@@ -1,5 +1,5 @@
-import { Box, Grid, StyledEngineProvider, SxProps, Theme } from "@mui/material";
 import "./MainPage.scss";
+import { Box, Grid, StyledEngineProvider, SxProps, Theme } from "@mui/material";
 import Intro from "./components/Intro/Intro";
 import { useState, useEffect } from "react";
 

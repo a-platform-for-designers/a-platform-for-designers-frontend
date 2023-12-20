@@ -1,5 +1,9 @@
 import { Route, Routes } from "react-router";
-import { CssBaseline, ThemeProvider } from "@mui/material";
+import {
+  CssBaseline,
+  StyledEngineProvider,
+  ThemeProvider,
+} from "@mui/material";
 import { lightTheme } from "../theme/index.ts";
 import "./index.scss"; // после темы и cssBaseLine
 import { Navigate } from "react-router-dom";
@@ -58,47 +62,49 @@ function App() {
   // localStorage.clear()
 
   return (
-    <ThemeProvider theme={lightTheme}>
-      <CssBaseline enableColorScheme />
-      <SnackbarProvider maxSnack={3} autoHideDuration={7000}>
-        <div className="app">
-          <Header />
-          <Routes>
-            <Route path="/" Component={MainPage} />
-            <Route path="/chats" Component={ChatPage} />
-            <Route path="/designers" Component={DesignersPage} />
-            <Route path="/mentors" Component={MentorsPage} />
-            <Route path="/profile/:id/*" Component={ProfilePage} />
-            <Route
-              path="/dashboard"
-              element={<ProtectedRoute Component={Dashboard} />}
-            >
-              <Route index element={<Navigate replace to="profile" />} />
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={lightTheme}>
+        <CssBaseline enableColorScheme />
+        <SnackbarProvider maxSnack={3} autoHideDuration={7000}>
+          <div className="app">
+            <Header />
+            <Routes>
+              <Route path="/" Component={MainPage} />
+              <Route path="/chats" Component={ChatPage} />
+              <Route path="/designers" Component={DesignersPage} />
+              <Route path="/mentors" Component={MentorsPage} />
+              <Route path="/profile/:id/*" Component={ProfilePage} />
               <Route
-                path="profile"
-                element={<ProtectedRoute Component={Profile} />}
-              />
-              <Route
-                path="portfolio"
-                element={<ProtectedRoute Component={Portfolio} />}
+                path="/dashboard"
+                element={<ProtectedRoute Component={Dashboard} />}
               >
+                <Route index element={<Navigate replace to="profile" />} />
                 <Route
-                  path="create"
-                  element={<ProtectedRoute Component={CaseCreation} />}
+                  path="profile"
+                  element={<ProtectedRoute Component={Profile} />}
                 />
+                <Route
+                  path="portfolio"
+                  element={<ProtectedRoute Component={Portfolio} />}
+                >
+                  <Route
+                    path="create"
+                    element={<ProtectedRoute Component={CaseCreation} />}
+                  />
+                </Route>
+                <Route path="work" element={<Work />} />
+                <Route path="orders" element={<Orders />} />
+                <Route path="settings" element={<Settings />} />
               </Route>
-              <Route path="work" element={<Work />} />
-              <Route path="orders" element={<Orders />} />
-              <Route path="settings" element={<Settings />} />
-            </Route>
-            <Route path="/orders" Component={OrdersPage} />
-            <Route path="/case/:id" Component={CasePage} />
-            <Route path="*" Component={ErrorPage} />
-          </Routes>
-          <Footer />
-        </div>
-      </SnackbarProvider>
-    </ThemeProvider>
+              <Route path="/orders" Component={OrdersPage} />
+              <Route path="/case/:id" Component={CasePage} />
+              <Route path="*" Component={ErrorPage} />
+            </Routes>
+            <Footer />
+          </div>
+        </SnackbarProvider>
+      </ThemeProvider>
+    </StyledEngineProvider>
   );
 }
 

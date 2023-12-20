@@ -12,20 +12,22 @@
   z-index: 1;
 
   &__title {
-    max-width: 1000px !important;
-    text-align: center !important;
-    font-family: inherit !important;
-    font-size: 56px !important;
-    font-style: normal !important;
-    font-weight: 700 !important;
-    line-height: 64px !important;
-    letter-spacing: 0px !important;
+    max-width: 1000px;
+    text-align: center;
+    font-family: inherit;
+    font-size: 56px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 64px;
+    letter-spacing: 0px;
 
     &-accent {
       font-size: inherit;
       line-height: inherit;
 
       &_type_bold {
+        font-size: inherit;
+        line-height: inherit;
         font-weight: 900;
       }
 
