@@ -20,11 +20,7 @@ const userService = {
   },
 
   getInfoUserMe: async (): Promise<IUser> => {
-    const response = await api.get<IUser>(`/users/me/`, {
-      headers: {
-        Authorization: `Token ${localStorage.getItem("token")}`,
-      },
-    });
+    const response = await api.get<IUser>(`/users/me/`);
     return response.data;
   },
 
@@ -34,13 +30,7 @@ const userService = {
     try {
       const response = await api.post<IUpdateInfoUserMe>(
         `/profile_designer/`,
-        body,
-        {
-          headers: {
-            Authorization: `Token ${localStorage.getItem("token")}`,
-            "Content-Type": "application/json",
-          },
-        }
+        body
       );
       enqueueSnackbar({
         variant: "success",

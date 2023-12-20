@@ -1,12 +1,14 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import "./SignUp.scss";
 import useInput from "../../hooks/useInput";
 import MyInput from "../UI/MyInput/MyInput";
 import MyButton from "../UI/MyButton/MyButton";
 import MyCheckBox from "../UI/MyCheckBox/MyCheckBox";
 import { SignupText } from "../../constants/constants";
-import { useAppDispatch } from "@/hooks/reduxHooks";
+import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
 import { createUser } from "@/redux/slices/userSlice";
+import { resetAuthErrors } from "@/redux/slices/userSlice";
+import { enqueueSnackbar } from "notistack";
 
 interface ISignUpProps {
   openSignInPopup: () => void;
@@ -15,6 +17,8 @@ interface ISignUpProps {
 
 const SignUp: FC<ISignUpProps> = ({ openSignInPopup, isCustomer }) => {
   const dispatch = useAppDispatch();
+  const { errorMessages } = useAppSelector((state) => state.user);
+  const {  isAuth } = useAppSelector((state) => state.auth);
   const [error] = useState("");
   const [confirmPrivatePolicy, setConfirmPrivatePolicy] =
     useState<boolean>(false);
@@ -63,6 +67,25 @@ const SignUp: FC<ISignUpProps> = ({ openSignInPopup, isCustomer }) => {
   const confirmPassword = useInput("", {
     isEmpty: true,
   });
+
+  useEffect(()=> {
+    errorMessages.forEach(message => {
+      enqueueSnackbar({
+        variant: "error",
+        message,
+      });
+    })
+    return () => {dispatch(resetAuthErrors())}
+  }, [errorMessages, dispatch])
+
+  useEffect(()=> {
+    if(isAuth) {
+      enqueueSnackbar({
+        variant: "success",
+        message: "Вы успешно вошли",
+      });
+    }
+  }, [isAuth])
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();

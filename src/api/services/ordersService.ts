@@ -10,12 +10,7 @@ const ordersService = {
 
   postMessage: async (body: string): Promise<void> => {
     const data = { receiver: body };
-    await api.post<string>(`/chats/`, data, {
-      headers: {
-        Authorization: `Token ${localStorage.getItem("token")}`,
-        "Content-Type": "application/json",
-      },
-    });
+    await api.post<string>(`/chats/`, data);
   },
 };
 export default ordersService;
