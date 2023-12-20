@@ -1,11 +1,11 @@
 import { Avatar, Box, IconButton, Typography } from "@mui/material";
-import "./OrdersCard.scss";
+import "./MyOrdersCard.scss";
 import MyButton from "@/shared/UI/MyButton/MyButton";
 import { IOrdersList, IUserInfo, IUser } from "@/types";
 import { useEffect, useState } from "react";
-import FavouritesIcon from "../../../../assets/icons/FavouritesDark.svg";
-import FavouritesIconActive from "../../../../assets/icons/FavouritesActive.svg";
-import EditIcon from "../../../../assets/icons/editCardButton.svg";
+import FavouritesIcon from "@/assets/icons/FavouritesDark.svg";
+import FavouritesIconActive from "@/assets/icons/FavouritesActive.svg";
+import EditIcon from "@/assets/icons/editCardButton.svg";
 import { useAppSelector } from "@/hooks/reduxHooks";
 import { useParams } from "react-router-dom";
 import { userService } from "@/api";
@@ -21,14 +21,12 @@ const OrdersCard: React.FC<IProps> = ({ order, openPopup }) => {
   const [customerSpecialization, setCustomerSpecialization] =
     useState<string>("");
 
-  const [isCurrentUser, setIsCurrentUser] = useState<boolean>(false); // при значении true карточка выглядит как будто она создана самим заказчиком. False - так видят все остальные
-  console.log(isCurrentUser);
   const countResponse = "1 new"; //количество откликов
 
   const { user } = useAppSelector((state) => state.user); // авторизованный пользователь
   const { id } = useParams();
   const [currentUser, setCurrentUser] = useState<IUser>(); // пользователь чей профиль(id через путь)
-  const isMyProfile = currentUser?.id === user?.id;
+  const isMyProfile = currentUser?.id === user?.id && currentUser !== undefined;
 
   useEffect(() => {
     (async () => {
@@ -82,7 +80,7 @@ const OrdersCard: React.FC<IProps> = ({ order, openPopup }) => {
   }
 
   function handleEditCard() {
-    setIsCurrentUser(false);
+    console.log("Здесь пока ничего нет");
   }
 
   return (

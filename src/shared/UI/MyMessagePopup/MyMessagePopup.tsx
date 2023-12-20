@@ -1,8 +1,8 @@
 import { Modal, Box, Avatar, Typography } from "@mui/material";
-import "./MessagePopup.scss";
+import "./MyMessagePopup.scss";
 import { useState } from "react";
 import { MyButton } from "@/shared/UI";
-import { ordersService } from "../../../../api";
+import { ordersService } from "@/api";
 import { useAppSelector } from "@/hooks/reduxHooks";
 
 type Props = {
