@@ -5,6 +5,7 @@ import {
   IUserRespons,
   IUpdateInfoUserMe,
   IUpdateInfoMeCustomer,
+  ISetNewPassword,
 } from "../../types";
 import api from "../api";
 import { enqueueSnackbar } from "notistack";
@@ -97,6 +98,14 @@ const userService = {
         page: page,
       },
     });
+    return response.data;
+  },
+
+  setNewPassword: async (data: ISetNewPassword): Promise<ISetNewPassword> => {
+    const response = await api.post<ISetNewPassword>(
+      `/api/users/set_password/`,
+      data
+    );
     return response.data;
   },
 };

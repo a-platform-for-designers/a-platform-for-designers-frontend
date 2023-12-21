@@ -33,25 +33,26 @@ const SignIn: FC<ISignInProps> = ({ openSignUpPopup }) => {
     maxLength: 32,
   });
 
-
-  useEffect(()=> {
-    errorMessages.forEach(message => {
+  useEffect(() => {
+    errorMessages.forEach((message) => {
       enqueueSnackbar({
         variant: "error",
         message,
       });
-    })
-    return () => {dispatch(resetAuthErrors())}
-  }, [errorMessages, dispatch])
+    });
+    return () => {
+      dispatch(resetAuthErrors());
+    };
+  }, [errorMessages, dispatch]);
 
-  useEffect(()=> {
-    if(isAuth) {
+  useEffect(() => {
+    if (isAuth) {
       enqueueSnackbar({
         variant: "success",
         message: "Вы успешно вошли",
       });
     }
-  }, [isAuth])
+  }, [isAuth]);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -61,7 +62,7 @@ const SignIn: FC<ISignInProps> = ({ openSignUpPopup }) => {
   return (
     <form className="myAuthForm__signin-form" onSubmit={handleSubmit}>
       <MyInput data={email} label="E-mail" />
-      <MyInput data={password} label="Password" variant="password" />
+      <MyInput data={password} label="Пароль" variant="password" />
 
       <div className="myAuthForm__lower-part">
         {error && (
