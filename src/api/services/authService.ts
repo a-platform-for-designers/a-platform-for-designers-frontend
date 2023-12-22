@@ -1,5 +1,5 @@
 import { IAuthUserRequest, IToken } from "../../types";
-import api from "../api";
+import api, { setDefaultAPIHeaders } from "../api";
 
 const authService = {
   login: async (data: IAuthUserRequest): Promise<IToken> => {
@@ -9,6 +9,7 @@ const authService = {
 
   logout: async (): Promise<void> => {
     await api.post<IToken>("/auth/token/logout");
+    setDefaultAPIHeaders();
   },
 };
 

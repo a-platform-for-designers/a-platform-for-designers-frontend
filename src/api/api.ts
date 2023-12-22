@@ -1,15 +1,19 @@
 import { API_PATH, CLIENT_API_ERRORS, errorsMap } from "@/constants/constants";
-import axios from "axios";
+import axios, { AxiosInstance } from "axios";
 
-const api = axios.create({
+const api: AxiosInstance = axios.create({
   baseURL: API_PATH,
-  headers: {
-    "Content-Type": "application/json",
-    ...(localStorage.getItem("token")
-      ? { Authorization: `Token ${localStorage.getItem("token")}` }
-      : {}),
-  },
 });
+
+export const setDefaultAPIHeaders = () => {
+  const token = localStorage.getItem("token");
+  api.defaults.headers.common["Authorization"] = token
+    ? `Token ${token}`
+    : undefined;
+  api.defaults.headers.common["Content-Type"] = "application/json";
+};
+
+setDefaultAPIHeaders();
 
 export class RestApiErrors extends Error {
   messages: string[];
@@ -32,7 +36,9 @@ api.interceptors.response.use(
           messages = [CLIENT_API_ERRORS.UNAUTHORIZED_ACCESS];
         } else if (statusCode === 400) {
           const errorsValues: string[][] = Object.values(response.data);
-          messages = errorsValues.flat().map(error => errorsMap.get(error) || error)
+          messages = errorsValues
+            .flat()
+            .map((error) => errorsMap.get(error) || error);
         }
       }
 
