@@ -7,6 +7,7 @@ import { SigninText } from "../../constants/constants";
 import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
 import { logIn, resetAuthErrors } from "@/redux/slices/authSlice";
 import { enqueueSnackbar } from "notistack";
+import { getInfoAboutMe } from "@/redux/slices/userSlice";
 
 interface ISignInProps {
   openSignUpPopup: () => void;
@@ -56,6 +57,7 @@ const SignIn: FC<ISignInProps> = ({ openSignUpPopup }) => {
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     await dispatch(logIn({ email: email.value, password: password.value }));
+    await dispatch(getInfoAboutMe());
   }
 
   return (

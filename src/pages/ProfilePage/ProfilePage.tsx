@@ -8,6 +8,7 @@ import { userService } from "@/api";
 import { useEffect, useState } from "react";
 import { IUser, IProfileData } from "@/types";
 import CustomersOrderCard from "./components/CustomersOrdersCards/CustomersOrdersCards";
+import Preloader from "@/shared/Preloader/Preloader";
 
 const ProfilePage: React.FC = () => {
   const { user } = useAppSelector((state) => state.user); // авторизованный пользователь
@@ -17,10 +18,14 @@ const ProfilePage: React.FC = () => {
 
   useEffect(() => {
     (async () => {
-      const userInfo = await userService.getUserById(Number(id));
-      setCurrentUser(userInfo);
+      const isProfileOfCurrentUser = user?.id === Number(id)
+      if(isProfileOfCurrentUser) {
+        setCurrentUser(user)
+      }else{
+        setCurrentUser(await userService.getUserById(Number(id)))
+      }
     })();
-  }, [id]);
+  }, [id, user]);
 
   const profileData: IProfileData = {
     first_name: currentUser?.first_name,
@@ -92,6 +97,11 @@ const ProfilePage: React.FC = () => {
       ),
     },
   ];
+
+  if(!currentUser) {
+    return <Preloader />
+  }
+
 
   return (
     <StyledEngineProvider injectFirst>

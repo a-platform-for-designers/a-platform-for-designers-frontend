@@ -43,7 +43,6 @@ const userService = {
         variant: "error",
         message: `Введены некорректные данные`,
       });
-      console.log(error);
       throw error;
     }
   },
@@ -54,13 +53,7 @@ const userService = {
     try {
       const response = await api.post<IUpdateInfoMeCustomer>(
         `/profile_customer/`,
-        body,
-        {
-          headers: {
-            Authorization: `Token ${localStorage.getItem("token")}`,
-            "Content-Type": "application/json",
-          },
-        }
+        body
       );
       enqueueSnackbar({
         variant: "success",

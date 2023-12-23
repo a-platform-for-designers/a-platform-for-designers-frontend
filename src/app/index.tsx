@@ -32,7 +32,6 @@ import {
 import { getInfoAboutMe } from "@/redux/slices/userSlice.ts";
 import { useAppDispatch } from "@/hooks/reduxHooks.tsx";
 import { useEffect } from "react";
-import { changeAuth } from "@/redux/slices/authSlice.ts";
 import { getData } from "@/redux/slices/dataSlice.ts";
 import ChatPage from "@/pages/ChatPage/ChatPage.tsx";
 
@@ -40,26 +39,9 @@ function App() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    (async () => {
-      await dispatch(getData());
-    })();
-  });
-
-  useEffect(() => {
-    (async () => {
-      if (localStorage.getItem("token")) {
-        try {
-          await dispatch(getInfoAboutMe());
-          dispatch(changeAuth(true));
-        } catch (error) {
-          console.log(error);
-          dispatch(changeAuth(false));
-        }
-      }
-    })();
+    dispatch(getData());
+    dispatch(getInfoAboutMe())
   }, [dispatch]);
-
-  // localStorage.clear()
 
   return (
     <StyledEngineProvider injectFirst>

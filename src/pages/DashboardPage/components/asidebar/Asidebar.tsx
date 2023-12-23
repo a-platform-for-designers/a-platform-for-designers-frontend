@@ -1,12 +1,10 @@
 import { Paper, List, ListItemButton, ListItemText } from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom";
-import authService from "../../../../api/services/authService";
 import { useAppSelector } from "@/hooks/reduxHooks";
 
 import "./Asidebar.scss";
 import { useAppDispatch } from "@/hooks/reduxHooks";
-import { deleteUserInfo } from "@/redux/slices/userSlice";
-import { changeAuth } from "@/redux/slices/authSlice";
+import { logOut } from "@/redux/slices/authSlice";
 
 const Asidebar: React.FC = () => {
   const navigate = useNavigate();
@@ -72,11 +70,8 @@ const Asidebar: React.FC = () => {
     );
   });
 
-  function logout() {
-    authService.logout();
-    localStorage.clear();
-    dispatch(deleteUserInfo());
-    dispatch(changeAuth(false));
+  async function  logout() {
+    await dispatch(logOut())
   }
 
   return (
@@ -86,8 +81,8 @@ const Asidebar: React.FC = () => {
 
         <ListItemButton
           className="asidebar__nav-item asidebar__nav-item_type_exit"
-          onClick={() => {
-            logout();
+          onClick={async () => {
+            await logout();
             navigate("/");
           }}
         >
