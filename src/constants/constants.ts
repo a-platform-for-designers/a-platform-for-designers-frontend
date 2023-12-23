@@ -434,8 +434,8 @@ export const LISTS = {
 export const CLIENT_API_ERRORS = {
   INVALID_DATA: "Введены некорректные данные",
   UNAUTHORIZED_ACCESS: "Для доступа к ресурсу необходима авторизация",
-  EMAIL_EXISTS:"Пользователь с такой электронной почтой уже зарегистрирован."
-  
+  EMAIL_EXISTS:"Пользователь с такой электронной почтой уже зарегистрирован.",
+  SERVER_ERROR: "Что-то пошло не так, но мы скоро все исправим."
 };
 
 export const SERVER_API_ERRORS = {
