@@ -26,9 +26,11 @@ const MySwiper: React.FC<IProps> = ({ item, onClick }) => {
   if (!item) return;
 
   const sliders = item.images.map((image) => {
+    // https://images.weserv.nl/docs/
+    const formattedImgUrl = `//wsrv.nl/?url=${image.image}&w=330&h=240`;
     return (
       <SwiperSlide key={image.id}>
-        <img src={image.image} alt="Картинка из проекта" />
+        <img src={formattedImgUrl} alt="Картинка из проекта" />
       </SwiperSlide>
     );
   });

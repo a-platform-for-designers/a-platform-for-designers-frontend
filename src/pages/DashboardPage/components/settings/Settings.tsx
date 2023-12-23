@@ -1,5 +1,5 @@
 import "./Settings.scss";
-import inProgressIamge from "@/assets/images/inProgressImage.png";
+import inProgressIamge from "@/assets/images/inProgressImage.webp";
 
 const Settings: React.FC = () => {
   return (

@@ -6,7 +6,7 @@ import { EmptyData } from "..";
 import { useNavigate } from "react-router-dom";
 import { IUserCase } from "@/types";
 import { BASE_PATH } from "@/constants/constants";
-import caseCart from "@/assets/images/caseCart.png";
+import caseCart from "@/assets/images/caseCart.webp";
 
 interface IPortfolioProps {
   data?: IUserCase[];

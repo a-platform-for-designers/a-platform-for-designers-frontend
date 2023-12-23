@@ -8,11 +8,11 @@ import DesinersCategories, {
   IDesinerCategoriesData,
 } from "./components/DesinersCategories/DesinersCategories";
 
-//import avatarPlaceholder from "../../assets/images/designerscarousel-avatar.png";
-import desCatImg1 from "../../assets/images/desinerscategories-1.png";
-import desCatImg2 from "../../assets/images/desinerscategories-2.png";
-import desCatImg3 from "../../assets/images/desinerscategories-3.png";
-import desCatImg4 from "../../assets/images/desinerscategories-4.png";
+//import avatarPlaceholder from "../../assets/images/designerscarousel-avatar.webp";
+import desCatImg1 from "../../assets/images/desinerscategories-1.webp";
+import desCatImg2 from "../../assets/images/desinerscategories-2.webp";
+import desCatImg3 from "../../assets/images/desinerscategories-3.webp";
+import desCatImg4 from "../../assets/images/desinerscategories-4.webp";
 import Feed from "./components/Feed/Feed";
 import { casesService, userService } from "@/api";
 import { ICase, IUserWithLastCases } from "@/types";
