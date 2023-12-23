@@ -1,7 +1,8 @@
-import { authService } from "@/api";
-import { RestApiErrors } from "@/api/api";
+import { authService  } from "@/api";
+import { RestApiErrors, tokenManager } from "@/api/api";
 import { IAuthUserRequest } from "@/types";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { deleteUserInfo } from "./userSlice";
 
 interface IInitialState {
   isAuth: boolean;
@@ -31,6 +32,15 @@ export const logIn = createAsyncThunk(
   },
 );
 
+export const logOut = createAsyncThunk(
+  "auth/logout",
+  async (_, { dispatch }) => {
+    await authService.logout();
+    tokenManager.clearToken()
+    dispatch(deleteUserInfo());
+  },
+);
+
 export const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -48,15 +58,18 @@ export const authSlice = createSlice({
         state.loading = "pending";
       })
       .addCase(logIn.fulfilled, (state, action) => {
-        localStorage.setItem("token", action.payload.auth_token);
+        tokenManager.setToken(action.payload.auth_token)
         state.isAuth = true;
         state.loading = "succeeded";
+      })
+      .addCase(logIn.rejected, (state, action) => {
+        state.isAuth = false;
+        state.loading = "failed";
+        state.errorMessages = action.payload as string[];
+      })
+      .addCase(logOut.fulfilled, (state) => {
+        state.isAuth = false;
       });
-    builder.addCase(logIn.rejected, (state, action) => {
-      state.isAuth = false;
-      state.loading = "failed";
-      state.errorMessages = action.payload as string[];
-    });
   },
 });
 

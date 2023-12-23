@@ -1,4 +1,5 @@
 import { userService } from "@/api";
+import { tokenManager } from "@/api/api";
 import {
   ICreateUserRequest,
   IProfileDesigner,
@@ -6,7 +7,7 @@ import {
   IUser,
 } from "@/types";
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { logIn } from "./authSlice";
+import { logIn, changeAuth } from "./authSlice";
 import { RestApiErrors } from "@/api/api";
 
 interface IInitialState {
@@ -23,17 +24,37 @@ const initialState: IInitialState = {
 
 export const getInfoAboutMe = createAsyncThunk(
   "user/fetchInfoUserStatus",
-  async () => {
-    const user = await userService.getInfoUserMe();
-    return user;
+  async (_, { rejectWithValue, dispatch }) => {
+    try {
+      if (!tokenManager.hasToken()) {
+        throw Error;
+      }
+      const user = await userService.getInfoUserMe();
+      dispatch(changeAuth(true));
+      return user;
+    } catch (error) {
+      dispatch(changeAuth(false));
+      if (error instanceof RestApiErrors) {
+        throw rejectWithValue(error.messages);
+      } else {
+        throw error;
+      }
+    }
   },
 );
 
 export const updateInfoAboutMe = createAsyncThunk(
   "user/updateInfoUserStatus",
-  async (body: IUpdateInfoUserMe) => {
-    const user = await userService.updateInfoUserMe(body);
-    return user;
+  async (body: IUpdateInfoUserMe, { rejectWithValue }) => {
+    try {
+      await userService.updateInfoUserMe(body);
+    } catch (error) {
+      if (error instanceof RestApiErrors) {
+        throw rejectWithValue(error.messages);
+      } else {
+        throw error;
+      }
+    }
   },
 );
 
@@ -43,10 +64,8 @@ export const createUser = createAsyncThunk(
     try {
       await userService.createUser(data);
       await dispatch(logIn({ email: data.email, password: data.password }));
-      const user = await userService.getInfoUserMe();
-      return user;
+      await dispatch(getInfoAboutMe());
     } catch (error) {
-      console.log("error", error instanceof RestApiErrors);
       if (error instanceof RestApiErrors) {
         throw rejectWithValue(error.messages);
       } else {
@@ -74,21 +93,21 @@ export const userSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(createUser.fulfilled, (state, action) => {
-      state.loading = "succeeded";
-      state.user = action.payload;
-    });
-    builder.addCase(createUser.rejected, (state, action) => {
-      state.loading = "failed";
-      state.errorMessages = action.payload as string[];
-    });
-    builder.addCase(getInfoAboutMe.fulfilled, (state, action) => {
-      state.loading = "succeeded";
-      state.user = action.payload;
-    });
-    builder.addCase(getInfoAboutMe.rejected, (state) => {
-      state.loading = "failed";
-    });
+    builder
+      .addCase(createUser.fulfilled, (state) => {
+        state.loading = "succeeded";
+      })
+      .addCase(getInfoAboutMe.fulfilled, (state, action) => {
+        state.loading = "succeeded";
+        state.user = action.payload;
+      })
+      .addMatcher(
+        (action) => /^user.*?\/rejected/.test(action.type),
+        (state, action) => {
+          state.loading = "failed";
+          state.errorMessages = action.payload as string[];
+        },
+      );
   },
 });
 
