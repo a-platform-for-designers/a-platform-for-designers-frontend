@@ -40,7 +40,7 @@ function App() {
 
   useEffect(() => {
     dispatch(getData());
-    dispatch(getInfoAboutMe())
+    dispatch(getInfoAboutMe());
   }, [dispatch]);
 
   return (
