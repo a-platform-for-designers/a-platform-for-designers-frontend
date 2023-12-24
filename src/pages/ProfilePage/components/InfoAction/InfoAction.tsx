@@ -9,7 +9,7 @@ interface IIsLoggedData {
   onClick?: React.MouseEventHandler;
 }
 
-export interface IInfoActionData extends IMyButtonProps {
+interface IInfoActionData extends IMyButtonProps {
   isCurrentUser: boolean;
   ifTrue?: IIsLoggedData;
   ifFalse?: IIsLoggedData;
