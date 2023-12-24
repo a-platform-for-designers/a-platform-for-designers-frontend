@@ -13,6 +13,7 @@ import LikesActive from "@/assets/icons/LikesActive.svg";
 import { IconButton } from "@mui/material";
 import { ICase } from "@/types";
 import { useState } from "react";
+import { getOptimizedImage } from "@/features/getOptimizedImage";
 
 interface IProps {
   onClick?: () => void;
@@ -26,11 +27,12 @@ const MySwiper: React.FC<IProps> = ({ item, onClick }) => {
   if (!item) return;
 
   const sliders = item.images.map((image) => {
-    // https://images.weserv.nl/docs/
-    const formattedImgUrl = `//wsrv.nl/?url=${image.image}&w=330&h=240`;
     return (
       <SwiperSlide key={image.id}>
-        <img src={formattedImgUrl} alt="Картинка из проекта" />
+        <img
+          src={getOptimizedImage(image.image, 660, 480, "webp", "7d")}
+          alt="Картинка из проекта"
+        />
       </SwiperSlide>
     );
   });
@@ -85,7 +87,10 @@ const MySwiper: React.FC<IProps> = ({ item, onClick }) => {
           </div>
         </div>
         <SwiperSlide>
-          <img src={item.avatar} alt="Обложка проекта" />
+          <img
+            src={getOptimizedImage(item.avatar, 660, 480, "webp", "7d")}
+            alt="Обложка проекта"
+          />
         </SwiperSlide>
         {sliders}
       </Swiper>
