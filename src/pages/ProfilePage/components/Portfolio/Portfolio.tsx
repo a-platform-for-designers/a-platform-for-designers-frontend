@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { IUserCase } from "@/types";
 import { BASE_PATH } from "@/constants/constants";
 import caseCart from "@/assets/images/caseCart.webp";
+import { getOptimizedImage } from "@/features/getOptimizedImage";
 
 interface IPortfolioProps {
   data?: IUserCase[];
@@ -32,7 +33,13 @@ const Portfolio: React.FC<IPortfolioProps> = ({ data }) => {
             src={`${
               !item.avatar && item.avatar === null
                 ? caseCart
-                : BASE_PATH + item.avatar
+                : getOptimizedImage(
+                    BASE_PATH + item.avatar,
+                    660,
+                    480,
+                    "webp",
+                    "7d"
+                  )
             }`}
           />
         ))}

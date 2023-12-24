@@ -13,6 +13,7 @@ import { ICase } from "../../types";
 import { ActionButton, CaseInfo, ProfileInfo } from "./components";
 import { AboutItem, EmptyData } from "../ProfilePage/components";
 import Preloader from "@/shared/Preloader/Preloader";
+import { getOptimizedImage } from "@/features/getOptimizedImage";
 
 const CasePage: React.FC = () => {
   const { id } = useParams();
@@ -90,7 +91,13 @@ const CasePage: React.FC = () => {
             <ImageListItem>
               <img
                 className="casePage__image-item"
-                src={`${caseData.avatar}`}
+                src={`${getOptimizedImage(
+                  caseData.avatar,
+                  1458,
+                  816,
+                  "webp",
+                  "7d"
+                )}`}
                 alt={`Обложка кейса`}
                 loading="lazy"
               />
@@ -99,7 +106,13 @@ const CasePage: React.FC = () => {
               <ImageListItem key={item.id}>
                 <img
                   className="casePage__image-item"
-                  src={`${item.image}`}
+                  src={`${getOptimizedImage(
+                    item.image,
+                    1458,
+                    816,
+                    "webp",
+                    "7d"
+                  )}`}
                   alt={`Изображение #${item.id}`}
                   loading="lazy"
                 />
