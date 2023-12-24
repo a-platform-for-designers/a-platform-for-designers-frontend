@@ -4,15 +4,19 @@ import { List, ListItem } from "@mui/material";
 import { PropsWithChildren } from "react";
 
 type Props = {
-  onClick?: () => void;
+  onChooseDesignerRole?: () => void;
+  onChooseCustomerRole?: () => void;
 };
 
-const UserRole: React.FC<PropsWithChildren<Props>> = ({ onClick }) => {
+const UserRole: React.FC<PropsWithChildren<Props>> = ({
+  onChooseDesignerRole,
+  onChooseCustomerRole,
+}) => {
   return (
     <Box className="role">
       <h2 className="role__heading">Выберите роль</h2>
       <Box className="role__wrapper">
-        <Box className="role__container" onClick={onClick}>
+        <Box className="role__container" onClick={onChooseCustomerRole}>
           <h3 className="role__name">Заказчик</h3>
           <List className="role__abilities">
             Вам доступно:
@@ -20,7 +24,7 @@ const UserRole: React.FC<PropsWithChildren<Props>> = ({ onClick }) => {
             <ListItem className="role__ability">Поиск фрилансеров</ListItem>
           </List>
         </Box>
-        <Box className="role__container" onClick={onClick}>
+        <Box className="role__container" onClick={onChooseDesignerRole}>
           <h3 className="role__name">Дизайнер</h3>
           <List className="role__abilities">
             Вам доступно:

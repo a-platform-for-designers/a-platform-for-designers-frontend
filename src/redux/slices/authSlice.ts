@@ -1,23 +1,43 @@
 import { authService } from "@/api";
+import { RestApiErrors, tokenManager } from "@/api/api";
 import { IAuthUserRequest } from "@/types";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { enqueueSnackbar } from "notistack";
+import { deleteUserInfo } from "./userSlice";
 
 interface IInitialState {
   isAuth: boolean;
   loading: "idle" | "pending" | "succeeded" | "failed";
+  errorMessages: string[];
 }
 
 const initialState: IInitialState = {
   isAuth: false,
   loading: "idle",
+  errorMessages: [],
 };
 
 export const logIn = createAsyncThunk(
   "auth/loginStatus",
-  async (data: IAuthUserRequest) => {
-    const response = await authService.login(data);
-    return response;
+  async (data: IAuthUserRequest, { rejectWithValue }) => {
+    try {
+      const response = await authService.login(data);
+      return response;
+    } catch (error) {
+      if (error instanceof RestApiErrors) {
+        throw rejectWithValue(error.messages);
+      } else {
+        throw error;
+      }
+    }
+  }
+);
+
+export const logOut = createAsyncThunk(
+  "auth/logout",
+  async (_, { dispatch }) => {
+    await authService.logout();
+    tokenManager.clearToken();
+    dispatch(deleteUserInfo());
   }
 );
 
@@ -28,31 +48,31 @@ export const authSlice = createSlice({
     changeAuth: (state, action: PayloadAction<boolean>) => {
       state.isAuth = action.payload;
     },
+    resetAuthErrors: (state) => {
+      state.errorMessages.length = 0;
+    },
   },
   extraReducers: (builder) => {
-    builder.addCase(logIn.pending, (state) => {
-      state.loading = "pending";
-    });
-    builder.addCase(logIn.fulfilled, (state, action) => {
-      localStorage.setItem("token", action.payload.auth_token);
-      state.isAuth = true;
-      state.loading = "succeeded";
-      enqueueSnackbar({
-        variant: "success",
-        message: "Вы успешно вошли",
+    builder
+      .addCase(logIn.pending, (state) => {
+        state.loading = "pending";
+      })
+      .addCase(logIn.fulfilled, (state, action) => {
+        tokenManager.setToken(action.payload.auth_token);
+        state.isAuth = true;
+        state.loading = "succeeded";
+      })
+      .addCase(logIn.rejected, (state, action) => {
+        state.isAuth = false;
+        state.loading = "failed";
+        state.errorMessages = action.payload as string[];
+      })
+      .addCase(logOut.fulfilled, (state) => {
+        state.isAuth = false;
       });
-    });
-    builder.addCase(logIn.rejected, (state) => {
-      state.isAuth = false;
-      state.loading = "failed";
-      enqueueSnackbar({
-        variant: "error",
-        message: "Что-то пошло не так",
-      });
-    });
   },
 });
 
-export const { changeAuth } = authSlice.actions;
+export const { changeAuth, resetAuthErrors } = authSlice.actions;
 
 export default authSlice.reducer;

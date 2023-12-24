@@ -1,11 +1,10 @@
 import { Grid, Stack, StyledEngineProvider, Typography } from "@mui/material";
 import "./AboutItem.scss";
 import React from "react";
-import { IDataItem } from "@/types";
 
 interface IAboutItemProps {
   title: string;
-  data?: IDataItem[] | string[] | string | number;
+  data?: string[] | string | undefined | null;
   secondary?: boolean;
 }
 
@@ -16,7 +15,7 @@ const AboutItem: React.FC<IAboutItemProps> = ({
 }) => {
   let content: React.ReactNode;
 
-  if (typeof data === "object") {
+  if (typeof data === "object" && data) {
     content = (
       <Stack
         className={`${
@@ -39,9 +38,9 @@ const AboutItem: React.FC<IAboutItemProps> = ({
                 ? "aboutItem-secondary__list-item"
                 : "aboutItem__list-item"
             }`}
-            key={typeof item === "string" ? item : item.id}
+            key={data.indexOf(item)}
           >
-            {typeof item === "string" ? item : item.name}
+            {item}
           </li>
         ))}
       </Stack>

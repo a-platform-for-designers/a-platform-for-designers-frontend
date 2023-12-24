@@ -9,17 +9,17 @@ import { BASE_PATH } from "@/constants/constants";
 import caseCart from "@/assets/images/caseCart.png";
 
 interface IPortfolioProps {
-  data: IUserCase[];
+  data?: IUserCase[];
 }
 
 const Portfolio: React.FC<IPortfolioProps> = ({ data }) => {
   const navigate = useNavigate();
 
-  if (!data.length) {
+  if (!data?.length) {
     return <EmptyData title="У дизайнера пока нет проектов" />;
   }
 
-  console.log(data[6].avatar);
+  console.log(data);
 
   return (
     <StyledEngineProvider injectFirst>
@@ -29,7 +29,11 @@ const Portfolio: React.FC<IPortfolioProps> = ({ data }) => {
             className="portfolio__image"
             key={item.id}
             onClick={() => navigate(`/case/${item.id}`)}
-            src={`${item.avatar === null ? caseCart : BASE_PATH + item.avatar}`}
+            src={`${
+              !item.avatar && item.avatar === null
+                ? caseCart
+                : BASE_PATH + item.avatar
+            }`}
           />
         ))}
       </Grid>

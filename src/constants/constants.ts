@@ -120,8 +120,8 @@ export const LISTS = {
   LIST_SPECIALITY: [
     "Графические дизайнеры",
     "Иллюстраторы",
-    "3D визуализаторы",
-    "Веб дизайнеры",
+    "3D-визуализаторы",
+    "Веб-дизайнеры",
   ],
   LIST_COUNTRIES: [
     "Абхазия",
@@ -428,4 +428,24 @@ export const LISTS = {
     "Французский",
     "Хинди",
   ],
+  LIST_SPHERE: [],
 };
+
+export const CLIENT_API_ERRORS = {
+  INVALID_DATA: "Введены некорректные данные",
+  UNAUTHORIZED_ACCESS: "Для доступа к ресурсу необходима авторизация",
+  EMAIL_EXISTS: "Пользователь с такой электронной почтой уже зарегистрирован.",
+  SERVER_ERROR: "Что-то пошло не так, но мы скоро все исправим.",
+};
+
+export const SERVER_API_ERRORS = {
+  INVALID_DATA: "Невозможно войти с предоставленными учетными данными.",
+  EMAIL_EXISTS: "Пользователь с таким Адрес электронной почты уже существует.",
+  PASSWORD_COMMON: "Введённый пароль слишком широко распространён.",
+  PASSWORD_NUMERIC: "Введённый пароль состоит только из цифр.",
+};
+
+export const errorsMap = new Map([
+  [SERVER_API_ERRORS.INVALID_DATA, CLIENT_API_ERRORS.INVALID_DATA],
+  [SERVER_API_ERRORS.EMAIL_EXISTS, CLIENT_API_ERRORS.EMAIL_EXISTS],
+]);

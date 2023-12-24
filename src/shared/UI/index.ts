@@ -6,6 +6,8 @@ import MyMultipleDropDown from "./MyMultipleDropDown/MyMultipleDropDown";
 import MyInput from "./MyInput/MyInput";
 import MyPopup from "./MyPopup/MyPopup";
 import MySwiper from "./MySwiper/MySwiper";
+import MyMessagePopup from "./MyMessagePopup/MyMessagePopup";
+import MyOrdersCard from "./MyOrdersCard/MyOrdersCard";
 
 export {
   MyAuthForm,
@@ -16,4 +18,6 @@ export {
   MyInput,
   MyPopup,
   MySwiper,
+  MyMessagePopup,
+  MyOrdersCard,
 };

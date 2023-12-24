@@ -1,78 +1,117 @@
 import { userService } from "@/api";
-import { ICreateUserRequest, IUser } from "@/types";
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { logIn } from "./authSlice";
-import { enqueueSnackbar } from "notistack";
+import { tokenManager } from "@/api/api";
+import {
+  ICreateUserRequest,
+  IProfileDesigner,
+  IUpdateInfoUserMe,
+  IUser,
+} from "@/types";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { logIn, changeAuth } from "./authSlice";
+import { RestApiErrors } from "@/api/api";
 
 interface IInitialState {
   loading: "idle" | "pending" | "succeeded" | "failed";
   user: IUser | null;
+  errorMessages: string[];
 }
 
 const initialState: IInitialState = {
   loading: "idle",
   user: null,
+  errorMessages: [],
 };
 
 export const getInfoAboutMe = createAsyncThunk(
   "user/fetchInfoUserStatus",
-  async () => {
-    const user = await userService.getInfoUserMe();
-    return user;
+  async (_, { rejectWithValue, dispatch }) => {
+    try {
+      if (!tokenManager.hasToken()) {
+        throw Error;
+      }
+      const user = await userService.getInfoUserMe();
+      dispatch(changeAuth(true));
+      return user;
+    } catch (error) {
+      dispatch(changeAuth(false));
+      if (error instanceof RestApiErrors) {
+        throw rejectWithValue(error.messages);
+      } else {
+        throw error;
+      }
+    }
+  }
+);
+
+export const updateInfoAboutMe = createAsyncThunk(
+  "user/updateInfoUserStatus",
+  async (body: IUpdateInfoUserMe, { rejectWithValue }) => {
+    try {
+      await userService.updateInfoUserMe(body);
+    } catch (error) {
+      if (error instanceof RestApiErrors) {
+        throw rejectWithValue(error.messages);
+      } else {
+        throw error;
+      }
+    }
   }
 );
 
 export const createUser = createAsyncThunk(
   "user/createUserStatus",
-  async (data: ICreateUserRequest, { dispatch }) => {
-    await userService.createUser(data);
-
-    await dispatch(
-      logIn({
-        email: data.email,
-        password: data.password,
-      })
-    );
-
-    const user = await userService.getInfoUserMe();
-    return user;
+  async (data: ICreateUserRequest, { dispatch, rejectWithValue }) => {
+    try {
+      await userService.createUser(data);
+      await dispatch(logIn({ email: data.email, password: data.password }));
+      await dispatch(getInfoAboutMe());
+    } catch (error) {
+      if (error instanceof RestApiErrors) {
+        throw rejectWithValue(error.messages);
+      } else {
+        throw error;
+      }
+    }
   }
 );
 
 export const userSlice = createSlice({
-  name: "auth",
+  name: "user",
   initialState,
   reducers: {
-    /*     changeAuth: (state, action: PayloadAction<boolean>) => {
-      state.user = action.payload;
-    }, */
+    deleteUserInfo: (state) => {
+      state.user = null;
+    },
+    setUserInfo: (state, action: PayloadAction<IProfileDesigner>) => {
+      const updatedUser = { ...action.payload };
+      if (state.user) {
+        state.user.profiledesigner = updatedUser;
+      }
+    },
+    resetAuthErrors: (state) => {
+      state.errorMessages.length = 0;
+    },
   },
   extraReducers: (builder) => {
-    builder.addCase(createUser.fulfilled, (state, action) => {
-      state.loading = "succeeded";
-      state.user = action.payload;
-      enqueueSnackbar({
-        variant: "success",
-        message: `Добро пожаловать, ${action.payload.first_name}`,
-      });
-    });
-    builder.addCase(createUser.rejected, (state) => {
-      state.loading = "failed";
-      enqueueSnackbar({
-        variant: "error",
-        message: `Что-то пошло не так`,
-      });
-    });
-    builder.addCase(getInfoAboutMe.fulfilled, (state, action) => {
-      state.loading = "succeeded";
-      state.user = action.payload;
-    });
-    builder.addCase(getInfoAboutMe.rejected, (state) => {
-      state.loading = "failed";
-    });
+    builder
+      .addCase(createUser.fulfilled, (state) => {
+        state.loading = "succeeded";
+      })
+      .addCase(getInfoAboutMe.fulfilled, (state, action) => {
+        state.loading = "succeeded";
+        state.user = action.payload;
+      })
+      .addMatcher(
+        (action) => /^user.*?\/rejected/.test(action.type),
+        (state, action) => {
+          state.loading = "failed";
+          state.errorMessages = action.payload as string[];
+        }
+      );
   },
 });
 
-/* export const { changeAuth } = userSlice.actions; */
+export const { setUserInfo, deleteUserInfo, resetAuthErrors } =
+  userSlice.actions;
 
 export default userSlice.reducer;

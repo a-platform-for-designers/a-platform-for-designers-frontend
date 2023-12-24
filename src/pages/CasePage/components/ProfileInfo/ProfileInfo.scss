@@ -2,24 +2,39 @@
   &__title {
     margin: 0;
     padding: 0;
-
+    
     &-item {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
       font-size: 32px;
       font-style: normal;
       font-weight: 700;
       line-height: 40px;
       letter-spacing: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
 
   &__subtitle {
+    margin: 0;
     font-size: 22px;
     font-style: normal;
     font-weight: 400;
     line-height: 28px;
     letter-spacing: 0;
+  }
+
+  &__avatar {
+    height: 94px;
+    width: 94px;
+    border-radius: 50%;
+    font-size: 30px;
+    background-color: #4f378b;
+    color: #eaddff;
+
+    :hover {
+      cursor: pointer;
+      opacity: 0.8;
+    }
   }
 }

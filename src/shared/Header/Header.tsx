@@ -12,7 +12,9 @@ import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import FollowersIcon from "../../assets/icons/FollowersIcon.svg";
 import FavouritesIcon from "../../assets/icons/FavouritesDark.svg";
-import MessagesIcon from "../../assets/icons/MessagesIcon.svg";
+import MessagesIcon from "../../assets/icons/MessageBlack.svg";
+import MessagesIconActive from "../../assets/icons/MessagePurple.svg";
+import OrdersIcon from "../../assets/icons/orders.svg";
 import { useAppSelector } from "@/hooks/reduxHooks";
 import { MyAuthForm, MyButton, MyPopup } from "../UI";
 import SignIn from "../SignIn/SignIn";
@@ -24,6 +26,7 @@ const Header: React.FC = () => {
   const [isOpenSignIn, setIsOpenSignIn] = useState<boolean>(false);
   const [isOpenSignUp, setIsOpenSignUp] = useState<boolean>(false);
   const [isRoleSelected, setIsRoleSelected] = useState<boolean>(false);
+  const [isCustomer, setIsCustomer] = useState<boolean>(true);
   const { isAuth } = useAppSelector((state) => state.auth);
   const { user } = useAppSelector((state) => state.user);
 
@@ -31,8 +34,14 @@ const Header: React.FC = () => {
 
   const navigate = useNavigate();
 
-  function chooseRole() {
+  function chooseCustomerRole() {
     setIsRoleSelected(true);
+    setIsCustomer(true);
+  }
+
+  function chooseDesignerRole() {
+    setIsRoleSelected(true);
+    setIsCustomer(false);
   }
 
   useEffect(() => {
@@ -55,13 +64,18 @@ const Header: React.FC = () => {
     setIsOpenSignUp(true);
   }
 
+  function handleCkick() {
+    navigate("/");
+    window.scrollTo(0, 0);
+  }
+
   return (
     <StyledEngineProvider injectFirst>
       <AppBar className="header" position="static">
         <Box>
           <Box className="header__container">
             <Toolbar className="header__toolbar" variant="dense">
-              <Box className="header__logo" onClick={() => navigate("/")} />
+              <Box className="header__logo" onClick={() => handleCkick()} />
               <List
                 className="header__pages-list"
                 sx={{ flexGrow: 1, display: "flex" }}
@@ -82,8 +96,19 @@ const Header: React.FC = () => {
                       ? "header__menu-item_active"
                       : ""
                   }`}
+                  onClick={() => navigate("/orders")}
                 >
                   Заказы
+                </ListItem>
+                <ListItem
+                  className={`header__menu-item ${
+                    location.pathname === "/mentors"
+                      ? "header__menu-item_active"
+                      : ""
+                  }`}
+                  onClick={() => navigate("/mentors")}
+                >
+                  Менторы
                 </ListItem>
               </List>
             </Toolbar>
@@ -106,21 +131,47 @@ const Header: React.FC = () => {
                     />
                     <p className="header__list-text">Избранное</p>
                   </ListItem>
+                  <ListItem
+                    className="header__link"
+                    onClick={() => navigate(`/chats`)}
+                  >
+                    <img
+                      className="header__list-icon"
+                      src={
+                        location.pathname === "/chats"
+                          ? MessagesIconActive
+                          : MessagesIcon
+                      }
+                      alt="Иконка меню"
+                    />
+                    <p
+                      className={`header__list-text ${
+                        location.pathname === "/chats"
+                          ? "header__list-text_active"
+                          : ""
+                      }`}
+                    >
+                      Сообщения
+                    </p>
+                  </ListItem>
                   <ListItem className="header__link">
                     <img
                       className="header__list-icon"
-                      src={MessagesIcon}
+                      src={OrdersIcon}
                       alt="Иконка меню"
                     />
-                    <p className="header__list-text">Сообщения</p>
+                    <p className="header__list-text">Мои&nbsp;заказы</p>
                   </ListItem>
                   <Avatar
                     className="header__avatar"
                     alt="avatar"
                     src={user?.photo}
                     onClick={() => navigate(`/profile/${myId}`)}
-                    sx={{ backgroundColor: "#4F378B", color: "#EADDFF" }} //! Убрать хардкод
-                  >{`${user?.first_name[0]}${user?.last_name[0]}`}</Avatar>
+                    sx={{ backgroundColor: "#4F378B", color: "#EADDFF" }}
+                  >
+                    {!user?.photo &&
+                      `${user?.first_name[0]}${user?.last_name[0]}`}
+                  </Avatar>
                 </List>
               ) : (
                 <>
@@ -150,15 +201,18 @@ const Header: React.FC = () => {
 
       <MyPopup onClose={handleClose} open={isOpenSignIn}>
         <MyAuthForm title="Вход">
-          <SignIn openSignUpPopup={openSignUpPopup} onClose={handleClose} />
+          <SignIn openSignUpPopup={openSignUpPopup} />
         </MyAuthForm>
       </MyPopup>
       <MyPopup onClose={handleClose} open={isOpenSignUp}>
         {isRoleSelected === false ? (
-          <UserRole onClick={chooseRole} />
+          <UserRole
+            onChooseDesignerRole={chooseDesignerRole}
+            onChooseCustomerRole={chooseCustomerRole}
+          />
         ) : (
           <MyAuthForm title="Регистрация">
-            <SignUp openSignInPopup={openSignInPopup} onClose={handleClose} />
+            <SignUp openSignInPopup={openSignInPopup} isCustomer={isCustomer} />
           </MyAuthForm>
         )}
       </MyPopup>

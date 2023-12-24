@@ -21,22 +21,12 @@ export interface ICreateUserRequest {
   first_name: string;
   last_name: string;
   password: string;
-  is_customer: boolean;
+  is_customer: boolean | undefined;
 }
 
 export interface IProfileCustomer {
   id: number;
   post: string;
-}
-
-export interface IProfileDesigner {
-  id: number;
-  user: number;
-  education: string;
-  country: string;
-  specialization: IDataItem;
-  hobby: string;
-  language: string[];
 }
 
 export interface IResume {
@@ -64,7 +54,8 @@ export interface IUser {
 
 export interface IUserWithLastCases extends IUser {
   last_cases: [ICase, ICase];
-  specialization: number;
+  specialization: object[];
+  country: string;
 }
 
 export interface IUserCase {
@@ -116,4 +107,120 @@ export interface ICaseRespons extends IListRespons {
 
 export interface IUserRespons extends IListRespons {
   results: IUserWithLastCases[];
+}
+
+export interface ICasePreview {
+  title: string;
+  time: string;
+  description: string;
+  directions: string;
+  wrapper: File;
+  images: File[];
+  sphereValue: string;
+  toolsValue: string[];
+}
+
+export interface IOrderDataItem {
+  id: number;
+  photo: string | null;
+  first_name: string;
+  last_name: string;
+  title: string;
+  description: string;
+  price: number;
+  specialization: string;
+  sphere: string;
+}
+
+export interface IOrdersResponse {
+  count: number;
+  next: string;
+  previous: string;
+  results: [];
+}
+
+export interface IOrdersList {
+  id: number;
+  customer: IOrdersCustomer;
+  title: string;
+  specialization: IDataItem;
+  payment: number;
+  sphere: IDataItem;
+  description: string;
+  pub_date: string;
+  is_responded_order: string;
+  is_favorited_order: string;
+  is_published: boolean;
+}
+
+export interface IOrdersCustomer {
+  id: 0;
+  first_name: string;
+  last_name: string;
+  photo: string;
+  post: string;
+}
+
+export interface IUserInfo {
+  name: string | null;
+  avatar: string | null;
+}
+
+export interface IResumeNew {
+  instruments: number[];
+  skills: number[];
+  about: string;
+  status: boolean;
+}
+
+export interface IUpdateInfoUserMe {
+  id?: number;
+  photo?: File | unknown;
+  specialization?: number[] | string[];
+  country?: string | null;
+  education?: string | null;
+  language?: number[] | string[];
+  hobby?: string;
+  user?: number;
+}
+
+export interface IUpdateInfoMeCustomer {
+  country: string | null;
+  photo: File | unknown;
+  customersWorkPlace: string | null;
+  aboutMe: string | null;
+}
+
+export interface IProfileDesigner {
+  id?: number;
+  user?: number;
+  education?: string | null;
+  country?: string | null;
+  specialization?: string[] | number[] | null;
+  hobby?: string;
+  language?: string[] | number[];
+  photo?: File | unknown;
+}
+
+export interface IProfileData {
+  first_name?: string;
+  last_name?: string;
+  specialization?: string[] | number[];
+  image?: string;
+  country?: string;
+  registrationDate?: string;
+  status?: string;
+  likes?: number;
+  followers?: number;
+}
+
+export interface ICaseCreation {
+  title: string;
+  specialization?: number;
+  avatar: string;
+  images: { image: string };
+  working_term?: string;
+  instruments?: string[] | number[] | null;
+  description?: string;
+  sphere?: number;
 }

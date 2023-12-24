@@ -1,6 +1,14 @@
 .designersPage {
   flex-grow: 1;
 
+  &__grid {
+    justify-content: space-between;
+
+    .css-96ko50-MuiGrid-root {
+      margin: 0 auto;
+    }
+  }
+
   &__container {
     max-width: 1440px;
     box-sizing: border-box;
@@ -11,6 +19,7 @@
     display: grid;
     row-gap: 48px;
     padding-left: 142px;
+    grid-template-rows: 240px;
 
     &.MuiGrid-item {
       padding-left: 142px;
@@ -18,6 +27,7 @@
   }
 
   &__filters {
+    max-width: 330px;
     &.MuiGrid-item {
       padding-left: 38px;
     }

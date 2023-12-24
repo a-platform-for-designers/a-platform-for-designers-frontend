@@ -11,6 +11,11 @@
     max-width: 200px;
   }
 
+  &__infoData:hover {
+    cursor: pointer;
+    opacity: 0.8;
+  }
+
   &__avatar {
     margin-bottom: 24px;
     width: 52px;

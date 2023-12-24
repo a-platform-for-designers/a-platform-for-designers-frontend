@@ -1,30 +1,49 @@
 import { Container, StyledEngineProvider } from "@mui/material";
 import "./ProfilePage.scss";
-import imgProfilePlaceholder from "../../assets/images/designerscarousel-avatar.png";
-import { Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes, Navigate, useParams } from "react-router-dom";
 import { Info, ProfileNav, Portfolio, Work, Profile } from "./components";
-import { IProfileData } from "./components/Info/Info";
 import { IProfileNavPage } from "./components/ProfileNav/ProfileNav";
 import { useAppSelector } from "@/hooks/reduxHooks";
+import { userService } from "@/api";
+import { useEffect, useState } from "react";
+import { IUser, IProfileData } from "@/types";
+import CustomersOrderCard from "./components/CustomersOrdersCards/CustomersOrdersCards";
+import Preloader from "@/shared/Preloader/Preloader";
 
 const ProfilePage: React.FC = () => {
-  const { user } = useAppSelector((state) => state.user);
+  const { user } = useAppSelector((state) => state.user); // авторизованный пользователь
+  const { id } = useParams();
+  const [currentUser, setCurrentUser] = useState<IUser>(); // пользователь чей профиль(id через путь)
+  const isCustomerCurrentUser = currentUser?.is_customer;
 
-  if (!user) return;
+  useEffect(() => {
+    (async () => {
+      const isProfileOfCurrentUser = user?.id === Number(id);
+      if (isProfileOfCurrentUser) {
+        setCurrentUser(user);
+      } else {
+        setCurrentUser(await userService.getUserById(Number(id)));
+      }
+    })();
+  }, [id, user]);
 
   const profileData: IProfileData = {
-    first_name: user?.first_name,
-    last_name: user?.last_name,
-    specialization:
-      user.profiledesigner?.specialization.name || "Не указана специализация",
-    image: user.photo || imgProfilePlaceholder,
-    country: user.profiledesigner?.country || "Не указана страна",
-    registrationDate: new Date(user.date_joined).toLocaleDateString("ru-RU", {
+    first_name: currentUser?.first_name,
+    last_name: currentUser?.last_name,
+    specialization: currentUser?.profiledesigner?.specialization || [
+      "Не указана специализация",
+    ],
+    image: currentUser?.photo,
+    country: currentUser?.profiledesigner?.country || "Не указана страна",
+    // need to fix later
+    registrationDate: new Date(
+      user?.date_joined ?? new Date().getDate()
+    ).toLocaleDateString("ru-RU", {
       day: "2-digit",
       month: "long",
       year: "numeric",
     }),
-    status: user.resume?.status ? "Ищет заказы" : "Не ищет заказы",
+    status: currentUser?.resume?.status ? "Ищет работу" : "Не ищет работу",
     likes: 1001,
     followers: 98,
   };
@@ -34,40 +53,92 @@ const ProfilePage: React.FC = () => {
     {
       title: "Портфолио",
       link: `portfolio`,
-      element: <Portfolio data={user.portfolio} />,
+      element: <Portfolio data={currentUser?.portfolio} />,
     },
     {
       title: "Работа",
       link: `work`,
-      element: user.resume ? <Work resume={user.resume} /> : <Work />,
+      element: currentUser?.resume ? (
+        <Work resume={currentUser?.resume} />
+      ) : (
+        <Work />
+      ),
     },
     {
       title: "Профиль",
       link: `file`,
-      element: user.profiledesigner ? (
-        <Profile profiledesigner={user.profiledesigner} />
+      element: currentUser?.profiledesigner ? (
+        <Profile
+          profiledesigner={currentUser?.profiledesigner}
+          emptyTitle="Дизайнер пока не заполнил профиль"
+        />
       ) : (
-        <Profile />
+        <Profile emptyTitle="Здесь пока ничего нет" />
       ),
     },
   ];
 
+  const profileCustomerNavPages: IProfileNavPage[] = [
+    {
+      title: "Активные заказы",
+      link: `orders`,
+      element: <CustomersOrderCard userId={currentUser?.id} />,
+    },
+    {
+      title: "Профиль",
+      link: `file`,
+      element: currentUser?.profiledesigner ? (
+        <Profile
+          profiledesigner={currentUser?.profiledesigner}
+          emptyTitle="Заказчик пока не заполнил профиль"
+        />
+      ) : (
+        <Profile emptyTitle="Заказчик пока не заполнил профиль" />
+      ),
+    },
+  ];
+
+  if (!currentUser) {
+    return <Preloader />;
+  }
+
   return (
     <StyledEngineProvider injectFirst>
       <Container component="section" className="profilePage">
-        <Info data={profileData} />
-        <ProfileNav pages={profileNavPages} />
-        <Routes>
-          <Route path="/">
-            <Route
-              index
-              element={<Navigate replace to={profileNavPages[0].link} />}
-            />
-            {profileNavPages.map((page, idx) => (
-              <Route key={idx} path={page.link} element={page.element} />
-            ))}
-          </Route>
-        </Routes>
+        <Info data={profileData} currentUser={currentUser} />
+        {isCustomerCurrentUser !== undefined && !isCustomerCurrentUser ? (
+          <>
+            <ProfileNav pages={profileNavPages} />
+            <Routes>
+              <Route path="/">
+                <Route
+                  index
+                  element={<Navigate replace to={profileNavPages[0].link} />}
+                />
+                {profileNavPages.map((page, idx) => (
+                  <Route key={idx} path={page.link} element={page.element} />
+                ))}
+              </Route>
+            </Routes>
+          </>
+        ) : (
+          <>
+            <ProfileNav pages={profileCustomerNavPages} />
+            <Routes>
+              <Route path="/">
+                <Route
+                  index
+                  element={
+                    <Navigate replace to={profileCustomerNavPages[0].link} />
+                  }
+                />
+                {profileCustomerNavPages.map((page, idx) => (
+                  <Route key={idx} path={page.link} element={page.element} />
+                ))}
+              </Route>
+            </Routes>
+          </>
+        )}
       </Container>
     </StyledEngineProvider>
   );

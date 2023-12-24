@@ -1,5 +1,9 @@
 import { Route, Routes } from "react-router";
-import { CssBaseline, ThemeProvider } from "@mui/material";
+import {
+  CssBaseline,
+  StyledEngineProvider,
+  ThemeProvider,
+} from "@mui/material";
 import { lightTheme } from "../theme/index.ts";
 import "./index.scss"; // после темы и cssBaseLine
 import { Navigate } from "react-router-dom";
@@ -14,6 +18,8 @@ import {
   ErrorPage,
   MainPage,
   ProfilePage,
+  MentorsPage,
+  OrdersPage,
 } from "@/pages/index.ts";
 import {
   Portfolio,
@@ -26,54 +32,61 @@ import {
 import { getInfoAboutMe } from "@/redux/slices/userSlice.ts";
 import { useAppDispatch } from "@/hooks/reduxHooks.tsx";
 import { useEffect } from "react";
-import { changeAuth } from "@/redux/slices/authSlice.ts";
+import { getData } from "@/redux/slices/dataSlice.ts";
+import ChatPage from "@/pages/ChatPage/ChatPage.tsx";
 
 function App() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    (async () => {
-      if (localStorage.getItem("token")) {
-        try {
-          await dispatch(getInfoAboutMe());
-          dispatch(changeAuth(true));
-        } catch (error) {
-          dispatch(changeAuth(false));
-        }
-      }
-    })();
+    dispatch(getData());
+    dispatch(getInfoAboutMe());
   }, [dispatch]);
 
   return (
-    <ThemeProvider theme={lightTheme}>
-      <CssBaseline enableColorScheme />
-      <SnackbarProvider maxSnack={3} autoHideDuration={7000}>
-        <div className="app">
-          <Header />
-          <Routes>
-            <Route path="/" Component={MainPage} />
-            <Route path="/designers" Component={DesignersPage} />
-            <Route
-              path="/profile/:id/*"
-              element={<ProtectedRoute Component={ProfilePage} />}
-            />
-            <Route path="/dashboard" Component={Dashboard}>
-              <Route index element={<Navigate replace to="profile" />} />
-              <Route path="profile" element={<Profile />} />
-              <Route path="portfolio" element={<Portfolio />}>
-                <Route path="create" element={<CaseCreation />} />
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={lightTheme}>
+        <CssBaseline enableColorScheme />
+        <SnackbarProvider maxSnack={3} autoHideDuration={7000}>
+          <div className="app">
+            <Header />
+            <Routes>
+              <Route path="/" Component={MainPage} />
+              <Route path="/chats" Component={ChatPage} />
+              <Route path="/designers" Component={DesignersPage} />
+              <Route path="/mentors" Component={MentorsPage} />
+              <Route path="/profile/:id/*" Component={ProfilePage} />
+              <Route
+                path="/dashboard"
+                element={<ProtectedRoute Component={Dashboard} />}
+              >
+                <Route index element={<Navigate replace to="profile" />} />
+                <Route
+                  path="profile"
+                  element={<ProtectedRoute Component={Profile} />}
+                />
+                <Route
+                  path="portfolio"
+                  element={<ProtectedRoute Component={Portfolio} />}
+                >
+                  <Route
+                    path="create"
+                    element={<ProtectedRoute Component={CaseCreation} />}
+                  />
+                </Route>
+                <Route path="work" element={<Work />} />
+                <Route path="orders" element={<Orders />} />
+                <Route path="settings" element={<Settings />} />
               </Route>
-              <Route path="work" element={<Work />} />
-              <Route path="orders" element={<Orders />} />
-              <Route path="settings" element={<Settings />} />
-            </Route>
-            <Route path="/case/:id" Component={CasePage} />
-            <Route path="*" Component={ErrorPage} />
-          </Routes>
-          <Footer />
-        </div>
-      </SnackbarProvider>
-    </ThemeProvider>
+              <Route path="/orders" Component={OrdersPage} />
+              <Route path="/case/:id" Component={CasePage} />
+              <Route path="*" Component={ErrorPage} />
+            </Routes>
+            <Footer />
+          </div>
+        </SnackbarProvider>
+      </ThemeProvider>
+    </StyledEngineProvider>
   );
 }
 

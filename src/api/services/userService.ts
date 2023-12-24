@@ -3,8 +3,11 @@ import {
   IUserShort,
   IUser,
   IUserRespons,
+  IUpdateInfoUserMe,
+  IUpdateInfoMeCustomer,
 } from "../../types";
 import api from "../api";
+import { enqueueSnackbar } from "notistack";
 
 const userService = {
   createUser: async (data: ICreateUserRequest): Promise<IUserShort> => {
@@ -13,33 +16,75 @@ const userService = {
   },
 
   getUserById: async (id: number): Promise<IUser> => {
-    const response = await api.post<IUser>(
-      `/users/${id}`,
-      {},
-      {
-        headers: {
-          Authorization: `Token ${localStorage.getItem("token")}`,
-        },
-      }
-    );
+    const response = await api.get<IUser>(`/users/${id}/`);
     return response.data;
   },
 
   getInfoUserMe: async (): Promise<IUser> => {
-    const response = await api.get<IUser>(`/users/me/`, {
-      headers: {
-        Authorization: `Token ${localStorage.getItem("token")}`,
+    const response = await api.get<IUser>(`/users/me/`);
+    return response.data;
+  },
+
+  updateInfoUserMe: async (
+    body: IUpdateInfoUserMe
+  ): Promise<IUpdateInfoUserMe> => {
+    try {
+      const response = await api.post<IUpdateInfoUserMe>(
+        `/profile_designer/`,
+        body
+      );
+      enqueueSnackbar({
+        variant: "success",
+        message: `Данные успешно обновлены`,
+      });
+      return response.data;
+    } catch (error) {
+      enqueueSnackbar({
+        variant: "error",
+        message: `Введены некорректные данные`,
+      });
+      throw error;
+    }
+  },
+
+  updateInfoUserMeCustomer: async (
+    body: IUpdateInfoMeCustomer
+  ): Promise<IUpdateInfoMeCustomer> => {
+    try {
+      const response = await api.post<IUpdateInfoMeCustomer>(
+        `/profile_customer/`,
+        body
+      );
+      enqueueSnackbar({
+        variant: "success",
+        message: `Данные успешно обновлены`,
+      });
+      return response.data;
+    } catch (error) {
+      enqueueSnackbar({
+        variant: "error",
+        message: `Введены некорректные данные`,
+      });
+      console.log(error);
+      throw error;
+    }
+  },
+
+  getUsersList: async (limit: number, page: number): Promise<IUserRespons> => {
+    const response = await api.get<IUserRespons>("/users/", {
+      params: {
+        limit: limit,
+        page: page,
       },
     });
     return response.data;
   },
 
-  getUsersList: async (limit: number, page: number): Promise<IUserRespons> => {
-    const token = `Token ${localStorage.getItem("token")}`;
-    const response = await api.get<IUserRespons>("/users/", {
-      headers: {
-        Authorization: token,
-      },
+  getMentorsList: async (
+    limit: number,
+    page: number
+  ): Promise<IUserRespons> => {
+    const response = await api.get<IUserRespons>("/mentors/", {
       params: {
         limit: limit,
         page: page,

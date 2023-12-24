@@ -2,7 +2,7 @@
   &__title {
     margin: 0;
     padding: 0;
-
+    overflow-wrap: break-word;
     font-family: "Montserrat", sans-serif;
     font-size: 24px;
     font-style: normal;
@@ -13,7 +13,6 @@
 
   &__text {
     margin-bottom: 4px;
-
     font-size: 20px;
     font-style: normal;
     font-weight: 400;
@@ -23,7 +22,6 @@
 
   &__deadline {
     margin-bottom: 8px;
-
     font-size: 16px;
     font-style: normal;
     font-weight: 400;

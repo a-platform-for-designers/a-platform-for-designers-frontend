@@ -1,4 +1,4 @@
-import { SyntheticEvent, useState } from "react";
+import { SyntheticEvent, useEffect, useState } from "react";
 import "./DesignerFilters.scss";
 import { FormControlLabel, Radio, RadioGroup } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
@@ -10,20 +10,46 @@ import {
   TOOLS_TITLE,
   FILTER_OPTIONS,
 } from "../../model/constants";
-import { LISTS } from "@/constants/constants";
 import { MyButton, MyCheckBox, MyMultipleDropDown } from "@/shared/UI";
+import { useAppSelector } from "@/hooks/reduxHooks";
+import { IUserWithLastCases } from "@/types";
+import { filterService } from "@/api/services/filterService";
 
-const DesignerFilters: React.FC = () => {
+interface IProps {
+  setDesigners: (IDesignersList: IUserWithLastCases[]) => void;
+}
+
+const DesignerFilters: React.FC<IProps> = ({ setDesigners }) => {
   const [speciality, setSpeciality] = useState<string[]>([]);
-  const [skills, setSkills] = useState<string[]>([]);
+  const [skillsValue, setSkillsValue] = useState<string[]>([]);
   const [tools, setTools] = useState<string[]>([]);
   const [readyForJob, setReadyForJob] = useState<string[]>([
     FILTER_OPTIONS.readyForJobOptions[0],
   ]);
 
+  const { skills } = useAppSelector((state) => state.data);
+  const { specializations } = useAppSelector((state) => state.data);
+  const { instruments } = useAppSelector((state) => state.data);
+
+  const specializationsList = Object.keys(specializations);
+
+  function convertToIds(
+    names: string[],
+    specializations: Record<string, number>
+  ): number[] {
+    const idValues: number[] = [];
+    names.forEach((name) => {
+      const id = specializations[name];
+      if (id) {
+        idValues.push(id);
+      }
+    });
+    return idValues;
+  }
+
   function handleClearFilters() {
     setSpeciality([]);
-    setSkills([]);
+    setSkillsValue([]);
     setTools([]);
     setReadyForJob([FILTER_OPTIONS.readyForJobOptions[0]]);
   }
@@ -33,7 +59,7 @@ const DesignerFilters: React.FC = () => {
     newValue: string[]
   ) {
     if (newValue.length > 5) return;
-    setSkills(newValue);
+    setSkillsValue(newValue);
   }
 
   function handleSetTools(
@@ -58,6 +84,25 @@ const DesignerFilters: React.FC = () => {
     setReadyForJob(newValue);
   }
 
+  useEffect(() => {
+    const specialityIds = convertToIds(speciality, specializations);
+    const skillsIds = convertToIds(skillsValue, skills);
+    const instrumentsIds = convertToIds(tools, instruments);
+
+    (async () => {
+      const filteredList = await filterService.getQueryUsers(
+        skillsIds, //skills
+        specialityIds, //specialization
+        instrumentsIds, //tools
+        12,
+        1
+      );
+
+      setDesigners(filteredList.results);
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [skillsValue, speciality, tools]);
+
   return (
     <div className="designerFilters">
       <div className="designerFilters__container">
@@ -72,10 +117,9 @@ const DesignerFilters: React.FC = () => {
           {DESIGNER_FILTERS_CLEAR_BTN_LABEL}
         </MyButton>
       </div>
-
       <div className="designerFilters__container">
         <h2 className="designerFilters__title">{SPECIALIZATION_TITLE}</h2>
-        {FILTER_OPTIONS.specialityOptions.map((item, i) => {
+        {specializationsList.map((item, i) => {
           return (
             <MyCheckBox
               key={i}
@@ -121,20 +165,22 @@ const DesignerFilters: React.FC = () => {
       <div className="designerFilters__container">
         <h2 className="designerFilters__title">{SKILLS_TITLE}</h2>
         <MyMultipleDropDown
-          options={LISTS.LIST_SKILLS}
-          value={skills}
+          options={Object.keys(skills)}
+          value={skillsValue}
           onChange={handleSetSkills}
           className="designerFilters__dropdown"
+          placeholder={skillsValue.length ? "" : "Выберите навыки"}
         />
       </div>
 
       <div className="designerFilters__container">
         <h2 className="designerFilters__title">{TOOLS_TITLE}</h2>
         <MyMultipleDropDown
-          options={LISTS.LIST_TOOLS}
+          options={Object.keys(instruments)}
           value={tools}
           onChange={handleSetTools}
           className="designerFilters__dropdown"
+          placeholder={tools.length ? "" : "Выберите инструменты"}
         />
       </div>
     </div>

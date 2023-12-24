@@ -1,67 +1,96 @@
-import { Box, Grid, StyledEngineProvider, SxProps, Theme } from "@mui/material";
 import "./MainPage.scss";
+import { Box, Grid, StyledEngineProvider, SxProps, Theme } from "@mui/material";
 import Intro from "./components/Intro/Intro";
 import { useState, useEffect } from "react";
 
-import DesinersCarousel, {
-  IDesinerCarouselData,
-} from "./components/DesinersCarousel/DesinersCarousel";
+import DesinersCarousel from "./components/DesinersCarousel/DesinersCarousel";
 import DesinersCategories, {
   IDesinerCategoriesData,
 } from "./components/DesinersCategories/DesinersCategories";
 
-import avatarPlaceholder from "../../assets/images/designerscarousel-avatar.png";
+//import avatarPlaceholder from "../../assets/images/designerscarousel-avatar.png";
 import desCatImg1 from "../../assets/images/desinerscategories-1.png";
 import desCatImg2 from "../../assets/images/desinerscategories-2.png";
 import desCatImg3 from "../../assets/images/desinerscategories-3.png";
 import desCatImg4 from "../../assets/images/desinerscategories-4.png";
 import Feed from "./components/Feed/Feed";
-import { casesService } from "@/api";
-import { ICase } from "@/types";
+import { casesService, userService } from "@/api";
+import { ICase, IUserWithLastCases } from "@/types";
 
 const mainPageTheme: SxProps<Theme> = {
   backgroundColor: (theme) => theme.palette.background.default,
 };
 
 const MainPage: React.FC = () => {
-  const desinersForCarousel: IDesinerCarouselData[] = [
-    {
-      name: "Имя Фамилия",
-      specialization: "Специализация",
-      image: avatarPlaceholder,
-      link: "",
-    },
-    {
-      name: "Имя Фамилия",
-      specialization: "Специализация",
-      image: avatarPlaceholder,
-      link: "",
-    },
-    {
-      name: "Имя Фамилия",
-      specialization: "Специализация",
-      image: avatarPlaceholder,
-      link: "",
-    },
-    {
-      name: "Имя Фамилия",
-      specialization: "Специализация",
-      image: avatarPlaceholder,
-      link: "",
-    },
-    {
-      name: "Имя Фамилия",
-      specialization: "Специализация",
-      image: avatarPlaceholder,
-      link: "",
-    },
-    {
-      name: "Имя Фамилия",
-      specialization: "Специализация",
-      image: avatarPlaceholder,
-      link: "",
-    },
-  ];
+  const [users, setUsers] = useState<IUserWithLastCases[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      const usersData = await userService.getUsersList(6, 1);
+      setUsers(usersData.results);
+    })();
+  }, []);
+
+  function getUsers() {
+    const usersData = users.map((user) => {
+      let specialization;
+
+      if (user.specialization) {
+        const name: string = "name";
+        const firstSpec: object = user.specialization[0];
+        specialization = String(firstSpec[name as keyof typeof firstSpec]);
+      }
+
+      const data = {
+        name: `${user.first_name} ${user.last_name}`,
+        specialization: specialization,
+        image: user.photo,
+        link: `/profile/${user.id}/`,
+      };
+      return data;
+    });
+
+    return usersData;
+  }
+
+  // const desinersForCarousel: IDesinerCarouselData[] = [
+  //   {
+  //     name: "Имя Фамилия",
+  //     specialization: "Специализация",
+  //     image: avatarPlaceholder,
+  //     link: "",
+  //   },
+  //   {
+  //     name: "Имя Фамилия",
+  //     specialization: "Специализация",
+  //     image: avatarPlaceholder,
+  //     link: "",
+  //   },
+  //   {
+  //     name: "Имя Фамилия",
+  //     specialization: "Специализация",
+  //     image: avatarPlaceholder,
+  //     link: "",
+  //   },
+  //   {
+  //     name: "Имя Фамилия",
+  //     specialization: "Специализация",
+  //     image: avatarPlaceholder,
+  //     link: "",
+  //   },
+  //   {
+  //     name: "Имя Фамилия",
+  //     specialization: "Специализация",
+  //     image: avatarPlaceholder,
+  //     link: "",
+  //   },
+  //   {
+  //     name: "Имя Фамилия",
+  //     specialization: "Специализация",
+  //     image: avatarPlaceholder,
+  //     link: "",
+  //   },
+  // ];
 
   const desinersCategories: IDesinerCategoriesData[] = [
     {
@@ -75,12 +104,12 @@ const MainPage: React.FC = () => {
       link: "",
     },
     {
-      title: "3d визуализаторы",
+      title: "3D-визуализаторы",
       image: desCatImg3,
       link: "",
     },
     {
-      title: "Веб дизайнеры",
+      title: "Веб-дизайнеры",
       image: desCatImg4,
       link: "",
     },
@@ -105,9 +134,9 @@ const MainPage: React.FC = () => {
             flexDirection={"column"}
           >
             <Intro />
-            <DesinersCarousel data={desinersForCarousel} />
+            <DesinersCarousel data={getUsers()} />
             <DesinersCategories data={desinersCategories} />
-            {cases.length > 0 && <Feed cases={cases} />}
+            {<Feed cases={cases} setCases={setCases} />}
           </Grid>
         }
       </Box>

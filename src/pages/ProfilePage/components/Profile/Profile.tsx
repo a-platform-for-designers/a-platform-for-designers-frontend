@@ -5,13 +5,34 @@ import { IProfileDesigner } from "../../../../types";
 import { AboutItem, EmptyData } from "..";
 
 interface IProps {
-  profiledesigner?: IProfileDesigner;
+  profiledesigner?: IProfileDesigner | null;
+  emptyTitle: string;
 }
 
-const Profile: React.FC<IProps> = ({ profiledesigner }) => {
-  if (!profiledesigner)
-    return <EmptyData title="Дизайнер пока не заполнил профиль" />;
-  const { education, country, hobby, language } = profiledesigner;
+const Profile: React.FC<IProps> = ({ profiledesigner, emptyTitle }) => {
+  if (!profiledesigner) return <EmptyData title={emptyTitle} />;
+  const { education, country, hobby, language, specialization } =
+    profiledesigner;
+
+  function setSpecializations() {
+    if (Array.isArray(specialization)) {
+      const name: string = "name";
+      const result = specialization.map((obj) =>
+        String(obj[name as keyof typeof obj])
+      );
+      return result;
+    }
+  }
+
+  function setLanguages() {
+    if (Array.isArray(language)) {
+      const name: string = "name";
+      const result = language.map((obj) =>
+        String(obj[name as keyof typeof obj])
+      );
+      return result;
+    }
+  }
 
   return (
     <StyledEngineProvider injectFirst>
@@ -31,12 +52,12 @@ const Profile: React.FC<IProps> = ({ profiledesigner }) => {
         >
           <AboutItem
             secondary
-            data={"Графический дизайнер"}
+            data={setSpecializations()}
             title="Специализация"
           />
           <AboutItem secondary data={country} title="Страна" />
           <AboutItem secondary data={education} title="Образование" />
-          <AboutItem secondary data={language} title="Язык" />
+          <AboutItem secondary data={setLanguages()} title="Знание языков" />
         </Grid>
       </Grid>
     </StyledEngineProvider>

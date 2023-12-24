@@ -1,14 +1,22 @@
 import { Paper, List, ListItemButton, ListItemText } from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useAppSelector } from "@/hooks/reduxHooks";
+
 import "./Asidebar.scss";
+import { useAppDispatch } from "@/hooks/reduxHooks";
+import { logOut } from "@/redux/slices/authSlice";
 
 const Asidebar: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useAppDispatch();
 
   const isActive = (path: string): boolean => {
     return location.pathname.includes(path);
   };
+
+  const { user } = useAppSelector((state) => state.user);
+  const isCustomer = user?.is_customer;
 
   const navItems = [
     {
@@ -27,11 +35,18 @@ const Asidebar: React.FC = () => {
       id: 1052,
     },
     {
-      title: "Заказы",
-      link: "orders",
-      id: 1053,
+      title: "Настройки",
+      link: "settings",
+      id: 1054,
     },
+  ];
 
+  const customerNavItems = [
+    {
+      title: "Профиль",
+      link: "profile",
+      id: 1050,
+    },
     {
       title: "Настройки",
       link: "settings",
@@ -39,7 +54,9 @@ const Asidebar: React.FC = () => {
     },
   ];
 
-  const navElement = navItems.map((item) => {
+  const items = isCustomer ? customerNavItems : navItems;
+
+  const navElement = items.map((item) => {
     return (
       <ListItemButton
         key={item.id}
@@ -53,7 +70,9 @@ const Asidebar: React.FC = () => {
     );
   });
 
-  function logout() {}
+  async function logout() {
+    await dispatch(logOut());
+  }
 
   return (
     <Paper className="asidebar__nav">
@@ -62,8 +81,8 @@ const Asidebar: React.FC = () => {
 
         <ListItemButton
           className="asidebar__nav-item asidebar__nav-item_type_exit"
-          onClick={() => {
-            logout();
+          onClick={async () => {
+            await logout();
             navigate("/");
           }}
         >

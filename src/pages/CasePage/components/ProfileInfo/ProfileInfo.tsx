@@ -3,32 +3,35 @@ import {
   Grid,
   Paper,
   StyledEngineProvider,
-  SxProps,
-  Theme,
   Typography,
 } from "@mui/material";
 import "./ProfileInfo.scss";
 import React from "react";
 import { getInitials } from "../../../../features";
 import { IAuthorCase } from "@/types";
-import { LISTS } from "@/constants/constants";
-
-const avatarStyles: SxProps<Theme> = {
-  height: "94px",
-  width: "94px",
-  borderRadius: "50%",
-};
+import { useNavigate } from "react-router-dom";
 
 interface IProfileInfoProps {
   data: IAuthorCase;
 }
 
 const ProfileInfo: React.FC<IProfileInfoProps> = ({ data }) => {
+  const navigate = useNavigate();
   const { first_name, last_name, specialization, photo } = data;
 
   const name = `${first_name} ${last_name}`;
 
   const initials = getInitials(name);
+
+  function setSpecializations() {
+    if (Array.isArray(specialization)) {
+      const name: string = "name";
+      const result = specialization.map((obj) =>
+        String(obj[name as keyof typeof obj])
+      );
+      return result;
+    }
+  }
 
   return (
     <StyledEngineProvider injectFirst>
@@ -40,7 +43,14 @@ const ProfileInfo: React.FC<IProfileInfoProps> = ({ data }) => {
         alignItems="center"
         component={Paper}
       >
-        <Avatar src={photo} alt={name} sx={avatarStyles}>
+        <Avatar
+          src={photo}
+          alt={name}
+          className="profileInfo__avatar"
+          onClick={() => {
+            navigate(`/profile/${data.id}/`);
+          }}
+        >
           {!photo ? initials : ""}
         </Avatar>
         <Grid container flexDirection="column" gap="24px" flexGrow={1}>
@@ -60,7 +70,7 @@ const ProfileInfo: React.FC<IProfileInfoProps> = ({ data }) => {
               </Typography>
             </Grid>
             <Typography className="profileInfo__subtitle" component="p">
-              {LISTS.LIST_SPECIALITY[specialization]}
+              {setSpecializations() && setSpecializations()?.join(", ")}
             </Typography>
           </Grid>
         </Grid>

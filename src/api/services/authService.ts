@@ -8,15 +8,7 @@ const authService = {
   },
 
   logout: async (): Promise<void> => {
-    await api.post<IToken>(
-      "/auth/token/login",
-      {},
-      {
-        headers: {
-          Authorization: `Token ${localStorage.getItem("token")}`,
-        },
-      }
-    );
+    await api.post<IToken>("/auth/token/logout");
   },
 };
 

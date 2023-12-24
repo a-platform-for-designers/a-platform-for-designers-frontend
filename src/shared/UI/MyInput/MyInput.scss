@@ -62,7 +62,7 @@
 
     label {
       @include small-text;
-      color: var(--text-color-gray) !important;
+      color: var(--text-color-gray);
       top: 0;
       left: 0;
     }
@@ -73,7 +73,7 @@
 
     .MuiFormHelperText-root {
       @include small-text();
-      color: var(--validation-error-color) !important;
+      color: var(--validation-error-color);
       margin: 8px 0 0 0;
     }
   }
