@@ -224,3 +224,44 @@ export interface ICaseCreation {
   description?: string;
   sphere?: number;
 }
+
+export interface IProfileNavPage {
+  title: string;
+  link: string;
+  element: JSX.Element;
+}
+
+// интерфейс данных категории, которые нужно передать в пропсах
+export interface IWorkCategoryData {
+  title: string;
+  link: string;
+}
+
+// Отдельно выбирается одна категория и "Ваши подписки"
+export interface IActiveWorkCategoryState {
+  allDirections: boolean;
+  categories: string[];
+  following: boolean;
+}
+
+export interface IDesinerCategoriesData {
+  title: string;
+  image: string;
+  link: string;
+  onClick?: () => void;
+}
+
+export interface IValidation {
+  isEmpty?: boolean;
+  minLength?: number;
+  maxLength?: number;
+  isEmail?: boolean;
+  isName?: boolean;
+  isPhone?: boolean;
+}
+
+export interface ISetNewPassword {
+  current_password: string;
+  new_password: string;
+  re_new_password: string;
+}

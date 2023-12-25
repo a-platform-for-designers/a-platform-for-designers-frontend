@@ -41,8 +41,6 @@ const CasePage: React.FC = () => {
     }
   }, [id]);
 
-  console.log(caseData);
-
   const isLoading = false;
   if (isLoading) {
     return (

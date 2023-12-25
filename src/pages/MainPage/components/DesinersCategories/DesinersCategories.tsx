@@ -9,13 +9,7 @@ import {
 } from "@mui/material";
 import "./DesinersCategories.scss";
 import { useNavigate } from "react-router-dom";
-
-export interface IDesinerCategoriesData {
-  title: string;
-  image: string;
-  link: string;
-  onClick?: () => void;
-}
+import { IDesinerCategoriesData } from "@/types";
 
 interface IDesinersCategoriesProps {
   data: IDesinerCategoriesData[];

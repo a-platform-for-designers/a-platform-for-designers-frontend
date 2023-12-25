@@ -19,8 +19,6 @@ const Portfolio: React.FC<IPortfolioProps> = ({ data }) => {
     return <EmptyData title="У дизайнера пока нет проектов" />;
   }
 
-  console.log(data);
-
   return (
     <StyledEngineProvider injectFirst>
       <Grid className="portfolio" justifyContent="center" container>

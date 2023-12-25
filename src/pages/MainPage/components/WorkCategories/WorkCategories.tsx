@@ -5,19 +5,7 @@ import MyButton from "@/shared/UI/MyButton/MyButton";
 import { useAppSelector } from "@/hooks/reduxHooks";
 import { ICase } from "@/types";
 import { filterService } from "@/api/services/filterService";
-
-// интерфейс данных категории, которые нужно передать в пропсах
-export interface IWorkCategoryData {
-  title: string;
-  link: string;
-}
-
-// Отдельно выбирается одна категория и "Ваши подписки"
-export interface IActiveWorkCategoryState {
-  allDirections: boolean;
-  categories: string[];
-  following: boolean;
-}
+import { IWorkCategoryData, IActiveWorkCategoryState } from "@/types";
 
 interface IWorkCategoriesProps {
   data: IWorkCategoryData[];
