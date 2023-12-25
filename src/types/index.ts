@@ -259,3 +259,9 @@ export interface IValidation {
   isName?: boolean;
   isPhone?: boolean;
 }
+
+export interface ISetNewPassword {
+  current_password: string;
+  new_password: string;
+  re_new_password: string;
+}
