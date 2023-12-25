@@ -130,7 +130,7 @@ const MyInput: React.FC<IMyInputProps> = ({
                     onClick={handleClickShowPassword}
                     edge="end"
                   >
-                    {showPassword ? <img src={eyeClosed} /> : <img src={eye} />}
+                    {showPassword ? <img src={eye} /> : <img src={eyeClosed} />}
                   </IconButton>
                 </InputAdornment>
               }
