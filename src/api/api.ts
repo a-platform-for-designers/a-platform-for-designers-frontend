@@ -4,10 +4,10 @@ import axios from "axios";
 
 const api = axios.create({
   baseURL: API_PATH,
-  headers: {"Content-Type": "application/json"}
+  headers: { "Content-Type": "application/json" },
 });
 
-export const tokenManager = new TokenManager(api)
+export const tokenManager = new TokenManager(api);
 
 export class RestApiErrors extends Error {
   messages: string[];
@@ -27,11 +27,13 @@ api.interceptors.response.use(
 
       if (response) {
         if (statusCode === 401) {
-          tokenManager.clearToken()
+          tokenManager.clearToken();
           messages = [CLIENT_API_ERRORS.UNAUTHORIZED_ACCESS];
         } else if (statusCode === 400) {
           const errorsValues: string[][] = Object.values(response.data);
-          messages = errorsValues.flat().map(error => errorsMap.get(error) || error)
+          messages = errorsValues
+            .flat()
+            .map((error) => errorsMap.get(error) || error);
         } else if (statusCode === 500) {
           messages = [CLIENT_API_ERRORS.SERVER_ERROR];
         }
@@ -40,7 +42,7 @@ api.interceptors.response.use(
       return Promise.reject(new RestApiErrors(messages));
     }
     return Promise.reject(error);
-  },
+  }
 );
 
 export default api;

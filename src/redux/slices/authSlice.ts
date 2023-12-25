@@ -1,4 +1,4 @@
-import { authService  } from "@/api";
+import { authService } from "@/api";
 import { RestApiErrors, tokenManager } from "@/api/api";
 import { IAuthUserRequest } from "@/types";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
@@ -29,16 +29,16 @@ export const logIn = createAsyncThunk(
         throw error;
       }
     }
-  },
+  }
 );
 
 export const logOut = createAsyncThunk(
   "auth/logout",
   async (_, { dispatch }) => {
     await authService.logout();
-    tokenManager.clearToken()
+    tokenManager.clearToken();
     dispatch(deleteUserInfo());
-  },
+  }
 );
 
 export const authSlice = createSlice({
@@ -58,7 +58,7 @@ export const authSlice = createSlice({
         state.loading = "pending";
       })
       .addCase(logIn.fulfilled, (state, action) => {
-        tokenManager.setToken(action.payload.auth_token)
+        tokenManager.setToken(action.payload.auth_token);
         state.isAuth = true;
         state.loading = "succeeded";
       })

@@ -18,11 +18,11 @@ const ProfilePage: React.FC = () => {
 
   useEffect(() => {
     (async () => {
-      const isProfileOfCurrentUser = user?.id === Number(id)
-      if(isProfileOfCurrentUser) {
-        setCurrentUser(user)
-      }else{
-        setCurrentUser(await userService.getUserById(Number(id)))
+      const isProfileOfCurrentUser = user?.id === Number(id);
+      if (isProfileOfCurrentUser) {
+        setCurrentUser(user);
+      } else {
+        setCurrentUser(await userService.getUserById(Number(id)));
       }
     })();
   }, [id, user]);
@@ -98,10 +98,9 @@ const ProfilePage: React.FC = () => {
     },
   ];
 
-  if(!currentUser) {
-    return <Preloader />
+  if (!currentUser) {
+    return <Preloader />;
   }
-
 
   return (
     <StyledEngineProvider injectFirst>

@@ -40,7 +40,7 @@ export const getInfoAboutMe = createAsyncThunk(
         throw error;
       }
     }
-  },
+  }
 );
 
 export const updateInfoAboutMe = createAsyncThunk(
@@ -55,7 +55,7 @@ export const updateInfoAboutMe = createAsyncThunk(
         throw error;
       }
     }
-  },
+  }
 );
 
 export const createUser = createAsyncThunk(
@@ -72,7 +72,7 @@ export const createUser = createAsyncThunk(
         throw error;
       }
     }
-  },
+  }
 );
 
 export const userSlice = createSlice({
@@ -106,7 +106,7 @@ export const userSlice = createSlice({
         (state, action) => {
           state.loading = "failed";
           state.errorMessages = action.payload as string[];
-        },
+        }
       );
   },
 });

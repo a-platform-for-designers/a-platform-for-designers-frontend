@@ -18,7 +18,7 @@ interface ISignUpProps {
 const SignUp: FC<ISignUpProps> = ({ openSignInPopup, isCustomer }) => {
   const dispatch = useAppDispatch();
   const { errorMessages } = useAppSelector((state) => state.user);
-  const {  isAuth } = useAppSelector((state) => state.auth);
+  const { isAuth } = useAppSelector((state) => state.auth);
   const [error] = useState("");
   const [confirmPrivatePolicy, setConfirmPrivatePolicy] =
     useState<boolean>(false);
@@ -68,24 +68,26 @@ const SignUp: FC<ISignUpProps> = ({ openSignInPopup, isCustomer }) => {
     isEmpty: true,
   });
 
-  useEffect(()=> {
-    errorMessages.forEach(message => {
+  useEffect(() => {
+    errorMessages.forEach((message) => {
       enqueueSnackbar({
         variant: "error",
         message,
       });
-    })
-    return () => {dispatch(resetAuthErrors())}
-  }, [errorMessages, dispatch])
+    });
+    return () => {
+      dispatch(resetAuthErrors());
+    };
+  }, [errorMessages, dispatch]);
 
-  useEffect(()=> {
-    if(isAuth) {
+  useEffect(() => {
+    if (isAuth) {
       enqueueSnackbar({
         variant: "success",
         message: "Вы успешно вошли",
       });
     }
-  }, [isAuth])
+  }, [isAuth]);
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
