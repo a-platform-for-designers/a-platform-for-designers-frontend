@@ -8,10 +8,8 @@ import "./Feed.scss";
 import { useState } from "react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import WorkCategories, {
-  IActiveWorkCategoryState,
-  IWorkCategoryData,
-} from "../WorkCategories/WorkCategories";
+import WorkCategories from "../WorkCategories/WorkCategories";
+import { IWorkCategoryData, IActiveWorkCategoryState } from "@/types";
 import MySwiper from "@/shared/UI/MySwiper/MySwiper";
 import { ICase } from "@/types";
 

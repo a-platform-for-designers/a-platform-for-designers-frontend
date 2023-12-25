@@ -8,12 +8,7 @@ import {
 import "./ProfileNav.scss";
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-
-export interface IProfileNavPage {
-  title: string;
-  link: string;
-  element: JSX.Element;
-}
+import { IProfileNavPage } from "@/types";
 
 const buttonStyles: SxProps<Theme> = {
   borderRadius: "4px",

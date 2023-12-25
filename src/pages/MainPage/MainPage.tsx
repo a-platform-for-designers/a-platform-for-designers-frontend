@@ -4,9 +4,8 @@ import Intro from "./components/Intro/Intro";
 import { useState, useEffect } from "react";
 
 import DesinersCarousel from "./components/DesinersCarousel/DesinersCarousel";
-import DesinersCategories, {
-  IDesinerCategoriesData,
-} from "./components/DesinersCategories/DesinersCategories";
+import DesinersCategories from "./components/DesinersCategories/DesinersCategories";
+import { IDesinerCategoriesData } from "@/types";
 
 //import avatarPlaceholder from "../../assets/images/designerscarousel-avatar.png";
 import desCatImg1 from "../../assets/images/desinerscategories-1.png";

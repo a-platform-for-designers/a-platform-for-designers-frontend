@@ -70,8 +70,8 @@ const Asidebar: React.FC = () => {
     );
   });
 
-  async function  logout() {
-    await dispatch(logOut())
+  async function logout() {
+    await dispatch(logOut());
   }
 
   return (

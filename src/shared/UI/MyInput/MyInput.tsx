@@ -19,7 +19,7 @@ import eyeClosed from "../../../assets/icons/eye-close.svg";
 
 type TInputTextArea = HTMLInputElement | HTMLTextAreaElement;
 
-export interface IMyInputProps {
+interface IMyInputProps {
   data: objFromUseInput;
   label?: string;
   onChangeCallback?: () => void;

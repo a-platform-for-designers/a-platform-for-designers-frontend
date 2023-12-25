@@ -1,8 +1,14 @@
 import { Container, StyledEngineProvider } from "@mui/material";
 import "./ProfilePage.scss";
-import { Route, Routes, Navigate, useParams } from "react-router-dom";
+import {
+  Route,
+  Routes,
+  Navigate,
+  useParams,
+  useNavigate,
+} from "react-router-dom";
 import { Info, ProfileNav, Portfolio, Work, Profile } from "./components";
-import { IProfileNavPage } from "./components/ProfileNav/ProfileNav";
+import { IProfileNavPage } from "@/types";
 import { useAppSelector } from "@/hooks/reduxHooks";
 import { userService } from "@/api";
 import { useEffect, useState } from "react";
@@ -15,14 +21,24 @@ const ProfilePage: React.FC = () => {
   const { id } = useParams();
   const [currentUser, setCurrentUser] = useState<IUser>(); // пользователь чей профиль(id через путь)
   const isCustomerCurrentUser = currentUser?.is_customer;
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isCustomerCurrentUser) {
+      navigate(`/profile/${id}/orders`);
+    } else {
+      navigate(`/profile/${id}/portfolio`);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isCustomerCurrentUser]);
 
   useEffect(() => {
     (async () => {
-      const isProfileOfCurrentUser = user?.id === Number(id)
-      if(isProfileOfCurrentUser) {
-        setCurrentUser(user)
-      }else{
-        setCurrentUser(await userService.getUserById(Number(id)))
+      const isProfileOfCurrentUser = user?.id === Number(id);
+      if (isProfileOfCurrentUser) {
+        setCurrentUser(user);
+      } else {
+        setCurrentUser(await userService.getUserById(Number(id)));
       }
     })();
   }, [id, user]);
@@ -98,10 +114,9 @@ const ProfilePage: React.FC = () => {
     },
   ];
 
-  if(!currentUser) {
-    return <Preloader />
+  if (!currentUser) {
+    return <Preloader />;
   }
-
 
   return (
     <StyledEngineProvider injectFirst>
