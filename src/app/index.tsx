@@ -70,7 +70,7 @@ function App() {
                   element={<ProtectedRoute Component={Portfolio} />}
                 >
                   <Route
-                    path="create"
+                    path="create/*"
                     element={<ProtectedRoute Component={CaseCreation} />}
                   />
                 </Route>

@@ -3,6 +3,7 @@ import classes from "./CaseCreation.module.scss";
 import useInput from "@/hooks/useInput";
 import { useState, SyntheticEvent } from "react";
 import React from "react";
+import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
 import { IProfileDataItem } from "../../model/types";
 import { ICasePreview } from "@/types";
 import { tools } from "../../model/constants";
@@ -24,6 +25,7 @@ const CaseCreation: React.FC = () => {
   const [caseDataValues, setCaseDataValues] = useState<ICasePreview>();
 
   const { specializations, spheres } = useAppSelector((state) => state.data);
+  const navigate = useNavigate();
 
   const profileData: IProfileDataItem[] = [
     {
@@ -166,6 +168,7 @@ const CaseCreation: React.FC = () => {
 
   function handleEdit() {
     setIsCasePreview(false);
+    navigate("/dashboard/portfolio/create/preview");
   }
 
   return (
@@ -206,11 +209,21 @@ const CaseCreation: React.FC = () => {
           </Box>
         </>
       ) : (
-        <CasePreview
-          handleSubmit={handleSubmit}
-          caseData={caseDataValues}
-          handleEdit={handleEdit}
-        />
+        <Routes>
+          <Route path="/">
+            <Route index element={<Navigate replace to={"preview"} />} />
+            <Route
+              path="/preview"
+              element={
+                <CasePreview
+                  handleSubmit={handleSubmit}
+                  caseData={caseDataValues}
+                  handleEdit={handleEdit}
+                />
+              }
+            />
+          </Route>
+        </Routes>
       )}
     </>
   );

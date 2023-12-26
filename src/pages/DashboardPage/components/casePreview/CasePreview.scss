@@ -1,24 +1,22 @@
 .case-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+
+  &__submit {
     display: flex;
-    flex-direction: column;
-    gap: 60px;
-  
-    &__submit {
-      display: flex;
-      gap: 24px;
-      justify-content: end;
+    gap: 24px;
+    justify-content: end;
+    text-align: center;
+  }
+
+  &__btn {
+    text-align: center;
+    width: 200px;
+
+    &-back {
+      width: 300px;
       text-align: center;
     }
-  
-    &__btn {
-        text-align: center;
-      width: 200px;
-
-      &-back {
-        width: 300px;
-        text-align: center;
-  
-      }
-    }
   }
-  
+}
