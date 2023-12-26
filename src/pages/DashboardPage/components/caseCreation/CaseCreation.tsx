@@ -4,10 +4,12 @@ import useInput from "@/hooks/useInput";
 import { useState, SyntheticEvent } from "react";
 import React from "react";
 import { IProfileDataItem } from "../../model/types";
+import { ICasePreview } from "@/types";
 import { tools } from "../../model/constants";
 import ProfileInput from "@/shared/UI/ProfileInput/ProfileInput";
 import { MyButton } from "@/shared/UI";
 import { useAppSelector } from "@/hooks/reduxHooks";
+import CasePreview from "../casePreview/CasePreview";
 
 const CaseCreation: React.FC = () => {
   const title = useInput("", { isEmpty: true });
@@ -18,6 +20,8 @@ const CaseCreation: React.FC = () => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [sphereValue, setSphereValue] = useState<string | null>(null);
   const [toolsValue, setToolsValue] = useState<string[]>([]);
+  const [isCasePreview, setIsCasePreview] = useState<boolean>(false);
+  const [caseDataValues, setCaseDataValues] = useState<ICasePreview>();
 
   const { specializations, spheres } = useAppSelector((state) => state.data);
 
@@ -144,30 +148,70 @@ const CaseCreation: React.FC = () => {
     console.log(values);
   }
 
+  function handleCasePreview(e: React.MouseEvent<HTMLButtonElement>) {
+    e.preventDefault();
+    const values = {
+      title: title.value,
+      time: time.value,
+      description: description.value,
+      directions,
+      wrapper,
+      images: selectedFiles,
+      sphereValue,
+      toolsValue,
+    };
+    setCaseDataValues(values);
+    setIsCasePreview(true);
+  }
+
+  function handleEdit() {
+    setIsCasePreview(false);
+  }
+
   return (
     <>
-      <>
-        <Box className={classes.case}>
-          {profileData.map((item) => {
-            return (
-              <ProfileInput
-                key={item.heading}
-                handleDeleteCaseImage={handleDeleteCaseImage}
-                {...item}
-              />
-            );
-          })}
-        </Box>
-        <Box textAlign={"center"} marginLeft={15}>
-          <MyButton
-            className={classes.case__btn}
-            onClick={handleSubmit}
-            disabled={!!(title.error || !wrapper || selectedFiles.length === 0)}
-          >
-            Сохранить
-          </MyButton>
-        </Box>
-      </>
+      {!isCasePreview ? (
+        <>
+          <Box className={classes.case}>
+            {profileData.map((item) => {
+              return (
+                <ProfileInput
+                  key={item.heading}
+                  handleDeleteCaseImage={handleDeleteCaseImage}
+                  {...item}
+                />
+              );
+            })}
+          </Box>
+          <Box className={classes.case__submit}>
+            <MyButton
+              className={classes.case__btn}
+              onClick={handleCasePreview}
+              disabled={
+                !!(title.error || !wrapper || selectedFiles.length === 0)
+              }
+              variant="outlined"
+            >
+              Предпросмотр
+            </MyButton>
+            <MyButton
+              className={classes.case__btn}
+              onClick={handleSubmit}
+              disabled={
+                !!(title.error || !wrapper || selectedFiles.length === 0)
+              }
+            >
+              Опубликовать проект
+            </MyButton>
+          </Box>
+        </>
+      ) : (
+        <CasePreview
+          handleSubmit={handleSubmit}
+          caseData={caseDataValues}
+          handleEdit={handleEdit}
+        />
+      )}
     </>
   );
 };

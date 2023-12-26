@@ -6,11 +6,13 @@ interface IAboutItemProps {
   title: string;
   data?: string[] | string | undefined | null;
   secondary?: boolean;
+  third?: boolean;
 }
 
 const AboutItem: React.FC<IAboutItemProps> = ({
   data,
   title,
+  // third = false,
   secondary = false,
 }) => {
   let content: React.ReactNode;
