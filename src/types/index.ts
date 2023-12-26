@@ -225,6 +225,43 @@ export interface ICaseCreation {
   sphere?: number;
 }
 
+export interface ICreateChat {
+  receiver: number
+}
+
+export type Message = string
+
+export interface IChatParticipant { 
+  id: number,
+  first_name: string,
+  last_name: string,
+  photo: string
+}
+
+export interface IChat {
+  id: number,
+  initiator: IChatParticipant,
+  receiver: IChatParticipant,
+  last_message: Message
+}
+
+export interface IMessage {
+  id: number,
+  chat: IChat,
+  sender: IChatParticipant,
+  text: Message,
+  pub_date: string,
+  file: string
+}
+
+export interface IShortMessage extends Omit<IMessage, 'chat' | 'sender'> {
+  sender_id: IChatParticipant["id"];
+}
+
+export interface IChatResponse extends IListRespons {
+  results: IChat[];
+}
+
 export interface IProfileNavPage {
   title: string;
   link: string;

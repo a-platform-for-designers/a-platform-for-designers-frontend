@@ -52,7 +52,7 @@ function App() {
             <Header />
             <Routes>
               <Route path="/" Component={MainPage} />
-              <Route path="/chats" Component={ChatPage} />
+              <Route path="/chats" element={<ProtectedRoute Component={ChatPage} />} />
               <Route path="/designers" Component={DesignersPage} />
               <Route path="/mentors" Component={MentorsPage} />
               <Route path="/profile/:id/*" Component={ProfilePage} />

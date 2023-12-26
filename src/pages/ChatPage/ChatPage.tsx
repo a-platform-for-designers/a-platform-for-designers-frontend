@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useEffect, useState } from "react";
 import {
   Box,
   TextField,
@@ -15,108 +15,32 @@ import {
 } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import "./ChatPage.scss";
-
-const messages = [
-  {
-    id: 1,
-    text: "Добрый день, Меня зовут Ваше имя, и я представляю компанию Название вашей компании. Недавно я ознакомился с вашим портфолио, и я впечатлён вашим уровнем мастерства и креативным подходом к UX/UI дизайну. Ваши работы демонстрируют глубокое понимание пользовательского опыта и внимание к деталям, что является ключевыми качествами для нас.",
-    sender: "bot",
-    time: "13:37",
-    day: "3 сентября",
-  },
-  {
-    id: 2,
-    text: "Добрый день, Меня зовут Ваше имя ",
-    sender: "user",
-    time: "13:37",
-    day: "",
-  },
-  {
-    id: 3,
-    text: "Добрый день, Меня зовут Ваше имя ",
-    sender: "bot",
-    time: "13:37",
-    day: "",
-  },
-  {
-    id: 4,
-    text: "Добрый день, Меня зовут Ваше имя, и я представляю компанию Название вашей компании. Недавно я ознакомился с вашим портфолио, и я впечатлён вашим уровнем мастерства и креативным подходом к UX/UI дизайну. Ваши работы демонстрируют глубокое понимание пользовательского опыта и внимание к деталям, что является ключевыми качествами для нас.",
-    sender: "bot",
-    time: "13:37",
-    day: "3 сентября",
-  },
-  {
-    id: 5,
-    text: "Добрый день, Меня зовут Ваше имя ",
-    sender: "user",
-    time: "13:37",
-    day: "",
-  },
-  {
-    id: 6,
-    text: "Добрый день, Меня зовут Ваше имя ",
-    sender: "bot",
-    time: "13:37",
-    day: "",
-  },
-  {
-    id: 7,
-    text: "Добрый день, Меня зовут Ваше имя, и я представляю компанию Название вашей компании. Недавно я ознакомился с вашим портфолио, и я впечатлён вашим уровнем мастерства и креативным подходом к UX/UI дизайну. Ваши работы демонстрируют глубокое понимание пользовательского опыта и внимание к деталям, что является ключевыми качествами для нас.",
-    sender: "bot",
-    time: "13:37",
-    day: "3 сентября",
-  },
-  {
-    id: 8,
-    text: "Добрый день, Меня зовут Ваше имя ",
-    sender: "user",
-    time: "13:37",
-    day: "",
-  },
-  {
-    id: 9,
-    text: "Добрый день, Меня зовут Ваше имя ",
-    sender: "bot",
-    time: "13:37",
-    day: "",
-  },
-];
-
-const interlocutors = [
-  {
-    id: 1,
-    text: "Добрый день, пишу вам по поводу Добрый день, пишу вам по поводу",
-    name: "Имя Фамилия",
-  },
-  { id: 2, text: "Добрый день, пишу вам по поводу", name: "Имя Фамилия" },
-  { id: 3, text: "Добрый день, пишу вам по поводу", name: "Имя Фамилия" },
-  { id: 4, text: "Добрый день, пишу вам по поводу", name: "Имя Фамилия" },
-  { id: 5, text: "Добрый день, пишу вам по поводу", name: "Имя Фамилия" },
-  { id: 6, text: "Добрый день, пишу вам по поводу", name: "Имя Фамилия" },
-  { id: 7, text: "Добрый день, пишу вам по поводу", name: "Имя Фамилия" },
-  { id: 8, text: "Добрый день, пишу вам по поводу", name: "Имя Фамилия" },
-  { id: 9, text: "Добрый день, пишу вам по поводу", name: "Имя Фамилия" },
-  { id: 10, text: "Добрый день, пишу вам по поводу", name: "Имя Фамилия" },
-  { id: 11, text: "Добрый день, пишу вам по поводу", name: "Имя Фамилия" },
-  { id: 12, text: "Добрый день, пишу вам по поводу", name: "Имя Фамилия" },
-  { id: 13, text: "Добрый день, пишу вам по поводу", name: "Имя Фамилия" },
-];
-
-interface MessageProps {
-  message: {
-    sender: string;
-    text: string;
-    time: string;
-    day?: string;
-  };
-}
+import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
+import { getChats, getMessages, sendMessage } from "@/redux/slices/chatSlice";
+import { IChat, IShortMessage } from "@/types";
+import { EmptyData } from "../ProfilePage/components";
 
 const ChatPage = () => {
-  const [input, setInput] = React.useState("");
+  const [input, setInput] = useState("");
+  const [activeChat, setActiveChat] = useState<IChat | null>(null);
+  const dispatch = useAppDispatch();
+  const { chats, messages } = useAppSelector((state) => state.chat);
+  const { user } = useAppSelector((state) => state.user);
+
+  useEffect(()=> {
+    dispatch(getChats());
+  },[dispatch])
+
+  useEffect(()=> {
+    if(activeChat) {
+      const { id } = activeChat;
+        dispatch(getMessages(id));
+      }
+  },[ activeChat, dispatch ])
 
   const handleSend = () => {
-    if (input.trim() !== "") {
-      console.log(input);
+    if (activeChat && input.trim() !== "") {
+      dispatch(sendMessage(input.trim()))
       setInput("");
     }
   };
@@ -124,6 +48,16 @@ const ChatPage = () => {
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInput(event.target.value);
   };
+
+  const checkIsFirstMessage = (i:number, array: IShortMessage[]) => {
+    if(i) {
+      const currentMessageDate = new Date(array.at(i)!.pub_date).getDate();
+      const previousMessageDate = new Date(array.at(i-1)!.pub_date).getDate();
+      return currentMessageDate !== previousMessageDate
+    }else{
+      return true;
+    }
+  }
 
   return (
     <StyledEngineProvider injectFirst>
@@ -142,6 +76,7 @@ const ChatPage = () => {
             bgcolor: "white",
             height: "92%",
             maxWidth: "472px",
+            minWidth: "400px",
             borderTopLeftRadius: "12px",
             borderBottomLeftRadius: "12px",
             position: "relative",
@@ -174,29 +109,32 @@ const ChatPage = () => {
             }}
           >
             <List sx={{}}>
-              {interlocutors.map((item) => (
-                <ListItem key={item.id} disablePadding>
-                  <ListItemButton>
-                    <Avatar></Avatar>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        maxWidth: "324px",
-                        overflow: "hidden",
-                        marginLeft: "16px",
-                      }}
-                    >
-                      <ListItemText className="chats__list-name">
-                        {item.name}
-                      </ListItemText>
-                      <ListItemText className="chats__list-text">
-                        {item.text}
-                      </ListItemText>
-                    </Box>
-                  </ListItemButton>
-                </ListItem>
-              ))}
+                {chats && chats.map((chat) => {
+                  const {id, last_message, receiver:{first_name, last_name, photo}} = chat;
+                  return (
+                      <ListItem key={id} disablePadding>
+                        <ListItemButton onClick={()=>setActiveChat(chat)}>
+                          <Avatar src={photo}></Avatar>
+                          <Box
+                            sx={{
+                              display: "flex",
+                              flexDirection: "column",
+                              maxWidth: "324px",
+                              overflow: "hidden",
+                              marginLeft: "16px",
+                            }}
+                          >
+                            <ListItemText className="chats__list-name">
+                              {`${first_name} ${last_name}`}
+                            </ListItemText>
+                            <ListItemText className="chats__list-text">
+                              {last_message}
+                            </ListItemText>
+                          </Box>
+                        </ListItemButton>
+                      </ListItem>
+                  )
+                })}
             </List>
           </Box>
         </Box>
@@ -220,6 +158,7 @@ const ChatPage = () => {
             }}
           >
             <Avatar
+            {...(activeChat ? { src: activeChat?.receiver.photo } : {})}
               sx={{
                 marginLeft: "16px",
                 marginRight: "20px",
@@ -233,7 +172,7 @@ const ChatPage = () => {
                 lineHeight: "28px",
               }}
             >
-              Имя Фамилия
+              {activeChat && `${activeChat?.receiver.first_name} ${activeChat?.receiver.last_name}`}
             </Typography>
           </Box>
           <Box
@@ -257,9 +196,13 @@ const ChatPage = () => {
               },
             }}
           >
-            {messages.map((message) => (
-              <Message key={message.id} message={message} />
-            ))}
+            {
+            activeChat
+            ? (messages.map((message, i , array) => (
+              <Message key={message.id} message={message} first={checkIsFirstMessage(i, array)}/>
+            )))
+            : (<EmptyData title={chats?.length ? "Выберите чат" : "Пока здесь пусто"}></EmptyData>)
+            }
           </Box>
           <Box
             sx={{
@@ -273,7 +216,10 @@ const ChatPage = () => {
               p: 2,
             }}
           >
-            <Avatar />
+            <Avatar 
+            {...(user ? { src: user.photo } : {})}
+            
+            />
             <TextField
               size="small"
               placeholder="Сообщение"
@@ -309,12 +255,21 @@ const ChatPage = () => {
   );
 };
 
-const Message = ({ message }: MessageProps) => {
-  const isBot = message.sender === "bot";
+const Message = ({ message, first }: {message: IShortMessage, first: boolean}) => {
+  const { user } = useAppSelector((state) => state.user);
+  const isCurrentUser = user?.id === message.sender_id;
+  const dateObject = new Date(message.pub_date)
+  const day = first && dateObject.toLocaleDateString("ru-RU", {
+    day: "2-digit",
+    month: "long",
+  })
+  const hours = dateObject.getHours();
+  const minutes = dateObject.getMinutes();
+  const time = `${hours}:${minutes}`;
 
   return (
     <Box sx={{}}>
-      {message.day && (
+      {day && (
         <Typography
           sx={{
             m: "26px",
@@ -327,20 +282,20 @@ const Message = ({ message }: MessageProps) => {
             color: "#6B6B6B",
           }}
         >
-          {message.day}
+          {day}
         </Typography>
       )}
       <Box
         sx={{
           display: "flex",
-          justifyContent: isBot ? "flex-start" : "flex-end",
+          justifyContent: isCurrentUser ? "flex-end" : "flex-start",
           mb: 2,
         }}
       >
         <Box
           sx={{
             display: "flex",
-            flexDirection: isBot ? "row" : "row-reverse",
+            flexDirection: isCurrentUser ? "row-reverse" : "row",
             alignItems: "center",
           }}
         >
@@ -348,8 +303,8 @@ const Message = ({ message }: MessageProps) => {
             variant="outlined"
             sx={{
               p: 2,
-              ml: isBot ? 10 : 0,
-              mr: isBot ? 0 : 10,
+              ml: isCurrentUser ? 0 : 10,
+              mr: isCurrentUser ? 10 : 0,
               backgroundColor: "#FAFAFA",
               borderRadius: "12px",
               padding: "10px",
@@ -369,7 +324,7 @@ const Message = ({ message }: MessageProps) => {
                 color: "#6B6B6B",
               }}
             >
-              {message.time}
+              {time}
             </Typography>
           </Paper>
         </Box>
