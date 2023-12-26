@@ -30,9 +30,8 @@ const ProfilePage: React.FC = () => {
     ],
     image: currentUser?.photo,
     country: currentUser?.profiledesigner?.country || "Не указана страна",
-    // need to fix later
     registrationDate: new Date(
-      user?.date_joined ?? new Date().getDate()
+      user?.date_joined ?? new Date()
     ).toLocaleDateString("ru-RU", {
       day: "2-digit",
       month: "long",

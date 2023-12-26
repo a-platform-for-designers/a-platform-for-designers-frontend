@@ -434,18 +434,22 @@ export const LISTS = {
 export const CLIENT_API_ERRORS = {
   INVALID_DATA: "Введены некорректные данные",
   UNAUTHORIZED_ACCESS: "Для доступа к ресурсу необходима авторизация",
-  EMAIL_EXISTS:"Пользователь с такой электронной почтой уже зарегистрирован."
-  
+  EMAIL_EXISTS: "Пользователь с такой электронной почтой уже зарегистрирован.",
 };
 
 export const SERVER_API_ERRORS = {
   INVALID_DATA: "Невозможно войти с предоставленными учетными данными.",
-  EMAIL_EXISTS:"Пользователь с таким Адрес электронной почты уже существует.",
-  PASSWORD_COMMON:"Введённый пароль слишком широко распространён.",
-  PASSWORD_NUMERIC:"Введённый пароль состоит только из цифр.",
+  EMAIL_EXISTS: "Пользователь с таким Адрес электронной почты уже существует.",
+  PASSWORD_COMMON: "Введённый пароль слишком широко распространён.",
+  PASSWORD_NUMERIC: "Введённый пароль состоит только из цифр.",
 };
 
 export const errorsMap = new Map([
   [SERVER_API_ERRORS.INVALID_DATA, CLIENT_API_ERRORS.INVALID_DATA],
   [SERVER_API_ERRORS.EMAIL_EXISTS, CLIENT_API_ERRORS.EMAIL_EXISTS],
 ]);
+
+export const OPTIMIZED_IMAGE_SWIPER_WIDTH = 660;
+export const OPTIMIZED_IMAGE_SWIPER_HEIGHT = 480;
+export const OPTIMIZED_IMAGE_CASE_HEIGHT = 816;
+export const OPTIMIZED_IMAGE_CASE_WIDTH = 1458;

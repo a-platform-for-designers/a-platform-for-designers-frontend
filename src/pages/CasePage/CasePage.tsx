@@ -13,7 +13,11 @@ import { ICase } from "../../types";
 import { ActionButton, CaseInfo, ProfileInfo } from "./components";
 import { AboutItem, EmptyData } from "../ProfilePage/components";
 import Preloader from "@/shared/Preloader/Preloader";
-import { getOptimizedImage } from "@/features/getOptimizedImage";
+import MyOptimizedImage from "@/shared/UI/MyOptimizedImage/MyOptimizedImage";
+import {
+  OPTIMIZED_IMAGE_CASE_HEIGHT,
+  OPTIMIZED_IMAGE_CASE_WIDTH,
+} from "@/constants/constants";
 
 const CasePage: React.FC = () => {
   const { id } = useParams();
@@ -89,32 +93,26 @@ const CasePage: React.FC = () => {
         <Grid container className="casePage__content" gap="40px">
           <ImageList className="casePage__image-list" cols={2} gap={60}>
             <ImageListItem>
-              <img
+              <MyOptimizedImage
                 className="casePage__image-item"
-                src={`${getOptimizedImage(
-                  caseData.avatar,
-                  1458,
-                  816,
-                  "webp",
-                  "7d"
-                )}`}
-                alt={`Обложка кейса`}
-                loading="lazy"
+                imageUrl={caseData.avatar}
+                width={OPTIMIZED_IMAGE_CASE_WIDTH}
+                height={OPTIMIZED_IMAGE_CASE_HEIGHT}
+                format="webp"
+                maxAge="7d"
+                alt="Обложка кейса"
               />
             </ImageListItem>
             {caseData.images.map((item) => (
               <ImageListItem key={item.id}>
-                <img
+                <MyOptimizedImage
                   className="casePage__image-item"
-                  src={`${getOptimizedImage(
-                    item.image,
-                    1458,
-                    816,
-                    "webp",
-                    "7d"
-                  )}`}
+                  imageUrl={item.image}
+                  width={OPTIMIZED_IMAGE_CASE_WIDTH}
+                  height={OPTIMIZED_IMAGE_CASE_HEIGHT}
+                  format="webp"
+                  maxAge="7d"
                   alt={`Изображение #${item.id}`}
-                  loading="lazy"
                 />
               </ImageListItem>
             ))}

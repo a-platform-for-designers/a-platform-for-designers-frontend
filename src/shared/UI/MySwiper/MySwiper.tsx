@@ -13,7 +13,11 @@ import LikesActive from "@/assets/icons/LikesActive.svg";
 import { IconButton } from "@mui/material";
 import { ICase } from "@/types";
 import { useState } from "react";
-import { getOptimizedImage } from "@/features/getOptimizedImage";
+import MyOptimizedImage from "../MyOptimizedImage/MyOptimizedImage";
+import {
+  OPTIMIZED_IMAGE_SWIPER_HEIGHT,
+  OPTIMIZED_IMAGE_SWIPER_WIDTH,
+} from "@/constants/constants";
 
 interface IProps {
   onClick?: () => void;
@@ -29,8 +33,12 @@ const MySwiper: React.FC<IProps> = ({ item, onClick }) => {
   const sliders = item.images.map((image) => {
     return (
       <SwiperSlide key={image.id}>
-        <img
-          src={getOptimizedImage(image.image, 660, 480, "webp", "7d")}
+        <MyOptimizedImage
+          imageUrl={image.image}
+          width={OPTIMIZED_IMAGE_SWIPER_WIDTH}
+          height={OPTIMIZED_IMAGE_SWIPER_HEIGHT}
+          format="webp"
+          maxAge="7d"
           alt="Картинка из проекта"
         />
       </SwiperSlide>
@@ -87,8 +95,12 @@ const MySwiper: React.FC<IProps> = ({ item, onClick }) => {
           </div>
         </div>
         <SwiperSlide>
-          <img
-            src={getOptimizedImage(item.avatar, 660, 480, "webp", "7d")}
+          <MyOptimizedImage
+            imageUrl={item.avatar}
+            width={OPTIMIZED_IMAGE_SWIPER_WIDTH}
+            height={OPTIMIZED_IMAGE_SWIPER_HEIGHT}
+            format="webp"
+            maxAge="7d"
             alt="Обложка проекта"
           />
         </SwiperSlide>
