@@ -1,4 +1,10 @@
-import { IChat, ICreateChat, IChatResponse } from "../../types";
+import {
+  IChat,
+  ICreateChat,
+  IChatResponse,
+  IMessage,
+  ISendMessage,
+} from "../../types";
 import api from "../api";
 
 export const chartService = {
@@ -14,6 +20,11 @@ export const chartService = {
 
   getChats: async (): Promise<IChatResponse> => {
     const response = await api.get(`/chats/`);
+    return response.data;
+  },
+
+  sendMessage: async (data: ISendMessage): Promise<IMessage> => {
+    const response = await api.post(`/send_message/`, data);
     return response.data;
   },
 };

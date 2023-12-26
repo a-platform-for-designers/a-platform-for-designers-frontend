@@ -83,7 +83,7 @@ const DesignersCard: React.FC<IProps> = ({ cardOwner }) => {
         ))}
       </Box>
       {openPopup ? (
-        <MyMessagePopup open={openPopup} onClose={handlePopupClose} />
+        <MyMessagePopup open={openPopup} onClose={handlePopupClose} receiver={cardOwner.id} />
       ) : null}
     </StyledEngineProvider>
   );
