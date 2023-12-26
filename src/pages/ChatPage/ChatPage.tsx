@@ -27,20 +27,20 @@ const ChatPage = () => {
   const { chats, messages } = useAppSelector((state) => state.chat);
   const { user } = useAppSelector((state) => state.user);
 
-  useEffect(()=> {
+  useEffect(() => {
     dispatch(getChats());
-  },[dispatch])
+  }, [dispatch]);
 
-  useEffect(()=> {
-    if(activeChat) {
+  useEffect(() => {
+    if (activeChat) {
       const { id } = activeChat;
-        dispatch(getMessages(id));
-      }
-  },[ activeChat, dispatch ])
+      dispatch(getMessages(id));
+    }
+  }, [activeChat, dispatch]);
 
   const handleSend = () => {
     if (activeChat && input.trim() !== "") {
-      dispatch(sendMessage(input.trim()))
+      dispatch(sendMessage(input.trim()));
       setInput("");
     }
   };
@@ -49,15 +49,15 @@ const ChatPage = () => {
     setInput(event.target.value);
   };
 
-  const checkIsFirstMessage = (i:number, array: IShortMessage[]) => {
-    if(i) {
+  const checkIsFirstMessage = (i: number, array: IShortMessage[]) => {
+    if (i) {
       const currentMessageDate = new Date(array.at(i)!.pub_date).getDate();
-      const previousMessageDate = new Date(array.at(i-1)!.pub_date).getDate();
-      return currentMessageDate !== previousMessageDate
-    }else{
+      const previousMessageDate = new Date(array.at(i - 1)!.pub_date).getDate();
+      return currentMessageDate !== previousMessageDate;
+    } else {
       return true;
     }
-  }
+  };
 
   return (
     <StyledEngineProvider injectFirst>
@@ -109,31 +109,36 @@ const ChatPage = () => {
             }}
           >
             <List sx={{}}>
-                {chats && chats.map((chat) => {
-                  const {id, last_message, receiver:{first_name, last_name, photo}} = chat;
+              {chats &&
+                chats.map((chat) => {
+                  const {
+                    id,
+                    last_message,
+                    receiver: { first_name, last_name, photo },
+                  } = chat;
                   return (
-                      <ListItem key={id} disablePadding>
-                        <ListItemButton onClick={()=>setActiveChat(chat)}>
-                          <Avatar src={photo}></Avatar>
-                          <Box
-                            sx={{
-                              display: "flex",
-                              flexDirection: "column",
-                              maxWidth: "324px",
-                              overflow: "hidden",
-                              marginLeft: "16px",
-                            }}
-                          >
-                            <ListItemText className="chats__list-name">
-                              {`${first_name} ${last_name}`}
-                            </ListItemText>
-                            <ListItemText className="chats__list-text">
-                              {last_message}
-                            </ListItemText>
-                          </Box>
-                        </ListItemButton>
-                      </ListItem>
-                  )
+                    <ListItem key={id} disablePadding>
+                      <ListItemButton onClick={() => setActiveChat(chat)}>
+                        <Avatar src={photo}></Avatar>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            flexDirection: "column",
+                            maxWidth: "324px",
+                            overflow: "hidden",
+                            marginLeft: "16px",
+                          }}
+                        >
+                          <ListItemText className="chats__list-name">
+                            {`${first_name} ${last_name}`}
+                          </ListItemText>
+                          <ListItemText className="chats__list-text">
+                            {last_message}
+                          </ListItemText>
+                        </Box>
+                      </ListItemButton>
+                    </ListItem>
+                  );
                 })}
             </List>
           </Box>
@@ -158,7 +163,7 @@ const ChatPage = () => {
             }}
           >
             <Avatar
-            {...(activeChat ? { src: activeChat?.receiver.photo } : {})}
+              {...(activeChat ? { src: activeChat?.receiver.photo } : {})}
               sx={{
                 marginLeft: "16px",
                 marginRight: "20px",
@@ -172,7 +177,8 @@ const ChatPage = () => {
                 lineHeight: "28px",
               }}
             >
-              {activeChat && `${activeChat?.receiver.first_name} ${activeChat?.receiver.last_name}`}
+              {activeChat &&
+                `${activeChat?.receiver.first_name} ${activeChat?.receiver.last_name}`}
             </Typography>
           </Box>
           <Box
@@ -196,13 +202,19 @@ const ChatPage = () => {
               },
             }}
           >
-            {
-            activeChat
-            ? (messages.map((message, i , array) => (
-              <Message key={message.id} message={message} first={checkIsFirstMessage(i, array)}/>
-            )))
-            : (<EmptyData title={chats?.length ? "Выберите чат" : "Пока здесь пусто"}></EmptyData>)
-            }
+            {activeChat ? (
+              messages.map((message, i, array) => (
+                <Message
+                  key={message.id}
+                  message={message}
+                  first={checkIsFirstMessage(i, array)}
+                />
+              ))
+            ) : (
+              <EmptyData
+                title={chats?.length ? "Выберите чат" : "Пока здесь пусто"}
+              ></EmptyData>
+            )}
           </Box>
           <Box
             sx={{
@@ -216,10 +228,7 @@ const ChatPage = () => {
               p: 2,
             }}
           >
-            <Avatar 
-            {...(user ? { src: user.photo } : {})}
-            
-            />
+            <Avatar {...(user ? { src: user.photo } : {})} />
             <TextField
               size="small"
               placeholder="Сообщение"
@@ -255,14 +264,22 @@ const ChatPage = () => {
   );
 };
 
-const Message = ({ message, first }: {message: IShortMessage, first: boolean}) => {
+const Message = ({
+  message,
+  first,
+}: {
+  message: IShortMessage;
+  first: boolean;
+}) => {
   const { user } = useAppSelector((state) => state.user);
   const isCurrentUser = user?.id === message.sender_id;
-  const dateObject = new Date(message.pub_date)
-  const day = first && dateObject.toLocaleDateString("ru-RU", {
-    day: "2-digit",
-    month: "long",
-  })
+  const dateObject = new Date(message.pub_date);
+  const day =
+    first &&
+    dateObject.toLocaleDateString("ru-RU", {
+      day: "2-digit",
+      month: "long",
+    });
   const hours = dateObject.getHours();
   const minutes = dateObject.getMinutes();
   const time = `${hours}:${minutes}`;

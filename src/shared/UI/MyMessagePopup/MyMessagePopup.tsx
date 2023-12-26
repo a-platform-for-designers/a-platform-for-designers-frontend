@@ -3,7 +3,7 @@ import "./MyMessagePopup.scss";
 import { useState } from "react";
 import { MyButton } from "@/shared/UI";
 import { useAppSelector } from "@/hooks/reduxHooks";
-import { chartService } from "@/api/services/chartsService";
+import { chartsService } from "@/api";
 
 type Props = {
   open: boolean;
@@ -21,7 +21,7 @@ const MessagePopup: React.FC<Props> = ({ open, onClose, receiver }) => {
     e.preventDefault();
     try {
       //ToDo использовать redux thunks, в т.ч. для обработки и показа ошибок
-      await chartService.sendMessage({receiver, text: message})
+      await chartsService.sendMessage({ receiver, text: message });
       onClose();
     } catch (error) {
       console.error("ошибка: ", { error });

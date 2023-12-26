@@ -7,7 +7,7 @@ import {
 } from "../../types";
 import api from "../api";
 
-export const chartService = {
+const chartsService = {
   createChat: async (data: ICreateChat): Promise<ICreateChat> => {
     const response = await api.post<ICreateChat>("/chats/", data);
     return response.data;
@@ -28,3 +28,5 @@ export const chartService = {
     return response.data;
   },
 };
+
+export default chartsService;

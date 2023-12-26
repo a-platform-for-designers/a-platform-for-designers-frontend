@@ -1,7 +1,7 @@
 import { IChat, IShortMessage } from "@/types";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RestApiErrors } from "@/api/api";
-import { chartService } from "@/api/services/chartsService";
+import { chartsService } from "@/api";
 import { SocketEvent, WebSocketClient } from "@/features/webSocketClient";
 
 interface IInitialState {
@@ -25,7 +25,7 @@ export const getChats = createAsyncThunk(
   "chat/fetchChats",
   async (_, { rejectWithValue }) => {
     try {
-      const chats = await chartService.getChats();
+      const chats = await chartsService.getChats();
       return chats;
     } catch (error) {
       if (error instanceof RestApiErrors) {
@@ -107,6 +107,7 @@ export const chatSlice = createSlice({
   },
 });
 
-export const { resetAuthErrors, addMessage, resetMessages, resetChats } = chatSlice.actions;
+export const { resetAuthErrors, addMessage, resetMessages, resetChats } =
+  chatSlice.actions;
 
 export default chatSlice.reducer;
