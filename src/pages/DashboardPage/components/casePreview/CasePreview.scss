@@ -1,7 +1,31 @@
 .case-preview {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-between;
   gap: 60px;
+  width: 100%;
+  margin-left: -130px;
+  padding: 0;
+
+  &__aside {
+    position: sticky;
+    max-width: 500px;
+    min-width: 400px;
+  }
+  
+
+  &__image-list {
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+    margin-top: 0;
+    width: 920px;
+  }
+
+  &__content {
+    width: 200%;
+    margin-right: -480px
+  }
 
   &__submit {
     display: flex;

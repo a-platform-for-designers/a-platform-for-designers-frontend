@@ -12,7 +12,7 @@ interface IAboutItemProps {
 const AboutItem: React.FC<IAboutItemProps> = ({
   data,
   title,
-  // third = false,
+  third = false,
   secondary = false,
 }) => {
   let content: React.ReactNode;
@@ -21,7 +21,9 @@ const AboutItem: React.FC<IAboutItemProps> = ({
     content = (
       <Stack
         className={`${
-          secondary ? "aboutItem-secondary__list" : "aboutItem__list"
+          secondary
+            ? "aboutItem-secondary__list "
+            : `aboutItem__list ${third ? "aboutItem-third__list" : null}`
         }`}
         component="ul"
         color="secondary"

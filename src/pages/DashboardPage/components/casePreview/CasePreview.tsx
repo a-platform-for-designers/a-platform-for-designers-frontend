@@ -14,6 +14,7 @@ import { AboutItem } from "../../../ProfilePage/components";
 import Preloader from "@/shared/Preloader/Preloader";
 import { useAppSelector } from "@/hooks/reduxHooks";
 import { MyButton } from "@/shared/UI";
+import { EmptyData } from "../../../ProfilePage/components";
 
 interface IProps {
   caseData: ICasePreview | undefined;
@@ -70,14 +71,14 @@ const CasePreview: React.FC<IProps> = ({
     );
   }
 
-  // if (!caseData) return <EmptyData title="Кейс не найден"></EmptyData>;
+  if (!caseData) return <EmptyData title="Кейс не найден"></EmptyData>;
 
   return (
     <StyledEngineProvider injectFirst>
-      <Container component="section" className="casePage">
+      <Container component="section" className="case-preview">
         <Grid
           container
-          className="casePage__aside"
+          className="case-preview__aside"
           gap="40px"
           alignItems="flex-start"
         >
@@ -90,12 +91,12 @@ const CasePreview: React.FC<IProps> = ({
             wrap="nowrap"
           ></Grid>
         </Grid>
-        <Grid container className="casePage__content" gap="40px">
-          <ImageList className="casePage__image-list" cols={2} gap={60}>
+        <Grid container className="case-preview__content" gap="40px">
+          <ImageList className="case-preview__image-list" cols={2} gap={60}>
             <ImageListItem>
               {caseData?.wrapper ? (
                 <img
-                  className="casePage__image-item"
+                  className="case-preview__image-item"
                   src={URL.createObjectURL(caseData.wrapper)}
                   alt={`Обложка кейса`}
                   loading="lazy"
@@ -105,7 +106,7 @@ const CasePreview: React.FC<IProps> = ({
             {caseData?.images.map((item) => (
               <ImageListItem key={item.name}>
                 <img
-                  className="casePage__image-item"
+                  className="case-preview__image-item"
                   src={URL.createObjectURL(item)}
                   alt={`Изображение #${item.name}`}
                   loading="lazy"
