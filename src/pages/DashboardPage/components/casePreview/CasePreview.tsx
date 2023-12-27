@@ -7,7 +7,6 @@ import {
   StyledEngineProvider,
 } from "@mui/material";
 import "./CasePreview.scss";
-// import { useState } from "react";
 import { ICasePreview, ICaseInfo, IDataItem } from "@/types";
 import { CaseInfo } from "../../../CasePage/components";
 import { AboutItem } from "../../../ProfilePage/components";
@@ -49,16 +48,6 @@ const CasePreview: React.FC<IProps> = ({
     working_term: caseData?.time,
     description: caseData?.description,
   };
-
-  /* function setInstruments() {
-    if (Array.isArray(caseData?.toolsValue)) {
-      const name: string = "name";
-      const result = caseData?.toolsValue.map((obj) =>
-        String(obj[name as keyof typeof obj])
-      );
-      return result;
-    }
-  } */
 
   const isLoading = false;
   if (isLoading) {
