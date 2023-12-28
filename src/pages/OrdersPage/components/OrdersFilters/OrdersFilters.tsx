@@ -21,6 +21,8 @@ const OrdersFilters: React.FC<IProps> = ({ setOrders, orders }) => {
     (item) => item !== "Менторство"
   );
 
+  console.log(spheres);
+
   function convertToIds(
     names: string[],
     specializations: Record<string, number>

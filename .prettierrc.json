@@ -5,6 +5,7 @@
   "prettier.embeddedLanguageFormatting": "auto",
   "prettier.enable": true,
   "prettier.enableDebugLogs": false,
+  "prettier.endOfLine": "crlf",
   "prettier.htmlWhitespaceSensitivity": "css",
   "prettier.ignorePath": ".prettierignore",
   "prettier.insertPragma": false,
