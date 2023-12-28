@@ -22,7 +22,7 @@ const userService = {
   },
 
   getInfoUserMe: async (): Promise<IUser> => {
-    const response = await api.get<IUser>(`/users/me/`);
+    const response = await api.get<IUser>(`/auth/users/me/`);
     return response.data;
   },
 
@@ -96,7 +96,7 @@ const userService = {
 
   setNewPassword: async (data: ISetNewPassword): Promise<ISetNewPassword> => {
     const response = await api.post<ISetNewPassword>(
-      `/api/users/set_password/`,
+      `/auth/users/set_password/`,
       data
     );
     return response.data;
