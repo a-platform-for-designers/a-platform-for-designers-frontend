@@ -19,7 +19,7 @@ import eyeClosed from "../../../assets/icons/eye-close.svg";
 
 type TInputTextArea = HTMLInputElement | HTMLTextAreaElement;
 
-export interface IMyInputProps {
+interface IMyInputProps {
   data: objFromUseInput;
   label?: string;
   onChangeCallback?: () => void;
@@ -130,7 +130,7 @@ const MyInput: React.FC<IMyInputProps> = ({
                     onClick={handleClickShowPassword}
                     edge="end"
                   >
-                    {showPassword ? <img src={eyeClosed} /> : <img src={eye} />}
+                    {showPassword ? <img src={eye} /> : <img src={eyeClosed} />}
                   </IconButton>
                 </InputAdornment>
               }

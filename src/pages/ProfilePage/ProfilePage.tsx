@@ -1,26 +1,47 @@
 import { Container, StyledEngineProvider } from "@mui/material";
 import "./ProfilePage.scss";
-import { Route, Routes, Navigate, useParams } from "react-router-dom";
+import {
+  Route,
+  Routes,
+  Navigate,
+  useParams,
+  useNavigate,
+} from "react-router-dom";
 import { Info, ProfileNav, Portfolio, Work, Profile } from "./components";
-import { IProfileNavPage } from "./components/ProfileNav/ProfileNav";
+import { IProfileNavPage } from "@/types";
 import { useAppSelector } from "@/hooks/reduxHooks";
 import { userService } from "@/api";
 import { useEffect, useState } from "react";
 import { IUser, IProfileData } from "@/types";
 import CustomersOrderCard from "./components/CustomersOrdersCards/CustomersOrdersCards";
+import Preloader from "@/shared/Preloader/Preloader";
 
 const ProfilePage: React.FC = () => {
   const { user } = useAppSelector((state) => state.user); // авторизованный пользователь
   const { id } = useParams();
   const [currentUser, setCurrentUser] = useState<IUser>(); // пользователь чей профиль(id через путь)
   const isCustomerCurrentUser = currentUser?.is_customer;
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isCustomerCurrentUser) {
+      navigate(`/profile/${id}/orders`);
+    } else {
+      navigate(`/profile/${id}/portfolio`);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isCustomerCurrentUser]);
 
   useEffect(() => {
     (async () => {
-      const userInfo = await userService.getUserById(Number(id));
-      setCurrentUser(userInfo);
+      const isProfileOfCurrentUser = user?.id === Number(id);
+      if (isProfileOfCurrentUser) {
+        setCurrentUser(user);
+      } else {
+        setCurrentUser(await userService.getUserById(Number(id)));
+      }
     })();
-  }, [id]);
+  }, [id, user]);
 
   const profileData: IProfileData = {
     first_name: currentUser?.first_name,
@@ -91,6 +112,10 @@ const ProfilePage: React.FC = () => {
       ),
     },
   ];
+
+  if (!currentUser) {
+    return <Preloader />;
+  }
 
   return (
     <StyledEngineProvider injectFirst>

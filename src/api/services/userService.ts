@@ -5,6 +5,7 @@ import {
   IUserRespons,
   IUpdateInfoUserMe,
   IUpdateInfoMeCustomer,
+  ISetNewPassword,
 } from "../../types";
 import api from "../api";
 import { enqueueSnackbar } from "notistack";
@@ -21,7 +22,7 @@ const userService = {
   },
 
   getInfoUserMe: async (): Promise<IUser> => {
-    const response = await api.get<IUser>(`/users/me/`);
+    const response = await api.get<IUser>(`/auth/users/me/`);
     return response.data;
   },
 
@@ -43,7 +44,6 @@ const userService = {
         variant: "error",
         message: `Введены некорректные данные`,
       });
-      console.log(error);
       throw error;
     }
   },
@@ -54,13 +54,7 @@ const userService = {
     try {
       const response = await api.post<IUpdateInfoMeCustomer>(
         `/profile_customer/`,
-        body,
-        {
-          headers: {
-            Authorization: `Token ${localStorage.getItem("token")}`,
-            "Content-Type": "application/json",
-          },
-        }
+        body
       );
       enqueueSnackbar({
         variant: "success",
@@ -97,6 +91,14 @@ const userService = {
         page: page,
       },
     });
+    return response.data;
+  },
+
+  setNewPassword: async (data: ISetNewPassword): Promise<ISetNewPassword> => {
+    const response = await api.post<ISetNewPassword>(
+      `/auth/users/set_password/`,
+      data
+    );
     return response.data;
   },
 };

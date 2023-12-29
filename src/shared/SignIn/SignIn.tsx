@@ -7,6 +7,7 @@ import { SigninText } from "../../constants/constants";
 import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
 import { logIn, resetAuthErrors } from "@/redux/slices/authSlice";
 import { enqueueSnackbar } from "notistack";
+import { getInfoAboutMe } from "@/redux/slices/userSlice";
 
 interface ISignInProps {
   openSignUpPopup: () => void;
@@ -33,35 +34,37 @@ const SignIn: FC<ISignInProps> = ({ openSignUpPopup }) => {
     maxLength: 32,
   });
 
-
-  useEffect(()=> {
-    errorMessages.forEach(message => {
+  useEffect(() => {
+    errorMessages.forEach((message) => {
       enqueueSnackbar({
         variant: "error",
         message,
       });
-    })
-    return () => {dispatch(resetAuthErrors())}
-  }, [errorMessages, dispatch])
+    });
+    return () => {
+      dispatch(resetAuthErrors());
+    };
+  }, [errorMessages, dispatch]);
 
-  useEffect(()=> {
-    if(isAuth) {
+  useEffect(() => {
+    if (isAuth) {
       enqueueSnackbar({
         variant: "success",
         message: "Вы успешно вошли",
       });
     }
-  }, [isAuth])
+  }, [isAuth]);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     await dispatch(logIn({ email: email.value, password: password.value }));
+    await dispatch(getInfoAboutMe());
   }
 
   return (
     <form className="myAuthForm__signin-form" onSubmit={handleSubmit}>
       <MyInput data={email} label="E-mail" />
-      <MyInput data={password} label="Password" variant="password" />
+      <MyInput data={password} label="Пароль" variant="password" />
 
       <div className="myAuthForm__lower-part">
         {error && (
