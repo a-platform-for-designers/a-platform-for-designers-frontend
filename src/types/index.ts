@@ -216,11 +216,11 @@ export interface IProfileData {
 
 export interface ICaseCreation {
   title: string;
-  specialization?: number;
+  specialization?: number | number[] | null;
   avatar: string;
-  images: { image: string };
+  images: { image: string }[];
   working_term?: string;
-  instruments?: string[] | number[] | null;
+  instruments?: string[] | number[] | null | number;
   description?: string;
-  sphere?: number;
+  sphere?: number | number[] | null;
 }
