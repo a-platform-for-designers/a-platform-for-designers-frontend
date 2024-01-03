@@ -10,7 +10,7 @@ import {
 import "./DesinersCarousel.scss";
 import { useNavigate } from "react-router-dom";
 
-export interface IDesinerCarouselData {
+interface IDesinerCarouselData {
   name?: string;
   specialization?: string;
   image?: string;

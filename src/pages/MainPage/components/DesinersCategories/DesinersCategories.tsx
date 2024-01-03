@@ -9,13 +9,7 @@ import {
 } from "@mui/material";
 import "./DesinersCategories.scss";
 import { useNavigate } from "react-router-dom";
-
-export interface IDesinerCategoriesData {
-  title: string;
-  image: string;
-  link: string;
-  onClick?: () => void;
-}
+import { IDesinerCategoriesData } from "@/types";
 
 interface IDesinersCategoriesProps {
   data: IDesinerCategoriesData[];
@@ -74,6 +68,7 @@ const DesinersCategories: React.FC<IDesinersCategoriesProps> = ({ data }) => {
                   component="img"
                   image={item.image}
                   alt={item.title}
+                  loading="lazy"
                 />
               </Card>
             );

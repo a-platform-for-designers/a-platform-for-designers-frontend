@@ -6,7 +6,8 @@ import { EmptyData } from "..";
 import { useNavigate } from "react-router-dom";
 import { IUserCase } from "@/types";
 import { BASE_PATH } from "@/constants/constants";
-import caseCart from "@/assets/images/caseCart.png";
+import caseCart from "@/assets/images/caseCart.webp";
+import MyOptimizedImage from "@/shared/UI/MyOptimizedImage/MyOptimizedImage";
 
 interface IPortfolioProps {
   data?: IUserCase[];
@@ -19,21 +20,24 @@ const Portfolio: React.FC<IPortfolioProps> = ({ data }) => {
     return <EmptyData title="У дизайнера пока нет проектов" />;
   }
 
-  console.log(data);
-
   return (
     <StyledEngineProvider injectFirst>
       <Grid className="portfolio" justifyContent="center" container>
         {data.map((item) => (
-          <img
-            className="portfolio__image"
-            key={item.id}
-            onClick={() => navigate(`/case/${item.id}`)}
-            src={`${
+          <MyOptimizedImage
+            imageUrl={`${
               !item.avatar && item.avatar === null
                 ? caseCart
                 : BASE_PATH + item.avatar
             }`}
+            key={item.id}
+            alt="Картинка из проекта"
+            className="portfolio__image"
+            width={660}
+            height={480}
+            format="webp"
+            maxAge="7d"
+            onClick={() => navigate(`/case/${item.id}`)}
           />
         ))}
       </Grid>

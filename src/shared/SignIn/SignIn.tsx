@@ -64,7 +64,7 @@ const SignIn: FC<ISignInProps> = ({ openSignUpPopup }) => {
   return (
     <form className="myAuthForm__signin-form" onSubmit={handleSubmit}>
       <MyInput data={email} label="E-mail" />
-      <MyInput data={password} label="Password" variant="password" />
+      <MyInput data={password} label="Пароль" variant="password" />
 
       <div className="myAuthForm__lower-part">
         {error && (

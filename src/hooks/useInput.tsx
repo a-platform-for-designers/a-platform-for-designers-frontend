@@ -1,5 +1,6 @@
 import { useState } from "react";
-import useValidation, { IValidation } from "./useValidation";
+import useValidation from "./useValidation";
+import { IValidation } from "@/types";
 
 interface IConfig {
   trim?: boolean;

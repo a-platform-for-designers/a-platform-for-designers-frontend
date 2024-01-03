@@ -1,5 +1,5 @@
 import "./Orders.scss";
-import inProgressIamge from "@/assets/images/inProgressImage.png";
+import inProgressIamge from "@/assets/images/inProgressImage.webp";
 
 const Orders: React.FC = () => {
   return (
