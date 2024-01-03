@@ -48,7 +48,7 @@ export const filterService = {
     const formattedToolsArray = toolsId
       .map((id) => `instruments=${id}`)
       .join("&");
-    const formattedResume = resume === null ? "" : `resume=${resume}`;
+    const formattedResume = resume === null ? "" : `work_status=${resume}`;
     const response = await api.get<IUserRespons>(
       `/users/?limit=${limit}&page=${page}${
         formattedSpecializationArray ? `&${formattedSpecializationArray}` : ""

@@ -1,7 +1,7 @@
 import { Container, StyledEngineProvider } from "@mui/material";
 import "./ProfilePage.scss";
 import { Route, Routes, Navigate, useParams } from "react-router-dom";
-import { Info, ProfileNav, Portfolio, Work, Profile } from "./components";
+import { Info, ProfileNav, Portfolio, Profile } from "./components";
 import { IProfileNavPage } from "./components/ProfileNav/ProfileNav";
 import { useAppSelector } from "@/hooks/reduxHooks";
 import { userService } from "@/api";
@@ -15,11 +15,13 @@ const ProfilePage: React.FC = () => {
   const { id } = useParams();
   const [currentUser, setCurrentUser] = useState<IUser>(); // пользователь чей профиль(id через путь)
   const isCustomerCurrentUser = currentUser?.is_customer;
+  console.log(currentUser);
 
   useEffect(() => {
     (async () => {
       const isProfileOfCurrentUser = user?.id === Number(id);
       if (isProfileOfCurrentUser) {
+        console.log(user);
         setCurrentUser(user);
       } else {
         setCurrentUser(await userService.getUserById(Number(id)));
@@ -43,7 +45,9 @@ const ProfilePage: React.FC = () => {
       month: "long",
       year: "numeric",
     }),
-    status: currentUser?.resume?.status ? "Ищет работу" : "Не ищет работу",
+    status: currentUser?.profiledesigner?.work_status
+      ? "Ищет работу"
+      : "Не ищет работу",
     likes: 1001,
     followers: 98,
   };
@@ -54,15 +58,6 @@ const ProfilePage: React.FC = () => {
       title: "Портфолио",
       link: `portfolio`,
       element: <Portfolio data={currentUser?.portfolio} />,
-    },
-    {
-      title: "Работа",
-      link: `work`,
-      element: currentUser?.resume ? (
-        <Work resume={currentUser?.resume} />
-      ) : (
-        <Work />
-      ),
     },
     {
       title: "Профиль",

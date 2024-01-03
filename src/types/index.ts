@@ -50,6 +50,10 @@ export interface IUser {
   resume: IResume | null;
   date_joined: string;
   portfolio: IUserCase[];
+  instruments: number[];
+  skills: number[];
+  about: string;
+  work_status: boolean;
 }
 
 export interface IUserWithLastCases extends IUser {
@@ -200,6 +204,10 @@ export interface IProfileDesigner {
   hobby?: string;
   language?: string[] | number[];
   photo?: File | unknown;
+  instruments: number[];
+  skills: number[];
+  about: string;
+  work_status: boolean;
 }
 
 export interface IProfileData {
@@ -223,4 +231,19 @@ export interface ICaseCreation {
   instruments?: string[] | number[] | null;
   description?: string;
   sphere?: number;
+}
+
+export interface IProfileDesignerPost {
+  id?: number;
+  user?: number;
+  education?: string | null;
+  country?: string | null;
+  specialization?: string[] | number[] | null;
+  hobby?: string;
+  language?: string[] | number[];
+  photo?: File | unknown;
+  instruments: number[];
+  skills: number[];
+  about: string;
+  work_status: boolean;
 }
