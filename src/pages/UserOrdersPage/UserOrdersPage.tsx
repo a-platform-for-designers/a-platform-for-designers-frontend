@@ -1,10 +1,11 @@
-import { Container, StyledEngineProvider } from "@mui/material";
+import { Container, StyledEngineProvider, Typography } from "@mui/material";
 import "./UserOrdersPage.scss";
 import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
 import { ProfileNav, Profile } from "../ProfilePage/components";
 import { IProfileNavPage } from "@/types";
 import { useAppSelector } from "@/hooks/reduxHooks";
 import CustomersOrderCard from "../ProfilePage/components/CustomersOrdersCards/CustomersOrdersCards";
+import DesignersResponsedCards from "./components/DesignersResponsedCards";
 import { MyButton } from "@/shared/UI";
 
 const UserOrdersPage: React.FC = () => {
@@ -16,13 +17,11 @@ const UserOrdersPage: React.FC = () => {
     navigate("/orders/create");
   }
 
-  console.log(user?.id);
-
   const profileDesignerNavPages: IProfileNavPage[] = [
     {
       title: "Отклики",
       link: `orders`,
-      element: <CustomersOrderCard userId={user?.id} />,
+      element: <DesignersResponsedCards />,
     },
     {
       title: "Архив",
@@ -48,7 +47,9 @@ const UserOrdersPage: React.FC = () => {
     <StyledEngineProvider injectFirst>
       <Container component="section" className="profilePage">
         <div className="user-orders__header">
-          <h2 className="user-orders__title">Мои заказы</h2>
+          <Typography component="h2" className="user-orders__title">
+            Мои заказы
+          </Typography>
           {isCustomerCurrentUser ? (
             <MyButton
               size="small"

@@ -154,7 +154,10 @@ const Header: React.FC = () => {
                       Сообщения
                     </p>
                   </ListItem>
-                  <ListItem className="header__link">
+                  <ListItem
+                    className="header__link"
+                    onClick={() => navigate(`my-orders/orders`)}
+                  >
                     <img
                       className="header__list-icon"
                       src={OrdersIcon}
