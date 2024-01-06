@@ -22,7 +22,7 @@ const userService = {
   },
 
   getInfoUserMe: async (): Promise<IUser> => {
-    const response = await api.get<IUser>(`/users/me/`);
+    const response = await api.get<IUser>(`auth/users/me/`);
     return response.data;
   },
 
