@@ -36,9 +36,9 @@ const OrdersCard: React.FC<IProps> = ({
   const location = useLocation();
   const [isUsersOrders, setIsUsersOrders] = useState<boolean>(false);
   const [orderInfo, setOrderInfo] = useState<IOrdersResponse>(); // переменная для количества откликов на заказ
-  const myCard = order.customer.id === currentUser?.id;
+  const myCard = order.customer.id === user?.id;
 
-  console.log(orderInfo, myCard);
+  console.log(orderInfo);
 
   useEffect(() => {
     if (order.is_responded_order) {
@@ -116,6 +116,9 @@ const OrdersCard: React.FC<IProps> = ({
         await ordersService.deleteResponseOrder(dataResponse, order.id);
       };
       deleteOrderResponse();
+      if (refreshOrdersList) {
+        refreshOrdersList(order.id);
+      }
       setReply(false);
     }
   }
@@ -151,13 +154,16 @@ const OrdersCard: React.FC<IProps> = ({
     <Box className="ordersCard">
       <div>
         <div className="ordersCard__header">
-          <div className="ordersCard__user">
+          <div
+            className="ordersCard__user"
+            onClick={() => navigate(`my-orders/orders`)}
+          >
             <Avatar className="ordersCard__avatar" src={order.customer.photo} />
             <Typography component="h2" className="ordersCard__name">
               {userInfo.name}
             </Typography>
           </div>
-          {!isMyProfile && !customerUser ? (
+          {(!isMyProfile && !customerUser) || !myCard ? (
             <>
               <IconButton aria-label="favourite" onClick={handleFavourite}>
                 {!isFavourite ? (
@@ -192,7 +198,7 @@ const OrdersCard: React.FC<IProps> = ({
           )}
         </div>
 
-        <div>
+        <div onClick={() => navigate(`my-orders/orders`)}>
           <Typography component="h3" className="ordersCard__title">
             {order.title && order.title}
           </Typography>
@@ -210,7 +216,7 @@ const OrdersCard: React.FC<IProps> = ({
           </Typography>
         </div>
       </div>
-      {!isMyProfile && !customerUser ? (
+      {(!isMyProfile && !customerUser) || !myCard ? (
         <>
           <div className="ordersCard__buttons">
             <MyButton
@@ -221,10 +227,10 @@ const OrdersCard: React.FC<IProps> = ({
             >
               Написать
             </MyButton>
-            {!customerUser && !isUsersOrders ? (
+            {!customerUser || !isUsersOrders ? (
               <MyButton
                 type="button"
-                variant="outlined"
+                variant={isUsersOrders ? "text" : "outlined"}
                 size="large"
                 onClick={handleReply}
                 className="ordersCard__button"
