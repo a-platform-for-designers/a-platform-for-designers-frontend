@@ -14,6 +14,7 @@ import FollowersIcon from "../../assets/icons/FollowersIcon.svg";
 import FavouritesIcon from "../../assets/icons/FavouritesDark.svg";
 import MessagesIcon from "../../assets/icons/MessageBlack.svg";
 import MessagesIconActive from "../../assets/icons/MessagePurple.svg";
+import MyOrdersActive from "../../assets/icons/MyOrdersActive.svg";
 import OrdersIcon from "../../assets/icons/orders.svg";
 import { useAppSelector } from "@/hooks/reduxHooks";
 import { MyAuthForm, MyButton, MyPopup } from "../UI";
@@ -160,10 +161,24 @@ const Header: React.FC = () => {
                   >
                     <img
                       className="header__list-icon"
-                      src={OrdersIcon}
+                      src={
+                        location.pathname === "/my-orders/orders" ||
+                        location.pathname === "/my-orders/archive"
+                          ? MyOrdersActive
+                          : OrdersIcon
+                      }
                       alt="Иконка меню"
                     />
-                    <p className="header__list-text">Мои&nbsp;заказы</p>
+                    <p
+                      className={`header__list-text ${
+                        location.pathname === "/my-orders/orders" ||
+                        location.pathname === "/my-orders/archive"
+                          ? "header__list-text_active"
+                          : ""
+                      }`}
+                    >
+                      Мои&nbsp;заказы
+                    </p>
                   </ListItem>
                   <Avatar
                     className="header__avatar"

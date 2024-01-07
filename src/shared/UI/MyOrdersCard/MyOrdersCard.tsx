@@ -36,7 +36,15 @@ const OrdersCard: React.FC<IProps> = ({
   const location = useLocation();
   const [isUsersOrders, setIsUsersOrders] = useState<boolean>(false);
   const [orderInfo, setOrderInfo] = useState<IOrdersResponse>(); // переменная для количества откликов на заказ
-  console.log(orderInfo);
+  const myCard = order.customer.id === currentUser?.id;
+
+  console.log(orderInfo, myCard);
+
+  useEffect(() => {
+    if (order.is_responded_order) {
+      setReply(true);
+    }
+  }, [order.is_responded_order]);
 
   useEffect(() => {
     if (location.pathname.endsWith("/my-orders/orders")) {
