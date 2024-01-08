@@ -1,63 +1,21 @@
-import { useEffect, useState } from "react";
 import {
   Box,
-  TextField,
-  Button,
   Typography,
   Avatar,
-  Paper,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
   Toolbar,
   StyledEngineProvider,
 } from "@mui/material";
-import SendIcon from "@mui/icons-material/Send";
 import "./ChatPage.scss";
-import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
-import { getChats, getMessages, sendMessage } from "@/redux/slices/chatSlice";
-import { IChat, IShortMessage } from "@/types";
+import { useAppSelector } from "@/hooks/reduxHooks";
 import { EmptyData } from "../ProfilePage/components";
+import Chats from "./components/Chats/Chats";
+import Messages from "./components/Messages/Messages";
+import MessageForm from "./components/MessageForm/MessageForm";
 
 const ChatPage = () => {
-  const [input, setInput] = useState("");
-  const [activeChat, setActiveChat] = useState<IChat | null>(null);
-  const dispatch = useAppDispatch();
-  const { chats, messages } = useAppSelector((state) => state.chat);
+  const { chats, activeChat } = useAppSelector((state) => state.chat);
   const { user } = useAppSelector((state) => state.user);
-
-  useEffect(() => {
-    dispatch(getChats());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (activeChat) {
-      const { id } = activeChat;
-      dispatch(getMessages(id));
-    }
-  }, [activeChat, dispatch]);
-
-  const handleSend = () => {
-    if (activeChat && input.trim() !== "") {
-      dispatch(sendMessage(input.trim()));
-      setInput("");
-    }
-  };
-
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInput(event.target.value);
-  };
-
-  const checkIsFirstMessage = (i: number, array: IShortMessage[]) => {
-    if (i) {
-      const currentMessageDate = new Date(array.at(i)!.pub_date).getDate();
-      const previousMessageDate = new Date(array.at(i - 1)!.pub_date).getDate();
-      return currentMessageDate !== previousMessageDate;
-    } else {
-      return true;
-    }
-  };
+  
 
   return (
     <StyledEngineProvider injectFirst>
@@ -108,39 +66,7 @@ const ChatPage = () => {
               },
             }}
           >
-            <List sx={{}}>
-              {chats &&
-                chats.map((chat) => {
-                  const {
-                    id,
-                    last_message,
-                    receiver: { first_name, last_name, photo },
-                  } = chat;
-                  return (
-                    <ListItem key={id} disablePadding>
-                      <ListItemButton onClick={() => setActiveChat(chat)}>
-                        <Avatar src={photo}></Avatar>
-                        <Box
-                          sx={{
-                            display: "flex",
-                            flexDirection: "column",
-                            maxWidth: "324px",
-                            overflow: "hidden",
-                            marginLeft: "16px",
-                          }}
-                        >
-                          <ListItemText className="chats__list-name">
-                            {`${first_name} ${last_name}`}
-                          </ListItemText>
-                          <ListItemText className="chats__list-text">
-                            {last_message}
-                          </ListItemText>
-                        </Box>
-                      </ListItemButton>
-                    </ListItem>
-                  );
-                })}
-            </List>
+            <Chats />
           </Box>
         </Box>
         <Box
@@ -203,13 +129,7 @@ const ChatPage = () => {
             }}
           >
             {activeChat ? (
-              messages.map((message, i, array) => (
-                <Message
-                  key={message.id}
-                  message={message}
-                  first={checkIsFirstMessage(i, array)}
-                />
-              ))
+              <Messages />
             ) : (
               <EmptyData
                 title={chats?.length ? "Выберите чат" : "Пока здесь пусто"}
@@ -229,124 +149,11 @@ const ChatPage = () => {
             }}
           >
             <Avatar {...(user ? { src: user.photo } : {})} />
-            <TextField
-              size="small"
-              placeholder="Сообщение"
-              value={input}
-              onChange={handleInputChange}
-              multiline
-              maxRows={6}
-              sx={{
-                width: "566px",
-                bgcolor: "#F6EDFF",
-                margin: "0 20px 0",
-                border: "none",
-              }}
-            />
-            <Button
-              sx={{
-                minWidth: "40px",
-                minHeight: "40px",
-                width: "40px",
-                height: "40px",
-                paddingRight: "15px",
-              }}
-              size="small"
-              variant="contained"
-              endIcon={<SendIcon />}
-              onClick={handleSend}
-              disabled={input ? false : true}
-            />
+            <MessageForm />
           </Box>
         </Box>
       </Box>
     </StyledEngineProvider>
-  );
-};
-
-const Message = ({
-  message,
-  first,
-}: {
-  message: IShortMessage;
-  first: boolean;
-}) => {
-  const { user } = useAppSelector((state) => state.user);
-  const isCurrentUser = user?.id === message.sender_id;
-  const dateObject = new Date(message.pub_date);
-  const day =
-    first &&
-    dateObject.toLocaleDateString("ru-RU", {
-      day: "2-digit",
-      month: "long",
-    });
-  const hours = dateObject.getHours();
-  const minutes = dateObject.getMinutes();
-  const time = `${hours}:${minutes}`;
-
-  return (
-    <Box sx={{}}>
-      {day && (
-        <Typography
-          sx={{
-            m: "26px",
-            textAlign: "center",
-            fontSize: "12px",
-            fontStyle: "normal",
-            fontWeight: "500",
-            lineHeight: "16px",
-            letterSpacing: "0.5px",
-            color: "#6B6B6B",
-          }}
-        >
-          {day}
-        </Typography>
-      )}
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: isCurrentUser ? "flex-end" : "flex-start",
-          mb: 2,
-        }}
-      >
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: isCurrentUser ? "row-reverse" : "row",
-            alignItems: "center",
-          }}
-        >
-          <Paper
-            variant="outlined"
-            sx={{
-              p: 2,
-              ml: isCurrentUser ? 0 : 10,
-              mr: isCurrentUser ? 10 : 0,
-              backgroundColor: "#FAFAFA",
-              borderRadius: "12px",
-              padding: "10px",
-              minWidth: "70px",
-              maxWidth: "566px",
-            }}
-          >
-            <Typography variant="body1">{message.text}</Typography>
-            <Typography
-              sx={{
-                textAlign: "right",
-                fontSize: "12px",
-                fontStyle: "normal",
-                fontWeight: "500",
-                lineHeight: "16px",
-                letterSpacing: "0.5px",
-                color: "#6B6B6B",
-              }}
-            >
-              {time}
-            </Typography>
-          </Paper>
-        </Box>
-      </Box>
-    </Box>
   );
 };
 
