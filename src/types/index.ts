@@ -153,6 +153,16 @@ export interface IOrdersList {
   is_published: boolean;
 }
 
+export interface IOrderResponse {
+  customer: IOrdersCustomer;
+  title: string;
+  specialization: IDataItem;
+  payment: number;
+  sphere: IDataItem;
+  description: string;
+  is_published: boolean;
+}
+
 export interface IOrdersCustomer {
   id: 0;
   first_name: string;

@@ -6,6 +6,7 @@ import MainPage from "./MainPage/MainPage";
 import MentorsPage from "./MentorsPage/MentorsPage";
 import ProfilePage from "./ProfilePage/ProfilePage";
 import OrdersPage from "./OrdersPage/OrdersPage";
+import UserOrdersPage from "./UserOrdersPage/UserOrdersPage";
 
 export {
   MainPage,
@@ -16,4 +17,5 @@ export {
   CasePage,
   MentorsPage,
   OrdersPage,
+  UserOrdersPage,
 };
