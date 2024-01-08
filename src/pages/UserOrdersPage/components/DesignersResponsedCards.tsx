@@ -1,20 +1,21 @@
-import "./CustomersOrdersCards.scss";
+import "./DesignersResponsedCards.scss";
 import { Box, Grid, StyledEngineProvider } from "@mui/material";
 import { IOrdersList } from "@/types";
 import { useState, useEffect } from "react";
 import { MyOrdersCard, MyMessagePopup } from "@/shared/UI";
-import { ordersService } from "../../../../api";
-import { EmptyData } from "..";
+import { ordersService } from "@/api";
+import { EmptyData } from "../../ProfilePage/components/index";
 
-interface IProps {
-  userId?: number;
-  myOrders?: boolean;
-}
-
-const CustomersOrdersCards: React.FC<IProps> = ({ userId }) => {
+const DesignersResponsedCards: React.FC = () => {
   const [orders, setOrders] = useState<IOrdersList[]>([]);
   const [openPopup, setOpenPopup] = useState<boolean>(false);
-  const filteredItems = orders.filter((item) => item.customer.id === userId);
+
+  const respondedTasks = orders.filter((task) => task.is_responded_order);
+
+  function refreshOrdersList(id: number) {
+    const newData = orders.filter((element) => element.id !== id);
+    setOrders(newData);
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,7 +26,6 @@ const CustomersOrdersCards: React.FC<IProps> = ({ userId }) => {
         console.error("Error fetching data:", error);
       }
     };
-
     fetchData();
   }, []);
 
@@ -40,10 +40,11 @@ const CustomersOrdersCards: React.FC<IProps> = ({ userId }) => {
   return (
     <StyledEngineProvider injectFirst>
       <Box className="customersOrders">
-        {filteredItems.length > 0 ? (
+        {respondedTasks.length > 0 ? (
           <Grid xs={9} item className="customersOrders__cards">
-            {filteredItems.map((item) => (
+            {respondedTasks.map((item) => (
               <MyOrdersCard
+                refreshOrdersList={refreshOrdersList}
                 openPopup={handlePopupOpen}
                 key={item.id}
                 order={item}
@@ -61,4 +62,4 @@ const CustomersOrdersCards: React.FC<IProps> = ({ userId }) => {
   );
 };
 
-export default CustomersOrdersCards;
+export default DesignersResponsedCards;

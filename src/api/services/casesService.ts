@@ -1,4 +1,4 @@
-import { ICase, ICaseCreation, ICaseRespons } from "../../types";
+import { ICase, ICaseCreation, ICaseRespons } from "@/types";
 import api from "../api";
 
 const casesService = {

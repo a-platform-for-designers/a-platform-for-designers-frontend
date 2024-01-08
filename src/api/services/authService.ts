@@ -1,4 +1,4 @@
-import { IAuthUserRequest, IToken } from "../../types";
+import { IAuthUserRequest, IToken } from "@/types";
 import api from "../api";
 
 const authService = {

@@ -28,9 +28,10 @@ const buttonActiveStyles: SxProps<Theme> = {
 
 interface IProfileNavProps {
   pages: IProfileNavPage[];
+  big?: boolean;
 }
 
-const ProfileNav: React.FC<IProfileNavProps> = ({ pages }) => {
+const ProfileNav: React.FC<IProfileNavProps> = ({ pages, big }) => {
   const navigate = useNavigate();
 
   const handleClick: (page: IProfileNavPage) => void = (page) => {
@@ -44,7 +45,11 @@ const ProfileNav: React.FC<IProfileNavProps> = ({ pages }) => {
       <Box className="profileNav">
         {pages.map((page) => (
           <Button
-            className="profileNav__button"
+            className={
+              !big
+                ? "profileNav__button"
+                : "profileNav__button profileNav__big-button"
+            }
             variant="outlined"
             key={page.title}
             sx={{
