@@ -156,7 +156,7 @@ const OrdersCard: React.FC<IProps> = ({
         <div className="ordersCard__header">
           <div
             className="ordersCard__user"
-            onClick={() => navigate(`my-orders/orders`)}
+            onClick={() => navigate(`/my-orders/orders`)}
           >
             <Avatar className="ordersCard__avatar" src={order.customer.photo} />
             <Typography component="h2" className="ordersCard__name">
@@ -198,7 +198,7 @@ const OrdersCard: React.FC<IProps> = ({
           )}
         </div>
 
-        <div onClick={() => navigate(`my-orders/orders`)}>
+        <div onClick={() => navigate(`/my-orders/orders`)}>
           <Typography component="h3" className="ordersCard__title">
             {order.title && order.title}
           </Typography>
