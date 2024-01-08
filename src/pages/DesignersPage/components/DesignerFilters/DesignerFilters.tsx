@@ -1,0 +1,190 @@
+import { SyntheticEvent, useEffect, useState } from "react";
+import "./DesignerFilters.scss";
+import { FormControlLabel, Radio, RadioGroup } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+import {
+  DESIGNER_FILTERS_CLEAR_BTN_LABEL,
+  READY_FOR_JOB_TITLE,
+  SKILLS_TITLE,
+  SPECIALIZATION_TITLE,
+  TOOLS_TITLE,
+  FILTER_OPTIONS,
+} from "../../model/constants";
+import { MyButton, MyCheckBox, MyMultipleDropDown } from "@/shared/UI";
+import { useAppSelector } from "@/hooks/reduxHooks";
+import { IUserWithLastCases } from "@/types";
+import { filterService } from "@/api/services/filterService";
+
+interface IProps {
+  setDesigners: (IDesignersList: IUserWithLastCases[]) => void;
+}
+
+const DesignerFilters: React.FC<IProps> = ({ setDesigners }) => {
+  const [speciality, setSpeciality] = useState<string[]>([]);
+  const [skillsValue, setSkillsValue] = useState<string[]>([]);
+  const [tools, setTools] = useState<string[]>([]);
+  const [readyForJob, setReadyForJob] = useState<string[]>([
+    FILTER_OPTIONS.readyForJobOptions[0],
+  ]);
+
+  const { skills } = useAppSelector((state) => state.data);
+  const { specializations } = useAppSelector((state) => state.data);
+  const { instruments } = useAppSelector((state) => state.data);
+
+  const specializationsList = Object.keys(specializations);
+
+  function convertToIds(
+    names: string[],
+    specializations: Record<string, number>
+  ): number[] {
+    const idValues: number[] = [];
+    names.forEach((name) => {
+      const id = specializations[name];
+      if (id) {
+        idValues.push(id);
+      }
+    });
+    return idValues;
+  }
+
+  function handleClearFilters() {
+    setSpeciality([]);
+    setSkillsValue([]);
+    setTools([]);
+    setReadyForJob([FILTER_OPTIONS.readyForJobOptions[0]]);
+  }
+
+  function handleSetSkills(
+    _: SyntheticEvent<Element, Event>,
+    newValue: string[]
+  ) {
+    if (newValue.length > 5) return;
+    setSkillsValue(newValue);
+  }
+
+  function handleSetTools(
+    _: SyntheticEvent<Element, Event>,
+    newValue: string[]
+  ) {
+    if (newValue.length > 5) return;
+    setTools(newValue);
+  }
+
+  function handleSpeciality(item: string) {
+    const newValue = speciality.includes(item)
+      ? speciality.filter((elem) => elem !== item)
+      : [...speciality, item];
+    setSpeciality(newValue);
+  }
+
+  function handleReadyForJob(item: string) {
+    const newValue = speciality.includes(item)
+      ? speciality.filter((elem) => elem !== item)
+      : [...speciality, item];
+    setReadyForJob(newValue);
+  }
+
+  useEffect(() => {
+    const specialityIds = convertToIds(speciality, specializations);
+    const skillsIds = convertToIds(skillsValue, skills);
+    const instrumentsIds = convertToIds(tools, instruments);
+
+    (async () => {
+      const filteredList = await filterService.getQueryUsers(
+        skillsIds, //skills
+        specialityIds, //specialization
+        instrumentsIds, //tools
+        12,
+        1
+      );
+
+      setDesigners(filteredList.results);
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [skillsValue, speciality, tools]);
+
+  return (
+    <div className="designerFilters">
+      <div className="designerFilters__container">
+        <MyButton
+          onClick={handleClearFilters}
+          disabled={false}
+          className="designerFilters__button"
+          type="button"
+          variant="text"
+          startIcon={<CloseIcon />}
+        >
+          {DESIGNER_FILTERS_CLEAR_BTN_LABEL}
+        </MyButton>
+      </div>
+      <div className="designerFilters__container">
+        <h2 className="designerFilters__title">{SPECIALIZATION_TITLE}</h2>
+        {specializationsList.map((item, i) => {
+          return (
+            <MyCheckBox
+              key={i}
+              className="designerFilters__checkbox"
+              labelPlacement="start"
+              checked={speciality.includes(item)}
+              label={item}
+              onChange={() => {
+                handleSpeciality(item);
+              }}
+            />
+          );
+        })}
+      </div>
+
+      <div className="designerFilters__container">
+        <h2 className="designerFilters__title">{READY_FOR_JOB_TITLE}</h2>
+        <RadioGroup
+          defaultValue="Все"
+          name="ready-to-job"
+          className="designerFilters__radio"
+        >
+          {FILTER_OPTIONS.readyForJobOptions.map((item, i) => {
+            return (
+              <FormControlLabel
+                key={i}
+                className="designerFilters__radio-item"
+                labelPlacement="start"
+                value={item}
+                control={
+                  <Radio
+                    onChange={() => handleReadyForJob(item)}
+                    checked={readyForJob.includes(item)}
+                  />
+                }
+                label={item}
+              />
+            );
+          })}
+        </RadioGroup>
+      </div>
+
+      <div className="designerFilters__container">
+        <h2 className="designerFilters__title">{SKILLS_TITLE}</h2>
+        <MyMultipleDropDown
+          options={Object.keys(skills)}
+          value={skillsValue}
+          onChange={handleSetSkills}
+          className="designerFilters__dropdown"
+          placeholder={skillsValue.length ? "" : "Выберите навыки"}
+        />
+      </div>
+
+      <div className="designerFilters__container">
+        <h2 className="designerFilters__title">{TOOLS_TITLE}</h2>
+        <MyMultipleDropDown
+          options={Object.keys(instruments)}
+          value={tools}
+          onChange={handleSetTools}
+          className="designerFilters__dropdown"
+          placeholder={tools.length ? "" : "Выберите инструменты"}
+        />
+      </div>
+    </div>
+  );
+};
+
+export default DesignerFilters;

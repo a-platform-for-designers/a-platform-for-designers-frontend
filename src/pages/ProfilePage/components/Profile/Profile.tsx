@@ -4,15 +4,34 @@ import React from "react";
 import { IProfileDesigner } from "../../../../types";
 import { AboutItem, EmptyData } from "..";
 
-const Profile: React.FC<IProfileDesigner> = ({
-  education,
-  country,
-  specialization,
-  hobby,
-  language,
-}) => {
-  if (!education && !country && !specialization && !hobby && !language.length) {
-    return <EmptyData title="Дизайнер пока не заполнил профиль" />;
+interface IProps {
+  profiledesigner?: IProfileDesigner | null;
+  emptyTitle: string;
+}
+
+const Profile: React.FC<IProps> = ({ profiledesigner, emptyTitle }) => {
+  if (!profiledesigner) return <EmptyData title={emptyTitle} />;
+  const { education, country, hobby, language, specialization } =
+    profiledesigner;
+
+  function setSpecializations() {
+    if (Array.isArray(specialization)) {
+      const name: string = "name";
+      const result = specialization.map((obj) =>
+        String(obj[name as keyof typeof obj])
+      );
+      return result;
+    }
+  }
+
+  function setLanguages() {
+    if (Array.isArray(language)) {
+      const name: string = "name";
+      const result = language.map((obj) =>
+        String(obj[name as keyof typeof obj])
+      );
+      return result;
+    }
   }
 
   return (
@@ -31,10 +50,14 @@ const Profile: React.FC<IProfileDesigner> = ({
           className="profile__aside profile__aside_secondary"
           justifyContent="flex-end"
         >
-          <AboutItem secondary data={specialization} title="Специализация" />
+          <AboutItem
+            secondary
+            data={setSpecializations()}
+            title="Специализация"
+          />
           <AboutItem secondary data={country} title="Страна" />
           <AboutItem secondary data={education} title="Образование" />
-          <AboutItem secondary data={language} title="Язык" />
+          <AboutItem secondary data={setLanguages()} title="Знание языков" />
         </Grid>
       </Grid>
     </StyledEngineProvider>

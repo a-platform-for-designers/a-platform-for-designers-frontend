@@ -1,85 +1,159 @@
 import { Container, StyledEngineProvider } from "@mui/material";
 import "./ProfilePage.scss";
-
-import profilePlaceholder from "../../assets/images/designerscarousel-avatar.png";
-import { Route, Routes, Navigate } from "react-router-dom";
-
-import { IProfileDesigner, IResume } from "../../types";
+import {
+  Route,
+  Routes,
+  Navigate,
+  useParams,
+  useNavigate,
+} from "react-router-dom";
 import { Info, ProfileNav, Portfolio, Work, Profile } from "./components";
-import { IProfileData } from "./components/Info/Info";
-import { IProfileNavPage } from "./components/ProfileNav/ProfileNav";
-
-const workPlaceHolder: IResume = {
-  id: 1,
-  skills: [
-    { id: 1, name: "Коммерческая иллюстраци" },
-    { id: 2, name: "Персонажи" },
-    { id: 3, name: "Афиши" },
-    { id: 4, name: "Леттеринг" },
-    { id: 5, name: "Книжная иллюстрация" },
-  ],
-  instruments: [
-    { id: 1, name: "Photoshop" },
-    { id: 2, name: "Illustrator" },
-    { id: 3, name: "Figma" },
-  ],
-  about: "about",
-};
-
-const profilePlaceHolder: IProfileDesigner = {
-  id: 1,
-  user: 1,
-  education: "Школа дизайна НИУ ВШЭ",
-  country: "Россия",
-  specialization: 1,
-  hobby: `В свободное от работы время, я люблю читать книги. Часто бываю 
-  на природе, это помогает мне не только перезагрузиться, но и очень вдохновляет меня.  Также я читаю книги детям в местной библиотеке, это помогает развиваться в моей работе, так как я могу видеть реакцию детей на иллюстрации в живую. `,
-  language: ["Russian", "English"],
-};
-
-// Чтобы добавить пункт меню на странице профиля, дополнить массив
-const profileNavPages: IProfileNavPage[] = [
-  {
-    title: "Портфолио",
-    link: `portfolio`,
-    element: <Portfolio data={[...new Array(8)]} />,
-  },
-  { title: "Работа", link: `work`, element: <Work {...workPlaceHolder} /> },
-  {
-    title: "Профиль",
-    link: `file`,
-    element: <Profile {...profilePlaceHolder} />,
-  },
-];
+import { IProfileNavPage } from "@/types";
+import { useAppSelector } from "@/hooks/reduxHooks";
+import { userService } from "@/api";
+import { useEffect, useState } from "react";
+import { IUser, IProfileData } from "@/types";
+import CustomersOrderCard from "./components/CustomersOrdersCards/CustomersOrdersCards";
+import Preloader from "@/shared/Preloader/Preloader";
 
 const ProfilePage: React.FC = () => {
+  const { user } = useAppSelector((state) => state.user); // авторизованный пользователь
+  const { id } = useParams();
+  const [currentUser, setCurrentUser] = useState<IUser>(); // пользователь чей профиль(id через путь)
+  const isCustomerCurrentUser = currentUser?.is_customer;
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isCustomerCurrentUser) {
+      navigate(`/profile/${id}/orders`);
+    } else {
+      navigate(`/profile/${id}/portfolio`);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isCustomerCurrentUser]);
+
+  useEffect(() => {
+    (async () => {
+      const isProfileOfCurrentUser = user?.id === Number(id);
+      if (isProfileOfCurrentUser) {
+        setCurrentUser(user);
+      } else {
+        setCurrentUser(await userService.getUserById(Number(id)));
+      }
+    })();
+  }, [id, user]);
+
   const profileData: IProfileData = {
-    name: "Ирина Петрова",
-    specialization: "Графический дизайнер",
-    image: profilePlaceholder,
-    country: "Россия",
-    registrationDate: "12 ноября 2023",
-    status: "Ищет заказы",
+    first_name: currentUser?.first_name,
+    last_name: currentUser?.last_name,
+    specialization: currentUser?.profiledesigner?.specialization || [
+      "Не указана специализация",
+    ],
+    image: currentUser?.photo,
+    country: currentUser?.profiledesigner?.country || "Не указана страна",
+    registrationDate: new Date(
+      user?.date_joined ?? new Date()
+    ).toLocaleDateString("ru-RU", {
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+    }),
+    status: currentUser?.resume?.status ? "Ищет работу" : "Не ищет работу",
     likes: 1001,
     followers: 98,
   };
 
+  // Чтобы добавить пункт меню на странице профиля, дополнить массив
+  const profileNavPages: IProfileNavPage[] = [
+    {
+      title: "Портфолио",
+      link: `portfolio`,
+      element: <Portfolio data={currentUser?.portfolio} />,
+    },
+    {
+      title: "Работа",
+      link: `work`,
+      element: currentUser?.resume ? (
+        <Work resume={currentUser?.resume} />
+      ) : (
+        <Work />
+      ),
+    },
+    {
+      title: "Профиль",
+      link: `file`,
+      element: currentUser?.profiledesigner ? (
+        <Profile
+          profiledesigner={currentUser?.profiledesigner}
+          emptyTitle="Дизайнер пока не заполнил профиль"
+        />
+      ) : (
+        <Profile emptyTitle="Здесь пока ничего нет" />
+      ),
+    },
+  ];
+
+  const profileCustomerNavPages: IProfileNavPage[] = [
+    {
+      title: "Активные заказы",
+      link: `orders`,
+      element: <CustomersOrderCard userId={currentUser?.id} />,
+    },
+    {
+      title: "Профиль",
+      link: `file`,
+      element: currentUser?.profiledesigner ? (
+        <Profile
+          profiledesigner={currentUser?.profiledesigner}
+          emptyTitle="Заказчик пока не заполнил профиль"
+        />
+      ) : (
+        <Profile emptyTitle="Заказчик пока не заполнил профиль" />
+      ),
+    },
+  ];
+
+  if (!currentUser) {
+    return <Preloader />;
+  }
+
   return (
     <StyledEngineProvider injectFirst>
       <Container component="section" className="profilePage">
-        <Info data={profileData} />
-        <ProfileNav pages={profileNavPages} />
-        <Routes>
-          <Route path="/">
-            <Route
-              index
-              element={<Navigate replace to={profileNavPages[0].link} />}
-            />
-            {profileNavPages.map((page, idx) => (
-              <Route key={idx} path={page.link} element={page.element} />
-            ))}
-          </Route>
-        </Routes>
+        <Info data={profileData} currentUser={currentUser} />
+        {isCustomerCurrentUser !== undefined && !isCustomerCurrentUser ? (
+          <>
+            <ProfileNav pages={profileNavPages} />
+            <Routes>
+              <Route path="/">
+                <Route
+                  index
+                  element={<Navigate replace to={profileNavPages[0].link} />}
+                />
+                {profileNavPages.map((page, idx) => (
+                  <Route key={idx} path={page.link} element={page.element} />
+                ))}
+              </Route>
+            </Routes>
+          </>
+        ) : (
+          <>
+            <ProfileNav pages={profileCustomerNavPages} />
+            <Routes>
+              <Route path="/">
+                <Route
+                  index
+                  element={
+                    <Navigate replace to={profileCustomerNavPages[0].link} />
+                  }
+                />
+                {profileCustomerNavPages.map((page, idx) => (
+                  <Route key={idx} path={page.link} element={page.element} />
+                ))}
+              </Route>
+            </Routes>
+          </>
+        )}
       </Container>
     </StyledEngineProvider>
   );

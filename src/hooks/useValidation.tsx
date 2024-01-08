@@ -1,13 +1,5 @@
 import { useEffect, useState } from "react";
-
-export interface IValidation {
-  isEmpty?: boolean;
-  minLength?: number;
-  maxLength?: number;
-  isEmail?: boolean;
-  isName?: boolean;
-  isPhone?: boolean;
-}
+import { IValidation } from "@/types";
 
 function useValidation(value: string, validations: IValidation) {
   const [emptyError, setEmptyError] = useState("");

@@ -8,38 +8,36 @@ import {
   Typography,
 } from "@mui/material";
 import "./Info.scss";
-import React, { useState } from "react";
-import MyButton from "../../../../components/UI/MyButton/MyButton";
-import { SocialIndicator } from "..";
+import React, { useEffect, useState } from "react";
+import { InfoAction, SocialIndicator } from "..";
+import { getInitials } from "../../../../features";
+import { useNavigate } from "react-router-dom";
+import { IUser, IProfileData } from "@/types";
+import { useAppSelector } from "@/hooks/reduxHooks";
+import { MyMessagePopup } from "@/shared/UI";
 
 const avatarStyles: SxProps<Theme> = {
   height: "212px",
   width: "212px",
   borderRadius: "50%",
+  fontSize: "70px",
+  backgroundColor: "#4F378B",
+  color: "#EADDFF",
 };
 
 const statusStyles: SxProps<Theme> = {
   color: (theme) => theme.palette.success.main,
 };
 
-export interface IProfileData {
-  name: string;
-  specialization: string;
-  image?: string;
-  country: string;
-  registrationDate: string;
-  status: string;
-  likes: number;
-  followers: number;
-}
-
 interface IInfoProps {
   data: IProfileData;
+  currentUser?: IUser;
 }
 
-const Info: React.FC<IInfoProps> = ({ data }) => {
+const Info: React.FC<IInfoProps> = ({ data, currentUser }) => {
   const {
-    name,
+    first_name,
+    last_name,
     specialization,
     image,
     country,
@@ -51,15 +49,41 @@ const Info: React.FC<IInfoProps> = ({ data }) => {
 
   const [likes, setLikes] = useState(1000);
   const [isLiked, setIsLiked] = useState(true);
+  const [isCurrentUser, setIsCurrentUser] = useState(true);
+  const navigate = useNavigate();
+  const { user } = useAppSelector((state) => state.user);
+  const { isAuth } = useAppSelector((state) => state.auth);
+  const [openPopup, setOpenPopup] = useState<boolean>(false);
 
-  const initials = name
-    .split(" ")
-    .map((word, idx) => {
-      if (idx > 1) return;
-      return word[0];
-    })
-    .join("")
-    .toUpperCase();
+  function handleClick() {
+    if (isAuth) {
+      setOpenPopup(true);
+    }
+  }
+
+  function handlePopupClose() {
+    setOpenPopup(false);
+  }
+
+  const isCustomer = currentUser?.is_customer;
+
+  useEffect(() => {
+    if (!user) return;
+    if (user.id === currentUser?.id) {
+      setIsCurrentUser(true);
+    } else {
+      setIsCurrentUser(false);
+    }
+  }, [user, currentUser]);
+
+  const name = `${first_name} ${last_name}`;
+
+  const initials = getInitials(name);
+
+  function setSpecializations() {
+    const name: string = "name";
+    return specialization?.map((obj) => obj[name as keyof typeof obj]);
+  }
 
   return (
     <StyledEngineProvider injectFirst>
@@ -79,24 +103,82 @@ const Info: React.FC<IInfoProps> = ({ data }) => {
               <Typography className="info__title" component="h2">
                 {name}
               </Typography>
-              <Typography sx={statusStyles} className="info__status">
-                {status}
-              </Typography>
+              {!isCustomer ? (
+                <Typography sx={statusStyles} className="info__status">
+                  {status}
+                </Typography>
+              ) : null}
             </Grid>
             <Typography className="info__subtitle" component="p">
-              {specialization}
+              {setSpecializations()?.join(", ")}
             </Typography>
             <Typography className="info__subtitle" component="p">
               {country}
             </Typography>
           </Grid>
           <Grid container gap="24px">
-            <MyButton className="info__button" label="Подписаться" />
-            <MyButton
-              className="info__button"
-              label="Написать"
-              variant="outlined"
-            />
+            {!isCustomer ? (
+              <>
+                <InfoAction
+                  isCurrentUser={isCurrentUser}
+                  ifTrue={{
+                    label: "Добавить проект",
+                    onClick: () => navigate("/dashboard/portfolio/create"),
+                  }}
+                  ifFalse={{
+                    label: "Подписаться",
+                    onClick: () => {
+                      console.log("Подписались!");
+                    },
+                  }}
+                />
+                <InfoAction
+                  isCurrentUser={isCurrentUser}
+                  ifTrue={{
+                    label: "Редактировать профиль",
+                    onClick: () => navigate("/dashboard"),
+                  }}
+                  ifFalse={{
+                    label: "Написать",
+                    onClick: () => {
+                      handleClick();
+                    },
+                  }}
+                  variant="outlined"
+                />
+              </>
+            ) : (
+              <>
+                <InfoAction
+                  isCurrentUser={isCurrentUser}
+                  ifTrue={{
+                    label: "Редактировать профиль",
+                    onClick: () => navigate("/dashboard"),
+                  }}
+                  ifFalse={{
+                    label: "Подписаться",
+                    onClick: () => {
+                      console.log("Подписались!");
+                    },
+                  }}
+                />
+
+                <InfoAction
+                  isCurrentUser={isCurrentUser}
+                  ifTrue={{
+                    label: "Создать заказ",
+                    onClick: () => navigate("/orders/create"),
+                  }}
+                  ifFalse={{
+                    label: "Написать",
+                    onClick: () => {
+                      handleClick();
+                    },
+                  }}
+                  variant="outlined"
+                />
+              </>
+            )}
           </Grid>
         </Grid>
         <Grid
@@ -110,34 +192,39 @@ const Info: React.FC<IInfoProps> = ({ data }) => {
           <Typography className="info__reg-date">
             На&nbsp;сайте&nbsp;с&nbsp;{registrationDate}
           </Typography>
-          <Grid
-            container
-            gap="16px"
-            justifyContent="flex-end"
-            flexGrow={0}
-            paddingBottom="15px"
-          >
-            <SocialIndicator
-              variant="likes"
-              count={likes}
-              active={isLiked}
-              onClick={() => {
-                setLikes((prev) => {
-                  // чисто потестить
-                  if (isLiked) {
-                    setIsLiked(false);
-                    return --prev;
-                  } else {
-                    setIsLiked(true);
-                    return ++prev;
-                  }
-                });
-              }}
-            />
-            <SocialIndicator variant="followers" count={98} />
-          </Grid>
+          {!isCustomer ? (
+            <Grid
+              container
+              gap="16px"
+              justifyContent="flex-end"
+              flexGrow={0}
+              paddingBottom="15px"
+            >
+              <SocialIndicator
+                variant="likes"
+                count={likes}
+                active={isLiked}
+                onClick={() => {
+                  setLikes((prev) => {
+                    // чисто потестить
+                    if (isLiked) {
+                      setIsLiked(false);
+                      return --prev;
+                    } else {
+                      setIsLiked(true);
+                      return ++prev;
+                    }
+                  });
+                }}
+              />
+              <SocialIndicator variant="followers" count={98} />
+            </Grid>
+          ) : null}
         </Grid>
       </Grid>
+      {openPopup ? (
+        <MyMessagePopup open={openPopup} onClose={handlePopupClose} />
+      ) : null}
     </StyledEngineProvider>
   );
 };
