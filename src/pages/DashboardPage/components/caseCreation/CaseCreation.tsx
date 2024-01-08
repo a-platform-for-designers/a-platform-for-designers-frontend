@@ -3,11 +3,14 @@ import classes from "./CaseCreation.module.scss";
 import useInput from "@/hooks/useInput";
 import { useState, SyntheticEvent } from "react";
 import React from "react";
+import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
 import { IProfileDataItem } from "../../model/types";
+import { ICasePreview } from "@/types";
 import { tools } from "../../model/constants";
 import ProfileInput from "@/shared/UI/ProfileInput/ProfileInput";
 import { MyButton } from "@/shared/UI";
 import { useAppSelector } from "@/hooks/reduxHooks";
+import CasePreview from "../casePreview/CasePreview";
 import { casesService } from "@/api";
 import getBase64 from "@/features/getBase64";
 import { enqueueSnackbar } from "notistack";
@@ -21,7 +24,10 @@ const CaseCreation: React.FC = () => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [sphereValue, setSphereValue] = useState<string | null>(null);
   const [toolsValue, setToolsValue] = useState<string[]>([]);
+  const [isCasePreview, setIsCasePreview] = useState<boolean>(false);
+  const [caseDataValues, setCaseDataValues] = useState<ICasePreview>();
 
+  const navigate = useNavigate();
   const { specializations, spheres, instruments } = useAppSelector(
     (state) => state.data
   );
@@ -181,30 +187,81 @@ const CaseCreation: React.FC = () => {
     }
   }
 
+  function handleCasePreview(e: React.MouseEvent<HTMLButtonElement>) {
+    e.preventDefault();
+    const values = {
+      title: title.value,
+      time: time.value,
+      description: description.value,
+      directions,
+      wrapper,
+      images: selectedFiles,
+      sphereValue,
+      toolsValue,
+    };
+    setCaseDataValues(values);
+    setIsCasePreview(true);
+  }
+
+  function handleEdit() {
+    setIsCasePreview(false);
+    navigate("/dashboard/portfolio/create/preview");
+  }
+
   return (
     <>
-      <>
-        <Box className={classes.case}>
-          {profileData.map((item) => {
-            return (
-              <ProfileInput
-                key={item.heading}
-                handleDeleteCaseImage={handleDeleteCaseImage}
-                {...item}
-              />
-            );
-          })}
-        </Box>
-        <Box textAlign={"center"} marginLeft={15}>
-          <MyButton
-            className={classes.case__btn}
-            onClick={handleSubmit}
-            disabled={!!(title.error || !wrapper || selectedFiles.length === 0)}
-          >
-            Сохранить
-          </MyButton>
-        </Box>
-      </>
+      {!isCasePreview ? (
+        <>
+          <Box className={classes.case}>
+            {profileData.map((item) => {
+              return (
+                <ProfileInput
+                  key={item.heading}
+                  handleDeleteCaseImage={handleDeleteCaseImage}
+                  {...item}
+                />
+              );
+            })}
+          </Box>
+          <Box className={classes.case__submit}>
+            <MyButton
+              className={classes.case__btn}
+              onClick={handleCasePreview}
+              disabled={
+                !!(title.error || !wrapper || selectedFiles.length === 0)
+              }
+              variant="outlined"
+            >
+              Предпросмотр
+            </MyButton>
+            <MyButton
+              className={classes.case__btn}
+              onClick={handleSubmit}
+              disabled={
+                !!(title.error || !wrapper || selectedFiles.length === 0)
+              }
+            >
+              Опубликовать проект
+            </MyButton>
+          </Box>
+        </>
+      ) : (
+        <Routes>
+          <Route path="/">
+            <Route index element={<Navigate replace to={"preview"} />} />
+            <Route
+              path="/preview"
+              element={
+                <CasePreview
+                  handleSubmit={handleSubmit}
+                  caseData={caseDataValues}
+                  handleEdit={handleEdit}
+                />
+              }
+            />
+          </Route>
+        </Routes>
+      )}
     </>
   );
 };

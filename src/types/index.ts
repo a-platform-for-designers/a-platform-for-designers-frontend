@@ -95,6 +95,25 @@ export interface ICase {
   avatar: string;
 }
 
+export interface ICaseInfo {
+  title?: string | null;
+  sphere?: IDataItem;
+  instruments?: string[];
+  working_term?: string;
+  description?: string;
+}
+
+export interface ICasePreview {
+  title: string;
+  time: string;
+  description: string;
+  directions: string | null;
+  wrapper: File | null;
+  images: File[];
+  sphereValue: string | null;
+  toolsValue: string[];
+}
+
 export interface IListRespons {
   count: number;
   next: string;
@@ -107,17 +126,6 @@ export interface ICaseRespons extends IListRespons {
 
 export interface IUserRespons extends IListRespons {
   results: IUserWithLastCases[];
-}
-
-export interface ICasePreview {
-  title: string;
-  time: string;
-  description: string;
-  directions: string;
-  wrapper: File;
-  images: File[];
-  sphereValue: string;
-  toolsValue: string[];
 }
 
 export interface IOrderDataItem {
