@@ -105,7 +105,9 @@ export const userSlice = createSlice({
         (action) => /^user.*?\/rejected/.test(action.type),
         (state, action) => {
           state.loading = "failed";
-          state.errorMessages = action.payload as string[];
+          if (action.payload) {
+            state.errorMessages = action.payload as string[];
+          }
         }
       );
   },
