@@ -68,6 +68,7 @@ const DesinersCategories: React.FC<IDesinersCategoriesProps> = ({ data }) => {
                   component="img"
                   image={item.image}
                   alt={item.title}
+                  loading="lazy"
                 />
               </Card>
             );
