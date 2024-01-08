@@ -8,6 +8,9 @@ import { tools } from "../../model/constants";
 import ProfileInput from "@/shared/UI/ProfileInput/ProfileInput";
 import { MyButton } from "@/shared/UI";
 import { useAppSelector } from "@/hooks/reduxHooks";
+import { casesService } from "@/api";
+import getBase64 from "@/features/getBase64";
+import { enqueueSnackbar } from "notistack";
 
 const CaseCreation: React.FC = () => {
   const title = useInput("", { isEmpty: true });
@@ -19,7 +22,9 @@ const CaseCreation: React.FC = () => {
   const [sphereValue, setSphereValue] = useState<string | null>(null);
   const [toolsValue, setToolsValue] = useState<string[]>([]);
 
-  const { specializations, spheres } = useAppSelector((state) => state.data);
+  const { specializations, spheres, instruments } = useAppSelector(
+    (state) => state.data
+  );
 
   const profileData: IProfileDataItem[] = [
     {
@@ -87,6 +92,24 @@ const CaseCreation: React.FC = () => {
     },
   ];
 
+  const convertStringToId = (
+    str: string[] | string | null,
+    state: { [key: string]: number }
+  ) => {
+    if (typeof str === "string") {
+      return state[str];
+    }
+
+    if (!str) {
+      return null;
+    }
+
+    const mappedInstruments = str.map((item: string) => {
+      return state[item];
+    });
+    return mappedInstruments;
+  };
+
   function handleSetWrapper(
     _: React.ChangeEvent<HTMLInputElement>,
     newValue: File | null
@@ -130,18 +153,32 @@ const CaseCreation: React.FC = () => {
     e.preventDefault();
     const values = {
       title: title.value,
-      time: time.value,
+      workingTerm: time.value,
       description: description.value,
-      directions,
-      wrapper,
-      images: selectedFiles,
-      /* images: await Promise.all(
-        selectedFiles.map(async (item) => await getBase64(item))
-      ), */
-      sphereValue,
-      toolsValue,
+      specialization: convertStringToId(directions, specializations),
+      avatar: String(await getBase64(wrapper!)),
+      images: await Promise.all(
+        selectedFiles.map(async (file) => {
+          const base64Image = await getBase64(file);
+          return {
+            image: String(base64Image),
+          };
+        })
+      ),
+      sphere: convertStringToId(sphereValue, spheres),
+      instruments: convertStringToId(toolsValue, instruments),
     };
     console.log(values);
+
+    try {
+      const createCase = await casesService.createCase(values);
+      enqueueSnackbar("Кейс успешно создан", { variant: "success" });
+      return createCase;
+    } catch {
+      enqueueSnackbar("Произошла ошибка при создании кейса", {
+        variant: "error",
+      });
+    }
   }
 
   return (

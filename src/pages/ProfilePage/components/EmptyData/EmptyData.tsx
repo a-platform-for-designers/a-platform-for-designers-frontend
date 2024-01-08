@@ -1,7 +1,7 @@
 import { Grid, Typography } from "@mui/material";
 import "./EmptyData.scss";
 import React from "react";
-import emptyImage from "../../../../assets/images/profile-empty.png";
+import emptyImage from "../../../../assets/images/profile-empty.webp";
 
 interface IEmptyDataProps {
   title: string;
