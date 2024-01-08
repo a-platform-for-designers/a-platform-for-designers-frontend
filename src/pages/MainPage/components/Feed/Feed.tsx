@@ -12,6 +12,8 @@ import WorkCategories from "../WorkCategories/WorkCategories";
 import { IWorkCategoryData, IActiveWorkCategoryState } from "@/types";
 import MySwiper from "@/shared/UI/MySwiper/MySwiper";
 import { ICase } from "@/types";
+import Preloader from "@/shared/Preloader/Preloader";
+import MyPagination from "@/shared/UI/MyPagination/MyPagination";
 
 // Заглушка для категорий
 const workCategories: IWorkCategoryData[] = [
@@ -36,9 +38,22 @@ const workCategories: IWorkCategoryData[] = [
 interface IProps {
   cases: ICase[];
   setCases: React.Dispatch<React.SetStateAction<ICase[]>>;
+  isLoading: boolean;
+  totalCases: number;
+  page: number;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
+  setTotalCases: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const Feed: React.FC<IProps> = ({ cases, setCases }) => {
+const Feed: React.FC<IProps> = ({
+  cases,
+  setCases,
+  isLoading,
+  totalCases,
+  setPage,
+  page,
+  setTotalCases,
+}) => {
   const initialState: IActiveWorkCategoryState = {
     allDirections: true,
     categories: [],
@@ -64,16 +79,25 @@ const Feed: React.FC<IProps> = ({ cases, setCases }) => {
           workCategoryState={workCategoryState}
           setWorkCategoryState={setWorkCategoryState}
           setCases={setCases}
+          page={page}
+          setTotalCases={setTotalCases}
         />
         <Grid className="feed__list" justifyContent="center" container>
-          {cases.map((item) => (
-            <MySwiper
-              item={item}
-              key={item.id}
-              onClick={() => navigate(`/case/${item.id}`)}
-            />
-          ))}
+          {isLoading ? (
+            <Preloader />
+          ) : (
+            <>
+              {cases.map((item) => (
+                <MySwiper
+                  item={item}
+                  key={item.id}
+                  onClick={() => navigate(`/case/${item.id}`)}
+                />
+              ))}
+            </>
+          )}
         </Grid>
+        <MyPagination totalCases={totalCases} setPage={setPage} page={page} />
       </Container>
     </StyledEngineProvider>
   );

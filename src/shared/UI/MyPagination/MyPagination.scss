@@ -1,0 +1,60 @@
+.pagination {
+  margin: 32px auto 0;
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 20px;
+
+  &__num {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 12px;
+    transition: background-color .2s ease-in-out;
+
+    &:hover {
+      border: 1px solid #6900ee;
+      background: #fff;
+      cursor: pointer;
+    }
+
+    &:active {
+      background-color: #6700ee3a;
+    }
+  }
+
+  &__arrow {
+    background-color: #6900ee;
+    border: none;
+    border-radius: 12px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    &:hover {
+      opacity: .8;
+      cursor: pointer;
+    }
+  }
+}
+
+.disabled {
+  background-color: #F1F1F1;
+
+  &:hover {
+    opacity: 1;
+    cursor: default;
+  }
+}
+
+.active {
+  border: 1px solid #6900ee;
+}
