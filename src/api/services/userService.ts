@@ -96,7 +96,7 @@ const userService = {
 
   setNewPassword: async (data: ISetNewPassword): Promise<ISetNewPassword> => {
     const response = await api.post<ISetNewPassword>(
-      `/api/users/set_password/`,
+      `/auth/users/set_password/`,
       data
     );
     return response.data;
