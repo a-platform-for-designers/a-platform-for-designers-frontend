@@ -100,7 +100,7 @@ const Feed: React.FC<IProps> = ({
           )}
         </Grid>
         <MyPagination
-          totalCases={totalCases}
+          totalItems={totalCases}
           setPage={setPage}
           page={page}
           limit={limit}

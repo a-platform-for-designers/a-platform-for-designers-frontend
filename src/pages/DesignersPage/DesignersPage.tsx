@@ -6,17 +6,22 @@ import { IUserWithLastCases } from "@/types";
 import { userService } from "@/api";
 import Preloader from "@/shared/Preloader/Preloader";
 import { EmptyData } from "../ProfilePage/components";
+import MyPagination from "@/shared/UI/MyPagination/MyPagination";
 
 const DesignersPage: React.FC = () => {
   const [users, setUsers] = useState<IUserWithLastCases[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [totalUsers, setTotalUsers] = useState<number>(0);
+  const [page, setPage] = useState<number>(1);
+  const USERS_LIMIT = 5;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setIsLoading(true);
-        const usersData = await userService.getUsersList(12, 1);
+        const usersData = await userService.getUsersList(USERS_LIMIT, page);
         setUsers(usersData.results);
+        setTotalUsers(usersData.count);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -24,6 +29,7 @@ const DesignersPage: React.FC = () => {
       }
     };
     fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -58,10 +64,21 @@ const DesignersPage: React.FC = () => {
 
             <Grid xs={3} item className="designersPage__filters">
               {/* ! Компонент фильтров */}
-              <DesignerFilters setDesigners={setUsers} />
+              <DesignerFilters
+                setDesigners={setUsers}
+                page={page}
+                setTotalUsers={setTotalUsers}
+                limit={USERS_LIMIT}
+              />
               {/* ! Компонент фильтров */}
             </Grid>
           </Grid>
+          <MyPagination
+            page={page}
+            setPage={setPage}
+            totalItems={totalUsers}
+            limit={USERS_LIMIT}
+          />
         </Box>
       </Box>
     </StyledEngineProvider>

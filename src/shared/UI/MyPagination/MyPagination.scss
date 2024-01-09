@@ -56,9 +56,12 @@
 }
 
 .css-1oo6rfg-MuiButtonBase-root-MuiPaginationItem-root:hover {
-  background-color: #6700ee2f;
+  background-color: #6700ee18;
 }
 
+.css-1oo6rfg-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected {
+  background-color: #fff;
+}
 .css-1oo6rfg-MuiButtonBase-root-MuiPaginationItem-root {
   border-radius: 12px;
   width: 32px;

@@ -17,9 +17,17 @@ import { filterService } from "@/api/services/filterService";
 
 interface IProps {
   setDesigners: (IDesignersList: IUserWithLastCases[]) => void;
+  page: number;
+  setTotalUsers: React.Dispatch<React.SetStateAction<number>>;
+  limit: number;
 }
 
-const DesignerFilters: React.FC<IProps> = ({ setDesigners }) => {
+const DesignerFilters: React.FC<IProps> = ({
+  setDesigners,
+  page,
+  setTotalUsers,
+  limit,
+}) => {
   const [speciality, setSpeciality] = useState<string[]>([]);
   const [skillsValue, setSkillsValue] = useState<string[]>([]);
   const [tools, setTools] = useState<string[]>([]);
@@ -94,14 +102,14 @@ const DesignerFilters: React.FC<IProps> = ({ setDesigners }) => {
         skillsIds, //skills
         specialityIds, //specialization
         instrumentsIds, //tools
-        12,
-        1
+        limit,
+        page
       );
-
+      setTotalUsers(filteredList.count);
       setDesigners(filteredList.results);
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [skillsValue, speciality, tools]);
+  }, [skillsValue, speciality, tools, page]);
 
   return (
     <div className="designerFilters">

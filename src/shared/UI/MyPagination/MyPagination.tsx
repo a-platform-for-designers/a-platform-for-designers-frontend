@@ -6,21 +6,21 @@ import PaginationItem from "@mui/material/PaginationItem";
 import Stack from "@mui/material/Stack";
 
 interface IProps {
-  totalCases: number;
+  totalItems: number;
   page: number;
   setPage: React.Dispatch<React.SetStateAction<number>>;
   limit: number;
 }
 
 const MyPagination: React.FC<IProps> = ({
-  totalCases,
+  totalItems,
   setPage,
   page,
   limit,
 }) => {
   const pageNumbers = [];
 
-  for (let i = 1; i <= Math.ceil(totalCases / limit); i++) {
+  for (let i = 1; i <= Math.ceil(totalItems / limit); i++) {
     pageNumbers.push(i);
   }
 
