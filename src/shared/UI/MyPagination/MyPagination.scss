@@ -46,42 +46,46 @@
   }
 }
 
-.css-1oo6rfg-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected {
+.css-1oo6rfg-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected, .css-98nt37 {
+  background-color: #fff;
+}
+
+.Mui-selected {
   border-radius: 12px;
   border: 1px solid #6900ee;
 
   &:hover {
-    background-color: rgba(164, 132, 177, 0.3) !important;
+    background-color: rgba(164, 132, 177, 0.3);
   }
 }
 
-.css-1oo6rfg-MuiButtonBase-root-MuiPaginationItem-root:hover {
+.MuiPaginationItem-text:hover {
   background-color: #6700ee18;
 }
 
-.css-1oo6rfg-MuiButtonBase-root-MuiPaginationItem-root.Mui-disabled {
-  opacity: 0.2;
-}
-
-.css-1oo6rfg-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected {
-  background-color: #fff;
-}
-.css-1oo6rfg-MuiButtonBase-root-MuiPaginationItem-root {
+.MuiPaginationItem-text {
   border-radius: 12px;
   width: 32px;
   height: 32px;
 }
 
-.css-wjh20t-MuiPagination-ul {
+.MuiPagination-ul {
   gap: 15px;
 }
 
 .MuiPaginationItem-previousNext {
   background-color: #6900ee;
+  height: 32px;
+  width: 32px;
+  border-radius: 12px;
   transition: opacity 0.3s ease-in-out;
+
+  .Mui-disabled {
+    opacity: 0.2;
+  }
 
   &:hover {
     background-color: #6900ee;
-    opacity: .8;
+    opacity: 0.8;
   }
 }
