@@ -2,16 +2,15 @@ import "./MainPage.scss";
 import { Box, Grid, StyledEngineProvider, SxProps, Theme } from "@mui/material";
 import Intro from "./components/Intro/Intro";
 import { useState, useEffect } from "react";
-
 import DesinersCarousel from "./components/DesinersCarousel/DesinersCarousel";
 import DesinersCategories from "./components/DesinersCategories/DesinersCategories";
 import { IDesinerCategoriesData } from "@/types";
 
 //import avatarPlaceholder from "../../assets/images/designerscarousel-avatar.webp";
-import desCatImg1 from "../../assets/images/desinerscategories-1.webp";
-import desCatImg2 from "../../assets/images/desinerscategories-2.webp";
-import desCatImg3 from "../../assets/images/desinerscategories-3.webp";
-import desCatImg4 from "../../assets/images/desinerscategories-4.webp";
+import desCatImg1 from "@/assets/images/desinerscategories-1.webp";
+import desCatImg2 from "@/assets/images/desinerscategories-2.webp";
+import desCatImg3 from "@/assets/images/desinerscategories-3.webp";
+import desCatImg4 from "@/assets/images/desinerscategories-4.webp";
 import Feed from "./components/Feed/Feed";
 import { casesService, userService } from "@/api";
 import { ICase, IUserWithLastCases } from "@/types";
@@ -21,7 +20,12 @@ const mainPageTheme: SxProps<Theme> = {
 };
 
 const MainPage: React.FC = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [users, setUsers] = useState<IUserWithLastCases[]>([]);
+  const [cases, setCases] = useState<ICase[]>([]);
+  const [totalCases, setTotalCases] = useState<number>(0);
+  const [page, setPage] = useState<number>(1);
+  const CASES_LIMIT = 12;
 
   useEffect(() => {
     (async () => {
@@ -52,45 +56,6 @@ const MainPage: React.FC = () => {
     return usersData;
   }
 
-  // const desinersForCarousel: IDesinerCarouselData[] = [
-  //   {
-  //     name: "Имя Фамилия",
-  //     specialization: "Специализация",
-  //     image: avatarPlaceholder,
-  //     link: "",
-  //   },
-  //   {
-  //     name: "Имя Фамилия",
-  //     specialization: "Специализация",
-  //     image: avatarPlaceholder,
-  //     link: "",
-  //   },
-  //   {
-  //     name: "Имя Фамилия",
-  //     specialization: "Специализация",
-  //     image: avatarPlaceholder,
-  //     link: "",
-  //   },
-  //   {
-  //     name: "Имя Фамилия",
-  //     specialization: "Специализация",
-  //     image: avatarPlaceholder,
-  //     link: "",
-  //   },
-  //   {
-  //     name: "Имя Фамилия",
-  //     specialization: "Специализация",
-  //     image: avatarPlaceholder,
-  //     link: "",
-  //   },
-  //   {
-  //     name: "Имя Фамилия",
-  //     specialization: "Специализация",
-  //     image: avatarPlaceholder,
-  //     link: "",
-  //   },
-  // ];
-
   const desinersCategories: IDesinerCategoriesData[] = [
     {
       title: "Иллюстраторы",
@@ -114,13 +79,20 @@ const MainPage: React.FC = () => {
     },
   ];
 
-  const [cases, setCases] = useState<ICase[]>([]);
-
   useEffect(() => {
     (async () => {
-      const casesData = await casesService.getCasesList(12, 1);
-      setCases(casesData.results);
+      try {
+        setIsLoading(true);
+        const casesData = await casesService.getCasesList(CASES_LIMIT, page);
+        setCases(casesData.results);
+        setTotalCases(casesData.count);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setIsLoading(false);
+      }
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -135,7 +107,18 @@ const MainPage: React.FC = () => {
             <Intro />
             <DesinersCarousel data={getUsers()} />
             <DesinersCategories data={desinersCategories} />
-            {<Feed cases={cases} setCases={setCases} />}
+            {
+              <Feed
+                cases={cases}
+                setCases={setCases}
+                isLoading={isLoading}
+                totalCases={totalCases}
+                setPage={setPage}
+                page={page}
+                setTotalCases={setTotalCases}
+                limit={CASES_LIMIT}
+              />
+            }
           </Grid>
         }
       </Box>

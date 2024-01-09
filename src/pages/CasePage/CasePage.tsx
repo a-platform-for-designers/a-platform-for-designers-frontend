@@ -9,7 +9,7 @@ import "./CasePage.scss";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { casesService } from "../../api";
-import { ICase } from "../../types";
+import { ICase, ICaseInfo } from "../../types";
 import { ActionButton, CaseInfo, ProfileInfo } from "./components";
 import { AboutItem, EmptyData } from "../ProfilePage/components";
 import Preloader from "@/shared/Preloader/Preloader";
@@ -24,6 +24,13 @@ const CasePage: React.FC = () => {
   const [caseData, setCaseData] = useState<ICase>();
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
+
+  const caseDataInfo: ICaseInfo = {
+    title: caseData?.title,
+    sphere: caseData?.sphere,
+    working_term: caseData?.working_term,
+    description: caseData?.description,
+  };
 
   function setInstruments() {
     if (Array.isArray(caseData?.instruments)) {
@@ -69,7 +76,7 @@ const CasePage: React.FC = () => {
           alignItems="flex-start"
         >
           <ProfileInfo data={caseData.author} />
-          <CaseInfo data={caseData} />
+          <CaseInfo data={caseDataInfo} />
           <Grid
             container
             gap="28px"

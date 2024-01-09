@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "@/hooks/reduxHooks";
 import { MyMessagePopup } from "@/shared/UI";
 import { useState } from "react";
+import emptyCase from "@/assets/images/caseCart.webp";
 
 interface IProps {
   cardOwner: IUserWithLastCases;
@@ -74,13 +75,23 @@ const DesignersCard: React.FC<IProps> = ({ cardOwner }) => {
             </MyButton>
           </div>
         </div>
-        {cardOwner.last_cases.map((item) => (
-          <MySwiper
-            key={item.id}
-            item={item}
-            onClick={() => navigate(`/case/${item.id}`)}
-          />
-        ))}
+        {cardOwner.last_cases.length < 2 ? (
+          <>
+            <MySwiper
+              item={cardOwner.last_cases[0]}
+              onClick={() => navigate(`/case/${cardOwner.last_cases[0].id}`)}
+            />
+            <img src={emptyCase} alt="Нет кейса" />
+          </>
+        ) : (
+          cardOwner.last_cases.map((item) => (
+            <MySwiper
+              key={item.id}
+              item={item}
+              onClick={() => navigate(`/case/${item.id}`)}
+            />
+          ))
+        )}
       </Box>
       {openPopup ? (
         <MyMessagePopup open={openPopup} onClose={handlePopupClose} />

@@ -14,6 +14,9 @@ interface IWorkCategoriesProps {
     React.SetStateAction<IActiveWorkCategoryState>
   >;
   setCases: React.Dispatch<React.SetStateAction<ICase[]>>;
+  page: number;
+  setTotalCases: React.Dispatch<React.SetStateAction<number>>;
+  limit: number;
 }
 
 /* Логика работы категорий 
@@ -28,6 +31,9 @@ const WorkCategories: React.FC<IWorkCategoriesProps> = ({
   workCategoryState,
   setWorkCategoryState,
   setCases,
+  page,
+  setTotalCases,
+  limit,
 }) => {
   const onCategoryClickHandler = (category: IWorkCategoryData) => {
     setWorkCategoryState((prev) => {
@@ -80,13 +86,20 @@ const WorkCategories: React.FC<IWorkCategoriesProps> = ({
     (async () => {
       const filteredList = await filterService.getQuerySpecializations(
         currentfilters,
-        12,
-        1
+        limit,
+        page
       );
-
       setCases(filteredList.results);
+      setTotalCases(filteredList.count);
     })();
-  }, [setCases, workCategoryState.categories, categoriesToIds]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    setCases,
+    workCategoryState.categories,
+    categoriesToIds,
+    page,
+    setTotalCases,
+  ]);
 
   return (
     <StyledEngineProvider injectFirst>
