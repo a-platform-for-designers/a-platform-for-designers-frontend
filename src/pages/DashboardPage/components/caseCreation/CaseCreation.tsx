@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import classes from "./CaseCreation.module.scss";
 import useInput from "@/hooks/useInput";
-import { useState, SyntheticEvent } from "react";
+import { useState, SyntheticEvent, useEffect } from "react";
 import React from "react";
 import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
 import { IProfileDataItem } from "../../model/types";
@@ -116,6 +116,13 @@ const CaseCreation: React.FC = () => {
     return mappedInstruments;
   };
 
+  useEffect(() => {
+    if (location.pathname.endsWith("/preview")) {
+      navigate("/dashboard/portfolio/create");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location]);
+
   function handleSetWrapper(
     _: React.ChangeEvent<HTMLInputElement>,
     newValue: File | null
@@ -205,7 +212,7 @@ const CaseCreation: React.FC = () => {
 
   function handleEdit() {
     setIsCasePreview(false);
-    navigate("/dashboard/portfolio/create/preview");
+    navigate("/dashboard/portfolio/create");
   }
 
   return (

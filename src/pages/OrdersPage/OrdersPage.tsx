@@ -62,7 +62,7 @@ const OrdersPage: React.FC = () => {
           >
             {isLoading ? (
               <Preloader></Preloader>
-            ) : orders.length > 0 ? (
+            ) : orders?.length > 0 ? (
               <Grid xs={9} item className={classes.ordersPage__cards}>
                 {orders.map((item) => (
                   <MyOrdersCard

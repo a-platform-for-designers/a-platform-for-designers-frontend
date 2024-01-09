@@ -13,6 +13,8 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     if (location.pathname.endsWith("/preview")) {
       setNoAsidebar(true);
+    } else {
+      setNoAsidebar(false);
     }
   }, [location]);
 
@@ -23,7 +25,7 @@ const Dashboard: React.FC = () => {
           <Box className="dashboard__container">
             {!noAsidebar ? <Asidebar /> : null}
             <Box flexGrow={1}>
-              <Outlet />
+              <Outlet context={true} />
             </Box>
           </Box>
         </Box>
