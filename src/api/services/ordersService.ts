@@ -2,8 +2,16 @@ import { IOrdersResponse, IOrderResponse } from "../../types";
 import api from "../api";
 
 const ordersService = {
-  getOrdersList: async (): Promise<IOrdersResponse> => {
-    const response = await api.get<IOrdersResponse>("/orders", {});
+  getOrdersList: async (
+    limit: number,
+    page: number
+  ): Promise<IOrdersResponse> => {
+    const response = await api.get<IOrdersResponse>("/orders", {
+      params: {
+        limit: limit,
+        page: page,
+      },
+    });
     return response.data;
   },
 

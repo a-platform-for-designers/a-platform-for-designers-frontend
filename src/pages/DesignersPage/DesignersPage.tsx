@@ -53,11 +53,19 @@ const DesignersPage: React.FC = () => {
             {isLoading ? (
               <Preloader></Preloader>
             ) : users.length > 0 ? (
-              <Grid xs={9} item className="designersPage__cards">
-                {users.map((item) => (
-                  <DesignersCard key={item.id} cardOwner={item} />
-                ))}
-              </Grid>
+              <div className="designersPage__cards-wrapper">
+                <Grid xs={9} item className="designersPage__cards">
+                  {users.map((item) => (
+                    <DesignersCard key={item.id} cardOwner={item} />
+                  ))}
+                </Grid>
+                <MyPagination
+                  page={page}
+                  setPage={setPage}
+                  totalItems={totalUsers}
+                  limit={USERS_LIMIT}
+                />
+              </div>
             ) : (
               <EmptyData title="На сайте пока нет дизайнеров" />
             )}
@@ -73,12 +81,6 @@ const DesignersPage: React.FC = () => {
               {/* ! Компонент фильтров */}
             </Grid>
           </Grid>
-          <MyPagination
-            page={page}
-            setPage={setPage}
-            totalItems={totalUsers}
-            limit={USERS_LIMIT}
-          />
         </Box>
       </Box>
     </StyledEngineProvider>

@@ -4,7 +4,7 @@
   border-radius: 24px;
   padding: 15px;
   max-width: 330px;
-  min-height: 332px;
+  height: 357px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -68,11 +68,16 @@
   }
 
   &__specialization {
+    text-overflow: ellipsis;
     margin-top: 10px;
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
     line-height: 150%;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    -webkit-line-clamp: 2;
   }
 
   &__price {
@@ -88,8 +93,7 @@
   &__buttons {
     gap: 8px;
     display: flex;
-    max-width: 99%;
-    align-self: end;
+    justify-content: space-between;
   }
 
   &__button {

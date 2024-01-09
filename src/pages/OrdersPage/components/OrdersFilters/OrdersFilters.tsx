@@ -10,9 +10,18 @@ import { DESIGNER_FILTERS_CLEAR_BTN_LABEL } from "../../../DesignersPage/model/c
 interface IProps {
   setOrders: (IOrdersList: IOrdersList[]) => void;
   orders: IOrdersList[];
+  page: number;
+  setTotalOrders: React.Dispatch<React.SetStateAction<number>>;
+  limit: number;
 }
 
-const OrdersFilters: React.FC<IProps> = ({ setOrders, orders }) => {
+const OrdersFilters: React.FC<IProps> = ({
+  setOrders,
+  orders,
+  page,
+  setTotalOrders,
+  limit,
+}) => {
   const [speciality, setSpeciality] = useState<string[]>([]);
   const [sphereValue, setSphereValue] = useState<string[]>([]);
   const { spheres } = useAppSelector((state) => state.data);
@@ -20,8 +29,6 @@ const OrdersFilters: React.FC<IProps> = ({ setOrders, orders }) => {
   const specializationsList = Object.keys(specializations).filter(
     (item) => item !== "Менторство"
   );
-
-  console.log(spheres);
 
   function convertToIds(
     names: string[],
@@ -59,13 +66,14 @@ const OrdersFilters: React.FC<IProps> = ({ setOrders, orders }) => {
       const filteredList = await filterService.getQueryOrders(
         spheresIds,
         specialityIds,
-        12,
-        1
+        limit,
+        page
       );
       setOrders(filteredList.results);
+      setTotalOrders(filteredList.count);
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [speciality, sphereValue]);
+  }, [speciality, sphereValue, page]);
 
   function handleClearFilters() {
     setSpeciality([]);
