@@ -107,7 +107,7 @@ const Header: React.FC = () => {
                       ? "header__menu-item_active"
                       : ""
                   }`}
-                  onClick={() => navigate("/mentors")}
+                  //! onClick={() => navigate("/mentors")}
                 >
                   Менторы
                 </ListItem>
