@@ -28,6 +28,7 @@ const CaseCreation: React.FC = () => {
   const [caseDataValues, setCaseDataValues] = useState<ICasePreview>();
 
   const navigate = useNavigate();
+
   const { specializations, spheres, instruments } = useAppSelector(
     (state) => state.data
   );
@@ -159,7 +160,7 @@ const CaseCreation: React.FC = () => {
     e.preventDefault();
     const values = {
       title: title.value,
-      workingTerm: time.value,
+      workingTerm: time.value, // fix null
       description: description.value,
       specialization: convertStringToId(directions, specializations),
       avatar: String(await getBase64(wrapper!)),

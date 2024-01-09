@@ -15,7 +15,6 @@ import {
   ProfileCustomer,
 } from "./components";
 import { IProfileNavPage } from "@/types";
-import { useAppSelector } from "@/hooks/reduxHooks";
 import { userService } from "@/api";
 import { useEffect, useState } from "react";
 import { IUser, IProfileData } from "@/types";
@@ -24,12 +23,10 @@ import Preloader from "@/shared/Preloader/Preloader";
 import Mentoring from "./components/Mentoring/Mentoring";
 
 const ProfilePage: React.FC = () => {
-  const { user } = useAppSelector((state) => state.user); // авторизованный пользователь
   const { id } = useParams();
   const [currentUser, setCurrentUser] = useState<IUser>(); // пользователь чей профиль(id через путь)
   const isCustomerCurrentUser = currentUser?.is_customer;
   const navigate = useNavigate();
-  console.log(user?.mentoring);
 
   useEffect(() => {
     if (isCustomerCurrentUser) {
@@ -42,15 +39,10 @@ const ProfilePage: React.FC = () => {
 
   useEffect(() => {
     (async () => {
-      const isProfileOfCurrentUser = user?.id === Number(id);
-      if (isProfileOfCurrentUser) {
-        console.log(user);
-        setCurrentUser(user);
-      } else {
-        setCurrentUser(await userService.getUserById(Number(id)));
-      }
+      const userInfo = await userService.getUserById(Number(id));
+      setCurrentUser(userInfo);
     })();
-  }, [id, user]);
+  }, [id]);
 
   const profileData: IProfileData = {
     first_name: currentUser?.first_name,
