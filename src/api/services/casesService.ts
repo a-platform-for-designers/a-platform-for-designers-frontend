@@ -21,6 +21,11 @@ const casesService = {
     const response = await api.post<ICase>("/cases/", data);
     return response.data;
   },
+
+  deleteCase: async (id: number): Promise<ICase> => {
+    const response = await api.delete<ICase>(`/cases/${id}/`);
+    return response.data;
+  },
 };
 
 export default casesService;
