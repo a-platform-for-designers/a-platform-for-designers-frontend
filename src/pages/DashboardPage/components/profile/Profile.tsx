@@ -355,6 +355,7 @@ const Profile: React.FC = () => {
                   data={aboutMe}
                   variant="textarea-label-without"
                   maxLength={200}
+                  minRows={6.5}
                   placeholder="Расскажите о себе..."
                   className={classes.profile__aboutMe}
                 />

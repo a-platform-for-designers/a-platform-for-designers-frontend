@@ -52,11 +52,10 @@
 
 //------------------------------------------ secondary
 .aboutItem-secondary {
-  flex-grow: 1;
   max-width: 565px;
-
-  display: flex;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  align-items: flex-start;
   gap: 33px;
 
   &__title {
