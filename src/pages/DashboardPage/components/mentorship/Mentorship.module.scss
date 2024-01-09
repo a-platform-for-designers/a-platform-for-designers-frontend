@@ -1,6 +1,31 @@
-.work {
+.mentorship {
   max-width: 684px;
   margin-left: 24px;
+
+  &__sectionText {
+    color: var(--dark_grey, #98979a);
+    font-family: Roboto;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px; /* 150% */
+    letter-spacing: 0.5px;
+    margin: 48px 0 0;
+  }
+
+  &__radioItem {
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+  }
+
+  &__header {
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 36px;
+    margin: 0 0 40px 0;
+  }
 
   &__myDrowDown {
     input {
@@ -19,7 +44,7 @@
 
   &__btn {
     width: 330px;
-    margin-top: 20%;
+    margin-top: 60px;
   }
 
   &__name {
@@ -74,12 +99,20 @@
     &_wrapper {
       display: flex;
       flex-direction: column;
-      row-gap: 48px;
+      row-gap: 12px;
       flex-grow: 1;
       max-width: 448px;
     }
     &_textarea {
       min-width: 100%;
+
+      &_currency::after {
+        content: " ";
+        background-image: url("../../../../assets/icons/ruble.svg");
+        width: 24px;
+        height: 24px;
+        margin-right: 16px;
+      }
     }
   }
 }

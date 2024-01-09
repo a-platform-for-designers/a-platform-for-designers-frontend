@@ -46,7 +46,7 @@ const MentorsPage: React.FC = () => {
               <Preloader></Preloader>
             ) : users.length > 0 ? (
               <Grid xs={9} item className="designersPage__cards">
-                {users.map((item) => (
+                {users?.map((item) => (
                   <DesignersCard key={item.id} user={item} />
                 ))}
               </Grid>

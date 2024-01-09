@@ -52,7 +52,7 @@ const DesignersPage: React.FC = () => {
           >
             {isLoading ? (
               <Preloader></Preloader>
-            ) : users.length > 0 ? (
+            ) : users?.length > 0 ? (
               <div className="designersPage__cards-wrapper">
                 <Grid xs={9} item className="designersPage__cards">
                   {users.map((item) => (

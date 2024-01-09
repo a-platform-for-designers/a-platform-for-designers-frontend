@@ -30,8 +30,8 @@ const Asidebar: React.FC = () => {
       id: 1051,
     },
     {
-      title: "Работа",
-      link: "work",
+      title: "Менторство",
+      link: "mentorship",
       id: 1052,
     },
     {

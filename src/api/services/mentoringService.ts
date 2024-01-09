@@ -1,11 +1,11 @@
 import { enqueueSnackbar } from "notistack";
-import { IResumeNew } from "../../types";
+import { IPostMentoring } from "../../types";
 import api from "../api";
 
-const resumeService = {
-  postResume: async (data: IResumeNew): Promise<IResumeNew> => {
+const mentoringService = {
+  postMentoring: async (data: IPostMentoring): Promise<IPostMentoring> => {
     try {
-      const response = await api.post<IResumeNew>("/resume/", data);
+      const response = await api.post<IPostMentoring>("/mentoring/", data);
       enqueueSnackbar({
         variant: "success",
         message: `Данные успешно обновлены`,
@@ -14,11 +14,11 @@ const resumeService = {
     } catch (error) {
       enqueueSnackbar({
         variant: "error",
-        message: `Заполните хотя бы одно поле`,
+        message: `Заполните все поля`,
       });
       throw error;
     }
   },
 };
 
-export default resumeService;
+export default mentoringService;
