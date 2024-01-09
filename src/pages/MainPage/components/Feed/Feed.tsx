@@ -43,6 +43,7 @@ interface IProps {
   page: number;
   setPage: React.Dispatch<React.SetStateAction<number>>;
   setTotalCases: React.Dispatch<React.SetStateAction<number>>;
+  limit: number;
 }
 
 const Feed: React.FC<IProps> = ({
@@ -53,6 +54,7 @@ const Feed: React.FC<IProps> = ({
   setPage,
   page,
   setTotalCases,
+  limit,
 }) => {
   const initialState: IActiveWorkCategoryState = {
     allDirections: true,
@@ -97,7 +99,12 @@ const Feed: React.FC<IProps> = ({
             </>
           )}
         </Grid>
-        <MyPagination totalCases={totalCases} setPage={setPage} page={page} />
+        <MyPagination
+          totalCases={totalCases}
+          setPage={setPage}
+          page={page}
+          limit={limit}
+        />
       </Container>
     </StyledEngineProvider>
   );

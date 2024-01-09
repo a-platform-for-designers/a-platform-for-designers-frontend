@@ -46,15 +46,35 @@
   }
 }
 
-.disabled {
-  background-color: #f1f1f1;
+.css-1oo6rfg-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected {
+  border-radius: 12px;
+  border: 1px solid #6900ee;
 
   &:hover {
-    opacity: 1;
-    cursor: default;
+    background-color: rgba(164, 132, 177, 0.3) !important;
   }
 }
 
-.active {
-  border: 1px solid #6900ee;
+.css-1oo6rfg-MuiButtonBase-root-MuiPaginationItem-root:hover {
+  background-color: #6700ee2f;
+}
+
+.css-1oo6rfg-MuiButtonBase-root-MuiPaginationItem-root {
+  border-radius: 12px;
+  width: 32px;
+  height: 32px;
+}
+
+.css-wjh20t-MuiPagination-ul {
+  gap: 15px;
+}
+
+.MuiPaginationItem-previousNext {
+  background-color: #6900ee;
+  transition: opacity 0.3s ease-in-out;
+
+  &:hover {
+    background-color: #6900ee;
+    opacity: .8;
+  }
 }

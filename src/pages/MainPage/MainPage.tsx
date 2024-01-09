@@ -25,6 +25,7 @@ const MainPage: React.FC = () => {
   const [cases, setCases] = useState<ICase[]>([]);
   const [totalCases, setTotalCases] = useState<number>(0);
   const [page, setPage] = useState<number>(1);
+  const CASES_LIMIT = 12;
 
   useEffect(() => {
     (async () => {
@@ -82,7 +83,7 @@ const MainPage: React.FC = () => {
     (async () => {
       try {
         setIsLoading(true);
-        const casesData = await casesService.getCasesList(12, page);
+        const casesData = await casesService.getCasesList(CASES_LIMIT, page);
         setCases(casesData.results);
         setTotalCases(casesData.count);
       } catch (error) {
@@ -115,6 +116,7 @@ const MainPage: React.FC = () => {
                 setPage={setPage}
                 page={page}
                 setTotalCases={setTotalCases}
+                limit={CASES_LIMIT}
               />
             }
           </Grid>

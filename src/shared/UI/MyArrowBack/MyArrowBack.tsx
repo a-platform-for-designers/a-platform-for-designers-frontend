@@ -1,5 +1,3 @@
-// import ArrowBack from "@/assets/icons/arrow-back.svg";
-
 const MyArrowBack: React.FC = () => {
   return (
     <svg
