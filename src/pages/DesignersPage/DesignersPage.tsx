@@ -46,7 +46,7 @@ const DesignersPage: React.FC = () => {
           >
             {isLoading ? (
               <Preloader></Preloader>
-            ) : users.length > 0 ? (
+            ) : users?.length > 0 ? (
               <Grid xs={9} item className="designersPage__cards">
                 {users.map((item) => (
                   <DesignersCard key={item.id} cardOwner={item} />

@@ -308,6 +308,6 @@ export interface IProfileDesignerPost {
 export interface IPostMentoring {
   experience: string;
   expertise: string;
-  price: number | null;
+  price?: number | null;
   agreement_free: boolean | null;
 }

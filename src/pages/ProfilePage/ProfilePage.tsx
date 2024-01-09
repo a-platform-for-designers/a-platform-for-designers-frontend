@@ -88,7 +88,7 @@ const ProfilePage: React.FC = () => {
     {
       title: "Менторство",
       link: "mentoring",
-      element: currentUser?.profiledesigner ? (
+      element: currentUser?.mentoring ? (
         <Mentoring
           mentoring={currentUser?.mentoring}
           emptyTitle="Дизайнер пока не заполнил профиль"
