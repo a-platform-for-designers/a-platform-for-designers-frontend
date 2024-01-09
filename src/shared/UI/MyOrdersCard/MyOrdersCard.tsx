@@ -118,22 +118,29 @@ const OrdersCard: React.FC<IProps> = ({
   };
 
   function handleReply() {
-    if (!reply) {
-      const postOrderResponse = async () => {
-        await ordersService.postResponseOrder(dataResponse, order.id);
-        return;
-      };
-      postOrderResponse();
-      setReply(true);
-    } else {
-      const deleteOrderResponse = async () => {
-        await ordersService.deleteResponseOrder(dataResponse, order.id);
-      };
-      deleteOrderResponse();
-      if (refreshOrdersList) {
-        refreshOrdersList(order.id);
+    if (user) {
+      if (!reply) {
+        const postOrderResponse = async () => {
+          await ordersService.postResponseOrder(dataResponse, order.id);
+          return;
+        };
+        postOrderResponse();
+        setReply(true);
+      } else {
+        const deleteOrderResponse = async () => {
+          await ordersService.deleteResponseOrder(dataResponse, order.id);
+        };
+        deleteOrderResponse();
+        if (refreshOrdersList) {
+          refreshOrdersList(order.id);
+        }
+        setReply(false);
       }
+    } else {
       setReply(false);
+      console.log(
+        "Наверно, здесь должен открываться поп-ап с предложением пользователю авторизоваться"
+      );
     }
   }
 
@@ -143,7 +150,13 @@ const OrdersCard: React.FC<IProps> = ({
   };
 
   function handlePopupOpen() {
-    openPopup(userInfo);
+    if (user) {
+      openPopup(userInfo);
+    } else {
+      console.log(
+        "Наверно, здесь должен открываться поп-ап с предложением пользователю авторизоваться"
+      );
+    }
   }
 
   function handleFavourite() {
@@ -246,7 +259,7 @@ const OrdersCard: React.FC<IProps> = ({
             >
               Написать
             </MyButton>
-            {!customerUser && !isOrderesPage ? (
+            {customerUser && isOrderesPage ? null : (
               <>
                 {!customerUser || !isUsersOrders ? (
                   <MyButton
@@ -270,7 +283,7 @@ const OrdersCard: React.FC<IProps> = ({
                   </MyButton>
                 )}
               </>
-            ) : null}
+            )}
           </div>
         </>
       ) : (
