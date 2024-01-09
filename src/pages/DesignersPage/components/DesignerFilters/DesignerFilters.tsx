@@ -117,6 +117,7 @@ const DesignerFilters: React.FC<IProps> = ({
       setTotalUsers(filteredList.count);
       setDesigners(filteredList.results);
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [skillsValue, speciality, tools, resume, page]);
 
   return (
