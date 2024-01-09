@@ -15,6 +15,7 @@ interface IWorkCategoriesProps {
   >;
   setCases: React.Dispatch<React.SetStateAction<ICase[]>>;
   page: number;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
   setTotalCases: React.Dispatch<React.SetStateAction<number>>;
   limit: number;
 }
@@ -32,6 +33,7 @@ const WorkCategories: React.FC<IWorkCategoriesProps> = ({
   setWorkCategoryState,
   setCases,
   page,
+  setPage,
   setTotalCases,
   limit,
 }) => {
@@ -84,13 +86,25 @@ const WorkCategories: React.FC<IWorkCategoriesProps> = ({
     const currentfilters = categoriesToIds(workCategoryState.categories);
 
     (async () => {
-      const filteredList = await filterService.getQuerySpecializations(
-        currentfilters,
-        limit,
-        page
-      );
-      setCases(filteredList.results);
-      setTotalCases(filteredList.count);
+      try {
+        const filteredList = await filterService.getQuerySpecializations(
+          currentfilters,
+          limit,
+          page
+        );
+        setCases(filteredList.results);
+        setTotalCases(filteredList.count);
+      } catch (error) {
+        // Temporary solution
+        setPage(1);
+        const filteredList = await filterService.getQuerySpecializations(
+          currentfilters,
+          limit,
+          page
+        );
+        setCases(filteredList.results);
+        setTotalCases(filteredList.count);
+      }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
