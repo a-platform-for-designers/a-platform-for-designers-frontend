@@ -15,6 +15,11 @@ const ordersService = {
     return response.data;
   },
 
+  getOrdersListWithoutParams: async (): Promise<IOrdersResponse> => {
+    const response = await api.get<IOrdersResponse>("/orders", {});
+    return response.data;
+  },
+
   getOrderInfo: async (id: number): Promise<IOrdersResponse> => {
     const response = await api.get<IOrdersResponse>(`/orders/${id}/`);
     return response.data;

@@ -20,7 +20,7 @@ const DesignersResponsedCards: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const ordersData = await ordersService.getOrdersList();
+        const ordersData = await ordersService.getOrdersListWithoutParams();
         setOrders(ordersData.results);
       } catch (error) {
         console.error("Error fetching data:", error);
