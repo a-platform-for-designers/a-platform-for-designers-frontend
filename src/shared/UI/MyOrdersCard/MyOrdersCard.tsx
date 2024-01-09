@@ -36,11 +36,10 @@ const OrdersCard: React.FC<IProps> = ({
   const customerUser = user?.is_customer;
   const location = useLocation();
   const [isUsersOrders, setIsUsersOrders] = useState<boolean>(false);
-  const [orderInfo, setOrderInfo] = useState<IOrderInfoResponse>(); // переменная для количества откликов на заказ
+  const [orderInfo, setOrderInfo] = useState<IOrderInfoResponse>();
   const myCard = order.customer.id === user?.id;
   const [countName, setCountName] = useState<string>("");
-
-  const countResponse = orderInfo?.applicants?.length; //количество откликов
+  const countResponse = orderInfo?.applicants?.length;
 
   useEffect(() => {
     if (countResponse == (1 || 21 || 31)) {
@@ -75,7 +74,6 @@ const OrdersCard: React.FC<IProps> = ({
     }
   }, [id]);
 
-  // в данных заказа нет количества откликов
   useEffect(() => {
     const fetchData = async () => {
       try {
