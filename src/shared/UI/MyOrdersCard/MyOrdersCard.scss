@@ -88,6 +88,11 @@
     line-height: 150%;
     letter-spacing: 0.08px;
     margin: 18px 0;
+    display: -webkit-box;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    -webkit-line-clamp: 1;
   }
 
   &__buttons {
