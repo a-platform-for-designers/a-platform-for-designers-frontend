@@ -25,8 +25,11 @@ export interface ICreateUserRequest {
 }
 
 export interface IProfileCustomer {
-  id: number;
-  post: string;
+  id?: number | undefined;
+  post: string | null;
+  photo: File | unknown;
+  about: string | null;
+  country: string | null;
 }
 
 export interface IResume {
@@ -35,6 +38,16 @@ export interface IResume {
   skills: IDataItem[];
   about: string;
   status: boolean;
+}
+
+export interface IMentoring {
+  experience: string;
+  expertise: string;
+  price?: number | null;
+  agreement_free?: boolean | null;
+  id: number;
+  instruments?: Array<{ id: number; name: string }>;
+  skills?: Array<{ id: number; name: string }>;
 }
 
 export interface IUser {
@@ -54,6 +67,7 @@ export interface IUser {
   skills: number[];
   about: string;
   work_status: boolean;
+  mentoring: IMentoring;
 }
 
 export interface IUserWithLastCases extends IUser {
@@ -189,10 +203,11 @@ export interface IUpdateInfoUserMe {
 }
 
 export interface IUpdateInfoMeCustomer {
+  id?: number | undefined;
   country: string | null;
   photo: File | unknown;
-  customersWorkPlace: string | null;
-  aboutMe: string | null;
+  post: string | null;
+  about: string | null;
 }
 
 export interface IProfileDesigner {
@@ -213,6 +228,7 @@ export interface IProfileDesigner {
 export interface IProfileData {
   first_name?: string;
   last_name?: string;
+  post?: string;
   specialization?: string[] | number[];
   image?: string;
   country?: string;
@@ -287,4 +303,11 @@ export interface IProfileDesignerPost {
   skills: number[];
   about: string;
   work_status: boolean;
+}
+
+export interface IPostMentoring {
+  experience: string;
+  expertise: string;
+  price: number | null;
+  agreement_free: boolean | null;
 }

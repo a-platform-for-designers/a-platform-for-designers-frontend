@@ -25,7 +25,7 @@ import {
   Portfolio,
   Profile,
   CaseCreation,
-  Work,
+  Mentorship,
   Orders,
   Settings,
 } from "../pages/DashboardPage/components/index.ts";
@@ -74,7 +74,7 @@ function App() {
                     element={<ProtectedRoute Component={CaseCreation} />}
                   />
                 </Route>
-                <Route path="work" element={<Work />} />
+                <Route path="mentorship" element={<Mentorship />} />
                 <Route path="orders" element={<Orders />} />
                 <Route path="settings" element={<Settings />} />
               </Route>

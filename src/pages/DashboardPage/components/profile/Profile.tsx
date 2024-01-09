@@ -19,9 +19,8 @@ import {
   MySingleDropDown,
 } from "@/shared/UI";
 import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
-import { userService } from "@/api";
-import profileDesignerService from "@/api/services/profileDesignerService";
-import { setUserInfo } from "@/redux/slices/userSlice";
+import profileService from "@/api/services/profileService";
+import { setUserInfo, setCustomerInfo } from "@/redux/slices/userSlice";
 
 const Profile: React.FC = () => {
   const { user } = useAppSelector((state) => state.user);
@@ -36,7 +35,7 @@ const Profile: React.FC = () => {
   );
   const [specialization, setSpecialization] = useState<number[]>([]);
   const [country, setCountry] = useState<string | null>(
-    user?.profiledesigner?.country || null
+    user?.profiledesigner?.country || user?.profilecustomer?.country || null
   );
   const [languageValue, setLanguageValue] = useState<string[]>(
     (user?.profiledesigner?.language || []).map((obj) =>
@@ -46,7 +45,7 @@ const Profile: React.FC = () => {
   const [language, setLanguage] = useState<number[]>([]);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const education = useInput(user?.profiledesigner?.education || "", {});
-  const customersWorkPlace = useInput(user?.profilecustomer?.post || "", {});
+  const post = useInput(user?.profilecustomer?.post || "", {});
   const aboutMe = useInput(user?.profilecustomer?.post || "", {});
   const [toolsValue, setToolsValue] = useState<string[]>(
     (user?.profiledesigner?.instruments || []).map((obj) =>
@@ -134,14 +133,13 @@ const Profile: React.FC = () => {
         language,
         photo: await getBase64(selectedFile!),
         education: education.value,
-        customersWorkPlace: customersWorkPlace.value,
         skills: skillsIds,
         instruments: toolsIds,
         about: about.value,
         work_status: status,
       };
 
-      const userInfo = await profileDesignerService.postProfileDesigner({
+      const userInfo = await profileService.postProfileDesigner({
         ...values,
       });
       console.log(userInfo);
@@ -152,14 +150,15 @@ const Profile: React.FC = () => {
       const values = {
         country,
         photo: await getBase64(selectedFile!),
-        customersWorkPlace: customersWorkPlace.value,
-        aboutMe: aboutMe.value,
+        post: post.value,
+        about: aboutMe.value,
       };
 
-      const userInfo = await userService.updateInfoUserMeCustomer({
+      const userInfo = await profileService.postProfileCustomer({
         ...values,
       });
-      dispatch(setUserInfo(userInfo));
+
+      dispatch(setCustomerInfo(userInfo));
       return;
     }
   }
@@ -339,7 +338,7 @@ const Profile: React.FC = () => {
               </Typography>
               <div className={classes.profile__section_wrapper}>
                 <MyInput
-                  data={customersWorkPlace}
+                  data={post}
                   variant="textarea-label-without"
                   maxLength={50}
                   placeholder="Компания и должность"

@@ -5,6 +5,8 @@ import {
   IProfileDesigner,
   IUpdateInfoUserMe,
   IUser,
+  IProfileCustomer,
+  IPostMentoring,
 } from "@/types";
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { logIn, changeAuth } from "./authSlice";
@@ -88,6 +90,23 @@ export const userSlice = createSlice({
         state.user.profiledesigner = updatedUser;
       }
     },
+    setCustomerInfo: (state, action: PayloadAction<IProfileCustomer>): void => {
+      const updatedUser = { ...action.payload };
+      if (state.user) {
+        state.user.profilecustomer = updatedUser;
+      }
+    },
+    setMentorInfo: (state, action: PayloadAction<IPostMentoring>): void => {
+      const updatedUser = { ...action.payload };
+      if (state.user) {
+        state.user.mentoring = {
+          id: state.user.mentoring.id,
+          skills: state.user.mentoring.skills,
+          instruments: state.user.mentoring.instruments,
+          ...updatedUser,
+        };
+      }
+    },
     resetAuthErrors: (state) => {
       state.errorMessages.length = 0;
     },
@@ -111,7 +130,12 @@ export const userSlice = createSlice({
   },
 });
 
-export const { setUserInfo, deleteUserInfo, resetAuthErrors } =
-  userSlice.actions;
+export const {
+  setUserInfo,
+  deleteUserInfo,
+  resetAuthErrors,
+  setCustomerInfo,
+  setMentorInfo,
+} = userSlice.actions;
 
 export default userSlice.reducer;

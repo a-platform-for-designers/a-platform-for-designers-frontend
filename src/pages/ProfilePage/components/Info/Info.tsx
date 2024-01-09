@@ -43,6 +43,7 @@ const Info: React.FC<IInfoProps> = ({ data, currentUser }) => {
     country,
     registrationDate,
     status,
+    post,
     /* likes,
     followers, */
   } = data;
@@ -109,9 +110,16 @@ const Info: React.FC<IInfoProps> = ({ data, currentUser }) => {
                 </Typography>
               ) : null}
             </Grid>
-            <Typography className="info__subtitle" component="p">
-              {setSpecializations()?.join(", ")}
-            </Typography>
+            {!isCustomer ? (
+              <Typography className="info__subtitle" component="p">
+                {setSpecializations()?.join(", ")}
+              </Typography>
+            ) : null}
+            {isCustomer ? (
+              <Typography className="info__subtitle" component="p">
+                {post}
+              </Typography>
+            ) : null}
             <Typography className="info__subtitle" component="p">
               {country}
             </Typography>
