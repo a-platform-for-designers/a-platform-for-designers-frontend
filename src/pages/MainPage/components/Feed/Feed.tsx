@@ -82,6 +82,7 @@ const Feed: React.FC<IProps> = ({
           setWorkCategoryState={setWorkCategoryState}
           setCases={setCases}
           page={page}
+          setPage={setPage}
           setTotalCases={setTotalCases}
           limit={limit}
         />
