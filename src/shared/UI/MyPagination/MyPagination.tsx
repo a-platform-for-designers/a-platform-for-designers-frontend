@@ -4,6 +4,7 @@ import MyArrowForward from "@/shared/UI/MyArrowForward/MyArrowForward";
 import Pagination from "@mui/material/Pagination";
 import PaginationItem from "@mui/material/PaginationItem";
 import Stack from "@mui/material/Stack";
+import { StyledEngineProvider } from "@mui/material";
 
 interface IProps {
   totalItems: number;
@@ -29,7 +30,7 @@ const MyPagination: React.FC<IProps> = ({
   };
 
   return (
-    <div>
+    <StyledEngineProvider injectFirst>
       <Stack className="pagination">
         <Pagination
           page={page}
@@ -47,7 +48,7 @@ const MyPagination: React.FC<IProps> = ({
           )}
         />
       </Stack>
-    </div>
+    </StyledEngineProvider>
   );
 };
 
