@@ -14,12 +14,14 @@ interface IProps {
   order: IOrdersList;
   openPopup: (userInfo: IUserInfo) => void;
   refreshOrdersList?: (id: number) => void;
+  isOrderesPage?: boolean;
 }
 
 const OrdersCard: React.FC<IProps> = ({
   order,
   openPopup,
   refreshOrdersList,
+  isOrderesPage,
 }) => {
   const [reply, setReply] = useState<boolean>(false);
   const [isFavourite, setIsFavourite] = useState<boolean>(false);
@@ -62,7 +64,7 @@ const OrdersCard: React.FC<IProps> = ({
     if (location.pathname.endsWith("/my-orders/orders")) {
       setIsUsersOrders(true);
     }
-  }, [location]);
+  }, [location.pathname]);
 
   useEffect(() => {
     if (id) {
@@ -195,9 +197,11 @@ const OrdersCard: React.FC<IProps> = ({
             </>
           ) : (
             <>
-              <div className="ordersCard__counts">
-                {countResponse} {countName}
-              </div>
+              {!isOrderesPage ? (
+                <div className="ordersCard__counts">
+                  {countResponse} {countName}
+                </div>
+              ) : null}
               <IconButton
                 aria-label="favourite"
                 onClick={() => navigate("/orders/create")}
@@ -230,6 +234,7 @@ const OrdersCard: React.FC<IProps> = ({
           </Typography>
         </div>
       </div>
+
       {(!isMyProfile && !customerUser) || !myCard ? (
         <>
           <div className="ordersCard__buttons">
@@ -241,27 +246,31 @@ const OrdersCard: React.FC<IProps> = ({
             >
               Написать
             </MyButton>
-            {!customerUser || !isUsersOrders ? (
-              <MyButton
-                type="button"
-                variant={isUsersOrders ? "text" : "outlined"}
-                size="large"
-                onClick={handleReply}
-                className="ordersCard__button"
-              >
-                {!reply ? "Откликнуться" : "Удалить отклик"}
-              </MyButton>
-            ) : (
-              <MyButton
-                type="button"
-                variant="text"
-                size="large"
-                onClick={handleDeleteReply}
-                className="ordersCard__button"
-              >
-                Удалить отклик
-              </MyButton>
-            )}
+            {!customerUser && !isOrderesPage ? (
+              <>
+                {!customerUser || !isUsersOrders ? (
+                  <MyButton
+                    type="button"
+                    variant={isUsersOrders ? "text" : "outlined"}
+                    size="large"
+                    onClick={handleReply}
+                    className="ordersCard__button"
+                  >
+                    {!reply ? "Откликнуться" : "Удалить отклик"}
+                  </MyButton>
+                ) : (
+                  <MyButton
+                    type="button"
+                    variant="text"
+                    size="large"
+                    onClick={handleDeleteReply}
+                    className="ordersCard__button"
+                  >
+                    Удалить отклик
+                  </MyButton>
+                )}
+              </>
+            ) : null}
           </div>
         </>
       ) : (
