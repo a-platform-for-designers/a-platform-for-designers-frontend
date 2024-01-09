@@ -62,7 +62,7 @@ const OrdersPage: React.FC = () => {
           >
             {isLoading ? (
               <Preloader></Preloader>
-            ) : orders.length > 0 ? (
+            ) : orders?.length > 0 ? (
               <Grid xs={9} item className={classes.ordersPage__cards}>
                 {orders.map((item) => (
                   <MyOrdersCard
@@ -87,14 +87,16 @@ const OrdersPage: React.FC = () => {
           </Grid>
         </Box>
       </Box>
-      <div className={classes.pagination}>
-        <MyPagination
-          totalItems={totalOrders}
-          setPage={setPage}
-          page={page}
-          limit={ORDERS_LIMIT}
-        />
-      </div>
+      {orders?.length > 0 && (
+        <div className={classes.pagination}>
+          <MyPagination
+            totalItems={totalOrders}
+            setPage={setPage}
+            page={page}
+            limit={ORDERS_LIMIT}
+          />
+        </div>
+      )}
       {openPopup ? (
         <MyMessagePopup open={openPopup} onClose={handlePopupClose} />
       ) : null}
