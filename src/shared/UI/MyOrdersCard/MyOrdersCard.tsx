@@ -1,7 +1,7 @@
 import { Avatar, Box, IconButton, Typography } from "@mui/material";
 import "./MyOrdersCard.scss";
 import MyButton from "@/shared/UI/MyButton/MyButton";
-import { IOrdersList, IUserInfo, IUser, IOrdersResponse } from "@/types";
+import { IOrdersList, IUserInfo, IUser, IOrderInfoResponse } from "@/types";
 import { useEffect, useState } from "react";
 import FavouritesIcon from "@/assets/icons/FavouritesDark.svg";
 import FavouritesIconActive from "@/assets/icons/FavouritesActive.svg";
@@ -26,19 +26,31 @@ const OrdersCard: React.FC<IProps> = ({
   const [customerSpecialization, setCustomerSpecialization] =
     useState<string>("");
 
-  const countResponse = "15 откликов"; //количество откликов
   const navigate = useNavigate();
   const { user } = useAppSelector((state) => state.user); // авторизованный пользователь
   const { id } = useParams();
-  const [currentUser, setCurrentUser] = useState<IUser>(); // пользователь чей профиль(id через путь)
+  const [currentUser, setCurrentUser] = useState<IUser>(); // пользователь чья страница (id через путь)
   const isMyProfile = currentUser?.id === user?.id && currentUser !== undefined;
   const customerUser = user?.is_customer;
   const location = useLocation();
   const [isUsersOrders, setIsUsersOrders] = useState<boolean>(false);
-  const [orderInfo, setOrderInfo] = useState<IOrdersResponse>(); // переменная для количества откликов на заказ
+  const [orderInfo, setOrderInfo] = useState<IOrderInfoResponse>(); // переменная для количества откликов на заказ
   const myCard = order.customer.id === user?.id;
+  const [countName, setCountName] = useState<string>("");
 
-  console.log(orderInfo);
+  const countResponse = orderInfo?.applicants?.length; //количество откликов
+
+  useEffect(() => {
+    if (countResponse == (1 || 21 || 31)) {
+      setCountName("отклик");
+    } else if (
+      countResponse == (2 || 3 || 4 || 22 || 23 || 24 || 32 || 33 || 34)
+    ) {
+      setCountName("отклика");
+    } else {
+      setCountName("откликов");
+    }
+  }, [countResponse]);
 
   useEffect(() => {
     if (order.is_responded_order) {
@@ -183,7 +195,9 @@ const OrdersCard: React.FC<IProps> = ({
             </>
           ) : (
             <>
-              <div className="ordersCard__counts">{countResponse}</div>
+              <div className="ordersCard__counts">
+                {countResponse} {countName}
+              </div>
               <IconButton
                 aria-label="favourite"
                 onClick={() => navigate("/orders/create")}
@@ -256,7 +270,7 @@ const OrdersCard: React.FC<IProps> = ({
             type="button"
             size="large"
             variant="outlined"
-            onClick={() => navigate(`my-orders/orders`)}
+            onClick={() => navigate(`/my-orders/orders`)}
           >
             Посмотреть отклики
           </MyButton>
