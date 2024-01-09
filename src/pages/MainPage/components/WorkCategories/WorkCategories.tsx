@@ -5,19 +5,7 @@ import MyButton from "@/shared/UI/MyButton/MyButton";
 import { useAppSelector } from "@/hooks/reduxHooks";
 import { ICase } from "@/types";
 import { filterService } from "@/api/services/filterService";
-
-// интерфейс данных категории, которые нужно передать в пропсах
-export interface IWorkCategoryData {
-  title: string;
-  link: string;
-}
-
-// Отдельно выбирается одна категория и "Ваши подписки"
-export interface IActiveWorkCategoryState {
-  allDirections: boolean;
-  categories: string[];
-  following: boolean;
-}
+import { IWorkCategoryData, IActiveWorkCategoryState } from "@/types";
 
 interface IWorkCategoriesProps {
   data: IWorkCategoryData[];
@@ -26,6 +14,8 @@ interface IWorkCategoriesProps {
     React.SetStateAction<IActiveWorkCategoryState>
   >;
   setCases: React.Dispatch<React.SetStateAction<ICase[]>>;
+  page: number;
+  setTotalCases: React.Dispatch<React.SetStateAction<number>>;
 }
 
 /* Логика работы категорий 
@@ -40,6 +30,8 @@ const WorkCategories: React.FC<IWorkCategoriesProps> = ({
   workCategoryState,
   setWorkCategoryState,
   setCases,
+  page,
+  setTotalCases,
 }) => {
   const onCategoryClickHandler = (category: IWorkCategoryData) => {
     setWorkCategoryState((prev) => {
@@ -93,12 +85,19 @@ const WorkCategories: React.FC<IWorkCategoriesProps> = ({
       const filteredList = await filterService.getQuerySpecializations(
         currentfilters,
         12,
-        1
+        page
       );
-
+      console.log(filteredList);
       setCases(filteredList.results);
+      setTotalCases(filteredList.count);
     })();
-  }, [setCases, workCategoryState.categories, categoriesToIds]);
+  }, [
+    setCases,
+    workCategoryState.categories,
+    categoriesToIds,
+    page,
+    setTotalCases,
+  ]);
 
   return (
     <StyledEngineProvider injectFirst>

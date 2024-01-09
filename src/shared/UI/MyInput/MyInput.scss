@@ -67,7 +67,9 @@
       left: 0;
     }
 
-    input:focuced + label {
+    .css-1c7ln2v-MuiFormLabel-root-MuiInputLabel-root.Mui-error,
+    .css-1c7ln2v-MuiFormLabel-root-MuiInputLabel-root.Mui-focused,
+    .css-wujkko-MuiFormLabel-root-MuiInputLabel-root.Mui-error {
       color: var(--text-color-gray);
     }
 

@@ -20,7 +20,6 @@ const Profile: React.FC = () => {
   const { specializations, languages } = useAppSelector((state) => state.data);
   const dispatch = useAppDispatch();
   const isCustomer = user?.is_customer;
-  console.log(user);
 
   const [specializationValue, setSpecializationValue] = useState<string[]>(
     (user?.profiledesigner?.specialization || []).map((obj) =>

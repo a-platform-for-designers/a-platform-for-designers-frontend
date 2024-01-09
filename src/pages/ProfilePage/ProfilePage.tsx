@@ -1,8 +1,14 @@
 import { Container, StyledEngineProvider } from "@mui/material";
 import "./ProfilePage.scss";
-import { Route, Routes, Navigate, useParams } from "react-router-dom";
+import {
+  Route,
+  Routes,
+  Navigate,
+  useParams,
+  useNavigate,
+} from "react-router-dom";
 import { Info, ProfileNav, Portfolio, Work, Profile } from "./components";
-import { IProfileNavPage } from "./components/ProfileNav/ProfileNav";
+import { IProfileNavPage } from "@/types";
 import { useAppSelector } from "@/hooks/reduxHooks";
 import { userService } from "@/api";
 import { useEffect, useState } from "react";
@@ -15,6 +21,16 @@ const ProfilePage: React.FC = () => {
   const { id } = useParams();
   const [currentUser, setCurrentUser] = useState<IUser>(); // пользователь чей профиль(id через путь)
   const isCustomerCurrentUser = currentUser?.is_customer;
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isCustomerCurrentUser) {
+      navigate(`/profile/${id}/orders`);
+    } else {
+      navigate(`/profile/${id}/portfolio`);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isCustomerCurrentUser]);
 
   useEffect(() => {
     (async () => {
@@ -35,9 +51,8 @@ const ProfilePage: React.FC = () => {
     ],
     image: currentUser?.photo,
     country: currentUser?.profiledesigner?.country || "Не указана страна",
-    // need to fix later
     registrationDate: new Date(
-      user?.date_joined ?? new Date().getDate()
+      user?.date_joined ?? new Date()
     ).toLocaleDateString("ru-RU", {
       day: "2-digit",
       month: "long",

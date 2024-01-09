@@ -8,12 +8,12 @@ import { EmptyData } from "..";
 
 interface IProps {
   userId?: number;
+  myOrders?: boolean;
 }
 
 const CustomersOrdersCards: React.FC<IProps> = ({ userId }) => {
   const [orders, setOrders] = useState<IOrdersList[]>([]);
   const [openPopup, setOpenPopup] = useState<boolean>(false);
-  // const [userInfo, setUserInfo] = useState<IUserInfo>();
   const filteredItems = orders.filter((item) => item.customer.id === userId);
 
   useEffect(() => {
@@ -34,7 +34,6 @@ const CustomersOrdersCards: React.FC<IProps> = ({ userId }) => {
   }
 
   function handlePopupOpen() {
-    // setUserInfo(userInfo);
     setOpenPopup(true);
   }
 

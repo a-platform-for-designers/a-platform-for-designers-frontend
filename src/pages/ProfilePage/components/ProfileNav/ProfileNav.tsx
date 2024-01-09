@@ -8,12 +8,7 @@ import {
 import "./ProfileNav.scss";
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-
-export interface IProfileNavPage {
-  title: string;
-  link: string;
-  element: JSX.Element;
-}
+import { IProfileNavPage } from "@/types";
 
 const buttonStyles: SxProps<Theme> = {
   borderRadius: "4px",
@@ -33,9 +28,10 @@ const buttonActiveStyles: SxProps<Theme> = {
 
 interface IProfileNavProps {
   pages: IProfileNavPage[];
+  big?: boolean;
 }
 
-const ProfileNav: React.FC<IProfileNavProps> = ({ pages }) => {
+const ProfileNav: React.FC<IProfileNavProps> = ({ pages, big }) => {
   const navigate = useNavigate();
 
   const handleClick: (page: IProfileNavPage) => void = (page) => {
@@ -49,7 +45,11 @@ const ProfileNav: React.FC<IProfileNavProps> = ({ pages }) => {
       <Box className="profileNav">
         {pages.map((page) => (
           <Button
-            className="profileNav__button"
+            className={
+              !big
+                ? "profileNav__button"
+                : "profileNav__button profileNav__big-button"
+            }
             variant="outlined"
             key={page.title}
             sx={{

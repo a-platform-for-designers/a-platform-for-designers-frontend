@@ -94,3 +94,12 @@
     }
   }
 }
+//------------------------------third
+
+.aboutItem-third {
+  &__list {
+    flex-direction: row;
+    flex-wrap: wrap;
+    max-width: 900px;
+  }
+}
