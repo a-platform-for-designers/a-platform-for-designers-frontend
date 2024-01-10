@@ -22,7 +22,7 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      "/media/messages": {
+      "/media": {
         target: "http://46.183.163.139",
         changeOrigin: true,
       },
