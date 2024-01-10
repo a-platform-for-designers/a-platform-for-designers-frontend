@@ -20,4 +20,16 @@ export default defineConfig({
   build: {
     outDir: "build",
   },
+  server: {
+    proxy: {
+      "/media": {
+        target: "http://46.183.163.139",
+        changeOrigin: true,
+      },
+      "/api": {
+        target: "http://46.183.163.139",
+        changeOrigin: true,
+      },
+    },
+  },
 });

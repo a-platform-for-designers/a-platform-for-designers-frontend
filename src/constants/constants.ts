@@ -13,7 +13,10 @@ export const SigninText = {
 };
 
 export const BASE_PATH = "http://46.183.163.139/";
-export const API_PATH = `${BASE_PATH}api`;
+export const API_PATH = "/api";
+
+export const WS_URL = (chatId: number, token: string | null) =>
+  `ws://46.183.163.139/ws/chats/${chatId}/?token=${token}`;
 
 export const LISTS = {
   LIST_TOOLS: [

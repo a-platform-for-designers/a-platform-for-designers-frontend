@@ -267,6 +267,60 @@ export interface ICaseCreation {
   sphere?: number | number[] | null;
 }
 
+export interface ICreateChat {
+  receiver: number;
+}
+
+export type Message = string;
+
+export interface IChatParticipant {
+  id: number;
+  first_name: string;
+  last_name: string;
+  photo: string;
+}
+
+export interface IChat {
+  id: number;
+  initiator: IChatParticipant;
+  receiver: IChatParticipant;
+  last_message: Message;
+}
+
+export interface IMessage {
+  id: number;
+  chat: IChat;
+  sender: IChatParticipant;
+  text: Message;
+  pub_date: string;
+  file: string;
+}
+
+export interface IChatResponse extends IListRespons {
+  results: IChat[];
+}
+
+export interface ISendMessage {
+  receiver: number;
+  text?: string;
+  file?: string;
+}
+
+export interface ISendFileResponse {
+  id: number;
+  chat: number;
+  sender: IChatParticipant;
+  pub_date: string;
+  file: string;
+}
+
+export interface ISocketMessage {
+  message?: string;
+  file?: string;
+  action?: "load_more";
+  page_number?: number;
+}
+
 export interface IProfileNavPage {
   title: string;
   link: string;

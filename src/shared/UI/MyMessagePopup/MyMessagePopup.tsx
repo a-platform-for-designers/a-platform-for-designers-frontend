@@ -2,25 +2,26 @@ import { Modal, Box, Avatar, Typography } from "@mui/material";
 import "./MyMessagePopup.scss";
 import { useState } from "react";
 import { MyButton } from "@/shared/UI";
-import { ordersService } from "@/api";
 import { useAppSelector } from "@/hooks/reduxHooks";
+import { chartsService } from "@/api";
 
 type Props = {
   open: boolean;
+  receiver: number;
   onClose: () => void;
 };
 
 type TInputTextArea = HTMLInputElement | HTMLTextAreaElement;
 
-const MessagePopup: React.FC<Props> = ({ open, onClose }) => {
+const MessagePopup: React.FC<Props> = ({ open, onClose, receiver }) => {
   const [message, setMessage] = useState<string>("");
   const { user } = useAppSelector((state) => state.user);
 
   async function handleSubmit(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
-    console.log(message);
     try {
-      await ordersService.postMessage(message);
+      //ToDo использовать redux thunks, в т.ч. для обработки и показа ошибок
+      await chartsService.sendMessage({ receiver, text: message });
       onClose();
     } catch (error) {
       console.error("ошибка: ", { error });
