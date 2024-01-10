@@ -1,3 +1,4 @@
+import { stripHost } from "@/features/stripHost";
 import { useAppSelector } from "@/hooks/reduxHooks";
 import { IMessage } from "@/types";
 import { Box, Typography, Paper } from "@mui/material";
@@ -72,12 +73,14 @@ const Message = ({ message, first }: MessageProps) => {
           >
             {isImageMessage && (
               <img
-                src={message.file}
+                src={stripHost(message.file)}
                 alt="Картинка"
                 style={{ maxWidth: "100%" }}
               />
             )}
-            <Typography variant="body1">{message.text}</Typography>
+            <Typography variant="body1" style={{ wordWrap: "break-word" }}>
+              {message.text}
+            </Typography>
 
             <Typography
               sx={{

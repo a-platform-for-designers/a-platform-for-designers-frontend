@@ -16,6 +16,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import AttachmentIcon from "@mui/icons-material/Attachment";
 import { chartsService } from "@/api";
 import { sendMessage } from "@/redux/slices/chatSlice";
+import { stripHost } from "@/features/stripHost";
 
 const MessageForm = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -48,6 +49,8 @@ const MessageForm = () => {
     }
   };
 
+
+
   const handleSendFile = async () => {
     if (selectedFile && activeChat) {
       const formData = new FormData();
@@ -55,7 +58,8 @@ const MessageForm = () => {
       formData.append("chat", String(activeChat?.id ?? 0));
 
       const { file } = (await chartsService.sendFile(formData)) || {};
-      dispatch(sendMessage({ message: selectedFile.name, file }));
+      const url = stripHost(file)
+      dispatch(sendMessage({ message: selectedFile.name, file: url }));
       setSelectedFile(null);
       setOpen(false);
     }
