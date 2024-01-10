@@ -68,7 +68,9 @@ export const authSlice = createSlice({
       .addCase(logIn.rejected, (state, action) => {
         state.isAuth = false;
         state.loading = "failed";
-        state.errorMessages = action.payload as string[];
+        if (action.payload) {
+          state.errorMessages = action.payload as string[];
+        }
       })
       .addCase(logOut.fulfilled, (state) => {
         state.isAuth = false;

@@ -1,0 +1,92 @@
+.pagination {
+  margin: 32px auto 0;
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 20px;
+
+  &__num {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 12px;
+    transition: background-color 0.2s ease-in-out;
+
+    &:hover {
+      border: 1px solid #6900ee;
+      background: #fff;
+      cursor: pointer;
+    }
+
+    &:active {
+      background-color: #6700ee3a;
+    }
+  }
+
+  &__arrow {
+    background-color: #6900ee;
+    border: none;
+    border-radius: 12px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:hover {
+      opacity: 0.8;
+      cursor: pointer;
+    }
+  }
+}
+
+.css-1oo6rfg-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected,
+.css-98nt37 {
+  background-color: #fff;
+}
+
+.Mui-selected {
+  border-radius: 12px;
+  border: 1px solid #6900ee;
+
+  &:hover {
+    background-color: rgba(164, 132, 177, 0.3);
+  }
+}
+
+.MuiPaginationItem-text:hover {
+  background-color: #6700ee18;
+}
+
+.MuiPaginationItem-text {
+  border-radius: 12px;
+  width: 32px;
+  height: 32px;
+}
+
+.MuiPagination-ul {
+  gap: 15px;
+}
+
+.MuiPaginationItem-previousNext {
+  background-color: #6900ee;
+  height: 32px;
+  width: 32px;
+  border-radius: 12px;
+  transition: opacity 0.3s ease-in-out;
+
+  .Mui-disabled {
+    opacity: 0.2;
+  }
+
+  &:hover {
+    background-color: #6900ee;
+    opacity: 0.8;
+  }
+}

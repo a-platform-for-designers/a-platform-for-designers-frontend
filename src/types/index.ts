@@ -25,8 +25,11 @@ export interface ICreateUserRequest {
 }
 
 export interface IProfileCustomer {
-  id: number;
-  post: string;
+  id?: number | undefined;
+  post: string | null;
+  photo: File | unknown;
+  about: string | null;
+  country: string | null;
 }
 
 export interface IResume {
@@ -35,6 +38,16 @@ export interface IResume {
   skills: IDataItem[];
   about: string;
   status: boolean;
+}
+
+export interface IMentoring {
+  experience: string;
+  expertise: string;
+  price?: number | null;
+  agreement_free?: boolean | null;
+  id: number;
+  instruments?: Array<{ id: number; name: string }>;
+  skills?: Array<{ id: number; name: string }>;
 }
 
 export interface IUser {
@@ -50,6 +63,11 @@ export interface IUser {
   resume: IResume | null;
   date_joined: string;
   portfolio: IUserCase[];
+  instruments: number[];
+  skills: number[];
+  about: string;
+  work_status: boolean;
+  mentoring: IMentoring;
 }
 
 export interface IUserWithLastCases extends IUser {
@@ -95,6 +113,25 @@ export interface ICase {
   avatar: string;
 }
 
+export interface ICaseInfo {
+  title?: string | null;
+  sphere?: IDataItem;
+  instruments?: string[];
+  working_term?: string;
+  description?: string;
+}
+
+export interface ICasePreview {
+  title: string;
+  time: string;
+  description: string;
+  directions: string | null;
+  wrapper: File | null;
+  images: File[];
+  sphereValue: string | null;
+  toolsValue: string[];
+}
+
 export interface IListRespons {
   count: number;
   next: string;
@@ -107,17 +144,6 @@ export interface ICaseRespons extends IListRespons {
 
 export interface IUserRespons extends IListRespons {
   results: IUserWithLastCases[];
-}
-
-export interface ICasePreview {
-  title: string;
-  time: string;
-  description: string;
-  directions: string;
-  wrapper: File;
-  images: File[];
-  sphereValue: string;
-  toolsValue: string[];
 }
 
 export interface IOrderDataItem {
@@ -153,6 +179,16 @@ export interface IOrdersList {
   is_published: boolean;
 }
 
+export interface IOrderResponse {
+  customer: IOrdersCustomer;
+  title: string;
+  specialization: IDataItem;
+  payment: number;
+  sphere: IDataItem;
+  description: string;
+  is_published: boolean;
+}
+
 export interface IOrdersCustomer {
   id: 0;
   first_name: string;
@@ -185,10 +221,11 @@ export interface IUpdateInfoUserMe {
 }
 
 export interface IUpdateInfoMeCustomer {
+  id?: number | undefined;
   country: string | null;
   photo: File | unknown;
-  customersWorkPlace: string | null;
-  aboutMe: string | null;
+  post: string | null;
+  about: string | null;
 }
 
 export interface IProfileDesigner {
@@ -200,11 +237,16 @@ export interface IProfileDesigner {
   hobby?: string;
   language?: string[] | number[];
   photo?: File | unknown;
+  instruments: number[];
+  skills: number[];
+  about: string;
+  work_status: boolean;
 }
 
 export interface IProfileData {
   first_name?: string;
   last_name?: string;
+  post?: string;
   specialization?: string[] | number[];
   image?: string;
   country?: string;
@@ -216,13 +258,13 @@ export interface IProfileData {
 
 export interface ICaseCreation {
   title: string;
-  specialization?: number;
+  specialization?: number | number[] | null;
   avatar: string;
-  images: { image: string };
+  images: { image: string }[];
   working_term?: string;
-  instruments?: string[] | number[] | null;
+  instruments?: string[] | number[] | null | number;
   description?: string;
-  sphere?: number;
+  sphere?: number | number[] | null;
 }
 
 export interface ICreateChat {
@@ -318,4 +360,26 @@ export interface ISetNewPassword {
   current_password: string;
   new_password: string;
   re_new_password: string;
+}
+
+export interface IProfileDesignerPost {
+  id?: number;
+  user?: number;
+  education?: string | null;
+  country?: string | null;
+  specialization?: string[] | number[] | null;
+  hobby?: string;
+  language?: string[] | number[];
+  photo?: File | unknown;
+  instruments: number[];
+  skills: number[];
+  about: string;
+  work_status: boolean;
+}
+
+export interface IPostMentoring {
+  experience: string;
+  expertise: string;
+  price?: number | null;
+  agreement_free: boolean | null;
 }

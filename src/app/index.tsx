@@ -20,12 +20,13 @@ import {
   ProfilePage,
   MentorsPage,
   OrdersPage,
+  UserOrdersPage,
 } from "@/pages/index.ts";
 import {
   Portfolio,
   Profile,
   CaseCreation,
-  Work,
+  Mentorship,
   Orders,
   Settings,
 } from "../pages/DashboardPage/components/index.ts";
@@ -73,15 +74,16 @@ function App() {
                   element={<ProtectedRoute Component={Portfolio} />}
                 >
                   <Route
-                    path="create"
+                    path="create/*"
                     element={<ProtectedRoute Component={CaseCreation} />}
                   />
                 </Route>
-                <Route path="work" element={<Work />} />
+                <Route path="mentorship" element={<Mentorship />} />
                 <Route path="orders" element={<Orders />} />
                 <Route path="settings" element={<Settings />} />
               </Route>
               <Route path="/orders" Component={OrdersPage} />
+              <Route path="/my-orders/*" Component={UserOrdersPage} />
               <Route path="/case/:id" Component={CasePage} />
               <Route path="*" Component={ErrorPage} />
             </Routes>

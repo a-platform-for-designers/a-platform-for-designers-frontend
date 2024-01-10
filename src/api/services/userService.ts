@@ -22,7 +22,7 @@ const userService = {
   },
 
   getInfoUserMe: async (): Promise<IUser> => {
-    const response = await api.get<IUser>(`/users/me/`);
+    const response = await api.get<IUser>(`auth/users/me/`);
     return response.data;
   },
 
@@ -95,11 +95,34 @@ const userService = {
   },
 
   setNewPassword: async (data: ISetNewPassword): Promise<ISetNewPassword> => {
-    const response = await api.post<ISetNewPassword>(
-      `/api/users/set_password/`,
-      data
-    );
-    return response.data;
+    try {
+      const response = await api.post<ISetNewPassword>(
+        `/auth/users/set_password/`,
+        data
+      );
+      enqueueSnackbar({
+        variant: "success",
+        message: `Пароль успешно обновлен`,
+      });
+      return response.data;
+    } catch (error) {
+      if (error) {
+        const errorMessage = error
+          .toString()
+          .split(".")
+          .filter((message) => message.trim() !== "");
+        const message = errorMessage.map((mes) =>
+          mes.replace(/\n/g, "").replace(/^Error: /, "")
+        );
+        message.forEach((message) => {
+          enqueueSnackbar({
+            variant: "error",
+            message,
+          });
+        });
+      }
+      throw error;
+    }
   },
 };
 

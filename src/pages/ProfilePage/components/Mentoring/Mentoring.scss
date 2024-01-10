@@ -1,16 +1,13 @@
-.work {
+.mentoring {
   margin: 7px 0 0 0;
   padding: 0;
   list-style-type: none;
   gap: 24px;
 
   &__main {
-    max-width: 802px;
+    max-width: 684px;
     padding-left: 118px;
-  }
-
-  &__aside {
-    max-width: 330px;
-    gap: 40px;
+    display: grid;
+    gap: 22px;
   }
 }

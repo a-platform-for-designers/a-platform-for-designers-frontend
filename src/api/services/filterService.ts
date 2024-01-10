@@ -37,19 +37,25 @@ export const filterService = {
     skillId: number[],
     specializationId: number[],
     toolsId: number[],
+    resume: null | boolean,
     limit: number,
     page: number
   ): Promise<IUserRespons> => {
     const formattedSpecializationArray = specializationId
       .map((id) => `specialization=${id}`)
       .join("&");
-    const formattedSphereArray = skillId.map((id) => `skills=${id}`).join("&");
+    const formattedSkillsArray = skillId.map((id) => `skills=${id}`).join("&");
     const formattedToolsArray = toolsId
       .map((id) => `instruments=${id}`)
       .join("&");
-    const response =
-      await api.get<IUserRespons>(`/users/?limit=${limit}&page=${page}&${formattedSpecializationArray}${formattedSphereArray}${formattedToolsArray}
-    `);
+    const formattedResume = resume === null ? "" : `work_status=${resume}`;
+    const response = await api.get<IUserRespons>(
+      `/users/?limit=${limit}&page=${page}${
+        formattedSpecializationArray ? `&${formattedSpecializationArray}` : ""
+      }${formattedSkillsArray ? `&${formattedSkillsArray}` : ""}${
+        formattedToolsArray ? `&${formattedToolsArray}` : ""
+      }${formattedResume ? `&${formattedResume}` : ""}`
+    );
     return response.data;
   },
 };

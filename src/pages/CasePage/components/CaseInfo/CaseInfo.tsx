@@ -7,10 +7,10 @@ import {
 } from "@mui/material";
 import "./CaseInfo.scss";
 import React from "react";
-import { ICase } from "../../../../types";
+import { ICaseInfo } from "@/types";
 
 interface ICaseInfoProps {
-  data: ICase;
+  data: ICaseInfo;
 }
 
 const CaseInfo: React.FC<ICaseInfoProps> = ({ data }) => {

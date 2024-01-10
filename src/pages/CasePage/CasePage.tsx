@@ -9,16 +9,28 @@ import "./CasePage.scss";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { casesService } from "../../api";
-import { ICase } from "../../types";
+import { ICase, ICaseInfo } from "../../types";
 import { ActionButton, CaseInfo, ProfileInfo } from "./components";
 import { AboutItem, EmptyData } from "../ProfilePage/components";
 import Preloader from "@/shared/Preloader/Preloader";
+import MyOptimizedImage from "@/shared/UI/MyOptimizedImage/MyOptimizedImage";
+import {
+  OPTIMIZED_IMAGE_CASE_HEIGHT,
+  OPTIMIZED_IMAGE_CASE_WIDTH,
+} from "@/constants/constants";
 
 const CasePage: React.FC = () => {
   const { id } = useParams();
   const [caseData, setCaseData] = useState<ICase>();
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
+
+  const caseDataInfo: ICaseInfo = {
+    title: caseData?.title,
+    sphere: caseData?.sphere,
+    working_term: caseData?.working_term,
+    description: caseData?.description,
+  };
 
   function setInstruments() {
     if (Array.isArray(caseData?.instruments)) {
@@ -64,7 +76,7 @@ const CasePage: React.FC = () => {
           alignItems="flex-start"
         >
           <ProfileInfo data={caseData.author} />
-          <CaseInfo data={caseData} />
+          <CaseInfo data={caseDataInfo} />
           <Grid
             container
             gap="28px"
@@ -86,20 +98,26 @@ const CasePage: React.FC = () => {
         <Grid container className="casePage__content" gap="40px">
           <ImageList className="casePage__image-list" cols={2} gap={60}>
             <ImageListItem>
-              <img
+              <MyOptimizedImage
                 className="casePage__image-item"
-                src={`${caseData.avatar}`}
-                alt={`Обложка кейса`}
-                loading="lazy"
+                imageUrl={caseData.avatar}
+                width={OPTIMIZED_IMAGE_CASE_WIDTH}
+                height={OPTIMIZED_IMAGE_CASE_HEIGHT}
+                format="webp"
+                maxAge="7d"
+                alt="Обложка кейса"
               />
             </ImageListItem>
             {caseData.images.map((item) => (
               <ImageListItem key={item.id}>
-                <img
+                <MyOptimizedImage
                   className="casePage__image-item"
-                  src={`${item.image}`}
+                  imageUrl={item.image}
+                  width={OPTIMIZED_IMAGE_CASE_WIDTH}
+                  height={OPTIMIZED_IMAGE_CASE_HEIGHT}
+                  format="webp"
+                  maxAge="7d"
                   alt={`Изображение #${item.id}`}
-                  loading="lazy"
                 />
               </ImageListItem>
             ))}

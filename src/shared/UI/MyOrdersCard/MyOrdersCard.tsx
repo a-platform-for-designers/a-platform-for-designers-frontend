@@ -1,39 +1,78 @@
 import { Avatar, Box, IconButton, Typography } from "@mui/material";
 import "./MyOrdersCard.scss";
 import MyButton from "@/shared/UI/MyButton/MyButton";
-import { IOrdersList, IUserInfo, IUser } from "@/types";
+import { IOrdersList, IUserInfo, IUser, IOrdersResponse } from "@/types";
 import { useEffect, useState } from "react";
 import FavouritesIcon from "@/assets/icons/FavouritesDark.svg";
 import FavouritesIconActive from "@/assets/icons/FavouritesActive.svg";
 import EditIcon from "@/assets/icons/editCardButton.svg";
 import { useAppSelector } from "@/hooks/reduxHooks";
-import { useParams } from "react-router-dom";
-import { userService } from "@/api";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { userService, ordersService } from "@/api";
 
 interface IProps {
   order: IOrdersList;
   openPopup: (userInfo: IUserInfo) => void;
+  refreshOrdersList?: (id: number) => void;
 }
 
-const OrdersCard: React.FC<IProps> = ({ order, openPopup }) => {
+const OrdersCard: React.FC<IProps> = ({
+  order,
+  openPopup,
+  refreshOrdersList,
+}) => {
   const [reply, setReply] = useState<boolean>(false);
   const [isFavourite, setIsFavourite] = useState<boolean>(false);
   const [customerSpecialization, setCustomerSpecialization] =
     useState<string>("");
 
-  const countResponse = "1 new"; //количество откликов
-
+  const countResponse = "15 откликов"; //количество откликов
+  const navigate = useNavigate();
   const { user } = useAppSelector((state) => state.user); // авторизованный пользователь
   const { id } = useParams();
   const [currentUser, setCurrentUser] = useState<IUser>(); // пользователь чей профиль(id через путь)
   const isMyProfile = currentUser?.id === user?.id && currentUser !== undefined;
+  const customerUser = user?.is_customer;
+  const location = useLocation();
+  const [isUsersOrders, setIsUsersOrders] = useState<boolean>(false);
+  const [orderInfo, setOrderInfo] = useState<IOrdersResponse>(); // переменная для количества откликов на заказ
+  const myCard = order.customer.id === user?.id;
+
+  console.log(orderInfo);
 
   useEffect(() => {
-    (async () => {
-      const userInfo = await userService.getUserById(Number(id));
-      setCurrentUser(userInfo);
-    })();
+    if (order.is_responded_order) {
+      setReply(true);
+    }
+  }, [order.is_responded_order]);
+
+  useEffect(() => {
+    if (location.pathname.endsWith("/my-orders/orders")) {
+      setIsUsersOrders(true);
+    }
+  }, [location]);
+
+  useEffect(() => {
+    if (id) {
+      (async () => {
+        const userInfo = await userService.getUserById(Number(id));
+        setCurrentUser(userInfo);
+      })();
+    }
   }, [id]);
+
+  // в данных заказа нет количества откликов
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const ordersData = await ordersService.getOrderInfo(Number(order.id));
+        setOrderInfo(ordersData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, [order.id]);
 
   useEffect(() => {
     if (order.specialization.name === "Графический дизайн") {
@@ -54,12 +93,34 @@ const OrdersCard: React.FC<IProps> = ({ order, openPopup }) => {
     }
   }, [order.specialization.name]);
 
+  const dataResponse = {
+    customer: order.customer,
+    title: order.title,
+    specialization: order.specialization,
+    payment: order.payment,
+    sphere: order.sphere,
+    description: order.description,
+    is_published: order.is_published,
+  };
+
   function handleReply() {
     if (!reply) {
+      const postOrderResponse = async () => {
+        await ordersService.postResponseOrder(dataResponse, order.id);
+        return;
+      };
+      postOrderResponse();
       setReply(true);
-      return;
+    } else {
+      const deleteOrderResponse = async () => {
+        await ordersService.deleteResponseOrder(dataResponse, order.id);
+      };
+      deleteOrderResponse();
+      if (refreshOrdersList) {
+        refreshOrdersList(order.id);
+      }
+      setReply(false);
     }
-    setReply(false);
   }
 
   const userInfo = {
@@ -79,21 +140,30 @@ const OrdersCard: React.FC<IProps> = ({ order, openPopup }) => {
     setIsFavourite(true);
   }
 
-  function handleEditCard() {
-    console.log("Здесь пока ничего нет");
+  function handleDeleteReply() {
+    const deleteOrderResponse = async () => {
+      await ordersService.deleteResponseOrder(dataResponse, order.id);
+    };
+    deleteOrderResponse();
+    if (refreshOrdersList) {
+      refreshOrdersList(order.id);
+    }
   }
 
   return (
     <Box className="ordersCard">
       <div>
         <div className="ordersCard__header">
-          <div className="ordersCard__user">
+          <div
+            className="ordersCard__user"
+            onClick={() => navigate(`/my-orders/orders`)}
+          >
             <Avatar className="ordersCard__avatar" src={order.customer.photo} />
             <Typography component="h2" className="ordersCard__name">
               {userInfo.name}
             </Typography>
           </div>
-          {!isMyProfile ? (
+          {(!isMyProfile && !customerUser) || !myCard ? (
             <>
               <IconButton aria-label="favourite" onClick={handleFavourite}>
                 {!isFavourite ? (
@@ -114,7 +184,10 @@ const OrdersCard: React.FC<IProps> = ({ order, openPopup }) => {
           ) : (
             <>
               <div className="ordersCard__counts">{countResponse}</div>
-              <IconButton aria-label="favourite" onClick={handleEditCard}>
+              <IconButton
+                aria-label="favourite"
+                onClick={() => navigate("/orders/create")}
+              >
                 <img
                   className="ordersCard__favourite-icon"
                   src={EditIcon}
@@ -125,7 +198,7 @@ const OrdersCard: React.FC<IProps> = ({ order, openPopup }) => {
           )}
         </div>
 
-        <div>
+        <div onClick={() => navigate(`/my-orders/orders`)}>
           <Typography component="h3" className="ordersCard__title">
             {order.title && order.title}
           </Typography>
@@ -143,7 +216,7 @@ const OrdersCard: React.FC<IProps> = ({ order, openPopup }) => {
           </Typography>
         </div>
       </div>
-      {!isMyProfile ? (
+      {(!isMyProfile && !customerUser) || !myCard ? (
         <>
           <div className="ordersCard__buttons">
             <MyButton
@@ -154,15 +227,27 @@ const OrdersCard: React.FC<IProps> = ({ order, openPopup }) => {
             >
               Написать
             </MyButton>
-            <MyButton
-              type="button"
-              variant="outlined"
-              size="large"
-              onClick={handleReply}
-              className="ordersCard__button"
-            >
-              {!reply ? "Откликнуться" : "Удалить отклик"}
-            </MyButton>
+            {!customerUser || !isUsersOrders ? (
+              <MyButton
+                type="button"
+                variant={isUsersOrders ? "text" : "outlined"}
+                size="large"
+                onClick={handleReply}
+                className="ordersCard__button"
+              >
+                {!reply ? "Откликнуться" : "Удалить отклик"}
+              </MyButton>
+            ) : (
+              <MyButton
+                type="button"
+                variant="text"
+                size="large"
+                onClick={handleDeleteReply}
+                className="ordersCard__button"
+              >
+                Удалить отклик
+              </MyButton>
+            )}
           </div>
         </>
       ) : (
@@ -171,9 +256,9 @@ const OrdersCard: React.FC<IProps> = ({ order, openPopup }) => {
             type="button"
             size="large"
             variant="outlined"
-            onClick={handleEditCard}
+            onClick={() => navigate(`my-orders/orders`)}
           >
-            Посмотреть все отклики
+            Посмотреть отклики
           </MyButton>
         </div>
       )}

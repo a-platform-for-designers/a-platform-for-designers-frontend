@@ -1,4 +1,11 @@
-import { Box, Typography } from "@mui/material";
+import {
+  Box,
+  Radio,
+  RadioGroup,
+  Typography,
+  FormControl,
+  FormControlLabel,
+} from "@mui/material";
 import classes from "./Profile.module.scss";
 import { useEffect, useState } from "react";
 import useInput from "@/hooks/useInput";
@@ -12,8 +19,8 @@ import {
   MySingleDropDown,
 } from "@/shared/UI";
 import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
-import { userService } from "@/api";
-import { setUserInfo } from "@/redux/slices/userSlice";
+import profileService from "@/api/services/profileService";
+import { setUserInfo, setCustomerInfo } from "@/redux/slices/userSlice";
 
 const Profile: React.FC = () => {
   const { user } = useAppSelector((state) => state.user);
@@ -28,7 +35,7 @@ const Profile: React.FC = () => {
   );
   const [specialization, setSpecialization] = useState<number[]>([]);
   const [country, setCountry] = useState<string | null>(
-    user?.profiledesigner?.country || null
+    user?.profiledesigner?.country || user?.profilecustomer?.country || null
   );
   const [languageValue, setLanguageValue] = useState<string[]>(
     (user?.profiledesigner?.language || []).map((obj) =>
@@ -38,9 +45,27 @@ const Profile: React.FC = () => {
   const [language, setLanguage] = useState<number[]>([]);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const education = useInput(user?.profiledesigner?.education || "", {});
-  const hobby = useInput(user?.profiledesigner?.hobby || "", {});
-  const customersWorkPlace = useInput(user?.profilecustomer?.post || "", {});
+  const post = useInput(user?.profilecustomer?.post || "", {});
   const aboutMe = useInput(user?.profilecustomer?.post || "", {});
+  const [toolsValue, setToolsValue] = useState<string[]>(
+    (user?.profiledesigner?.instruments || []).map((obj) =>
+      typeof obj === "object" && "name" in obj ? obj["name"] : ""
+    )
+  );
+  const [skillsValue, setSkillsValue] = useState<string[]>(
+    (user?.profiledesigner?.skills || []).map((obj) =>
+      typeof obj === "object" && "name" in obj ? obj["name"] : ""
+    )
+  );
+  const about = useInput(user?.profiledesigner?.about || "", {});
+  const [status, setStatus] = useState<boolean>(
+    user?.profiledesigner?.work_status ?? false
+  );
+  console.log(status, user?.profiledesigner?.work_status);
+  const [toolsIds, setToolsIds] = useState<number[]>([]);
+  const [skillsIds, setSkillsIds] = useState<number[]>([]);
+
+  const { skills, instruments } = useAppSelector((state) => state.data);
 
   useEffect(() => {
     setSpecialization(
@@ -75,6 +100,30 @@ const Profile: React.FC = () => {
     setLanguageValue(newValue);
   }
 
+  function handleSetTools(
+    _: React.SyntheticEvent<Element, Event>,
+    newValue: string[]
+  ) {
+    if (newValue.length > 5) return;
+    setToolsValue(newValue);
+    if (newValue[0] !== undefined) {
+      const newValueId = newValue.map((key) => instruments[key]);
+      setToolsIds([...newValueId]);
+    }
+  }
+
+  function handleSetSkills(
+    _: React.SyntheticEvent<Element, Event>,
+    newValue: string[]
+  ) {
+    if (newValue.length > 5) return;
+    setSkillsValue(newValue);
+    if (newValue[0] !== undefined) {
+      const newValueId = newValue.map((key) => skills[key]);
+      setSkillsIds([...newValueId]);
+    }
+  }
+
   async function handleSubmit(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
     if (!isCustomer) {
@@ -84,13 +133,16 @@ const Profile: React.FC = () => {
         language,
         photo: await getBase64(selectedFile!),
         education: education.value,
-        hobby: hobby.value,
-        customersWorkPlace: customersWorkPlace.value,
+        skills: skillsIds,
+        instruments: toolsIds,
+        about: about.value,
+        work_status: status,
       };
 
-      const userInfo = await userService.updateInfoUserMe({
+      const userInfo = await profileService.postProfileDesigner({
         ...values,
       });
+      console.log(userInfo);
       dispatch(setUserInfo(userInfo));
       return;
     }
@@ -98,14 +150,15 @@ const Profile: React.FC = () => {
       const values = {
         country,
         photo: await getBase64(selectedFile!),
-        customersWorkPlace: customersWorkPlace.value,
-        aboutMe: aboutMe.value,
+        post: post.value,
+        about: aboutMe.value,
       };
 
-      const userInfo = await userService.updateInfoUserMeCustomer({
+      const userInfo = await profileService.postProfileCustomer({
         ...values,
       });
-      dispatch(setUserInfo(userInfo));
+
+      dispatch(setCustomerInfo(userInfo));
       return;
     }
   }
@@ -138,20 +191,53 @@ const Profile: React.FC = () => {
         </Box>
 
         {!isCustomer ? (
-          <Box className={classes.profile__section}>
-            <Typography className={classes.profile__section_title}>
-              Специализация
-            </Typography>
-            <div className={classes.profile__section_wrapper}>
-              <MyMultipleDropDown
-                className={classes.profile__myDrowDown}
-                value={specializationValue}
-                onChange={handleSetSpecialization}
-                options={Object.keys(specializations)}
-                placeholder="Добавьте из списка"
-              />
-            </div>
-          </Box>
+          <>
+            <Box className={classes.profile__section}>
+              <Typography className={classes.profile__section_title}>
+                Статус
+              </Typography>
+              <div className={classes.profile__section_wrapper}>
+                <FormControl>
+                  <RadioGroup
+                    aria-labelledby="demo-radio-buttons-group-label"
+                    value={status ? "searching" : "not-searching"}
+                    name="radio-buttons-group"
+                    onChange={(event) => {
+                      const value = event.target.value;
+                      setStatus(value === "searching");
+                    }}
+                  >
+                    <FormControlLabel
+                      value="searching"
+                      control={<Radio />}
+                      label="Ищу работу"
+                    />
+                    <FormControlLabel
+                      value="not-searching"
+                      control={<Radio />}
+                      label="Не ищу работу"
+                    />
+                  </RadioGroup>
+                </FormControl>
+              </div>
+            </Box>
+            <Box className={classes.profile__section}>
+              <Typography className={classes.profile__section_title}>
+                Специализация
+              </Typography>
+              <div className={classes.profile__section_wrapper}>
+                <MyMultipleDropDown
+                  className={classes.profile__myDrowDown}
+                  value={specializationValue}
+                  onChange={handleSetSpecialization}
+                  options={Object.keys(specializations)}
+                  placeholder={
+                    specializationValue.length ? "" : "Добавьте из списка"
+                  }
+                />
+              </div>
+            </Box>
+          </>
         ) : null}
 
         <Box className={classes.profile__section}>
@@ -193,21 +279,53 @@ const Profile: React.FC = () => {
                   value={languageValue}
                   options={Object.keys(languages)}
                   onChange={handleSetLanguage}
-                  placeholder="Добавьте из списка"
+                  placeholder={languageValue.length ? "" : "Добавьте из списка"}
                 />
               </div>
             </Box>
 
             <Box className={classes.profile__section}>
               <Typography className={classes.profile__section_title}>
-                Хобби
+                Инструменты
+              </Typography>
+              <div className={classes.profile__section_wrapper}>
+                <MyMultipleDropDown
+                  className={classes.profile__myDrowDown}
+                  value={toolsValue}
+                  options={Object.keys(instruments)}
+                  onChange={handleSetTools}
+                  placeholder={
+                    toolsValue.length ? "" : "Какие программы используете"
+                  }
+                />
+              </div>
+            </Box>
+            <Box className={classes.profile__section}>
+              <Typography className={classes.profile__section_title}>
+                Навыки
+              </Typography>
+              <div className={classes.profile__section_wrapper}>
+                <MyMultipleDropDown
+                  className={classes.profile__myDrowDown}
+                  value={skillsValue}
+                  options={Object.keys(skills)}
+                  onChange={handleSetSkills}
+                  placeholder={skillsValue.length ? "" : "Выберите навыки"}
+                />
+              </div>
+            </Box>
+            <Box className={classes.profile__section}>
+              <Typography className={classes.profile__section_title}>
+                О себе
               </Typography>
               <div className={classes.profile__section_wrapper}>
                 <MyInput
-                  data={hobby}
+                  data={about}
                   variant="textarea-label-without"
-                  maxLength={200}
-                  placeholder="Расскажите, чем увлекаетесь"
+                  placeholder="Расскажите о себе, опыте и о том, что считаете важным..."
+                  minRows={10}
+                  maxLength={500}
+                  className={classes.profile__section_textarea}
                 />
               </div>
             </Box>
@@ -220,7 +338,7 @@ const Profile: React.FC = () => {
               </Typography>
               <div className={classes.profile__section_wrapper}>
                 <MyInput
-                  data={customersWorkPlace}
+                  data={post}
                   variant="textarea-label-without"
                   maxLength={50}
                   placeholder="Компания и должность"
@@ -237,6 +355,7 @@ const Profile: React.FC = () => {
                   data={aboutMe}
                   variant="textarea-label-without"
                   maxLength={200}
+                  minRows={6.5}
                   placeholder="Расскажите о себе..."
                   className={classes.profile__aboutMe}
                 />

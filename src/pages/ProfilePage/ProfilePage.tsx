@@ -7,17 +7,22 @@ import {
   useParams,
   useNavigate,
 } from "react-router-dom";
-import { Info, ProfileNav, Portfolio, Work, Profile } from "./components";
+import {
+  Info,
+  ProfileNav,
+  Portfolio,
+  Profile,
+  ProfileCustomer,
+} from "./components";
 import { IProfileNavPage } from "@/types";
-import { useAppSelector } from "@/hooks/reduxHooks";
 import { userService } from "@/api";
 import { useEffect, useState } from "react";
 import { IUser, IProfileData } from "@/types";
 import CustomersOrderCard from "./components/CustomersOrdersCards/CustomersOrdersCards";
 import Preloader from "@/shared/Preloader/Preloader";
+import Mentoring from "./components/Mentoring/Mentoring";
 
 const ProfilePage: React.FC = () => {
-  const { user } = useAppSelector((state) => state.user); // авторизованный пользователь
   const { id } = useParams();
   const [currentUser, setCurrentUser] = useState<IUser>(); // пользователь чей профиль(id через путь)
   const isCustomerCurrentUser = currentUser?.is_customer;
@@ -34,32 +39,33 @@ const ProfilePage: React.FC = () => {
 
   useEffect(() => {
     (async () => {
-      const isProfileOfCurrentUser = user?.id === Number(id);
-      if (isProfileOfCurrentUser) {
-        setCurrentUser(user);
-      } else {
-        setCurrentUser(await userService.getUserById(Number(id)));
-      }
+      const userInfo = await userService.getUserById(Number(id));
+      setCurrentUser(userInfo);
     })();
-  }, [id, user]);
+  }, [id]);
 
   const profileData: IProfileData = {
     first_name: currentUser?.first_name,
     last_name: currentUser?.last_name,
+    post: currentUser?.profilecustomer?.post || "Не указано о себе",
     specialization: currentUser?.profiledesigner?.specialization || [
       "Не указана специализация",
     ],
     image: currentUser?.photo,
-    country: currentUser?.profiledesigner?.country || "Не указана страна",
-    // need to fix later
+    country:
+      currentUser?.profiledesigner?.country ||
+      currentUser?.profilecustomer?.country ||
+      "Не указана страна",
     registrationDate: new Date(
-      user?.date_joined ?? new Date().getDate()
+      currentUser?.date_joined ?? new Date()
     ).toLocaleDateString("ru-RU", {
       day: "2-digit",
       month: "long",
       year: "numeric",
     }),
-    status: currentUser?.resume?.status ? "Ищет работу" : "Не ищет работу",
+    status: currentUser?.profiledesigner?.work_status
+      ? "Ищет работу"
+      : "Не ищет работу",
     likes: 1001,
     followers: 98,
   };
@@ -68,21 +74,24 @@ const ProfilePage: React.FC = () => {
   const profileNavPages: IProfileNavPage[] = [
     {
       title: "Портфолио",
-      link: `portfolio`,
+      link: "portfolio",
       element: <Portfolio data={currentUser?.portfolio} />,
     },
     {
-      title: "Работа",
-      link: `work`,
-      element: currentUser?.resume ? (
-        <Work resume={currentUser?.resume} />
+      title: "Менторство",
+      link: "mentoring",
+      element: currentUser?.mentoring ? (
+        <Mentoring
+          mentoring={currentUser?.mentoring}
+          emptyTitle="Дизайнер пока не заполнил профиль"
+        />
       ) : (
-        <Work />
+        <Mentoring emptyTitle="Здесь пока ничего нет" />
       ),
     },
     {
       title: "Профиль",
-      link: `file`,
+      link: "file",
       element: currentUser?.profiledesigner ? (
         <Profile
           profiledesigner={currentUser?.profiledesigner}
@@ -103,9 +112,9 @@ const ProfilePage: React.FC = () => {
     {
       title: "Профиль",
       link: `file`,
-      element: currentUser?.profiledesigner ? (
-        <Profile
-          profiledesigner={currentUser?.profiledesigner}
+      element: currentUser?.profilecustomer ? (
+        <ProfileCustomer
+          profilecustomer={currentUser?.profilecustomer}
           emptyTitle="Заказчик пока не заполнил профиль"
         />
       ) : (

@@ -78,6 +78,7 @@ const DesignerFilters: React.FC<IProps> = ({ setMentors }) => {
         skillsIds, //skills
         specialityIds, //specialization
         instrumentsIds, //tools
+        null,
         12,
         1
       );

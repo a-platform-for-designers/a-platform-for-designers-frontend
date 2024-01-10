@@ -21,6 +21,7 @@
     row-gap: 16px;
     column-gap: 24px;
     padding-left: 44px;
+    justify-content: flex-start;
 
     &.MuiGrid-item {
       padding-left: 40px;
@@ -28,8 +29,15 @@
   }
 
   &__filters {
+    max-width: 330px;
+
     &.MuiGrid-item {
       padding-left: 38px;
     }
   }
+}
+
+.pagination {
+  margin-bottom: 35px;
+  margin-right: 330px;
 }

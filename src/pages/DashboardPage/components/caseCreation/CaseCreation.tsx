@@ -3,11 +3,17 @@ import classes from "./CaseCreation.module.scss";
 import useInput from "@/hooks/useInput";
 import { useState, SyntheticEvent } from "react";
 import React from "react";
+import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
 import { IProfileDataItem } from "../../model/types";
+import { ICasePreview } from "@/types";
 import { tools } from "../../model/constants";
 import ProfileInput from "@/shared/UI/ProfileInput/ProfileInput";
 import { MyButton } from "@/shared/UI";
 import { useAppSelector } from "@/hooks/reduxHooks";
+import CasePreview from "../casePreview/CasePreview";
+import { casesService } from "@/api";
+import getBase64 from "@/features/getBase64";
+import { enqueueSnackbar } from "notistack";
 
 const CaseCreation: React.FC = () => {
   const title = useInput("", { isEmpty: true });
@@ -18,8 +24,14 @@ const CaseCreation: React.FC = () => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [sphereValue, setSphereValue] = useState<string | null>(null);
   const [toolsValue, setToolsValue] = useState<string[]>([]);
+  const [isCasePreview, setIsCasePreview] = useState<boolean>(false);
+  const [caseDataValues, setCaseDataValues] = useState<ICasePreview>();
 
-  const { specializations, spheres } = useAppSelector((state) => state.data);
+  const navigate = useNavigate();
+
+  const { specializations, spheres, instruments } = useAppSelector(
+    (state) => state.data
+  );
 
   const profileData: IProfileDataItem[] = [
     {
@@ -87,6 +99,24 @@ const CaseCreation: React.FC = () => {
     },
   ];
 
+  const convertStringToId = (
+    str: string[] | string | null,
+    state: { [key: string]: number }
+  ) => {
+    if (typeof str === "string") {
+      return state[str];
+    }
+
+    if (!str) {
+      return null;
+    }
+
+    const mappedInstruments = str.map((item: string) => {
+      return state[item];
+    });
+    return mappedInstruments;
+  };
+
   function handleSetWrapper(
     _: React.ChangeEvent<HTMLInputElement>,
     newValue: File | null
@@ -130,44 +160,109 @@ const CaseCreation: React.FC = () => {
     e.preventDefault();
     const values = {
       title: title.value,
+      workingTerm: time.value, // fix null
+      description: description.value,
+      specialization: convertStringToId(directions, specializations),
+      avatar: String(await getBase64(wrapper!)),
+      images: await Promise.all(
+        selectedFiles.map(async (file) => {
+          const base64Image = await getBase64(file);
+          return {
+            image: String(base64Image),
+          };
+        })
+      ),
+      sphere: convertStringToId(sphereValue, spheres),
+      instruments: convertStringToId(toolsValue, instruments),
+    };
+    console.log(values);
+
+    try {
+      const createCase = await casesService.createCase(values);
+      enqueueSnackbar("Кейс успешно создан", { variant: "success" });
+      return createCase;
+    } catch {
+      enqueueSnackbar("Произошла ошибка при создании кейса", {
+        variant: "error",
+      });
+    }
+  }
+
+  function handleCasePreview(e: React.MouseEvent<HTMLButtonElement>) {
+    e.preventDefault();
+    const values = {
+      title: title.value,
       time: time.value,
       description: description.value,
       directions,
       wrapper,
       images: selectedFiles,
-      /* images: await Promise.all(
-        selectedFiles.map(async (item) => await getBase64(item))
-      ), */
       sphereValue,
       toolsValue,
     };
-    console.log(values);
+    setCaseDataValues(values);
+    setIsCasePreview(true);
+  }
+
+  function handleEdit() {
+    setIsCasePreview(false);
+    navigate("/dashboard/portfolio/create/preview");
   }
 
   return (
     <>
-      <>
-        <Box className={classes.case}>
-          {profileData.map((item) => {
-            return (
-              <ProfileInput
-                key={item.heading}
-                handleDeleteCaseImage={handleDeleteCaseImage}
-                {...item}
-              />
-            );
-          })}
-        </Box>
-        <Box textAlign={"center"} marginLeft={15}>
-          <MyButton
-            className={classes.case__btn}
-            onClick={handleSubmit}
-            disabled={!!(title.error || !wrapper || selectedFiles.length === 0)}
-          >
-            Сохранить
-          </MyButton>
-        </Box>
-      </>
+      {!isCasePreview ? (
+        <>
+          <Box className={classes.case}>
+            {profileData.map((item) => {
+              return (
+                <ProfileInput
+                  key={item.heading}
+                  handleDeleteCaseImage={handleDeleteCaseImage}
+                  {...item}
+                />
+              );
+            })}
+          </Box>
+          <Box className={classes.case__submit}>
+            <MyButton
+              className={classes.case__btn}
+              onClick={handleCasePreview}
+              disabled={
+                !!(title.error || !wrapper || selectedFiles.length === 0)
+              }
+              variant="outlined"
+            >
+              Предпросмотр
+            </MyButton>
+            <MyButton
+              className={classes.case__btn}
+              onClick={handleSubmit}
+              disabled={
+                !!(title.error || !wrapper || selectedFiles.length === 0)
+              }
+            >
+              Опубликовать проект
+            </MyButton>
+          </Box>
+        </>
+      ) : (
+        <Routes>
+          <Route path="/">
+            <Route index element={<Navigate replace to={"preview"} />} />
+            <Route
+              path="/preview"
+              element={
+                <CasePreview
+                  handleSubmit={handleSubmit}
+                  caseData={caseDataValues}
+                  handleEdit={handleEdit}
+                />
+              }
+            />
+          </Route>
+        </Routes>
+      )}
     </>
   );
 };

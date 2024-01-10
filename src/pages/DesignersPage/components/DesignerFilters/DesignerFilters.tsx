@@ -17,15 +17,24 @@ import { filterService } from "@/api/services/filterService";
 
 interface IProps {
   setDesigners: (IDesignersList: IUserWithLastCases[]) => void;
+  page: number;
+  setTotalUsers: React.Dispatch<React.SetStateAction<number>>;
+  limit: number;
 }
 
-const DesignerFilters: React.FC<IProps> = ({ setDesigners }) => {
+const DesignerFilters: React.FC<IProps> = ({
+  setDesigners,
+  page,
+  setTotalUsers,
+  limit,
+}) => {
   const [speciality, setSpeciality] = useState<string[]>([]);
   const [skillsValue, setSkillsValue] = useState<string[]>([]);
   const [tools, setTools] = useState<string[]>([]);
   const [readyForJob, setReadyForJob] = useState<string[]>([
     FILTER_OPTIONS.readyForJobOptions[0],
   ]);
+  const [resume, setResume] = useState<null | boolean>(null);
 
   const { skills } = useAppSelector((state) => state.data);
   const { specializations } = useAppSelector((state) => state.data);
@@ -81,6 +90,13 @@ const DesignerFilters: React.FC<IProps> = ({ setDesigners }) => {
     const newValue = speciality.includes(item)
       ? speciality.filter((elem) => elem !== item)
       : [...speciality, item];
+    if (newValue.includes(FILTER_OPTIONS.readyForJobOptions[0])) {
+      setResume(null);
+    } else if (newValue.includes(FILTER_OPTIONS.readyForJobOptions[1])) {
+      setResume(true);
+    } else if (newValue.includes(FILTER_OPTIONS.readyForJobOptions[2])) {
+      setResume(false);
+    }
     setReadyForJob(newValue);
   }
 
@@ -94,14 +110,15 @@ const DesignerFilters: React.FC<IProps> = ({ setDesigners }) => {
         skillsIds, //skills
         specialityIds, //specialization
         instrumentsIds, //tools
-        12,
-        1
+        resume, //resume
+        limit,
+        page
       );
-
+      setTotalUsers(filteredList.count);
       setDesigners(filteredList.results);
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [skillsValue, speciality, tools]);
+  }, [skillsValue, speciality, tools, resume, page]);
 
   return (
     <div className="designerFilters">

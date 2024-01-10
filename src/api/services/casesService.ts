@@ -1,4 +1,4 @@
-import { ICase, ICaseCreation, ICaseRespons } from "../../types";
+import { ICase, ICaseCreation, ICaseRespons } from "@/types";
 import api from "../api";
 
 const casesService = {
@@ -19,6 +19,11 @@ const casesService = {
 
   createCase: async (data: ICaseCreation): Promise<ICase> => {
     const response = await api.post<ICase>("/cases/", data);
+    return response.data;
+  },
+
+  deleteCase: async (id: number): Promise<ICase> => {
+    const response = await api.delete<ICase>(`/cases/${id}/`);
     return response.data;
   },
 };

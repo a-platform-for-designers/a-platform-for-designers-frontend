@@ -7,6 +7,8 @@
   &__main {
     max-width: 684px;
     padding-left: 118px;
+    display: grid;
+    gap: 22px;
   }
 
   &__aside {
@@ -17,6 +19,7 @@
       display: flex;
       flex-direction: column;
       align-items: flex-end;
+      justify-content: flex-start;
     }
   }
 }
