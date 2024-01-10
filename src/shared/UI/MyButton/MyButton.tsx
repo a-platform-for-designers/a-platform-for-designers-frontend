@@ -2,7 +2,6 @@ import Button from "@mui/material/Button";
 import "./MyButton.scss";
 import { StyledEngineProvider, SxProps, Theme } from "@mui/material";
 import { PropsWithChildren } from "react";
-
 export interface IMyButtonProps {
   variant?: "text" | "contained" | "outlined" | "tag" | "error";
   size?: "small" | "medium" | "large";

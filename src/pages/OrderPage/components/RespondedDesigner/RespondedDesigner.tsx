@@ -15,9 +15,11 @@ const RespondedDesigner: React.FC<IProps> = ({ designer, handlePopupOpen }) => {
       <Typography component="p" className="respondedDesigner__name">
         {designer.first_name} {designer.last_name}
       </Typography>
-      <Typography component="p" className="respondedDesigner__info">
-        {designer.specialization?.name}
-      </Typography>
+      {designer.specialization ? (
+        <Typography component="p" className="respondedDesigner__info">
+          {designer.specialization?.name}
+        </Typography>
+      ) : null}
       <Typography component="p" className="respondedDesigner__info">
         {designer?.country}
       </Typography>

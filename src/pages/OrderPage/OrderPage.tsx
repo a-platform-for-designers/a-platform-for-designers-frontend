@@ -9,7 +9,7 @@ import {
 import "./OrderPage.scss";
 import MyButton from "@/shared/UI/MyButton/MyButton";
 import MyMessagePopup from "@/shared/UI/MyMessagePopup/MyMessagePopup";
-import { IOrderInfoResponse, IOrderResponse } from "@/types";
+import { IOrderInfoResponse } from "@/types";
 import { useEffect, useState } from "react";
 import FavouritesIconBig from "@/assets/icons/FavouritesIconBig.svg";
 import FavouritesIconBigActive from "@/assets/icons/FavouritesIconBigActive.svg";
@@ -20,13 +20,13 @@ import { useAppSelector } from "@/hooks/reduxHooks";
 import { useNavigate, useParams } from "react-router-dom";
 import { ordersService } from "@/api";
 import RespondedDesigner from "./components/RespondedDesigner/RespondedDesigner";
+import MySignInPopup from "@/shared/UI/MySignInPopup/MySignInPopup";
 
 const OrderPage: React.FC = () => {
   const [reply, setReply] = useState<boolean>(false);
   const [isFavourite, setIsFavourite] = useState<boolean>(false);
   const [customerSpecialization, setCustomerSpecialization] =
     useState<string>("");
-
   const navigate = useNavigate();
   const { user } = useAppSelector((state) => state.user); // авторизованный пользователь
   const { id } = useParams();
@@ -34,8 +34,15 @@ const OrderPage: React.FC = () => {
   const [orderInfo, setOrderInfo] = useState<IOrderInfoResponse>();
   const myCard = orderInfo?.customer.id === user?.id;
   const [openPopup, setOpenPopup] = useState<boolean>(false);
-  const [formattedDate, setFormattedDate] = useState<string>("");
-  const [dataResponse, setDataResponse] = useState<IOrderResponse>();
+  const [openSignInPopup, setOpenSignInPopup] = useState<boolean>(false);
+
+  const publishDate = new Date(
+    orderInfo?.pub_date ?? new Date()
+  ).toLocaleDateString("ru-RU", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -74,8 +81,8 @@ const OrderPage: React.FC = () => {
     }
   }, [orderInfo]);
 
-  useEffect(() => {
-    if (orderInfo) {
+  function handleReply() {
+    if (user && orderInfo) {
       const data = {
         customer: orderInfo.customer,
         title: orderInfo.title,
@@ -85,29 +92,23 @@ const OrderPage: React.FC = () => {
         description: orderInfo.description,
         is_published: true,
       };
-      setDataResponse(data);
-    }
-  }, [orderInfo]);
-
-  function handleReply() {
-    if (user && dataResponse) {
       if (!reply) {
         const postOrderResponse = async () => {
-          await ordersService.postResponseOrder(dataResponse, Number(id));
+          await ordersService.postResponseOrder(data, Number(id));
           return;
         };
         postOrderResponse();
         setReply(true);
       } else {
         const deleteOrderResponse = async () => {
-          await ordersService.deleteResponseOrder(dataResponse, Number(id));
+          await ordersService.deleteResponseOrder(data, Number(id));
         };
         deleteOrderResponse();
         setReply(false);
       }
     } else {
       setReply(false);
-      console.log("Здесь должен открываться попап с авторизацией");
+      setOpenSignInPopup(true);
     }
   }
 
@@ -115,7 +116,7 @@ const OrderPage: React.FC = () => {
     if (user) {
       setOpenPopup(true);
     } else {
-      console.log("Здесь должен открываться попап с авторизацией");
+      setOpenSignInPopup(true);
     }
   }
 
@@ -132,45 +133,23 @@ const OrderPage: React.FC = () => {
   }
 
   function handleAchive() {
-    if (dataResponse) {
+    if (orderInfo) {
+      const dataArchive = {
+        customer: orderInfo.customer,
+        title: orderInfo.title,
+        specialization: orderInfo.specialization,
+        payment: orderInfo.payment,
+        sphere: orderInfo.sphere,
+        description: orderInfo.description,
+        is_published: false,
+      };
       const patchOrderResponse = async () => {
-        await ordersService.patchResponseOrder(dataResponse, Number(id));
+        await ordersService.patchResponseOrder(dataArchive, Number(id));
         return;
       };
       patchOrderResponse();
     }
   }
-
-  // работает не корректно
-  const formatDate = (dateString: string) => {
-    const months = [
-      "января",
-      "февраля",
-      "марта",
-      "апреля",
-      "мая",
-      "июня",
-      "июля",
-      "августа",
-      "сентября",
-      "октября",
-      "ноября",
-      "декабря",
-    ];
-    const parts = dateString?.split(" ");
-    const day = parts[1];
-    const monthIndex = months.findIndex((month) => month === parts[2]);
-    const year = parts[3];
-    const formattedDate = `${day} ${months[monthIndex]} ${year}`;
-    return formattedDate;
-  };
-  useEffect(() => {
-    if (orderInfo?.pub_date) {
-      const originalString = orderInfo?.pub_date;
-      const Date = formatDate(originalString.replace("Published", ""));
-      setFormattedDate(Date);
-    }
-  }, [orderInfo]);
 
   if (orderInfo) {
     return (
@@ -329,7 +308,7 @@ const OrderPage: React.FC = () => {
                 {orderInfo?.description}
               </Typography>
 
-              {orderInfo ? (
+              {orderInfo.sphere ? (
                 <Stack
                   className={`${"caseInfo__list"}`}
                   component="ul"
@@ -341,7 +320,7 @@ const OrderPage: React.FC = () => {
                 >
                   <li
                     className={`${"caseInfo__list-item"}`}
-                    key={orderInfo.sphere.name && orderInfo.sphere.id}
+                    key={orderInfo.sphere.id}
                   >
                     {orderInfo?.sphere.name}
                   </li>
@@ -349,7 +328,7 @@ const OrderPage: React.FC = () => {
               ) : null}
 
               <Typography component="p" className="orderPage__pub">
-                Дата публикации: {formattedDate}
+                Дата публикации: {publishDate}
               </Typography>
             </div>
           </div>
@@ -392,6 +371,10 @@ const OrderPage: React.FC = () => {
 
           {openPopup ? (
             <MyMessagePopup open={openPopup} onClose={handlePopupClose} />
+          ) : null}
+
+          {openSignInPopup ? (
+            <MySignInPopup setOpenSignInPopup={setOpenSignInPopup} />
           ) : null}
         </div>
       </StyledEngineProvider>

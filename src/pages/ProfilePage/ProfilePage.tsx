@@ -43,6 +43,8 @@ const ProfilePage: React.FC = () => {
     })();
   }, [id, user]);
 
+  console.log(user?.date_joined);
+
   const profileData: IProfileData = {
     first_name: currentUser?.first_name,
     last_name: currentUser?.last_name,

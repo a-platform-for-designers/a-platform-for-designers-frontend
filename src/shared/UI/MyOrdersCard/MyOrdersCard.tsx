@@ -9,6 +9,7 @@ import EditIcon from "@/assets/icons/editCardButton.svg";
 import { useAppSelector } from "@/hooks/reduxHooks";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { userService, ordersService } from "@/api";
+import MySignInPopup from "@/shared/UI/MySignInPopup/MySignInPopup";
 
 interface IProps {
   order: IOrdersList;
@@ -40,6 +41,7 @@ const OrdersCard: React.FC<IProps> = ({
   const myCard = order.customer.id === user?.id;
   const [countName, setCountName] = useState<string>("");
   const countResponse = orderInfo?.applicants?.length;
+  const [openSignInPopup, setOpenSignInPopup] = useState<boolean>(false);
 
   useEffect(() => {
     if (countResponse == (1 || 21 || 31)) {
@@ -136,7 +138,7 @@ const OrdersCard: React.FC<IProps> = ({
       }
     } else {
       setReply(false);
-      console.log("Открыть попап входа");
+      setOpenSignInPopup(true);
     }
   }
 
@@ -149,7 +151,7 @@ const OrdersCard: React.FC<IProps> = ({
     if (user) {
       openPopup(userInfo);
     } else {
-      console.log("Открыть попап входа");
+      setOpenSignInPopup(true);
     }
   }
 
@@ -177,7 +179,7 @@ const OrdersCard: React.FC<IProps> = ({
         <div className="ordersCard__header">
           <div
             className="ordersCard__user"
-            onClick={() => navigate(`/my-orders/orders`)}
+            onClick={() => navigate(`/order/${order.id}`)}
           >
             <Avatar className="ordersCard__avatar" src={order.customer.photo} />
             <Typography component="h2" className="ordersCard__name">
@@ -223,7 +225,7 @@ const OrdersCard: React.FC<IProps> = ({
           )}
         </div>
 
-        <div onClick={() => navigate(`/my-orders/orders`)}>
+        <div onClick={() => navigate(`/order/${order.id}`)}>
           <Typography component="h3" className="ordersCard__title">
             {order.title && order.title}
           </Typography>
@@ -286,12 +288,16 @@ const OrdersCard: React.FC<IProps> = ({
             type="button"
             size="large"
             variant="outlined"
-            onClick={() => navigate(`/my-orders/orders`)}
+            onClick={() => navigate(`/order/${order.id}`)}
           >
             Посмотреть отклики
           </MyButton>
         </div>
       )}
+
+      {openSignInPopup ? (
+        <MySignInPopup setOpenSignInPopup={setOpenSignInPopup} />
+      ) : null}
     </Box>
   );
 };

@@ -47,7 +47,7 @@ const ordersService = {
     body: IOrderResponse,
     id: number
   ): Promise<void> => {
-    await api.patch(`/orders/${id}/respond/`, body);
+    await api.patch(`/orders/${id}/publish/`, body);
   },
 };
 export default ordersService;
