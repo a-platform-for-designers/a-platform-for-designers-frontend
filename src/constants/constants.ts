@@ -1,5 +1,3 @@
-import { tokenManager } from "@/api/api";
-
 export const SignupText = {
   privacyPolicy:
     "Согласие на обработку персональных данных, разрешенных для распространения",
@@ -15,10 +13,10 @@ export const SigninText = {
 };
 
 export const BASE_PATH = "http://46.183.163.139/";
-export const API_PATH = `${BASE_PATH}api`;
+export const API_PATH = "/api";
 
-export const WS_URL = (chatId: number) =>
-  `ws://46.183.163.139/ws/chats/${chatId}/?token=${tokenManager.getToken()}`;
+export const WS_URL = (chatId: number, token: string | null) =>
+  `ws://46.183.163.139/ws/chats/${chatId}/?token=${token}`;
 
 export const LISTS = {
   LIST_TOOLS: [

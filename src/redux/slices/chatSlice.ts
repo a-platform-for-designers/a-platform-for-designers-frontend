@@ -1,6 +1,6 @@
 import { IChat, IMessage, ISocketMessage } from "@/types";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { RestApiErrors } from "@/api/api";
+import { RestApiErrors, tokenManager } from "@/api/api";
 import { chartsService } from "@/api";
 import { WebSocketClient } from "@/features/webSocketClient";
 import { WS_URL } from "@/constants/constants";
@@ -54,7 +54,7 @@ export const getMessages = createAsyncThunk(
     } = getState() as RootState;
 
     if (activeChat) {
-      socket.init(WS_URL(activeChat.id));
+      socket.init(WS_URL(activeChat.id, tokenManager.getToken()));
 
       const messagesGenerator = fetchMessages({ socket, page: messagesPage });
       for await (const message of messagesGenerator) {
