@@ -4,6 +4,7 @@ import {
   IChatResponse,
   IMessage,
   ISendMessage,
+  ISendFileResponse,
 } from "../../types";
 import api from "../api";
 
@@ -25,6 +26,15 @@ const chartsService = {
 
   sendMessage: async (data: ISendMessage): Promise<IMessage> => {
     const response = await api.post(`/send_message/`, data);
+    return response.data;
+  },
+
+  sendFile: async (data: FormData): Promise<ISendFileResponse> => {
+    const response = await api.post(`/files/`, data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
     return response.data;
   },
 };

@@ -1,16 +1,15 @@
 import { useAppSelector } from "@/hooks/reduxHooks";
-import { IShortMessage } from "@/types";
+import { IMessage } from "@/types";
 import { Box, Typography, Paper } from "@mui/material";
 
 interface MessageProps {
-  message: IShortMessage;
+  message: IMessage;
   first: boolean;
 }
 
 const Message = ({ message, first }: MessageProps) => {
-  
   const { user } = useAppSelector((state) => state.user);
-  const isCurrentUser = user?.id === message.sender_id;
+  const isCurrentUser = user?.id === message.sender.id;
   const dateObject = new Date(message.pub_date);
   const day =
     first &&
@@ -21,6 +20,10 @@ const Message = ({ message, first }: MessageProps) => {
   const hours = dateObject.getHours();
   const minutes = dateObject.getMinutes();
   const time = `${hours}:${minutes}`;
+
+  const imageExtensionRegex = /\.(jpg|jpeg|png|gif|bmp|webp)$/i;
+  const isImageMessage =
+    message?.file && imageExtensionRegex.test(message.file);
 
   return (
     <Box sx={{}}>
@@ -67,7 +70,15 @@ const Message = ({ message, first }: MessageProps) => {
               maxWidth: "566px",
             }}
           >
+            {isImageMessage && (
+              <img
+                src={message.file}
+                alt="Картинка"
+                style={{ maxWidth: "100%" }}
+              />
+            )}
             <Typography variant="body1">{message.text}</Typography>
+
             <Typography
               sx={{
                 textAlign: "right",

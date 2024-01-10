@@ -1,13 +1,19 @@
-import { IChat, IShortMessage } from "@/types";
+import { IChat, IMessage, ISocketMessage } from "@/types";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RestApiErrors } from "@/api/api";
 import { chartsService } from "@/api";
-import { SocketEvent, WebSocketClient } from "@/features/webSocketClient";
+import { WebSocketClient } from "@/features/webSocketClient";
+import { WS_URL } from "@/constants/constants";
+import { fetchMessages } from "@/features/fetchMessages";
+import { RootState } from "../store";
 
 interface IInitialState {
   loading: "idle" | "pending" | "succeeded" | "failed";
   chats: IChat[];
-  messages: IShortMessage[];
+  activeChat: IChat | null;
+  messages: Record<string, IMessage>;
+  messagesPage: number;
+  lastMessagesPage: number | null;
   count: number;
   errorMessages: string[];
 }
@@ -15,7 +21,10 @@ interface IInitialState {
 const initialState: IInitialState = {
   loading: "idle",
   chats: [],
-  messages: [],
+  activeChat: null,
+  messages: {},
+  messagesPage: 1,
+  lastMessagesPage: null,
   count: 0,
   errorMessages: [],
 };
@@ -34,47 +43,67 @@ export const getChats = createAsyncThunk(
         throw error;
       }
     }
-  },
+  }
 );
 
 export const getMessages = createAsyncThunk(
   "chat/fetchMessages",
-  async (chatId: number, { dispatch }) => {
-    socket.socketMessage = (event: SocketEvent) => {
-      if (!event?.data) {
-        return false;
+  async (_, { dispatch, getState }) => {
+    const {
+      chat: { activeChat, messagesPage },
+    } = getState() as RootState;
+
+    if (activeChat) {
+      socket.init(WS_URL(activeChat.id));
+
+      const messagesGenerator = fetchMessages({ socket, page: messagesPage });
+      for await (const message of messagesGenerator) {
+        if (message?.text === "Нет более ранних сообщений") {
+          console.log("Нет более ранних сообщений");
+          dispatch(setLatPage());
+        } else {
+          dispatch(addMessage(message));
+        }
       }
-      const data = JSON.parse(event.data);
-      const {
-        id,
-        file,
-        text,
-        pub_date,
-        sender: { id: sender_id },
-      } = data || {};
-      dispatch(addMessage({ id, file, text, pub_date, sender_id }));
-    };
-    dispatch(resetMessages());
-    socket.connect(chatId);
-  },
+    }
+  }
+);
+
+export const loadMoreMessages = createAsyncThunk(
+  "chat/loadMoreMessages",
+  async (_, { dispatch }) => {
+    //dispatch(nextPage());
+    dispatch(getMessages);
+  }
 );
 
 export const sendMessage = createAsyncThunk(
   "chat/sendMessage",
-  async (message: string) => {
+  async (message: ISocketMessage) => {
     socket.sendMessage(message);
-  },
+  }
 );
+
 
 export const chatSlice = createSlice({
   name: "chat",
   initialState,
   reducers: {
+    nextPage: (state) => {
+      state.messagesPage = state.messagesPage + 1;
+    },
+    setLatPage: (state) => {
+      state.lastMessagesPage = state.messagesPage;
+    },
     addMessage: (state, action) => {
-      state.messages.push(action.payload);
+      const message = action.payload as IMessage;
+      state.messages[message!.id] = message;
     },
     resetMessages: (state) => {
-      state.messages.length = 0;
+      state.messages = {};
+    },
+    setActiveChat: (state, action) => {
+      state.activeChat = action.payload;
     },
     resetChats: (state) => {
       state.chats.length = 0;
@@ -95,19 +124,26 @@ export const chatSlice = createSlice({
         (action) => /^chat.*?\/pending/.test(action.type),
         (state) => {
           state.loading = "pending";
-        },
+        }
       )
       .addMatcher(
         (action) => /^chat.*?\/rejected/.test(action.type),
         (state, action) => {
           state.loading = "failed";
           state.errorMessages = action.payload as string[];
-        },
+        }
       );
   },
 });
 
-export const { resetAuthErrors, addMessage, resetMessages, resetChats } =
-  chatSlice.actions;
+export const {
+  resetAuthErrors,
+  addMessage,
+  resetMessages,
+  resetChats,
+  setActiveChat,
+  nextPage,
+  setLatPage,
+} = chatSlice.actions;
 
 export default chatSlice.reducer;

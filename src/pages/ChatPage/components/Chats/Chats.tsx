@@ -8,24 +8,18 @@ import {
 } from "@mui/material";
 import { useAppSelector, useAppDispatch } from "@/hooks/reduxHooks";
 import { setActiveChat } from "@/redux/slices/chatSlice";
-import { getChats, getMessages } from "@/redux/slices/chatSlice";
+import { getChats } from "@/redux/slices/chatSlice";
 import { useEffect } from "react";
 
 const Chats = ()=> {
 
-  const { activeChat, chats } = useAppSelector((state) => state.chat);
+  const { chats } = useAppSelector((state) => state.chat);
   const dispatch = useAppDispatch()
 
   useEffect(() => {
     dispatch(getChats());
   }, [dispatch]);
 
-  useEffect(() => {
-    if (activeChat) {
-      const { id } = activeChat;
-      dispatch(getMessages(id));
-    }
-  }, [activeChat, dispatch]);
 
   return (
     <List sx={{}}>

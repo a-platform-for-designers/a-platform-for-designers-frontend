@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 
 import { tokenManager } from "@/api/api";
+import { ISocketMessage } from "@/types";
 
 enum SocketEvents {
   Open = "open",
@@ -14,39 +16,38 @@ export type SocketEvent = {
   type: string;
 };
 
+type WebSocketProps = {
+  signal?: AbortSignal;
+  url: string;
+};
+
 export class WebSocketClient {
+  url!: string;
   socket: WebSocket | undefined;
   token: string | undefined;
   chatId: number | null = null;
   ping: number | undefined;
+  signal?: AbortSignal;
 
-  async connect(chatId: number) {
-    this.removeListeners();
-    this.socket = new WebSocket(
-      `ws://46.183.163.139/ws/chats/${chatId}/?token=${tokenManager.getToken()}`,
-    );
+  init(url: string) {
+    this.url = url;
+  }
+
+  async connect() {
+    // this.socketClose(false);
+    this.socket = new WebSocket(this.url);
     this.addListeners();
   }
 
-  private socketOpen(event: unknown) {
-    console.log("socket is open", event);
-    // this.socket?.send(JSON.stringify({ "action": "load_more", page_number: 1 }))
-  }
+  private socketOpen(_event: unknown) {}
 
-  public socketMessage(event: unknown) {
-    //@ts-ignore
-    const messages = JSON.parse(event.data);
-    console.log("socket message", performance.now(), messages);
-  }
+  public socketMessage(_event: unknown) {}
 
-  private socketError(event: unknown) {
-    console.log("error", event);
-    //console.log((event as SocketEvent).message);
-  }
+  private socketError(_event: unknown) {}
 
-  private socketClose(event: unknown) {
-    console.log("socket closed", event);
-    this.removeListeners();
+  public socketClose(_event: unknown) {
+    console.log("close", _event);
+    this.removeListeners && this.removeListeners();
   }
 
   private addListeners() {
@@ -59,20 +60,21 @@ export class WebSocketClient {
   }
   private removeListeners() {
     if (this.socket) {
-      this.socket.addEventListener(SocketEvents.Open, this.socketOpen);
-      this.socket.addEventListener(SocketEvents.Close, this.socketClose);
-      this.socket.addEventListener(SocketEvents.Message, this.socketMessage);
-      this.socket.addEventListener(SocketEvents.Error, this.socketError);
+      this.socket.removeEventListener(SocketEvents.Open, this.socketOpen);
+      this.socket.removeEventListener(SocketEvents.Close, this.socketClose);
+      this.socket.removeEventListener(SocketEvents.Message, this.socketMessage);
+      this.socket.removeEventListener(SocketEvents.Error, this.socketError);
     }
   }
 
   public close() {
     if (this.socket) {
-      this.socket.close();
+      // this.socket.close();
     }
   }
 
-  sendMessage(message: string) {
-    this.socket?.send(JSON.stringify({ message }));
+  sendMessage(message: ISocketMessage) {
+    console.log("message", message, this.socket);
+    this.socket?.send(JSON.stringify(message));
   }
 }

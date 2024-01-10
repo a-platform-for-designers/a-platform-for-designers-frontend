@@ -3,7 +3,7 @@ import { RestApiErrors, tokenManager } from "@/api/api";
 import { IAuthUserRequest } from "@/types";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { deleteUserInfo } from "./userSlice";
-import { resetChats, resetMessages } from "./chatSlice";
+import { resetChats } from "./chatSlice";
 
 interface IInitialState {
   isAuth: boolean;
@@ -39,7 +39,7 @@ export const logOut = createAsyncThunk(
     await authService.logout();
     tokenManager.clearToken();
     dispatch(deleteUserInfo());
-    dispatch(resetMessages()); 
+    // dispatch(resetMessages()); 
     dispatch(resetChats());
   },
 );

@@ -15,7 +15,6 @@ import MessageForm from "./components/MessageForm/MessageForm";
 const ChatPage = () => {
   const { chats, activeChat } = useAppSelector((state) => state.chat);
   const { user } = useAppSelector((state) => state.user);
-  
 
   return (
     <StyledEngineProvider injectFirst>
@@ -107,35 +106,15 @@ const ChatPage = () => {
                 `${activeChat?.receiver.first_name} ${activeChat?.receiver.last_name}`}
             </Typography>
           </Box>
-          <Box
-            sx={{
-              flexGrow: 1,
-              overflow: "auto",
-              p: 2,
-              "&::-webkit-scrollbar": {
-                alignSelf: "stretch",
-                width: "4px",
-              },
-              "&::-webkit-scrollbar-track": {
-                boxShadow: "inset 0 0 6px rgba(0,0,0,0.00)",
-                webkitBoxShadow: "inset 0 0 6px rgba(0,0,0,0.00)",
-              },
-              "&::-webkit-scrollbar-thumb": {
-                height: "212px",
-                backgroundColor: "#98979A",
-                outline: "1px solid slategrey",
-                borderRadius: "100px",
-              },
-            }}
-          >
-            {activeChat ? (
-              <Messages />
-            ) : (
+          {activeChat ? (
+            <Messages />
+          ) : (
+            <Box flex={1} overflow="auto">
               <EmptyData
                 title={chats?.length ? "Выберите чат" : "Пока здесь пусто"}
               ></EmptyData>
-            )}
-          </Box>
+            </Box>
+          )}
           <Box
             sx={{
               bgcolor: "white",
