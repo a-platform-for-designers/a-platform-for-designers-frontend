@@ -1,8 +1,4 @@
-import {
-  IOrdersResponse,
-  IOrderResponse,
-  IOrderInfoResponse,
-} from "../../types";
+import { IOrdersResponse, IOrderResponse } from "../../types";
 import api from "../api";
 
 const ordersService = {
@@ -19,8 +15,13 @@ const ordersService = {
     return response.data;
   },
 
-  getOrderInfo: async (id: number): Promise<IOrderInfoResponse> => {
-    const response = await api.get<IOrderInfoResponse>(`/orders/${id}/`);
+  getOrdersListWithoutParams: async (): Promise<IOrdersResponse> => {
+    const response = await api.get<IOrdersResponse>("/orders", {});
+    return response.data;
+  },
+
+  getOrderInfo: async (id: number): Promise<IOrdersResponse> => {
+    const response = await api.get<IOrdersResponse>(`/orders/${id}/`);
     return response.data;
   },
 

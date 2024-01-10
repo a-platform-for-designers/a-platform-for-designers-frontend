@@ -83,6 +83,7 @@ const Feed: React.FC<IProps> = ({
           setCases={setCases}
           page={page}
           setTotalCases={setTotalCases}
+          limit={limit}
         />
         <Grid className="feed__list" justifyContent="center" container>
           {isLoading ? (
