@@ -42,5 +42,12 @@ const ordersService = {
   ): Promise<void> => {
     await api.delete(`/orders/${id}/respond/`, { data: body });
   },
+
+  patchResponseOrder: async (
+    body: IOrderResponse,
+    id: number
+  ): Promise<void> => {
+    await api.patch(`/orders/${id}/respond/`, body);
+  },
 };
 export default ordersService;

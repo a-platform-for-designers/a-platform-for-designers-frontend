@@ -1,0 +1,208 @@
+.orderPage {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 80px 0 135px;
+    margin-top: 20px;
+
+    &__without-designers {
+        display: flex;
+        justify-content: space-between;
+        padding: 0 120px 0 390px;
+        margin-top: 20px;
+    }
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 19px;
+        width: 684px;
+    }
+
+    &__customer {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    &__avatar {
+        width: 60px;
+        height: 60px;
+    }
+
+    &__user {
+        display: flex;
+        gap: 22px;
+        align-items: center;
+    }
+
+    &__name {
+        font-size: 22px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 28px;
+    }
+
+    &__post {
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 24px;
+        letter-spacing: 0.08px;
+    }
+
+    &__favourite-icon {
+        padding-top: 0;
+        margin-top: -25px;
+    }
+
+    &__favourite-caption {
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 24px;
+    }
+
+    &__favourite-group {
+        text-align: center;
+        gap: 20px;
+    }
+
+    &__title {
+        font-size: 36px;
+        font-weight: 700;
+        line-height: 44px;
+        margin: 50px 0 25px 0;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        -webkit-line-clamp: 2;
+    }
+
+    &__description-title {
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 24px;
+        letter-spacing: 0.08px;
+        margin: 60px 0 11px;
+    }
+
+    &__description {
+        text-overflow: ellipsis;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 24px;
+        letter-spacing: 0.08px;
+        margin: 0 0 27px 0;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        -webkit-line-clamp: 2;
+
+    }
+
+    &__specialization {
+        text-overflow: ellipsis;
+        margin-top: 27px;
+        margin-bottom: 26px;
+        font-size: 22px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 28px;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        -webkit-line-clamp: 2;
+    }
+
+    &__price {
+        color: #3BB440;
+        font-size: 36px;
+        font-weight: 700;
+        line-height: 44px;
+    }
+
+    &__buttons {
+        gap: 24px;
+        display: flex;
+    }
+
+    &__button {
+        width: 215px;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 20px;
+        letter-spacing: 0.1px;
+    }
+
+    &__pub {
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 24px;
+        margin-top: 60px;
+    }
+
+    &__reply-caption {
+        text-align: center;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 20px;
+        letter-spacing: 0.1px;
+        align-self: center;
+    }
+
+    &__reply-del {
+        display: flex;
+        flex-direction: row;
+    }
+
+    &__button-del-reply {
+        padding: 0;
+        width: 120px;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 20px;
+        letter-spacing: 0.1px;
+    }
+
+    &__button-archiv {
+        width: 200px;
+        margin-left: -15px;
+    }
+
+    &__designers {
+        margin-top: -30px;
+    }
+
+    &__designers-list {
+        overflow: scroll;
+    }
+
+    &__designers-title {
+        font-size: 22px;
+        font-weight: 500;
+        line-height: 28px;
+        margin: 0 30px 0 0;
+    }
+
+    &__empty-img {
+        width: 80px;
+        height: 80px;
+        align-self: center;
+        margin: 150px auto 0;
+    }
+
+    &__designers-empty {
+        text-align: center;
+        font-family: Inter;
+        font-size: 28px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 36px;
+        width: 370px;
+        margin-top: 10px;
+    }
+}

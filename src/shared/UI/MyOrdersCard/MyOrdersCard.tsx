@@ -136,9 +136,7 @@ const OrdersCard: React.FC<IProps> = ({
       }
     } else {
       setReply(false);
-      console.log(
-        "Наверно, здесь должен открываться поп-ап с предложением пользователю авторизоваться"
-      );
+      console.log("Открыть попап входа");
     }
   }
 
@@ -151,9 +149,7 @@ const OrdersCard: React.FC<IProps> = ({
     if (user) {
       openPopup(userInfo);
     } else {
-      console.log(
-        "Наверно, здесь должен открываться поп-ап с предложением пользователю авторизоваться"
-      );
+      console.log("Открыть попап входа");
     }
   }
 

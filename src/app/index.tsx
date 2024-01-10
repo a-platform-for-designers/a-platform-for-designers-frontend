@@ -21,6 +21,7 @@ import {
   MentorsPage,
   OrdersPage,
   UserOrdersPage,
+  OrderPage,
 } from "@/pages/index.ts";
 import {
   Portfolio,
@@ -79,9 +80,10 @@ function App() {
                 <Route path="orders" element={<Orders />} />
                 <Route path="settings" element={<Settings />} />
               </Route>
+              <Route path="/case/:id" Component={CasePage} />
               <Route path="/orders" Component={OrdersPage} />
               <Route path="/my-orders/*" Component={UserOrdersPage} />
-              <Route path="/case/:id" Component={CasePage} />
+              <Route path="/order/:id" Component={OrderPage} />
               <Route path="*" Component={ErrorPage} />
             </Routes>
             <Footer />

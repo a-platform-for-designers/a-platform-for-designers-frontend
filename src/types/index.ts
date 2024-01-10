@@ -157,6 +157,7 @@ export interface IOrderInfoResponse {
   specialization: IDataItem;
   sphere: IDataItem;
   title: string;
+  is_responded_order?: boolean;
 }
 
 export interface IOrdersList {
@@ -180,7 +181,7 @@ export interface IApplicant {
   id: number;
   last_name: string;
   photo: string;
-  specialization: string;
+  specialization: IDataItem;
 }
 
 export interface IOrderResponse {
