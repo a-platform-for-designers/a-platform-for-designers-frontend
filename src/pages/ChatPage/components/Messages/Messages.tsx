@@ -41,8 +41,9 @@ const containerStyle = {
 };
 
 const Messages = () => {
-  const { messages, messagesPage, lastMessagesPage, activeChat, loading } =
-    useAppSelector((state) => state.chat);
+  const { messages, lastMessagesPage, activeChat } = useAppSelector(
+    (state) => state.chat
+  );
   const dispatch = useAppDispatch();
 
   useEffect(() => {
