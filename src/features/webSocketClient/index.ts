@@ -1,7 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 
-import { tokenManager } from "@/api/api";
 import { ISocketMessage } from "@/types";
 
 enum SocketEvents {
@@ -16,10 +14,6 @@ export type SocketEvent = {
   type: string;
 };
 
-type WebSocketProps = {
-  signal?: AbortSignal;
-  url: string;
-};
 
 export class WebSocketClient {
   url!: string;
