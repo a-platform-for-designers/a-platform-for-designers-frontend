@@ -56,7 +56,11 @@ const OrdersPage: React.FC = () => {
             ) : orders?.length > 0 ? (
               <Grid xs={9} item className={classes.ordersPage__cards}>
                 {orders.map((item) => (
-                  <MyOrdersCard key={item.id} order={item} />
+                  <MyOrdersCard
+                    key={item.id}
+                    order={item}
+                    isOrderesPage={true}
+                  />
                 ))}
               </Grid>
             ) : (

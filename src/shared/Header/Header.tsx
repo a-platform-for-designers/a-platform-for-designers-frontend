@@ -222,6 +222,7 @@ const Header: React.FC = () => {
           <SignIn openSignUpPopup={openSignUpPopup} />
         </MyAuthForm>
       </MyPopup>
+
       <MyPopup onClose={handleClose} open={isOpenSignUp}>
         {isRoleSelected === false ? (
           <UserRole

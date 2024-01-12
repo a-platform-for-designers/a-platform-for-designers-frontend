@@ -1,7 +1,7 @@
 import { Avatar, Box, IconButton, Typography } from "@mui/material";
 import "./MyOrdersCard.scss";
 import MyButton from "@/shared/UI/MyButton/MyButton";
-import { IOrdersList, IUser, IOrdersResponse } from "@/types";
+import { IOrdersList, IUser, IOrderInfoResponse } from "@/types";
 import { useEffect, useState } from "react";
 import FavouritesIcon from "@/assets/icons/FavouritesDark.svg";
 import FavouritesIconActive from "@/assets/icons/FavouritesActive.svg";
@@ -11,31 +11,50 @@ import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { userService, ordersService } from "@/api";
 import { useAppDispatch } from "@/hooks/reduxHooks";
 import { showMessagePopUp } from "@/redux/slices/chatSlice";
+import MySignInPopup from "@/shared/UI/MySignInPopup/MySignInPopup";
 
 interface IProps {
   order: IOrdersList;
   refreshOrdersList?: (id: number) => void;
+  isOrderesPage?: boolean;
 }
 
-const OrdersCard: React.FC<IProps> = ({ order, refreshOrdersList }) => {
+const OrdersCard: React.FC<IProps> = ({
+  order,
+  refreshOrdersList,
+  isOrderesPage,
+}) => {
   const [reply, setReply] = useState<boolean>(false);
   const [isFavourite, setIsFavourite] = useState<boolean>(false);
   const [customerSpecialization, setCustomerSpecialization] =
     useState<string>("");
 
-  const countResponse = "15 откликов"; //количество откликов
   const navigate = useNavigate();
   const { user } = useAppSelector((state) => state.user); // авторизованный пользователь
   const { id } = useParams();
-  const [currentUser, setCurrentUser] = useState<IUser>(); // пользователь чей профиль(id через путь)
+  const [currentUser, setCurrentUser] = useState<IUser>(); // пользователь чья страница (id через путь)
   const isMyProfile = currentUser?.id === user?.id && currentUser !== undefined;
   const customerUser = user?.is_customer;
   const location = useLocation();
   const [isUsersOrders, setIsUsersOrders] = useState<boolean>(false);
-  const [orderInfo, setOrderInfo] = useState<IOrdersResponse>(); // переменная для количества откликов на заказ
+  const [orderInfo, setOrderInfo] = useState<IOrderInfoResponse>();
   const myCard = order.customer.id === user?.id;
   const dispatch = useAppDispatch();
-  console.log(orderInfo);
+  const [countName, setCountName] = useState<string>("");
+  const countResponse = orderInfo?.applicants?.length;
+  const [openSignInPopup, setOpenSignInPopup] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (countResponse == (1 || 21 || 31)) {
+      setCountName("отклик");
+    } else if (
+      countResponse == (2 || 3 || 4 || 22 || 23 || 24 || 32 || 33 || 34)
+    ) {
+      setCountName("отклика");
+    } else {
+      setCountName("откликов");
+    }
+  }, [countResponse]);
 
   useEffect(() => {
     if (order.is_responded_order) {
@@ -47,7 +66,7 @@ const OrdersCard: React.FC<IProps> = ({ order, refreshOrdersList }) => {
     if (location.pathname.endsWith("/my-orders/orders")) {
       setIsUsersOrders(true);
     }
-  }, [location]);
+  }, [location.pathname]);
 
   useEffect(() => {
     if (id) {
@@ -58,7 +77,6 @@ const OrdersCard: React.FC<IProps> = ({ order, refreshOrdersList }) => {
     }
   }, [id]);
 
-  // в данных заказа нет количества откликов
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -101,22 +119,27 @@ const OrdersCard: React.FC<IProps> = ({ order, refreshOrdersList }) => {
   };
 
   function handleReply() {
-    if (!reply) {
-      const postOrderResponse = async () => {
-        await ordersService.postResponseOrder(dataResponse, order.id);
-        return;
-      };
-      postOrderResponse();
-      setReply(true);
-    } else {
-      const deleteOrderResponse = async () => {
-        await ordersService.deleteResponseOrder(dataResponse, order.id);
-      };
-      deleteOrderResponse();
-      if (refreshOrdersList) {
-        refreshOrdersList(order.id);
+    if (user) {
+      if (!reply) {
+        const postOrderResponse = async () => {
+          await ordersService.postResponseOrder(dataResponse, order.id);
+          return;
+        };
+        postOrderResponse();
+        setReply(true);
+      } else {
+        const deleteOrderResponse = async () => {
+          await ordersService.deleteResponseOrder(dataResponse, order.id);
+        };
+        deleteOrderResponse();
+        if (refreshOrdersList) {
+          refreshOrdersList(order.id);
+        }
+        setReply(false);
       }
+    } else {
       setReply(false);
+      setOpenSignInPopup(true);
     }
   }
 
@@ -126,7 +149,11 @@ const OrdersCard: React.FC<IProps> = ({ order, refreshOrdersList }) => {
   };
 
   function handlePopupOpen() {
-    dispatch(showMessagePopUp(order.customer.id));
+    if (user) {
+      dispatch(showMessagePopUp(order.customer.id));
+    } else {
+      setOpenSignInPopup(true);
+    }
   }
 
   function handleFavourite() {
@@ -153,7 +180,7 @@ const OrdersCard: React.FC<IProps> = ({ order, refreshOrdersList }) => {
         <div className="ordersCard__header">
           <div
             className="ordersCard__user"
-            onClick={() => navigate(`/my-orders/orders`)}
+            onClick={() => navigate(`/order/${order.id}`)}
           >
             <Avatar className="ordersCard__avatar" src={order.customer.photo} />
             <Typography component="h2" className="ordersCard__name">
@@ -180,7 +207,11 @@ const OrdersCard: React.FC<IProps> = ({ order, refreshOrdersList }) => {
             </>
           ) : (
             <>
-              <div className="ordersCard__counts">{countResponse}</div>
+              {!isOrderesPage ? (
+                <div className="ordersCard__counts">
+                  {countResponse} {countName}
+                </div>
+              ) : null}
               <IconButton
                 aria-label="favourite"
                 onClick={() => navigate("/orders/create")}
@@ -195,7 +226,7 @@ const OrdersCard: React.FC<IProps> = ({ order, refreshOrdersList }) => {
           )}
         </div>
 
-        <div onClick={() => navigate(`/my-orders/orders`)}>
+        <div onClick={() => navigate(`/order/${order.id}`)}>
           <Typography component="h3" className="ordersCard__title">
             {order.title && order.title}
           </Typography>
@@ -213,6 +244,7 @@ const OrdersCard: React.FC<IProps> = ({ order, refreshOrdersList }) => {
           </Typography>
         </div>
       </div>
+
       {(!isMyProfile && !customerUser) || !myCard ? (
         <>
           <div className="ordersCard__buttons">
@@ -224,26 +256,30 @@ const OrdersCard: React.FC<IProps> = ({ order, refreshOrdersList }) => {
             >
               Написать
             </MyButton>
-            {!customerUser || !isUsersOrders ? (
-              <MyButton
-                type="button"
-                variant={isUsersOrders ? "text" : "outlined"}
-                size="large"
-                onClick={handleReply}
-                className="ordersCard__button"
-              >
-                {!reply ? "Откликнуться" : "Удалить отклик"}
-              </MyButton>
-            ) : (
-              <MyButton
-                type="button"
-                variant="text"
-                size="large"
-                onClick={handleDeleteReply}
-                className="ordersCard__button"
-              >
-                Удалить отклик
-              </MyButton>
+            {customerUser && isOrderesPage ? null : (
+              <>
+                {!customerUser || !isUsersOrders ? (
+                  <MyButton
+                    type="button"
+                    variant={isUsersOrders ? "text" : "outlined"}
+                    size="large"
+                    onClick={handleReply}
+                    className="ordersCard__button"
+                  >
+                    {!reply ? "Откликнуться" : "Удалить отклик"}
+                  </MyButton>
+                ) : (
+                  <MyButton
+                    type="button"
+                    variant="text"
+                    size="large"
+                    onClick={handleDeleteReply}
+                    className="ordersCard__button"
+                  >
+                    Удалить отклик
+                  </MyButton>
+                )}
+              </>
             )}
           </div>
         </>
@@ -253,12 +289,16 @@ const OrdersCard: React.FC<IProps> = ({ order, refreshOrdersList }) => {
             type="button"
             size="large"
             variant="outlined"
-            onClick={() => navigate(`my-orders/orders`)}
+            onClick={() => navigate(`/order/${order.id}`)}
           >
             Посмотреть отклики
           </MyButton>
         </div>
       )}
+
+      {openSignInPopup ? (
+        <MySignInPopup setOpenSignInPopup={setOpenSignInPopup} />
+      ) : null}
     </Box>
   );
 };
