@@ -1,6 +1,6 @@
 import { Modal, Box, Avatar, Typography } from "@mui/material";
 import "./MyMessagePopup.scss";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { MyButton } from "@/shared/UI";
 import { useAppSelector, useAppDispatch } from "@/hooks/reduxHooks";
 import { chartsService } from "@/api";
@@ -25,9 +25,9 @@ const MessagePopup = () => {
   const dispatch = useAppDispatch();
   const popupRef = useRef<HTMLDivElement | null>(null);
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     dispatch(hideMessagePopUp());
-  };
+  }, [dispatch]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -52,7 +52,7 @@ const MessagePopup = () => {
       document.removeEventListener("mousedown", handleClickOutside);
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [popupRef, popUpOn, receiverId]);
+  }, [popupRef, popUpOn, receiverId, handleClose]);
 
   async function handleSubmit(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
