@@ -3,7 +3,7 @@ import { Box, Grid, StyledEngineProvider } from "@mui/material";
 import { IOrdersList } from "@/types";
 import { useState, useEffect } from "react";
 import { OrdersFilters } from "./components";
-import { MyOrdersCard, MyMessagePopup } from "@/shared/UI";
+import { MyOrdersCard } from "@/shared/UI";
 import { ordersService } from "@/api";
 import Preloader from "@/shared/Preloader/Preloader";
 import { EmptyData } from "../ProfilePage/components";
@@ -12,7 +12,6 @@ import MyPagination from "@/shared/UI/MyPagination/MyPagination";
 const OrdersPage: React.FC = () => {
   const [orders, setOrders] = useState<IOrdersList[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [openPopup, setOpenPopup] = useState<boolean>(false);
   const [totalOrders, setTotalOrders] = useState<number>(0);
   const [page, setPage] = useState<number>(1);
   const ORDERS_LIMIT = 6;
@@ -38,14 +37,6 @@ const OrdersPage: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  function handlePopupClose() {
-    setOpenPopup(false);
-  }
-
-  function handlePopupOpen() {
-    setOpenPopup(true);
-  }
-
   return (
     <StyledEngineProvider injectFirst>
       <Box component="main" className={classes.ordersPage}>
@@ -65,11 +56,7 @@ const OrdersPage: React.FC = () => {
             ) : orders?.length > 0 ? (
               <Grid xs={9} item className={classes.ordersPage__cards}>
                 {orders.map((item) => (
-                  <MyOrdersCard
-                    openPopup={handlePopupOpen}
-                    key={item.id}
-                    order={item}
-                  />
+                  <MyOrdersCard key={item.id} order={item} />
                 ))}
               </Grid>
             ) : (
@@ -97,9 +84,6 @@ const OrdersPage: React.FC = () => {
           />
         </div>
       )}
-      {openPopup ? (
-        <MyMessagePopup open={openPopup} onClose={handlePopupClose} />
-      ) : null}
     </StyledEngineProvider>
   );
 };

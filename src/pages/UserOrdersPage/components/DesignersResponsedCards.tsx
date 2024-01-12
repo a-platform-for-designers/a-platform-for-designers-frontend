@@ -2,13 +2,12 @@ import "./DesignersResponsedCards.scss";
 import { Box, Grid, StyledEngineProvider } from "@mui/material";
 import { IOrdersList } from "@/types";
 import { useState, useEffect } from "react";
-import { MyOrdersCard, MyMessagePopup } from "@/shared/UI";
+import { MyOrdersCard } from "@/shared/UI";
 import { ordersService } from "@/api";
 import { EmptyData } from "../../ProfilePage/components/index";
 
 const DesignersResponsedCards: React.FC = () => {
   const [orders, setOrders] = useState<IOrdersList[]>([]);
-  const [openPopup, setOpenPopup] = useState<boolean>(false);
 
   const respondedTasks = orders.filter((task) => task.is_responded_order);
 
@@ -29,13 +28,6 @@ const DesignersResponsedCards: React.FC = () => {
     fetchData();
   }, []);
 
-  function handlePopupClose() {
-    setOpenPopup(false);
-  }
-
-  function handlePopupOpen() {
-    setOpenPopup(true);
-  }
 
   return (
     <StyledEngineProvider injectFirst>
@@ -45,7 +37,6 @@ const DesignersResponsedCards: React.FC = () => {
             {respondedTasks.map((item) => (
               <MyOrdersCard
                 refreshOrdersList={refreshOrdersList}
-                openPopup={handlePopupOpen}
                 key={item.id}
                 order={item}
               />
@@ -55,9 +46,6 @@ const DesignersResponsedCards: React.FC = () => {
           <EmptyData title="Нет активных заказов" />
         )}
       </Box>
-      {openPopup ? (
-        <MyMessagePopup open={openPopup} onClose={handlePopupClose} />
-      ) : null}
     </StyledEngineProvider>
   );
 };

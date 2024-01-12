@@ -1,7 +1,7 @@
 import { Avatar, Box, IconButton, Typography } from "@mui/material";
 import "./MyOrdersCard.scss";
 import MyButton from "@/shared/UI/MyButton/MyButton";
-import { IOrdersList, IUserInfo, IUser, IOrdersResponse } from "@/types";
+import { IOrdersList, IUser, IOrdersResponse } from "@/types";
 import { useEffect, useState } from "react";
 import FavouritesIcon from "@/assets/icons/FavouritesDark.svg";
 import FavouritesIconActive from "@/assets/icons/FavouritesActive.svg";
@@ -9,18 +9,15 @@ import EditIcon from "@/assets/icons/editCardButton.svg";
 import { useAppSelector } from "@/hooks/reduxHooks";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { userService, ordersService } from "@/api";
+import { useAppDispatch } from "@/hooks/reduxHooks";
+import { showMessagePopUp } from "@/redux/slices/chatSlice";
 
 interface IProps {
   order: IOrdersList;
-  openPopup: (userInfo: IUserInfo) => void;
   refreshOrdersList?: (id: number) => void;
 }
 
-const OrdersCard: React.FC<IProps> = ({
-  order,
-  openPopup,
-  refreshOrdersList,
-}) => {
+const OrdersCard: React.FC<IProps> = ({ order, refreshOrdersList }) => {
   const [reply, setReply] = useState<boolean>(false);
   const [isFavourite, setIsFavourite] = useState<boolean>(false);
   const [customerSpecialization, setCustomerSpecialization] =
@@ -37,7 +34,7 @@ const OrdersCard: React.FC<IProps> = ({
   const [isUsersOrders, setIsUsersOrders] = useState<boolean>(false);
   const [orderInfo, setOrderInfo] = useState<IOrdersResponse>(); // переменная для количества откликов на заказ
   const myCard = order.customer.id === user?.id;
-
+  const dispatch = useAppDispatch();
   console.log(orderInfo);
 
   useEffect(() => {
@@ -129,7 +126,7 @@ const OrdersCard: React.FC<IProps> = ({
   };
 
   function handlePopupOpen() {
-    openPopup(userInfo);
+    dispatch(showMessagePopUp(order.customer.id));
   }
 
   function handleFavourite() {
