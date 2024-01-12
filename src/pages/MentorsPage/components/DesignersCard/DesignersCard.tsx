@@ -4,9 +4,8 @@ import MyButton from "@/shared/UI/MyButton/MyButton";
 import MySwiper from "@/shared/UI/MySwiper/MySwiper";
 import { IUserWithLastCases } from "@/types";
 import { useNavigate } from "react-router-dom";
-import { MyMessagePopup } from "@/shared/UI";
-import { useAppSelector } from "@/hooks/reduxHooks";
-import { useState } from "react";
+import { useAppDispatch } from "@/hooks/reduxHooks";
+import { showMessagePopUp } from "@/redux/slices/chatSlice";
 
 interface IProps {
   user: IUserWithLastCases;
@@ -14,8 +13,7 @@ interface IProps {
 
 const DesignersCard: React.FC<IProps> = ({ user }) => {
   const navigate = useNavigate();
-  const { isAuth } = useAppSelector((state) => state.auth);
-  const [openPopup, setOpenPopup] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
 
   function setSpecializations(): string[] {
     const name: string = "name";
@@ -26,16 +24,6 @@ const DesignersCard: React.FC<IProps> = ({ user }) => {
       return arr.filter((item) => item !== "Менторство");
     }
     return arr;
-  }
-
-  function handleClick() {
-    if (isAuth) {
-      setOpenPopup(true);
-    }
-  }
-
-  function handlePopupClose() {
-    setOpenPopup(false);
   }
 
   return (
@@ -67,7 +55,7 @@ const DesignersCard: React.FC<IProps> = ({ user }) => {
             <MyButton
               variant="outlined"
               onClick={() => {
-                handleClick();
+                dispatch(showMessagePopUp(user.id));
               }}
             >
               Написать
@@ -82,9 +70,6 @@ const DesignersCard: React.FC<IProps> = ({ user }) => {
           />
         ))}
       </Box>
-      {openPopup ? (
-        <MyMessagePopup open={openPopup} onClose={handlePopupClose} />
-      ) : null}
     </StyledEngineProvider>
   );
 };

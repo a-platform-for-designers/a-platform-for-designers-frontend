@@ -8,7 +8,6 @@ import {
 } from "@mui/material";
 import "./OrderPage.scss";
 import MyButton from "@/shared/UI/MyButton/MyButton";
-import MyMessagePopup from "@/shared/UI/MyMessagePopup/MyMessagePopup";
 import { IOrderInfoResponse } from "@/types";
 import { useEffect, useState } from "react";
 import FavouritesIconBig from "@/assets/icons/FavouritesIconBig.svg";
@@ -16,11 +15,12 @@ import FavouritesIconBigActive from "@/assets/icons/FavouritesIconBigActive.svg"
 import RespondedDesignersEmpty from "@/assets/icons/RespondedDesignersEmpty.svg";
 import EmptyData from "../ProfilePage/components/EmptyData/EmptyData";
 
-import { useAppSelector } from "@/hooks/reduxHooks";
+import { useAppSelector, useAppDispatch } from "@/hooks/reduxHooks";
 import { useNavigate, useParams } from "react-router-dom";
 import { ordersService } from "@/api";
 import RespondedDesigner from "./components/RespondedDesigner/RespondedDesigner";
 import MySignInPopup from "@/shared/UI/MySignInPopup/MySignInPopup";
+import { showMessagePopUp } from "@/redux/slices/chatSlice";
 
 const OrderPage: React.FC = () => {
   const [reply, setReply] = useState<boolean>(false);
@@ -33,8 +33,8 @@ const OrderPage: React.FC = () => {
   const customerUser = user?.is_customer;
   const [orderInfo, setOrderInfo] = useState<IOrderInfoResponse>();
   const myCard = orderInfo?.customer.id === user?.id;
-  const [openPopup, setOpenPopup] = useState<boolean>(false);
   const [openSignInPopup, setOpenSignInPopup] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
 
   const publishDate = new Date(
     orderInfo?.pub_date ?? new Date()
@@ -114,14 +114,10 @@ const OrderPage: React.FC = () => {
 
   function handlePopupOpen() {
     if (user) {
-      setOpenPopup(true);
+      dispatch(showMessagePopUp(orderInfo?.customer.id));
     } else {
       setOpenSignInPopup(true);
     }
-  }
-
-  function handlePopupClose() {
-    setOpenPopup(false);
   }
 
   function handleFavourite() {
@@ -368,10 +364,6 @@ const OrderPage: React.FC = () => {
                 </div>
               )}
             </div>
-          ) : null}
-
-          {openPopup ? (
-            <MyMessagePopup open={openPopup} onClose={handlePopupClose} />
           ) : null}
 
           {openSignInPopup ? (
