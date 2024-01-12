@@ -84,7 +84,6 @@ export const sendMessage = createAsyncThunk(
   }
 );
 
-
 export const chatSlice = createSlice({
   name: "chat",
   initialState,
