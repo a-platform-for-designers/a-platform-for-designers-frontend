@@ -69,6 +69,7 @@ const OrdersPage: React.FC = () => {
                     openPopup={handlePopupOpen}
                     key={item.id}
                     order={item}
+                    isOrderesPage={true}
                   />
                 ))}
               </Grid>

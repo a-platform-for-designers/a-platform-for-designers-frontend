@@ -165,7 +165,21 @@ export interface IOrdersResponse {
   results: [];
 }
 
+export interface IOrderInfoResponse {
+  applicants?: IApplicant[];
+  customer: IOrdersCustomer;
+  description: string;
+  id: number;
+  payment: number;
+  pub_date: string;
+  specialization: IDataItem;
+  sphere: IDataItem;
+  title: string;
+  is_responded_order?: boolean;
+}
+
 export interface IOrdersList {
+  applicants?: IApplicant[];
   id: number;
   customer: IOrdersCustomer;
   title: string;
@@ -177,6 +191,15 @@ export interface IOrdersList {
   is_responded_order: string;
   is_favorited_order: string;
   is_published: boolean;
+}
+
+export interface IApplicant {
+  country: string;
+  first_name: string;
+  id: number;
+  last_name: string;
+  photo: string;
+  specialization: IDataItem;
 }
 
 export interface IOrderResponse {
