@@ -1,7 +1,7 @@
 import { Avatar, Box, IconButton, Typography } from "@mui/material";
 import "./MyOrdersCard.scss";
 import MyButton from "@/shared/UI/MyButton/MyButton";
-import { IOrdersList, IUserInfo, IUser, IOrderInfoResponse } from "@/types";
+import { IOrdersList, IUser, IOrderInfoResponse } from "@/types";
 import { useEffect, useState } from "react";
 import FavouritesIcon from "@/assets/icons/FavouritesDark.svg";
 import FavouritesIconActive from "@/assets/icons/FavouritesActive.svg";
@@ -9,18 +9,18 @@ import EditIcon from "@/assets/icons/editCardButton.svg";
 import { useAppSelector } from "@/hooks/reduxHooks";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { userService, ordersService } from "@/api";
+import { useAppDispatch } from "@/hooks/reduxHooks";
+import { showMessagePopUp } from "@/redux/slices/chatSlice";
 import MySignInPopup from "@/shared/UI/MySignInPopup/MySignInPopup";
 
 interface IProps {
   order: IOrdersList;
-  openPopup: (userInfo: IUserInfo) => void;
   refreshOrdersList?: (id: number) => void;
   isOrderesPage?: boolean;
 }
 
 const OrdersCard: React.FC<IProps> = ({
   order,
-  openPopup,
   refreshOrdersList,
   isOrderesPage,
 }) => {
@@ -36,6 +36,8 @@ const OrdersCard: React.FC<IProps> = ({
   const [currentUser, setCurrentUser] = useState<IUser>(); // пользователь чья страница (id через путь)
   const [isUsersOrders, setIsUsersOrders] = useState<boolean>(false);
   const [orderInfo, setOrderInfo] = useState<IOrderInfoResponse>();
+
+  const dispatch = useAppDispatch();
   const [countName, setCountName] = useState<string>("");
   const [openSignInPopup, setOpenSignInPopup] = useState<boolean>(false);
 
@@ -149,7 +151,7 @@ const OrdersCard: React.FC<IProps> = ({
 
   function handlePopupOpen() {
     if (user) {
-      openPopup(userInfo);
+      dispatch(showMessagePopUp(order.customer.id));
     } else {
       setOpenSignInPopup(true);
     }

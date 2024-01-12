@@ -36,6 +36,7 @@ import { useAppDispatch } from "@/hooks/reduxHooks.tsx";
 import { useEffect } from "react";
 import { getData } from "@/redux/slices/dataSlice.ts";
 import ChatPage from "@/pages/ChatPage/ChatPage.tsx";
+import { MyMessagePopup } from "@/shared/UI/index.ts";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -90,6 +91,7 @@ function App() {
               <Route path="*" Component={ErrorPage} />
             </Routes>
             <Footer />
+            <MyMessagePopup />
           </div>
         </SnackbarProvider>
       </ThemeProvider>

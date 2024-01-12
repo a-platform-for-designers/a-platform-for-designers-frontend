@@ -13,8 +13,8 @@ import { InfoAction, SocialIndicator } from "..";
 import { getInitials } from "../../../../features";
 import { useNavigate } from "react-router-dom";
 import { IUser, IProfileData } from "@/types";
-import { useAppSelector } from "@/hooks/reduxHooks";
-import { MyMessagePopup } from "@/shared/UI";
+import { useAppSelector, useAppDispatch } from "@/hooks/reduxHooks";
+import { showMessagePopUp } from "@/redux/slices/chatSlice";
 
 const avatarStyles: SxProps<Theme> = {
   height: "212px",
@@ -53,19 +53,13 @@ const Info: React.FC<IInfoProps> = ({ data, currentUser }) => {
   const [isCurrentUser, setIsCurrentUser] = useState(true);
   const navigate = useNavigate();
   const { user } = useAppSelector((state) => state.user);
-  const { isAuth } = useAppSelector((state) => state.auth);
-  const [openPopup, setOpenPopup] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
 
   function handleClick() {
-    if (isAuth) {
-      setOpenPopup(true);
+    if (currentUser) {
+      dispatch(showMessagePopUp(currentUser.id));
     }
   }
-
-  function handlePopupClose() {
-    setOpenPopup(false);
-  }
-
   const isCustomer = currentUser?.is_customer;
 
   useEffect(() => {
@@ -230,9 +224,6 @@ const Info: React.FC<IInfoProps> = ({ data, currentUser }) => {
           ) : null}
         </Grid>
       </Grid>
-      {openPopup ? (
-        <MyMessagePopup open={openPopup} onClose={handlePopupClose} />
-      ) : null}
     </StyledEngineProvider>
   );
 };
