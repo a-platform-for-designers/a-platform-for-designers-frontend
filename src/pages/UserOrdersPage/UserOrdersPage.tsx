@@ -1,12 +1,13 @@
 import { Container, StyledEngineProvider, Typography } from "@mui/material";
 import "./UserOrdersPage.scss";
 import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
-import { ProfileNav, Profile } from "../ProfilePage/components";
+import { ProfileNav } from "../ProfilePage/components";
 import { IProfileNavPage } from "@/types";
 import { useAppSelector } from "@/hooks/reduxHooks";
 import CustomersOrderCard from "../ProfilePage/components/CustomersOrdersCards/CustomersOrdersCards";
 import DesignersResponsedCards from "./components/DesignersResponsedCards";
 import { MyButton } from "@/shared/UI";
+import ArchiveCards from "./components/ArchiveCards/ArchiveCards";
 
 const UserOrdersPage: React.FC = () => {
   const { user } = useAppSelector((state) => state.user); // авторизованный пользователь
@@ -26,7 +27,7 @@ const UserOrdersPage: React.FC = () => {
     {
       title: "Архив",
       link: `archive`,
-      element: <Profile emptyTitle="Здесь пока нет заказов" />,
+      element: <ArchiveCards />,
     },
   ];
 
@@ -39,7 +40,7 @@ const UserOrdersPage: React.FC = () => {
     {
       title: "Архив",
       link: `archive`,
-      element: <Profile emptyTitle="Здесь пока нет заказов" />,
+      element: <ArchiveCards />,
     },
   ];
 

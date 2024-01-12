@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Box } from "@mui/material";
 import { IMessage } from "@/types";
 import Message from "../Message/Message";

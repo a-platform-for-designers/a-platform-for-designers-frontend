@@ -24,24 +24,39 @@ const OrdersCard: React.FC<IProps> = ({
   refreshOrdersList,
   isOrderesPage,
 }) => {
+  const navigate = useNavigate();
+
+  const { user } = useAppSelector((state) => state.user); // авторизованный пользователь
+  const { id } = useParams();
+
   const [reply, setReply] = useState<boolean>(false);
   const [isFavourite, setIsFavourite] = useState<boolean>(false);
   const [customerSpecialization, setCustomerSpecialization] =
     useState<string>("");
-
-  const navigate = useNavigate();
-  const { user } = useAppSelector((state) => state.user); // авторизованный пользователь
-  const { id } = useParams();
   const [currentUser, setCurrentUser] = useState<IUser>(); // пользователь чья страница (id через путь)
-  const isMyProfile = currentUser?.id === user?.id && currentUser !== undefined;
-  const customerUser = user?.is_customer;
-  const location = useLocation();
   const [isUsersOrders, setIsUsersOrders] = useState<boolean>(false);
   const [orderInfo, setOrderInfo] = useState<IOrderInfoResponse>();
-  const myCard = order.customer.id === user?.id;
   const [countName, setCountName] = useState<string>("");
-  const countResponse = orderInfo?.applicants?.length;
   const [openSignInPopup, setOpenSignInPopup] = useState<boolean>(false);
+
+  const location = useLocation();
+  const isMyProfile = currentUser?.id === user?.id && currentUser !== undefined;
+  const customerUser = user?.is_customer;
+  const myCard = order.customer.id === user?.id;
+  const countResponse = orderInfo?.applicants?.length;
+  const userInfo = {
+    name: `${order.customer.first_name} ${order.customer.last_name}`,
+    avatar: order.customer.photo,
+  };
+  const dataResponse = {
+    customer: order.customer,
+    title: order.title,
+    specialization: order.specialization,
+    payment: order.payment,
+    sphere: order.sphere,
+    description: order.description,
+    is_published: order.is_published,
+  };
 
   useEffect(() => {
     if (countResponse == (1 || 21 || 31)) {
@@ -107,16 +122,6 @@ const OrdersCard: React.FC<IProps> = ({
     }
   }, [order.specialization.name]);
 
-  const dataResponse = {
-    customer: order.customer,
-    title: order.title,
-    specialization: order.specialization,
-    payment: order.payment,
-    sphere: order.sphere,
-    description: order.description,
-    is_published: order.is_published,
-  };
-
   function handleReply() {
     if (user) {
       if (!reply) {
@@ -141,11 +146,6 @@ const OrdersCard: React.FC<IProps> = ({
       setOpenSignInPopup(true);
     }
   }
-
-  const userInfo = {
-    name: `${order.customer.first_name} ${order.customer.last_name}`,
-    avatar: order.customer.photo,
-  };
 
   function handlePopupOpen() {
     if (user) {

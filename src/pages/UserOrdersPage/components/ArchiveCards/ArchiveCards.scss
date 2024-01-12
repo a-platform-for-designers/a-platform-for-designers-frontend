@@ -1,0 +1,115 @@
+.archiveCard {
+    font-family: Roboto;
+    border: 1px solid #c3c3c3;
+    border-radius: 24px;
+    padding: 15px;
+    max-width: 330px;
+    height: 357px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    &__user {
+        display: flex;
+        margin-bottom: 19px;
+        gap: 10px;
+        align-items: center;
+    }
+
+    &__name {
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 150%;
+        letter-spacing: 0.024px;
+        text-align: center;
+
+    }
+
+    &__title {
+        color: #98979A;
+        max-height: 1.5em;
+        text-overflow: ellipsis;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 150%;
+        letter-spacing: 0.024px;
+        margin: 0;
+        /* Исключает внешний отступ абзаца */
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        -webkit-line-clamp: 2;
+    }
+
+    &__description {
+        color: #98979A;
+        text-overflow: ellipsis;
+        max-height: 3em;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 150%;
+        letter-spacing: 0.024px;
+        margin: 0;
+        /* Исключает внешний отступ абзаца */
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        -webkit-line-clamp: 2;
+    }
+
+    &__specialization {
+        color: #98979A;
+        text-overflow: ellipsis;
+        margin-top: 10px;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 150%;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        -webkit-line-clamp: 2;
+    }
+
+    &__price {
+        color: #98979A;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 150%;
+        letter-spacing: 0.08px;
+        margin: 18px 0;
+        display: -webkit-box;
+        text-overflow: ellipsis;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        -webkit-line-clamp: 1;
+    }
+
+    &__buttons {
+        gap: 40px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    &__button {
+        padding-right: 0;
+        padding-left: 0;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 20px;
+        letter-spacing: 0.1px;
+    }
+
+    &__del-button {
+        color: #B3261E;
+        width: 90px;
+        gap: 4px;
+    }
+
+}
