@@ -133,7 +133,8 @@ const OrderPage: React.FC = () => {
   }
 
   function handleAchive() {
-    if (orderInfo) {
+    console.log("Карточка не ушла в архив");
+    /* if (orderInfo) {
       const dataArchive = {
         customer: orderInfo.customer,
         title: orderInfo.title,
@@ -148,7 +149,7 @@ const OrderPage: React.FC = () => {
         return;
       };
       patchOrderResponse();
-    }
+    } */
   }
 
   if (orderInfo) {
@@ -353,7 +354,7 @@ const OrderPage: React.FC = () => {
                   </div>
                 </Box>
               ) : (
-                <>
+                <div className="orderPage__empty-block">
                   <Avatar
                     className="orderPage__empty-img"
                     src={RespondedDesignersEmpty}
@@ -364,7 +365,7 @@ const OrderPage: React.FC = () => {
                   >
                     Здесь появятся отклики дизайнеров, готовых работать с вами
                   </Typography>
-                </>
+                </div>
               )}
             </div>
           ) : null}
