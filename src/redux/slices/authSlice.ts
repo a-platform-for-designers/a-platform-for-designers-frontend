@@ -39,9 +39,9 @@ export const logOut = createAsyncThunk(
     await authService.logout();
     tokenManager.clearToken();
     dispatch(deleteUserInfo());
-    // dispatch(resetMessages()); 
+    // dispatch(resetMessages());
     dispatch(resetChats());
-  },
+  }
 );
 
 export const authSlice = createSlice({

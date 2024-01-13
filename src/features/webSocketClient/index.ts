@@ -14,7 +14,6 @@ export type SocketEvent = {
   type: string;
 };
 
-
 export class WebSocketClient {
   url!: string;
   socket: WebSocket | undefined;

@@ -128,9 +128,8 @@ const OrderPage: React.FC = () => {
     setIsFavourite(true);
   }
 
-  function handleAchive() {
-    console.log("Карточка не ушла в архив");
-    /* if (orderInfo) {
+  function handleArchive() {
+    if (orderInfo) {
       const dataArchive = {
         customer: orderInfo.customer,
         title: orderInfo.title,
@@ -145,7 +144,8 @@ const OrderPage: React.FC = () => {
         return;
       };
       patchOrderResponse();
-    } */
+      navigate("/my-orders/archive");
+    }
   }
 
   if (orderInfo) {
@@ -288,7 +288,7 @@ const OrderPage: React.FC = () => {
                     type="button"
                     variant="text"
                     size="large"
-                    onClick={handleAchive}
+                    onClick={handleArchive}
                     className="orderPage__button-archiv"
                   >
                     Переместить в архив

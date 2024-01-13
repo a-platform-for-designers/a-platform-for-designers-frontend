@@ -8,6 +8,7 @@ import MyPopup from "./MyPopup/MyPopup";
 import MySwiper from "./MySwiper/MySwiper";
 import MyMessagePopup from "./MyMessagePopup/MyMessagePopup";
 import MyOrdersCard from "./MyOrdersCard/MyOrdersCard";
+import MyPagination from "./MyPagination/MyPagination";
 
 export {
   MyAuthForm,
@@ -20,4 +21,5 @@ export {
   MySwiper,
   MyMessagePopup,
   MyOrdersCard,
+  MyPagination,
 };

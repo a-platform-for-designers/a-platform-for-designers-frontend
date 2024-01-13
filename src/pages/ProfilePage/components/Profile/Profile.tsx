@@ -21,8 +21,6 @@ const Profile: React.FC<IProps> = ({ profiledesigner, emptyTitle }) => {
     skills,
   } = profiledesigner || {};
 
-  console.log(profiledesigner);
-
   function setSpecializations() {
     if (Array.isArray(specialization)) {
       const name: string = "name";
