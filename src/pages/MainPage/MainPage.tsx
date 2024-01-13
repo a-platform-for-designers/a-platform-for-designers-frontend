@@ -28,18 +28,21 @@ const MainPage: React.FC = () => {
   const CASES_LIMIT = 12;
 
   useEffect(() => {
-    (async () => {
-      // const usersDataa = await userService.getUsersList(6, 1);
-      //setUsers(usersData.results);
-      const user1 = await userService.getUserById(22);
-      const user2 = await userService.getUserById(26);
-      const user3 = await userService.getUserById(27);
-      const user4 = await userService.getUserById(28);
-      const user5 = await userService.getUserById(33);
-      const user6 = await userService.getUserById(35);
-      const usersData = [user1, user2, user3, user4, user5, user6];
-      setUsers(usersData);
-    })();
+    const fetchUsers = async () => {
+      try {
+        const userIds = [22, 26, 27, 28, 33, 35];
+
+        const usersData = await Promise.all(
+          userIds.map(async (id) => await userService.getUserById(id))
+        );
+
+        setUsers(usersData);
+      } catch (error) {
+        console.error("Error loading users:", error);
+      }
+    };
+
+    fetchUsers();
   }, []);
 
   function getUsers() {
