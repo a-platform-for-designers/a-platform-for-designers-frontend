@@ -13,7 +13,7 @@ import desCatImg3 from "@/assets/images/desinerscategories-3.webp";
 import desCatImg4 from "@/assets/images/desinerscategories-4.webp";
 import Feed from "./components/Feed/Feed";
 import { casesService, userService } from "@/api";
-import { ICase, IUserWithLastCases } from "@/types";
+import { ICase, IUser } from "@/types";
 
 const mainPageTheme: SxProps<Theme> = {
   backgroundColor: (theme) => theme.palette.background.default,
@@ -21,7 +21,7 @@ const mainPageTheme: SxProps<Theme> = {
 
 const MainPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [users, setUsers] = useState<IUserWithLastCases[]>([]);
+  const [users, setUsers] = useState<IUser[]>([]);
   const [cases, setCases] = useState<ICase[]>([]);
   const [totalCases, setTotalCases] = useState<number>(0);
   const [page, setPage] = useState<number>(1);
@@ -29,8 +29,16 @@ const MainPage: React.FC = () => {
 
   useEffect(() => {
     (async () => {
-      const usersData = await userService.getUsersList(6, 1);
-      setUsers(usersData.results);
+      // const usersDataa = await userService.getUsersList(6, 1);
+      //setUsers(usersData.results);
+      const user1 = await userService.getUserById(22);
+      const user2 = await userService.getUserById(26);
+      const user3 = await userService.getUserById(27);
+      const user4 = await userService.getUserById(28);
+      const user5 = await userService.getUserById(33);
+      const user6 = await userService.getUserById(35);
+      const usersData = [user1, user2, user3, user4, user5, user6];
+      setUsers(usersData);
     })();
   }, []);
 
@@ -38,9 +46,10 @@ const MainPage: React.FC = () => {
     const usersData = users.map((user) => {
       let specialization;
 
-      if (user.specialization) {
+      if (user?.profiledesigner?.specialization) {
         const name: string = "name";
-        const firstSpec: object = user.specialization[0];
+        const firstSpec: string | number =
+          user.profiledesigner.specialization[0];
         specialization = String(firstSpec[name as keyof typeof firstSpec]);
       }
 

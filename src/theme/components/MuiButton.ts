@@ -8,6 +8,11 @@ declare module "@mui/material/Button" {
 }
 
 const muiButtonCustom: Components<Omit<Theme, "components">> = {
+  MuiButtonBase: {
+    defaultProps: {
+      disableRipple: true,
+    },
+  },
   MuiButton: {
     styleOverrides: {
       root: () => ({
