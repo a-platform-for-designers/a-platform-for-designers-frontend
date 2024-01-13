@@ -9,11 +9,11 @@ import { MyPagination } from "@/shared/UI";
 
 const ArchiveCards: React.FC = () => {
   const [orders, setOrders] = useState<IMyOrderResponse[]>([]);
-  const filteredOrders = orders?.filter((task) => !task.is_published);
   const [totalOrders, setTotalOrders] = useState<number>(0);
   const [page, setPage] = useState<number>(1);
   const ORDERS_LIMIT = 6;
   const archiveLocation = location.pathname.endsWith("/my-orders/archive");
+  const filteredOrders = orders?.filter((task) => !task.is_published);
 
   useEffect(() => {
     const fetchData = async () => {
