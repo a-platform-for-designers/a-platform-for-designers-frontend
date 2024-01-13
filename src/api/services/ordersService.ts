@@ -2,6 +2,7 @@ import {
   IOrdersResponse,
   IOrderResponse,
   IOrderInfoResponse,
+  IMyOrderResponse,
 } from "../../types";
 import api from "../api";
 
@@ -21,6 +22,11 @@ const ordersService = {
 
   getOrdersListWithoutParams: async (): Promise<IOrdersResponse> => {
     const response = await api.get<IOrdersResponse>("/orders", {});
+    return response.data;
+  },
+
+  getMyOrdersListWithoutParams: async (): Promise<IMyOrderResponse[]> => {
+    const response = await api.get<IMyOrderResponse[]>("/orders/my_orders", {});
     return response.data;
   },
 
@@ -53,6 +59,10 @@ const ordersService = {
     id: number
   ): Promise<void> => {
     await api.patch(`/orders/${id}/publish/`, body);
+  },
+
+  deleteOrder: async (id: number): Promise<void> => {
+    await api.delete(`/orders/${id}/`);
   },
 };
 export default ordersService;

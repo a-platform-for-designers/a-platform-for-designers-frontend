@@ -15,7 +15,8 @@ interface FetchMessages {
 }
 
 export const fetchMessages: FetchMessages = async function* ({
-  socket, page = 1
+  socket,
+  page = 1,
 }) {
   if (socket) {
     const messages: IMessage[] = [];
@@ -26,10 +27,10 @@ export const fetchMessages: FetchMessages = async function* ({
         messages.push(message);
       };
 
-      if(page === 1) {
+      if (page === 1) {
         socket.connect();
-      }else{
-        socket.sendMessage({action: "load_more", page_number: page});
+      } else {
+        socket.sendMessage({ action: "load_more", page_number: page });
       }
 
       while (true) {
