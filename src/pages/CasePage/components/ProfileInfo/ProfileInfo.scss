@@ -1,4 +1,8 @@
 .profileInfo {
+  p, span {
+    word-break: break-word;
+  }
+  
   &__title {
     margin: 0;
     padding: 0;
@@ -11,7 +15,10 @@
       letter-spacing: 0;
       overflow: hidden;
       text-overflow: ellipsis;
-      white-space: nowrap;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      -webkit-line-clamp: 1;
     }
   }
 

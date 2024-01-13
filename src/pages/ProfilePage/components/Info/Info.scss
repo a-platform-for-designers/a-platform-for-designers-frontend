@@ -4,11 +4,11 @@
   &__title {
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
     font-size: 32px;
     font-style: normal;
     font-weight: 700;
     line-height: 40px;
+    max-width: 670px;
   }
 
   &__status {
