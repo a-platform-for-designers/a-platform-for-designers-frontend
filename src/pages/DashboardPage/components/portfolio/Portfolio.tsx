@@ -51,14 +51,13 @@ const Portfolio: React.FC = () => {
                 alignItems="center"
               >
                 {user?.portfolio.map((item) => (
-                  <div>
+                  <div key={item.id}>
                     <MyOptimizedImage
                       imageUrl={`${
                         !item.avatar && item.avatar === null
                           ? caseCart
                           : BASE_PATH + item.avatar
                       }`}
-                      key={item.id}
                       alt="Картинка из проекта"
                       className="portfolio__image"
                       width={660}
