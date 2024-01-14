@@ -115,7 +115,7 @@ const OrdersCard: React.FC<IProps> = ({
       return;
     }
     if (order.specialization.name === "3D-дизайн") {
-      setCustomerSpecialization("3D-визуализатор");
+      setCustomerSpecialization("3D-дизайнер");
       return;
     }
     if (order.specialization.name === "Веб-дизайн") {

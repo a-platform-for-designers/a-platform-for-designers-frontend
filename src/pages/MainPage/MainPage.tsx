@@ -80,7 +80,7 @@ const MainPage: React.FC = () => {
       link: "",
     },
     {
-      title: "3D-визуализаторы",
+      title: "3D-дизайнеры",
       image: desCatImg3,
       link: "",
     },
