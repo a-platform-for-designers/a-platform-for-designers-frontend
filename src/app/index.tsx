@@ -31,6 +31,7 @@ import {
   OrderCreation,
   Settings,
   OrderEdit,
+  CaseEdit,
 } from "@/pages/DashboardPage/components/index.ts";
 import { getInfoAboutMe } from "@/redux/slices/userSlice.ts";
 import { useAppDispatch } from "@/hooks/reduxHooks.tsx";
@@ -79,6 +80,10 @@ function App() {
                   <Route
                     path="create/*"
                     element={<ProtectedRoute Component={CaseCreation} />}
+                  />
+                  <Route
+                    path="create/:id"
+                    element={<ProtectedRoute Component={CaseEdit} />}
                   />
                 </Route>
 

@@ -5,7 +5,7 @@ import { useState, SyntheticEvent, useEffect } from "react";
 import React from "react";
 import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
 import { IProfileDataItem } from "../../model/types";
-import { ICasePreview } from "@/types";
+import { ICasePreview, ICase } from "@/types";
 import { tools } from "../../model/constants";
 import ProfileInput from "@/shared/UI/ProfileInput/ProfileInput";
 import { MyButton } from "@/shared/UI";
@@ -15,17 +15,23 @@ import { casesService } from "@/api";
 import getBase64 from "@/features/getBase64";
 import { enqueueSnackbar } from "notistack";
 
-const CaseCreation: React.FC = () => {
-  const title = useInput("", { isEmpty: true });
-  const time = useInput("", {});
-  const description = useInput("", {});
-  const [directions, setDirections] = useState<string | null>(null);
-  const [wrapper, setWrapper] = useState<File | null>(null);
-  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-  const [sphereValue, setSphereValue] = useState<string | null>(null);
-  const [toolsValue, setToolsValue] = useState<string[]>([]);
+interface IProps {
+  caseInfo?: ICase;
+}
+
+const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
+  const title = useInput(caseInfo?.title || "", { isEmpty: true });
+  const time = useInput(caseInfo?.working_term || "", {}); //??
+  const description = useInput(caseInfo?.description || "", {});
+  const [directions, setDirections] = useState<string | null>(null); //??
+  const [wrapper, setWrapper] = useState<File | null>(null); //??
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]); //??
+  const [sphereValue, setSphereValue] = useState<string | null>(null); //??
+  const [toolsValue, setToolsValue] = useState<string[]>([]); //??
   const [isCasePreview, setIsCasePreview] = useState<boolean>(false);
   const [caseDataValues, setCaseDataValues] = useState<ICasePreview>();
+
+  console.log(caseInfo);
 
   const navigate = useNavigate();
 
