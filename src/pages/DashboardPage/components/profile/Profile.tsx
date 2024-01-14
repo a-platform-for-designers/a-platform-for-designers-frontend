@@ -7,7 +7,7 @@ import {
   FormControlLabel,
 } from "@mui/material";
 import classes from "./Profile.module.scss";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useInput from "@/hooks/useInput";
 import AvatarUpload from "../avatarUpload/AvatarUpload";
 import { LISTS } from "@/constants/constants";
@@ -24,7 +24,6 @@ import { setUserInfo, setCustomerInfo } from "@/redux/slices/userSlice";
 
 const Profile: React.FC = () => {
   const { user } = useAppSelector((state) => state.user);
-  const { specializations, languages } = useAppSelector((state) => state.data);
   const dispatch = useAppDispatch();
   const isCustomer = user?.is_customer;
 
@@ -61,43 +60,18 @@ const Profile: React.FC = () => {
   const [status, setStatus] = useState<boolean>(
     user?.profiledesigner?.work_status ?? false
   );
-  console.log(status, user?.profiledesigner?.work_status);
   const [toolsIds, setToolsIds] = useState<number[]>([]);
   const [skillsIds, setSkillsIds] = useState<number[]>([]);
 
-  const { skills, instruments } = useAppSelector((state) => state.data);
-
-  useEffect(() => {
-    setSpecialization(
-      specializationValue.map((key: string) => specializations[key])
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [specializationValue]);
-
-  useEffect(() => {
-    setLanguage(languageValue.map((key: string) => languages[key]));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [languageValue]);
-
-  function handleSetSpecialization(
-    _: React.SyntheticEvent<Element, Event>,
-    newValue: string[]
-  ) {
-    setSpecializationValue(newValue);
-  }
+  const { skills, instruments, specializations, languages } = useAppSelector(
+    (state) => state.data
+  );
 
   function handleSetCountry(
     _: React.SyntheticEvent<Element, Event>,
     newValue: string | null
   ) {
     setCountry(newValue);
-  }
-
-  function handleSetLanguage(
-    _: React.SyntheticEvent<Element, Event>,
-    newValue: string[]
-  ) {
-    setLanguageValue(newValue);
   }
 
   function handleSetTools(
@@ -124,6 +98,30 @@ const Profile: React.FC = () => {
     }
   }
 
+  function handleSetSpecialization(
+    _: React.SyntheticEvent<Element, Event>,
+    newValue: string[]
+  ) {
+    if (newValue.length > 5) return;
+    setSpecializationValue(newValue);
+    if (newValue[0] !== undefined) {
+      const newValueId = newValue.map((key) => specializations[key]);
+      setSpecialization([...newValueId]);
+    }
+  }
+
+  function handleSetLanguage(
+    _: React.SyntheticEvent<Element, Event>,
+    newValue: string[]
+  ) {
+    if (newValue.length > 5) return;
+    setLanguageValue(newValue);
+    if (newValue[0] !== undefined) {
+      const newValueId = newValue.map((key) => languages[key]);
+      setLanguage([...newValueId]);
+    }
+  }
+
   async function handleSubmit(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
     if (!isCustomer) {
@@ -142,7 +140,7 @@ const Profile: React.FC = () => {
       const userInfo = await profileService.postProfileDesigner({
         ...values,
       });
-      console.log(userInfo);
+
       dispatch(setUserInfo(userInfo));
       return;
     }
