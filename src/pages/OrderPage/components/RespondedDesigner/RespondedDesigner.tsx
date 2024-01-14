@@ -2,6 +2,7 @@ import { Avatar, Box, Typography } from "@mui/material";
 import "./RespondedDesigner.scss";
 import MyButton from "@/shared/UI/MyButton/MyButton";
 import { IApplicant } from "@/types";
+import { useNavigate } from "react-router-dom";
 
 interface IProps {
   designer: IApplicant;
@@ -9,8 +10,15 @@ interface IProps {
 }
 
 const RespondedDesigner: React.FC<IProps> = ({ designer, handlePopupOpen }) => {
+  const navigate = useNavigate();
+
   return (
-    <Box className="respondedDesigner">
+    <Box
+      className="respondedDesigner"
+      onClick={() => {
+        navigate(`/profile/${designer.id}/portfolio`);
+      }}
+    >
       <Avatar className="respondedDesigner__avatar" src={designer.photo} />
       <Typography component="p" className="respondedDesigner__name">
         {designer.first_name} {designer.last_name}

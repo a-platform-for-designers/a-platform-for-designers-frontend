@@ -157,7 +157,12 @@ const OrderPage: React.FC = () => {
           }
         >
           <div className="orderPage__card">
-            <div className="orderPage__header">
+            <div
+              className="orderPage__header"
+              onClick={() => {
+                navigate(`/profile/${orderInfo.customer.id}/orders`);
+              }}
+            >
               <div className="orderPage__user">
                 <Avatar
                   className="orderPage__avatar"
