@@ -215,7 +215,7 @@ const OrdersCard: React.FC<IProps> = ({
               ) : null}
               <IconButton
                 aria-label="favourite"
-                onClick={() => navigate("/orders/create")}
+                onClick={() => navigate(`/orders/create/${order.id}`)}
               >
                 <img
                   className="ordersCard__favourite-icon"

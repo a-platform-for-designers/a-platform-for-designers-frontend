@@ -62,6 +62,14 @@ const ordersService = {
     await api.patch(`/orders/${id}/publish/`, body);
   },
 
+  editOrder: async (
+    body: IOrderCreation,
+    id: number
+  ): Promise<IOrderCreation> => {
+    const response = await api.patch<IOrderCreation>(`/orders/${id}`, body);
+    return response.data;
+  },
+
   createOrder: async (body: IOrderCreation): Promise<IOrderCreation> => {
     const response = await api.post<IOrderCreation>("/orders/", body);
     return response.data;

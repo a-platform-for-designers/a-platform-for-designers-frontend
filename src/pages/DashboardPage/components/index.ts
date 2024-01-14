@@ -6,9 +6,11 @@ import Settings from "./settings/Settings.tsx";
 import Asidebar from "./asidebar/Asidebar.tsx";
 import CaseCreation from "./caseCreation/CaseCreation.tsx";
 import Mentorship from "./mentorship/Mentorship.tsx";
+import OrderEdit from "./orders/OrderEdit.tsx";
 
 export {
   OrderCreation,
+  OrderEdit,
   Portfolio,
   Profile,
   Mentorship,

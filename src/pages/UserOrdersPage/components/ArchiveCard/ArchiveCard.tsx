@@ -87,7 +87,6 @@ const ArchiveCard: React.FC<IProps> = ({ order, refreshOrdersList }) => {
       return;
     };
     deleteOrderResponse();
-    console.log("Карточка удалена");
     if (refreshOrdersList) {
       refreshOrdersList(order.id);
     }

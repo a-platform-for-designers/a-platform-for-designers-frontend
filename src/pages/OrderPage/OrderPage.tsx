@@ -284,7 +284,7 @@ const OrderPage: React.FC = () => {
                     type="button"
                     variant="outlined"
                     size="large"
-                    onClick={() => navigate("/orders/create")}
+                    onClick={() => navigate(`/orders/create/${orderInfo.id}`)}
                     className="orderPage__button"
                   >
                     Редактировать

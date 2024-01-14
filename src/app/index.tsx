@@ -30,7 +30,8 @@ import {
   Mentorship,
   OrderCreation,
   Settings,
-} from "../pages/DashboardPage/components/index.ts";
+  OrderEdit,
+} from "@/pages/DashboardPage/components/index.ts";
 import { getInfoAboutMe } from "@/redux/slices/userSlice.ts";
 import { useAppDispatch } from "@/hooks/reduxHooks.tsx";
 import { useEffect } from "react";
@@ -87,6 +88,7 @@ function App() {
               <Route path="/case/:id" Component={CasePage} />
               <Route path="/orders" Component={OrdersPage} />
               <Route path="/orders/create" Component={OrderCreation} />
+              <Route path="/orders/create/:id" Component={OrderEdit} />
               <Route path="/my-orders/*" Component={UserOrdersPage} />
               <Route path="/order/:id" Component={OrderPage} />
               <Route path="*" Component={ErrorPage} />

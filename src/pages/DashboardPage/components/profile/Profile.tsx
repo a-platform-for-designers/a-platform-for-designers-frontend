@@ -45,7 +45,7 @@ const Profile: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const education = useInput(user?.profiledesigner?.education || "", {});
   const post = useInput(user?.profilecustomer?.post || "", {});
-  const aboutMe = useInput(user?.profilecustomer?.post || "", {});
+  const aboutMe = useInput(user?.profilecustomer?.about || "", {});
   const [toolsValue, setToolsValue] = useState<string[]>(
     (user?.profiledesigner?.instruments || []).map((obj) =>
       typeof obj === "object" && "name" in obj ? obj["name"] : ""
