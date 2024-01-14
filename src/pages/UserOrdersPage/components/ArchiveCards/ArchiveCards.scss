@@ -1,4 +1,4 @@
-.ordersCard {
+.archiveCard {
   font-family: Roboto;
   border: 1px solid #c3c3c3;
   border-radius: 24px;
@@ -10,15 +10,9 @@
   flex-direction: column;
   justify-content: space-between;
 
-  &__header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 19px;
-  }
-
   &__user {
     display: flex;
+    margin-bottom: 19px;
     gap: 10px;
     align-items: center;
   }
@@ -29,16 +23,11 @@
     font-weight: 500;
     line-height: 150%;
     letter-spacing: 0.024px;
-    max-width: 100px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  &__favourite-icon {
-    justify-self: flex-end;
+    text-align: center;
   }
 
   &__title {
+    color: #98979a;
     max-height: 1.5em;
     text-overflow: ellipsis;
     font-size: 16px;
@@ -55,6 +44,7 @@
   }
 
   &__description {
+    color: #98979a;
     text-overflow: ellipsis;
     max-height: 3em;
     font-size: 16px;
@@ -71,6 +61,7 @@
   }
 
   &__specialization {
+    color: #98979a;
     text-overflow: ellipsis;
     margin-top: 10px;
     font-size: 16px;
@@ -84,7 +75,7 @@
   }
 
   &__price {
-    color: #3bb440;
+    color: #98979a;
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
@@ -99,37 +90,24 @@
   }
 
   &__buttons {
-    gap: 8px;
+    gap: 40px;
     display: flex;
     justify-content: space-between;
   }
 
   &__button {
-    width: 170px;
-  }
-
-  &__counts {
-    display: flex;
-    border-radius: 8px;
-    border: 1px solid #6900ee;
-    min-width: 95px;
-    padding: 0 5px 0 5px;
-    height: 24px;
-    justify-content: center;
-    justify-self: center;
-    align-items: center;
-    color: #6900ee;
-    text-align: center;
+    padding-right: 0;
+    padding-left: 0;
     font-size: 14px;
     font-style: normal;
     font-weight: 500;
-    line-height: 20px; /* 142.857% */
+    line-height: 20px;
     letter-spacing: 0.1px;
-    margin-right: 0px;
   }
 
-  &__button-in-profile {
-    display: flex;
-    align-items: flex-start;
+  &__del-button {
+    color: #b3261e;
+    width: 90px;
+    gap: 4px;
   }
 }

@@ -15,6 +15,8 @@ interface IInitialState {
   messagesPage: number;
   lastMessagesPage: number | null;
   count: number;
+  popUpOn: boolean;
+  receiverId: number | null;
   errorMessages: string[];
 }
 
@@ -26,6 +28,8 @@ const initialState: IInitialState = {
   messagesPage: 1,
   lastMessagesPage: null,
   count: 0,
+  popUpOn: false,
+  receiverId: null,
   errorMessages: [],
 };
 const socket = new WebSocketClient();
@@ -110,6 +114,14 @@ export const chatSlice = createSlice({
     resetAuthErrors: (state) => {
       state.errorMessages.length = 0;
     },
+    showMessagePopUp: (state, action) => {
+      state.popUpOn = true;
+      state.receiverId = action.payload;
+    },
+    hideMessagePopUp: (state) => {
+      state.popUpOn = false;
+      state.receiverId = null;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -143,6 +155,8 @@ export const {
   setActiveChat,
   nextPage,
   setLatPage,
+  showMessagePopUp,
+  hideMessagePopUp,
 } = chatSlice.actions;
 
 export default chatSlice.reducer;

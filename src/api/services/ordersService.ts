@@ -1,4 +1,10 @@
-import { IOrdersResponse, IOrderResponse } from "../../types";
+import {
+  IOrdersResponse,
+  IOrderResponse,
+  IOrderInfoResponse,
+  IOrderCreation,
+  IMyOrderResponse,
+} from "../../types";
 import api from "../api";
 
 const ordersService = {
@@ -20,8 +26,13 @@ const ordersService = {
     return response.data;
   },
 
-  getOrderInfo: async (id: number): Promise<IOrdersResponse> => {
-    const response = await api.get<IOrdersResponse>(`/orders/${id}/`);
+  getMyOrdersListWithoutParams: async (): Promise<IMyOrderResponse[]> => {
+    const response = await api.get<IMyOrderResponse[]>("/orders/my_orders", {});
+    return response.data;
+  },
+
+  getOrderInfo: async (id: number): Promise<IOrderInfoResponse> => {
+    const response = await api.get<IOrderInfoResponse>(`/orders/${id}/`);
     return response.data;
   },
 
@@ -42,6 +53,22 @@ const ordersService = {
     id: number
   ): Promise<void> => {
     await api.delete(`/orders/${id}/respond/`, { data: body });
+  },
+
+  patchResponseOrder: async (
+    body: IOrderResponse,
+    id: number
+  ): Promise<void> => {
+    await api.patch(`/orders/${id}/publish/`, body);
+  },
+
+  createOrder: async (body: IOrderCreation): Promise<IOrderCreation> => {
+    const response = await api.post<IOrderCreation>("/orders/", body);
+    return response.data;
+  },
+
+  deleteOrder: async (id: number): Promise<void> => {
+    await api.delete(`/orders/${id}/`);
   },
 };
 export default ordersService;

@@ -165,7 +165,29 @@ export interface IOrdersResponse {
   results: [];
 }
 
+export interface IOrderCreation {
+  title: string;
+  specialization: number | number[] | null;
+  description: string;
+  sphere: number | number[] | null;
+  payment: number;
+}
+
+export interface IOrderInfoResponse {
+  applicants?: IApplicant[];
+  customer: IOrdersCustomer;
+  description: string;
+  id: number;
+  payment: number;
+  pub_date: string;
+  specialization: IDataItem;
+  sphere: IDataItem;
+  title: string;
+  is_responded_order?: boolean;
+}
+
 export interface IOrdersList {
+  applicants?: IApplicant[];
   id: number;
   customer: IOrdersCustomer;
   title: string;
@@ -179,8 +201,31 @@ export interface IOrdersList {
   is_published: boolean;
 }
 
+export interface IMyOrderResponse {
+  customer: IApplicant;
+  description: string;
+  id: number;
+  is_favorited_order: boolean;
+  is_published: boolean;
+  is_responded_order: boolean;
+  payment: number;
+  pub_date: string;
+  specialization: IDataItem;
+  sphere: IDataItem;
+  title: string;
+}
+
+export interface IApplicant {
+  country: string;
+  first_name: string;
+  id: number;
+  last_name: string;
+  photo: string;
+  specialization: IDataItem;
+}
+
 export interface IOrderResponse {
-  customer: IOrdersCustomer;
+  customer: IOrdersCustomer | IApplicant;
   title: string;
   specialization: IDataItem;
   payment: number;

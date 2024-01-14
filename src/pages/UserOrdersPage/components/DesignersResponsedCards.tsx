@@ -2,14 +2,16 @@ import "./DesignersResponsedCards.scss";
 import { Box, Grid, StyledEngineProvider } from "@mui/material";
 import { IOrdersList } from "@/types";
 import { useState, useEffect } from "react";
-import { MyOrdersCard, MyMessagePopup } from "@/shared/UI";
+import { MyOrdersCard } from "@/shared/UI";
 import { ordersService } from "@/api";
 import { EmptyData } from "../../ProfilePage/components/index";
+import { MyPagination } from "@/shared/UI";
 
 const DesignersResponsedCards: React.FC = () => {
   const [orders, setOrders] = useState<IOrdersList[]>([]);
-  const [openPopup, setOpenPopup] = useState<boolean>(false);
-
+  const [totalOrders, setTotalOrders] = useState<number>(0);
+  const [page, setPage] = useState<number>(1);
+  const ORDERS_LIMIT = 8;
   const respondedTasks = orders.filter((task) => task.is_responded_order);
 
   function refreshOrdersList(id: number) {
@@ -22,20 +24,13 @@ const DesignersResponsedCards: React.FC = () => {
       try {
         const ordersData = await ordersService.getOrdersListWithoutParams();
         setOrders(ordersData.results);
+        setTotalOrders(respondedTasks.length);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
     fetchData();
-  }, []);
-
-  function handlePopupClose() {
-    setOpenPopup(false);
-  }
-
-  function handlePopupOpen() {
-    setOpenPopup(true);
-  }
+  }, [respondedTasks.length]);
 
   return (
     <StyledEngineProvider injectFirst>
@@ -45,7 +40,6 @@ const DesignersResponsedCards: React.FC = () => {
             {respondedTasks.map((item) => (
               <MyOrdersCard
                 refreshOrdersList={refreshOrdersList}
-                openPopup={handlePopupOpen}
                 key={item.id}
                 order={item}
               />
@@ -55,9 +49,16 @@ const DesignersResponsedCards: React.FC = () => {
           <EmptyData title="Нет активных заказов" />
         )}
       </Box>
-      {openPopup ? (
-        <MyMessagePopup open={openPopup} onClose={handlePopupClose} />
-      ) : null}
+      {respondedTasks?.length > 0 && (
+        <div>
+          <MyPagination
+            totalItems={totalOrders}
+            setPage={setPage}
+            page={page}
+            limit={ORDERS_LIMIT}
+          />
+        </div>
+      )}
     </StyledEngineProvider>
   );
 };
