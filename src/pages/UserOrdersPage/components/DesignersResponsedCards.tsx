@@ -28,7 +28,6 @@ const DesignersResponsedCards: React.FC = () => {
     fetchData();
   }, []);
 
-
   return (
     <StyledEngineProvider injectFirst>
       <Box className="customersOrders">

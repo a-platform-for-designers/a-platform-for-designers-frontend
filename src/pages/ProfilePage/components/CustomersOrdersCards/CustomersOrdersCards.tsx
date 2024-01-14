@@ -28,17 +28,13 @@ const CustomersOrdersCards: React.FC<IProps> = ({ userId }) => {
     fetchData();
   }, []);
 
-
   return (
     <StyledEngineProvider injectFirst>
       <Box className="customersOrders">
         {filteredItems.length > 0 ? (
           <Grid xs={9} item className="customersOrders__cards">
             {filteredItems.map((item) => (
-              <MyOrdersCard
-                key={item.id}
-                order={item}
-              />
+              <MyOrdersCard key={item.id} order={item} />
             ))}
           </Grid>
         ) : (

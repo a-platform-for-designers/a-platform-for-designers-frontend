@@ -49,8 +49,6 @@ const MessageForm = () => {
     }
   };
 
-
-
   const handleSendFile = async () => {
     if (selectedFile && activeChat) {
       const formData = new FormData();
@@ -58,7 +56,7 @@ const MessageForm = () => {
       formData.append("chat", String(activeChat?.id ?? 0));
 
       const { file } = (await chartsService.sendFile(formData)) || {};
-      const url = stripHost(file)
+      const url = stripHost(file);
       dispatch(sendMessage({ message: selectedFile.name, file: url }));
       setSelectedFile(null);
       setOpen(false);
