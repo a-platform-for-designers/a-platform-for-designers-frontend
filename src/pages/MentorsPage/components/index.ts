@@ -1,4 +1,4 @@
-import DesignersCard from "./DesignersCard/DesignersCard";
+import MentorsCard from "./MentorsCard/MentorsCard";
 import DesignerFilters from "./MentorsFilters/MentorsFilters";
 
-export { DesignersCard, DesignerFilters };
+export { MentorsCard, DesignerFilters };

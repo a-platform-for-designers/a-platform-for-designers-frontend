@@ -1,0 +1,98 @@
+.mentorsCard {
+  display: flex;
+  flex-wrap: nowrap;
+  max-width: 100%;
+
+  &__avatar {
+    margin-bottom: 12px;
+    width: 212px;
+    height: 212px;
+    border-radius: 24px;
+    object-fit: cover;
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+    justify-content: space-between;
+    width: 100%;
+
+    &__text {
+      display: flex;
+      margin-right: 24px;
+      height: 72%;
+      margin-bottom: 24px;
+
+      &__about {
+        min-width: 32%;
+        max-width: 212px;
+      }
+    }
+
+    &__skills {
+      height: 28%;
+    }
+  }
+
+  &__name {
+    overflow: hidden;
+    color: var(--text-color-black);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 24px;
+    letter-spacing: 0.15px;
+    margin-bottom: 8px;
+  }
+
+  &__job {
+    overflow: hidden;
+    color: var(--text-color-black);
+    text-overflow: ellipsis;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: 0.1px;
+    margin-bottom: 8px;
+    max-width: 100%;
+  }
+
+  &__country {
+    overflow: hidden;
+    color: var(--dark_grey, #98979a);
+    text-overflow: ellipsis;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: 0.1px;
+    margin-bottom: 8px;
+  }
+
+  &__expertise {
+    word-break: break-all;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    -webkit-line-clamp: 6;
+  }
+
+  &__price {
+    color: var(--Success, #3bb440);
+    font-family: Roboto;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px; /* 150% */
+    letter-spacing: 0.08px;
+    display: flex;
+
+    &_black {
+      color: var(--text-color-black);
+    }
+  }
+}

@@ -3,7 +3,6 @@ import { Box, Grid, StyledEngineProvider } from "@mui/material";
 import { DesignerFilters, DesignersCard } from "./components";
 import { useState, useEffect } from "react";
 import { IUserWithLastCases } from "@/types";
-import { userService } from "@/api";
 import Preloader from "@/shared/Preloader/Preloader";
 import { EmptyData } from "../ProfilePage/components";
 import MyPagination from "@/shared/UI/MyPagination/MyPagination";
@@ -14,23 +13,6 @@ const DesignersPage: React.FC = () => {
   const [totalUsers, setTotalUsers] = useState<number>(0);
   const [page, setPage] = useState<number>(1);
   const USERS_LIMIT = 5;
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setIsLoading(true);
-        const usersData = await userService.getUsersList(USERS_LIMIT, page);
-        setUsers(usersData.results);
-        setTotalUsers(usersData.count);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -77,6 +59,7 @@ const DesignersPage: React.FC = () => {
                 page={page}
                 setTotalUsers={setTotalUsers}
                 limit={USERS_LIMIT}
+                setIsLoading={setIsLoading}
               />
               {/* ! Компонент фильтров */}
             </Grid>

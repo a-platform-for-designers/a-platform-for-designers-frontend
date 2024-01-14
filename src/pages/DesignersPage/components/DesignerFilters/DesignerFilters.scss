@@ -47,7 +47,7 @@
   }
 
   &__button {
-    color: #49454f;
+    color: #6900ee;
     font-family: Roboto;
     font-size: 14px;
     font-style: normal;
@@ -60,20 +60,16 @@
     height: 28px;
     margin-top: 20px;
 
-    &:hover {
-      color: #49454f;
-      border-color: #49454f;
-
-      & svg {
-        color: #49454f;
-      }
-    }
-
     & svg {
-      color: #49454f;
+      color: #6900ee;
     }
+
+    &:hover svg {
+      color: #7647ef;
+    }
+
     &:disabled svg {
-      color: #49454f;
+      color: #98979a;
     }
   }
 

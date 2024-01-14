@@ -1,0 +1,40 @@
+.mentorsPage {
+  flex-grow: 1;
+
+  &__grid {
+    justify-content: space-between;
+
+    .css-96ko50-MuiGrid-root {
+      margin: 0 auto;
+    }
+  }
+
+  &__cards-wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__container {
+    max-width: 1440px;
+    box-sizing: border-box;
+    margin: 20px auto 20px;
+  }
+
+  &__cards {
+    display: grid;
+    row-gap: 48px;
+    padding-left: 10%;
+    grid-template-rows: 268px;
+
+    &.MuiGrid-item {
+      padding-left: 142px;
+    }
+  }
+
+  &__filters {
+    max-width: 330px;
+    &.MuiGrid-item {
+      padding-left: 38px;
+    }
+  }
+}
