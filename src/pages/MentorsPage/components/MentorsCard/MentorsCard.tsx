@@ -5,17 +5,22 @@ import { IUserWithLastCases } from "@/types";
 import { useNavigate } from "react-router-dom";
 import SkillsItem from "../SkillsItem/SkillsItem";
 import { Grid } from "@mui/material";
-import { useAppDispatch } from "@/hooks/reduxHooks";
+import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
 import { showMessagePopUp } from "@/redux/slices/chatSlice";
+import MySignInPopup from "@/shared/UI/MySignInPopup/MySignInPopup";
+import { useState } from "react";
 
 interface IProps {
-  user: IUserWithLastCases;
+  mentor: IUserWithLastCases;
 }
 
-const MentorsCard: React.FC<IProps> = ({ user }) => {
+const MentorsCard: React.FC<IProps> = ({ mentor }) => {
+  const { user } = useAppSelector((state) => state.user); // авторизованный пользователь
   const navigate = useNavigate();
-  const skills = user.mentoring?.skills;
+  const skills = mentor.mentoring?.skills;
   const dispatch = useAppDispatch();
+
+  const [openSignInPopup, setOpenSignInPopup] = useState<boolean>(false);
 
   function setSkills() {
     if (Array.isArray(skills)) {
@@ -25,26 +30,29 @@ const MentorsCard: React.FC<IProps> = ({ user }) => {
     }
   }
 
+  function handlePopupOpen() {
+    if (user) {
+      dispatch(showMessagePopUp(mentor.id));
+    } else {
+      setOpenSignInPopup(true);
+    }
+  }
+
   return (
     <StyledEngineProvider injectFirst>
       <Box className="mentorsCard">
         <Box>
           <Avatar
             onClick={() => {
-              navigate(`/profile/${user.id}/`);
+              navigate(`/profile/${mentor.id}/`);
             }}
             className="mentorsCard__avatar"
-            src={user.photo}
+            src={mentor.photo}
             sx={{ backgroundColor: "#4F378B", color: "#EADDFF" }}
           >
-            {`${user?.first_name[0]}${user?.last_name[0]}`}
+            {`${mentor?.first_name[0]}${mentor?.last_name[0]}`}
           </Avatar>
-          <MyButton
-            variant="outlined"
-            onClick={() => {
-              dispatch(showMessagePopUp(user.id));
-            }}
-          >
+          <MyButton variant="outlined" onClick={handlePopupOpen}>
             Написать
           </MyButton>
         </Box>
@@ -52,23 +60,23 @@ const MentorsCard: React.FC<IProps> = ({ user }) => {
           <Box className="mentorsCard__info__text">
             <Box className="mentorsCard__info__text__about">
               <Typography component="h2" className="mentorsCard__name">
-                {user?.first_name} {user?.last_name}
+                {mentor?.first_name} {mentor?.last_name}
               </Typography>
               <Typography paragraph className="mentorsCard__country">
-                {user?.country}
+                {mentor?.country}
               </Typography>
               <Typography paragraph className="mentorsCard__job">
-                {user?.mentoring?.experience}
+                {mentor?.mentoring?.experience}
               </Typography>
               <Box className="mentorsCard__price">
-                {user?.mentoring?.price ? (
+                {mentor?.mentoring?.price ? (
                   <>
-                    {user?.mentoring?.price} ₽
+                    {mentor?.mentoring?.price} ₽
                     <Typography paragraph className="mentorsCard__price_black">
                       /час
                     </Typography>
                   </>
-                ) : user?.mentoring?.agreement_free ? (
+                ) : mentor?.mentoring?.agreement_free ? (
                   "По договоренности"
                 ) : (
                   "Бесплатно"
@@ -77,7 +85,7 @@ const MentorsCard: React.FC<IProps> = ({ user }) => {
             </Box>
             <Box>
               <Typography paragraph className="mentorsCard__expertise">
-                {user?.mentoring?.expertise}
+                {mentor?.mentoring?.expertise}
               </Typography>
             </Box>
           </Box>
@@ -88,6 +96,9 @@ const MentorsCard: React.FC<IProps> = ({ user }) => {
           </Box>
         </Box>
       </Box>
+      {openSignInPopup ? (
+        <MySignInPopup setOpenSignInPopup={setOpenSignInPopup} />
+      ) : null}
     </StyledEngineProvider>
   );
 };
