@@ -5,6 +5,8 @@ import { IUserWithLastCases } from "@/types";
 import { useNavigate } from "react-router-dom";
 import SkillsItem from "../SkillsItem/SkillsItem";
 import { Grid } from "@mui/material";
+import { useAppDispatch } from "@/hooks/reduxHooks";
+import { showMessagePopUp } from "@/redux/slices/chatSlice";
 
 interface IProps {
   user: IUserWithLastCases;
@@ -13,6 +15,7 @@ interface IProps {
 const MentorsCard: React.FC<IProps> = ({ user }) => {
   const navigate = useNavigate();
   const skills = user.mentoring?.skills;
+  const dispatch = useAppDispatch();
 
   function setSkills() {
     if (Array.isArray(skills)) {
@@ -36,7 +39,12 @@ const MentorsCard: React.FC<IProps> = ({ user }) => {
           >
             {`${user?.first_name[0]}${user?.last_name[0]}`}
           </Avatar>
-          <MyButton variant="outlined" onClick={() => {}}>
+          <MyButton
+            variant="outlined"
+            onClick={() => {
+              dispatch(showMessagePopUp(user.id));
+            }}
+          >
             Написать
           </MyButton>
         </Box>
