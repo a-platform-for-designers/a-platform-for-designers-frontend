@@ -1,0 +1,40 @@
+.technical-support {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 684px;
+  height: 944px;
+  background-color: white;
+  padding: 32px;
+  border-radius: 24px;
+
+  &__form {
+    width: 448px;
+    margin: auto;
+    min-height: 40px;
+    display: grid;
+    grid-template-columns: minmax(auto, 448px);
+    row-gap: 20px;
+  }
+
+  &__label {
+    font-weight: 700;
+    size: 20px;
+    line-height: 24px;
+  }
+
+  &__submit-button {
+    background-color: var(--button-active-color);
+  }
+
+  &__submit-button:disabled {
+    background-color: var(--button-disabled-color);
+    color: var(--text-color-white);
+  }
+
+  &__success-button{
+    background-color: var(--button-active-color);
+    color: var(--text-color-white)!important;
+  }
+}
