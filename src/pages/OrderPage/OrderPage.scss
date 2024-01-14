@@ -2,9 +2,8 @@
   display: flex;
   justify-content: space-between;
   padding: 0 80px 0 135px;
-  margin-top: 20px;
   max-width: 1440px;
-  margin: 20px auto 0;
+  margin: 60px auto 20px;
   gap: 70px;
 
   &__without-designers {
@@ -100,9 +99,6 @@
     letter-spacing: 0.08px;
     margin: 0 0 27px 0;
     display: -webkit-box;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    -webkit-line-clamp: 2;
   }
 
   &__specialization {
@@ -176,11 +172,12 @@
   }
 
   &__designers {
-    margin-top: -30px;
+    position: sticky;
   }
 
   &__designers-list {
-    overflow: scroll;
+    overflow-y: scroll;
+    max-height: 87vh;
   }
 
   &__designers-title {
