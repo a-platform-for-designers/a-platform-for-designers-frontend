@@ -1,8 +1,9 @@
 .profileInfo {
-  p, span {
+  p,
+  span {
     word-break: break-word;
   }
-  
+
   &__title {
     margin: 0;
     padding: 0;
