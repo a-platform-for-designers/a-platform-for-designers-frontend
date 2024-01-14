@@ -63,8 +63,9 @@ const ordersService = {
   },
 
   createOrder: async (body: IOrderCreation): Promise<IOrderCreation> => {
-    const response = await api.post<IOrderInfoResponse>("/orders/", body);
+    const response = await api.post<IOrderCreation>("/orders/", body);
     return response.data;
+  },
 
   deleteOrder: async (id: number): Promise<void> => {
     await api.delete(`/orders/${id}/`);
