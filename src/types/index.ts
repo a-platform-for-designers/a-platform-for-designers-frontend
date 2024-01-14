@@ -201,6 +201,20 @@ export interface IOrdersList {
   is_published: boolean;
 }
 
+export interface IMyOrderResponse {
+  customer: IApplicant;
+  description: string;
+  id: number;
+  is_favorited_order: boolean;
+  is_published: boolean;
+  is_responded_order: boolean;
+  payment: number;
+  pub_date: string;
+  specialization: IDataItem;
+  sphere: IDataItem;
+  title: string;
+}
+
 export interface IApplicant {
   country: string;
   first_name: string;
@@ -211,7 +225,7 @@ export interface IApplicant {
 }
 
 export interface IOrderResponse {
-  customer: IOrdersCustomer;
+  customer: IOrdersCustomer | IApplicant;
   title: string;
   specialization: IDataItem;
   payment: number;

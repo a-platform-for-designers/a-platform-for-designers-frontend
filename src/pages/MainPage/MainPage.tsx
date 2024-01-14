@@ -13,7 +13,7 @@ import desCatImg3 from "@/assets/images/desinerscategories-3.webp";
 import desCatImg4 from "@/assets/images/desinerscategories-4.webp";
 import Feed from "./components/Feed/Feed";
 import { casesService, userService } from "@/api";
-import { ICase, IUserWithLastCases } from "@/types";
+import { ICase, IUser } from "@/types";
 
 const mainPageTheme: SxProps<Theme> = {
   backgroundColor: (theme) => theme.palette.background.default,
@@ -21,26 +21,38 @@ const mainPageTheme: SxProps<Theme> = {
 
 const MainPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [users, setUsers] = useState<IUserWithLastCases[]>([]);
+  const [users, setUsers] = useState<IUser[]>([]);
   const [cases, setCases] = useState<ICase[]>([]);
   const [totalCases, setTotalCases] = useState<number>(0);
   const [page, setPage] = useState<number>(1);
   const CASES_LIMIT = 12;
 
   useEffect(() => {
-    (async () => {
-      const usersData = await userService.getUsersList(6, 1);
-      setUsers(usersData.results);
-    })();
+    const fetchUsers = async () => {
+      try {
+        const userIds = [22, 26, 27, 28, 33, 35];
+
+        const usersData = await Promise.all(
+          userIds.map(async (id) => await userService.getUserById(id))
+        );
+
+        setUsers(usersData);
+      } catch (error) {
+        console.error("Error loading users:", error);
+      }
+    };
+
+    fetchUsers();
   }, []);
 
   function getUsers() {
     const usersData = users.map((user) => {
       let specialization;
 
-      if (user.specialization) {
+      if (user?.profiledesigner?.specialization) {
         const name: string = "name";
-        const firstSpec: object = user.specialization[0];
+        const firstSpec: string | number =
+          user.profiledesigner.specialization[0];
         specialization = String(firstSpec[name as keyof typeof firstSpec]);
       }
 
