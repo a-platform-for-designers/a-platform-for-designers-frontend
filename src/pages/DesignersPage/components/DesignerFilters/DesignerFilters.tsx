@@ -20,6 +20,7 @@ interface IProps {
   page: number;
   setTotalUsers: React.Dispatch<React.SetStateAction<number>>;
   limit: number;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const DesignerFilters: React.FC<IProps> = ({
@@ -27,6 +28,7 @@ const DesignerFilters: React.FC<IProps> = ({
   page,
   setTotalUsers,
   limit,
+  setIsLoading,
 }) => {
   const [speciality, setSpeciality] = useState<string[]>([]);
   const [skillsValue, setSkillsValue] = useState<string[]>([]);
@@ -101,6 +103,7 @@ const DesignerFilters: React.FC<IProps> = ({
   }
 
   useEffect(() => {
+    setIsLoading(true);
     const specialityIds = convertToIds(speciality, specializations);
     const skillsIds = convertToIds(skillsValue, skills);
     const instrumentsIds = convertToIds(tools, instruments);
@@ -116,6 +119,7 @@ const DesignerFilters: React.FC<IProps> = ({
       );
       setTotalUsers(filteredList.count);
       setDesigners(filteredList.results);
+      setIsLoading(false);
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [skillsValue, speciality, tools, resume, page]);

@@ -1,5 +1,4 @@
 import { SyntheticEvent, useEffect, useState } from "react";
-import "./MentorsFilters.scss";
 import CloseIcon from "@mui/icons-material/Close";
 import {
   DESIGNER_FILTERS_CLEAR_BTN_LABEL,
@@ -14,9 +13,19 @@ import { filterService } from "@/api/services/filterService";
 
 interface IProps {
   setMentors: (IMentorsList: IUserWithLastCases[]) => void;
+  page: number;
+  setTotalUsers: React.Dispatch<React.SetStateAction<number>>;
+  limit: number;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const DesignerFilters: React.FC<IProps> = ({ setMentors }) => {
+const DesignerFilters: React.FC<IProps> = ({
+  setMentors,
+  page,
+  setTotalUsers,
+  limit,
+  setIsLoading,
+}) => {
   const [speciality, setSpeciality] = useState<string[]>([]);
   const [skillsValue, setSkillsValue] = useState<string[]>([]);
   const [tools, setTools] = useState<string[]>([]);
@@ -69,24 +78,27 @@ const DesignerFilters: React.FC<IProps> = ({ setMentors }) => {
   }
 
   useEffect(() => {
-    const specialityIds = convertToIds(speciality, specializations);
-    const skillsIds = convertToIds(skillsValue, skills);
-    const instrumentsIds = convertToIds(tools, instruments);
+    const fetchData = async () => {
+      setIsLoading(true);
+      const specialityIds = convertToIds(speciality, specializations);
+      const skillsIds = convertToIds(skillsValue, skills);
+      const instrumentsIds = convertToIds(tools, instruments);
 
-    (async () => {
-      const filteredList = await filterService.getQueryUsers(
-        skillsIds, //skills
-        specialityIds, //specialization
-        instrumentsIds, //tools
-        null,
-        12,
-        1
+      const filteredList = await filterService.getQueryMentors(
+        skillsIds, // skills
+        specialityIds, // specialization
+        instrumentsIds, // tools
+        limit,
+        page
       );
-
       setMentors(filteredList.results);
-    })();
+      setTotalUsers(filteredList.count);
+      setIsLoading(false);
+    };
+
+    fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [skillsValue, speciality, tools]);
+  }, [skillsValue, speciality, tools, page]);
 
   const specializationMentors = Object.keys(specializations).filter(
     (item) => item !== "Менторство"

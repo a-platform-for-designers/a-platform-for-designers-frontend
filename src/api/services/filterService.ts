@@ -58,4 +58,28 @@ export const filterService = {
     );
     return response.data;
   },
+
+  getQueryMentors: async (
+    skillId: number[],
+    specializationId: number[],
+    toolsId: number[],
+    limit: number,
+    page: number
+  ): Promise<IUserRespons> => {
+    const formattedSpecializationArray = specializationId
+      .map((id) => `specialization=${id}`)
+      .join("&");
+    const formattedSkillsArray = skillId.map((id) => `skills=${id}`).join("&");
+    const formattedToolsArray = toolsId
+      .map((id) => `instruments=${id}`)
+      .join("&");
+    const response = await api.get<IUserRespons>(
+      `/mentors/?limit=${limit}&page=${page}${
+        formattedSpecializationArray ? `&${formattedSpecializationArray}` : ""
+      }${formattedSkillsArray ? `&${formattedSkillsArray}` : ""}${
+        formattedToolsArray ? `&${formattedToolsArray}` : ""
+      }`
+    );
+    return response.data;
+  },
 };
