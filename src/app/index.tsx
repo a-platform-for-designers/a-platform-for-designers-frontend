@@ -28,7 +28,7 @@ import {
   Profile,
   CaseCreation,
   Mentorship,
-  Orders,
+  OrderCreation,
   Settings,
 } from "../pages/DashboardPage/components/index.ts";
 import { getInfoAboutMe } from "@/redux/slices/userSlice.ts";
@@ -80,12 +80,13 @@ function App() {
                     element={<ProtectedRoute Component={CaseCreation} />}
                   />
                 </Route>
+
                 <Route path="mentorship" element={<Mentorship />} />
-                <Route path="orders" element={<Orders />} />
                 <Route path="settings" element={<Settings />} />
               </Route>
               <Route path="/case/:id" Component={CasePage} />
               <Route path="/orders" Component={OrdersPage} />
+              <Route path="/orders/create" Component={OrderCreation} />
               <Route path="/my-orders/*" Component={UserOrdersPage} />
               <Route path="/order/:id" Component={OrderPage} />
               <Route path="*" Component={ErrorPage} />

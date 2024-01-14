@@ -1,4 +1,4 @@
-import Orders from "./orders/Orders.tsx";
+import OrderCreation from "./orders/OrderCreation.tsx";
 import Portfolio from "./portfolio/Portfolio.tsx";
 import Profile from "./profile/Profile.tsx";
 
@@ -8,7 +8,7 @@ import CaseCreation from "./caseCreation/CaseCreation.tsx";
 import Mentorship from "./mentorship/Mentorship.tsx";
 
 export {
-  Orders,
+  OrderCreation,
   Portfolio,
   Profile,
   Mentorship,

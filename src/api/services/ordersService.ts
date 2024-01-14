@@ -2,6 +2,7 @@ import {
   IOrdersResponse,
   IOrderResponse,
   IOrderInfoResponse,
+  IOrderCreation,
   IMyOrderResponse,
 } from "../../types";
 import api from "../api";
@@ -60,6 +61,10 @@ const ordersService = {
   ): Promise<void> => {
     await api.patch(`/orders/${id}/publish/`, body);
   },
+
+  createOrder: async (body: IOrderCreation): Promise<IOrderCreation> => {
+    const response = await api.post<IOrderInfoResponse>("/orders/", body);
+    return response.data;
 
   deleteOrder: async (id: number): Promise<void> => {
     await api.delete(`/orders/${id}/`);

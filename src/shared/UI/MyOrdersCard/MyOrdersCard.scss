@@ -29,6 +29,9 @@
     font-weight: 500;
     line-height: 150%;
     letter-spacing: 0.024px;
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   &__favourite-icon {
@@ -109,7 +112,7 @@
     display: flex;
     border-radius: 8px;
     border: 1px solid #6900ee;
-    min-width: 51px;
+    min-width: 95px;
     padding: 0 5px 0 5px;
     height: 24px;
     justify-content: center;
@@ -122,7 +125,7 @@
     font-weight: 500;
     line-height: 20px; /* 142.857% */
     letter-spacing: 0.1px;
-    margin-right: -10px;
+    margin-right: 0px;
   }
 
   &__button-in-profile {
