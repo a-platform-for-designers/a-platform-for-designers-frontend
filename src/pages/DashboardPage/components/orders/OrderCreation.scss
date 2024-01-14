@@ -1,0 +1,18 @@
+.order-creation {
+  &__button {
+    position: absolute;
+    top: 0;
+    left: calc(50% - 770px);
+    width: 100px;
+    border: none;
+    background-color: inherit;
+    display: flex;
+    align-items: center;
+    padding: 5px 2px 0 0;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}

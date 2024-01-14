@@ -165,6 +165,14 @@ export interface IOrdersResponse {
   results: [];
 }
 
+export interface IOrderCreation {
+  title: string;
+  specialization: number | number[] | null;
+  description: string;
+  sphere: number | number[] | null;
+  payment: number;
+}
+
 export interface IOrderInfoResponse {
   applicants?: IApplicant[];
   customer: IOrdersCustomer;

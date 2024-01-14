@@ -2,6 +2,7 @@ import {
   IOrdersResponse,
   IOrderResponse,
   IOrderInfoResponse,
+  IOrderCreation,
 } from "../../types";
 import api from "../api";
 
@@ -53,6 +54,11 @@ const ordersService = {
     id: number
   ): Promise<void> => {
     await api.patch(`/orders/${id}/publish/`, body);
+  },
+
+  createOrder: async (body: IOrderCreation): Promise<IOrderCreation> => {
+    const response = await api.post<IOrderInfoResponse>("/orders/", body);
+    return response.data;
   },
 };
 export default ordersService;
