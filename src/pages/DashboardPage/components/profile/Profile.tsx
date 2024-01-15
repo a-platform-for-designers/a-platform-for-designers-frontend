@@ -21,6 +21,7 @@ import {
 import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
 import profileService from "@/api/services/profileService";
 import { setUserInfo, setCustomerInfo } from "@/redux/slices/userSlice";
+import { userService } from "@/api";
 
 const Profile: React.FC = () => {
   const { user } = useAppSelector((state) => state.user);
@@ -137,13 +138,15 @@ const Profile: React.FC = () => {
         about: about.value,
         work_status: status,
       };
-      console.log(values);
-      const userInfo = await profileService.postProfileDesigner({
+
+      profileService.postProfileDesigner({
         ...values,
       });
-      console.log(userInfo);
-      dispatch(setUserInfo(userInfo));
-      window.location.reload();
+
+      const updatedUser = await userService.getUserById(user?.id || 0);
+      if (updatedUser?.profiledesigner !== null) {
+        dispatch(setUserInfo(updatedUser?.profiledesigner));
+      }
       return;
     }
     if (isCustomer) {
@@ -159,7 +162,6 @@ const Profile: React.FC = () => {
       });
 
       dispatch(setCustomerInfo(userInfo));
-      window.location.reload();
       return;
     }
   }
