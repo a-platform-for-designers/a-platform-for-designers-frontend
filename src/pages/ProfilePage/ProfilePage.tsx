@@ -26,6 +26,10 @@ const ProfilePage: React.FC = () => {
   const { id } = useParams();
   const [currentUser, setCurrentUser] = useState<IUser>(); // пользователь чей профиль(id через путь)
   const isCustomerCurrentUser = currentUser?.is_customer;
+  const isMentor =
+    currentUser?.profiledesigner?.specialization?.some((item) =>
+      typeof item === "number" ? item === 5 : item.id === 5
+    ) ?? false;
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -72,6 +76,26 @@ const ProfilePage: React.FC = () => {
 
   // Чтобы добавить пункт меню на странице профиля, дополнить массив
   const profileNavPages: IProfileNavPage[] = [
+    {
+      title: "Портфолио",
+      link: "portfolio",
+      element: <Portfolio data={currentUser?.portfolio} />,
+    },
+    {
+      title: "Профиль",
+      link: "file",
+      element: currentUser?.profiledesigner ? (
+        <Profile
+          profiledesigner={currentUser?.profiledesigner}
+          emptyTitle="Дизайнер пока не заполнил профиль"
+        />
+      ) : (
+        <Profile emptyTitle="Здесь пока ничего нет" />
+      ),
+    },
+  ];
+
+  const profileMentorNavPages: IProfileNavPage[] = [
     {
       title: "Портфолио",
       link: "portfolio",
@@ -131,22 +155,7 @@ const ProfilePage: React.FC = () => {
     <StyledEngineProvider injectFirst>
       <Container component="section" className="profilePage">
         <Info data={profileData} currentUser={currentUser} />
-        {isCustomerCurrentUser !== undefined && !isCustomerCurrentUser ? (
-          <>
-            <ProfileNav pages={profileNavPages} />
-            <Routes>
-              <Route path="/">
-                <Route
-                  index
-                  element={<Navigate replace to={profileNavPages[0].link} />}
-                />
-                {profileNavPages.map((page, idx) => (
-                  <Route key={idx} path={page.link} element={page.element} />
-                ))}
-              </Route>
-            </Routes>
-          </>
-        ) : (
+        {isCustomerCurrentUser ? (
           <>
             <ProfileNav pages={profileCustomerNavPages} />
             <Routes>
@@ -158,6 +167,38 @@ const ProfilePage: React.FC = () => {
                   }
                 />
                 {profileCustomerNavPages.map((page, idx) => (
+                  <Route key={idx} path={page.link} element={page.element} />
+                ))}
+              </Route>
+            </Routes>
+          </>
+        ) : isMentor ? (
+          <>
+            <ProfileNav pages={profileMentorNavPages} />
+            <Routes>
+              <Route path="/">
+                <Route
+                  index
+                  element={
+                    <Navigate replace to={profileMentorNavPages[0].link} />
+                  }
+                />
+                {profileMentorNavPages.map((page, idx) => (
+                  <Route key={idx} path={page.link} element={page.element} />
+                ))}
+              </Route>
+            </Routes>
+          </>
+        ) : (
+          <>
+            <ProfileNav pages={profileNavPages} />
+            <Routes>
+              <Route path="/">
+                <Route
+                  index
+                  element={<Navigate replace to={profileNavPages[0].link} />}
+                />
+                {profileNavPages.map((page, idx) => (
                   <Route key={idx} path={page.link} element={page.element} />
                 ))}
               </Route>

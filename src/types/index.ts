@@ -278,7 +278,7 @@ export interface IProfileDesigner {
   user?: number;
   education?: string | null;
   country?: string | null;
-  specialization?: string[] | number[] | null;
+  specialization?: IDataItem[] | number[] | null;
   hobby?: string;
   language?: string[] | number[];
   photo?: File | unknown;
@@ -292,7 +292,7 @@ export interface IProfileData {
   first_name?: string;
   last_name?: string;
   post?: string;
-  specialization?: string[] | number[];
+  specialization?: IDataItem[] | number[] | string[];
   image?: string;
   country?: string;
   registrationDate?: string;
@@ -412,7 +412,7 @@ export interface IProfileDesignerPost {
   user?: number;
   education?: string | null;
   country?: string | null;
-  specialization?: string[] | number[] | null;
+  specialization?: IDataItem[] | number[] | null;
   hobby?: string;
   language?: string[] | number[];
   photo?: File | unknown;

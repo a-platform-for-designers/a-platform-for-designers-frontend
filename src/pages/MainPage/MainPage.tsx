@@ -4,7 +4,7 @@ import Intro from "./components/Intro/Intro";
 import { useState, useEffect } from "react";
 import DesinersCarousel from "./components/DesinersCarousel/DesinersCarousel";
 import DesinersCategories from "./components/DesinersCategories/DesinersCategories";
-import { IDesinerCategoriesData } from "@/types";
+import { IDataItem, IDesinerCategoriesData } from "@/types";
 
 //import avatarPlaceholder from "../../assets/images/designerscarousel-avatar.webp";
 import desCatImg1 from "@/assets/images/desinerscategories-1.webp";
@@ -51,7 +51,7 @@ const MainPage: React.FC = () => {
 
       if (user?.profiledesigner?.specialization) {
         const name: string = "name";
-        const firstSpec: string | number =
+        const firstSpec: number | IDataItem =
           user.profiledesigner.specialization[0];
         specialization = String(firstSpec[name as keyof typeof firstSpec]);
       }
