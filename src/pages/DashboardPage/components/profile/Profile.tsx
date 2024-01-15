@@ -143,7 +143,6 @@ const Profile: React.FC = () => {
         ...values,
       });
 
-      console.log();
       const updatedUser = await userService.getUserById(user?.id || 0);
       if (updatedUser?.profiledesigner !== null) {
         dispatch(setUserInfo(updatedUser?.profiledesigner));
