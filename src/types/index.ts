@@ -428,3 +428,10 @@ export interface IPostMentoring {
   price?: number | null;
   agreement_free: boolean | null;
 }
+
+export interface ISupport {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+}

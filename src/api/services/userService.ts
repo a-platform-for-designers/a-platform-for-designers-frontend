@@ -6,6 +6,7 @@ import {
   IUpdateInfoUserMe,
   IUpdateInfoMeCustomer,
   ISetNewPassword,
+  ISupport,
 } from "../../types";
 import api from "../api";
 import { enqueueSnackbar } from "notistack";
@@ -123,6 +124,11 @@ const userService = {
       }
       throw error;
     }
+  },
+
+  getSupport: async (data: ISupport): Promise<void> => {
+    await api.post<ISupport>("/support/", data);
+    return;
   },
 };
 
