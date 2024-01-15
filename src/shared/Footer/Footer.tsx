@@ -1,10 +1,4 @@
-import {
-  Box,
-  List,
-  ListItem,
-  StyledEngineProvider,
-  Container,
-} from "@mui/material";
+import { Box, List, ListItem, StyledEngineProvider } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import "./Footer.scss";
 import usePopUp from "@/hooks/usePopUp";
@@ -24,12 +18,12 @@ const Footer: React.FC = () => {
     <StyledEngineProvider injectFirst>
       <footer className="footer">
         <Box className="footer__container">
-          <Container
+          <Box
             sx={{
               display: "flex",
               flexDirection: "row",
+              justifyContent: "start",
               alignItems: "center",
-              width: "auto",
             }}
           >
             <Box className="footer__logo" onClick={() => handleCkick()}></Box>
@@ -47,7 +41,7 @@ const Footer: React.FC = () => {
               <LiveHelpOutlinedIcon sx={{ marginRight: 1 }} />
               Поддержка
             </Box>
-          </Container>
+          </Box>
           <List className="footer__links">
             <ListItem className="footer__link">Правила пользования</ListItem>
             <ListItem className="footer__link">
