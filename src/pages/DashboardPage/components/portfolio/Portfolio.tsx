@@ -9,13 +9,23 @@ import caseCart from "@/assets/images/caseCart.webp";
 import { BASE_PATH } from "@/constants/constants";
 import { casesService } from "@/api";
 import { getInfoAboutMe } from "@/redux/slices/userSlice";
+import { useEffect } from "react";
 
 const Portfolio: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const currentLocation = location.pathname;
+  console.log(currentLocation);
+
   const { user } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
+
+  // Необходимо, чтобы при возвращении назад на страницу с портфолио компонент ре-рендерился
+  useEffect(() => {
+    dispatch(getInfoAboutMe());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentLocation]);
 
   const handleDelete = async (id: number) => {
     // Обсудить с беком возвращённое тело по этому запросу (сейчас ничего не приходит)
