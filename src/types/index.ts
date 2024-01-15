@@ -233,7 +233,7 @@ export interface IApplicant {
 }
 
 export interface IOrderResponse {
-  customer: IOrdersCustomer | IApplicant;
+  customer: IOrdersCustomer | IOrderApplicant;
   title: string;
   specialization: IDataItem;
   payment: number;
