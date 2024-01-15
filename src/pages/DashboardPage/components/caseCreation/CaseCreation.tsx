@@ -26,8 +26,14 @@ const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
   const [directions, setDirections] = useState<string | null>(null); //??
   const [wrapper, setWrapper] = useState<File | null>(null); //??
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]); //??
-  const [sphereValue, setSphereValue] = useState<string | null>(null); //??
-  const [toolsValue, setToolsValue] = useState<string[]>([]); //??
+  const [sphereValue, setSphereValue] = useState<string | null>(
+    caseInfo?.sphere?.name || null
+  );
+  const [toolsValue, setToolsValue] = useState<string[]>(
+    (caseInfo?.instruments || []).map((obj) =>
+      typeof obj === "object" && "name" in obj ? obj["name"] : ""
+    )
+  ); //??
   const [isCasePreview, setIsCasePreview] = useState<boolean>(false);
   const [caseDataValues, setCaseDataValues] = useState<ICasePreview>();
 
@@ -261,19 +267,35 @@ const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
         </>
       ) : (
         <Routes>
-          <Route path="/">
-            <Route index element={<Navigate replace to={"preview"} />} />
-            <Route
-              path="/preview"
-              element={
-                <CasePreview
-                  handleSubmit={handleSubmit}
-                  caseData={caseDataValues}
-                  handleEdit={handleEdit}
-                />
-              }
-            />
-          </Route>
+          {caseInfo ? (
+            <Route path="/">
+              <Route index element={<Navigate replace to={`preview`} />} />
+              <Route
+                path={`/${caseInfo.id}/preview`}
+                element={
+                  <CasePreview
+                    handleSubmit={handleSubmit}
+                    caseData={caseDataValues}
+                    handleEdit={handleEdit}
+                  />
+                }
+              />
+            </Route>
+          ) : (
+            <Route path="/">
+              <Route index element={<Navigate replace to={"preview"} />} />
+              <Route
+                path="/preview"
+                element={
+                  <CasePreview
+                    handleSubmit={handleSubmit}
+                    caseData={caseDataValues}
+                    handleEdit={handleEdit}
+                  />
+                }
+              />
+            </Route>
+          )}
         </Routes>
       )}
     </>

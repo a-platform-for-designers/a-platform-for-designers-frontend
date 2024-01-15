@@ -66,7 +66,7 @@ const ordersService = {
     body: IOrderCreation,
     id: number
   ): Promise<IOrderCreation> => {
-    const response = await api.patch<IOrderCreation>(`/orders/${id}`, body);
+    const response = await api.patch<IOrderCreation>(`/orders/${id}/`, body);
     return response.data;
   },
 

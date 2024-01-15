@@ -9,15 +9,21 @@ import { useAppSelector } from "@/hooks/reduxHooks";
 import { MyButton } from "@/shared/UI";
 import { enqueueSnackbar } from "notistack";
 import { ordersService } from "@/api";
+import { useNavigate } from "react-router-dom";
 
 interface IProps {
   orderInfo?: IOrderInfoResponse;
 }
 
 const OrderСreation: React.FC<IProps> = ({ orderInfo }) => {
+  const navigate = useNavigate();
   const title = useInput(orderInfo?.title || "", { isEmpty: true });
   const description = useInput(orderInfo?.description || "", {});
-  const payment = useInput(String(orderInfo?.payment) || "", {}); // это нужно как-то исправить!
+  const payment = useInput(
+    orderInfo?.payment?.toString() || "",
+    {},
+    { trim: true }
+  );
   const [directions, setDirections] = useState<string | null>(
     orderInfo?.specialization.name || null
   );
@@ -25,6 +31,13 @@ const OrderСreation: React.FC<IProps> = ({ orderInfo }) => {
     orderInfo?.sphere.name || null
   );
   const { specializations, spheres } = useAppSelector((state) => state.data);
+
+  payment.onChange = (event) => {
+    const inputValue = event.target.value;
+    const numericValue = inputValue.replace(/\D/g, "");
+    const limitedValue = numericValue.slice(0, 9);
+    payment.onSetValue(limitedValue);
+  };
 
   const orderCreationFileds: IProfileDataItem[] = [
     {
@@ -112,6 +125,7 @@ const OrderСreation: React.FC<IProps> = ({ orderInfo }) => {
     try {
       const createCase = await ordersService.createOrder(values);
       enqueueSnackbar("Заказ успешно опубликован", { variant: "success" });
+      navigate("/my-orders/orders");
       return createCase;
     } catch {
       enqueueSnackbar(
@@ -197,11 +211,11 @@ const OrderСreation: React.FC<IProps> = ({ orderInfo }) => {
           </Box>
           <Box sx={{ width: "212px", margin: "0 auto" }}>
             {orderInfo ? (
-              <MyButton onClick={handleAddSubmit} disabled={!!title.error}>
+              <MyButton onClick={handleEditSubmit} disabled={!!title.error}>
                 Опубликовать проект
               </MyButton>
             ) : (
-              <MyButton onClick={handleEditSubmit} disabled={!!title.error}>
+              <MyButton onClick={handleAddSubmit} disabled={!!title.error}>
                 Опубликовать проект
               </MyButton>
             )}
