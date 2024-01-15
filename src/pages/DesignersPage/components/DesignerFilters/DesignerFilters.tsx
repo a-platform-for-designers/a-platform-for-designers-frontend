@@ -44,8 +44,6 @@ const DesignerFilters: React.FC<IProps> = ({
   const { specializations } = useAppSelector((state) => state.data);
   const { instruments } = useAppSelector((state) => state.data);
 
-  const specializationsList = Object.keys(specializations);
-
   function convertToIds(
     names: string[],
     specializations: Record<string, number>
@@ -130,6 +128,10 @@ const DesignerFilters: React.FC<IProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [skillsValue, speciality, tools, resume, page]);
 
+  const specializationDesigners = Object.keys(specializations).filter(
+    (item) => item !== "Менторство"
+  );
+
   return (
     <div className="designerFilters">
       <div className="designerFilters__container">
@@ -146,7 +148,7 @@ const DesignerFilters: React.FC<IProps> = ({
       </div>
       <div className="designerFilters__container">
         <h2 className="designerFilters__title">{SPECIALIZATION_TITLE}</h2>
-        {specializationsList.map((item, i) => {
+        {specializationDesigners.map((item, i) => {
           return (
             <MyCheckBox
               key={i}
