@@ -14,8 +14,6 @@ const Mentoring: React.FC<IProps> = ({ mentoring, emptyTitle }) => {
   const { experience, expertise, price, agreement_free, instruments, skills } =
     mentoring || {};
 
-  console.log(mentoring);
-
   function setSkills() {
     if (Array.isArray(skills)) {
       const name: string = "name";

@@ -37,7 +37,10 @@ const Mentorship: React.FC = () => {
     isEmpty: true,
   });
   const [status, setStatus] = useState<boolean | null>(
-    user?.mentoring?.agreement_free ? user?.mentoring?.agreement_free : null
+    user?.mentoring?.agreement_free === false ||
+      user?.mentoring?.agreement_free === true
+      ? user?.mentoring?.agreement_free
+      : null
   );
 
   function handleUnactive() {
@@ -58,7 +61,6 @@ const Mentorship: React.FC = () => {
       price: price.value ? parseInt(price.value, 10) : null,
       agreement_free: status,
     };
-    console.log(values);
 
     const mentorInfo = await mentoringService.postMentoring({
       ...values,

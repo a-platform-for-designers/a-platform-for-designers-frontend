@@ -78,7 +78,7 @@ const Profile: React.FC = () => {
     _: React.SyntheticEvent<Element, Event>,
     newValue: string[]
   ) {
-    if (newValue.length > 5) return;
+    if (newValue.length > 5 || newValue.length === 0) return;
     setToolsValue(newValue);
     if (newValue[0] !== undefined) {
       const newValueId = newValue.map((key) => instruments[key]);
@@ -90,7 +90,7 @@ const Profile: React.FC = () => {
     _: React.SyntheticEvent<Element, Event>,
     newValue: string[]
   ) {
-    if (newValue.length > 5) return;
+    if (newValue.length > 5 || newValue.length === 0) return;
     setSkillsValue(newValue);
     if (newValue[0] !== undefined) {
       const newValueId = newValue.map((key) => skills[key]);
@@ -102,7 +102,7 @@ const Profile: React.FC = () => {
     _: React.SyntheticEvent<Element, Event>,
     newValue: string[]
   ) {
-    if (newValue.length > 5) return;
+    if (newValue.length > 5 || newValue.length === 0) return;
     setSpecializationValue(newValue);
     if (newValue[0] !== undefined) {
       const newValueId = newValue.map((key) => specializations[key]);
@@ -114,7 +114,7 @@ const Profile: React.FC = () => {
     _: React.SyntheticEvent<Element, Event>,
     newValue: string[]
   ) {
-    if (newValue.length > 5) return;
+    if (newValue.length > 5 || newValue.length === 0) return;
     setLanguageValue(newValue);
     if (newValue[0] !== undefined) {
       const newValueId = newValue.map((key) => languages[key]);
@@ -126,6 +126,7 @@ const Profile: React.FC = () => {
     e.preventDefault();
     if (!isCustomer) {
       const values = {
+        // specialization: specialization && specialization.length > 0 ? specialization : [0],
         specialization,
         country,
         language,
@@ -136,12 +137,13 @@ const Profile: React.FC = () => {
         about: about.value,
         work_status: status,
       };
-
+      console.log(values);
       const userInfo = await profileService.postProfileDesigner({
         ...values,
       });
-
+      console.log(userInfo);
       dispatch(setUserInfo(userInfo));
+      window.location.reload();
       return;
     }
     if (isCustomer) {
@@ -157,6 +159,7 @@ const Profile: React.FC = () => {
       });
 
       dispatch(setCustomerInfo(userInfo));
+      window.location.reload();
       return;
     }
   }

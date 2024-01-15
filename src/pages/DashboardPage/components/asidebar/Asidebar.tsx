@@ -17,8 +17,43 @@ const Asidebar: React.FC = () => {
 
   const { user } = useAppSelector((state) => state.user);
   const isCustomer = user?.is_customer;
+  const isMentor =
+    user?.profiledesigner?.specialization?.some((item) =>
+      typeof item === "number" ? item === 5 : item.id === 5
+    ) ?? false;
 
   const navItems = [
+    {
+      title: "Профиль",
+      link: "profile",
+      id: 1050,
+    },
+    {
+      title: "Портфолио",
+      link: "portfolio",
+      id: 1051,
+    },
+    {
+      title: "Настройки",
+      link: "settings",
+      id: 1054,
+    },
+  ];
+
+  const customerNavItems = [
+    {
+      title: "Профиль",
+      link: "profile",
+      id: 1050,
+    },
+    {
+      title: "Настройки",
+      link: "settings",
+      id: 1054,
+    },
+  ];
+
+  const mentorsNavItems = [
     {
       title: "Профиль",
       link: "profile",
@@ -41,20 +76,11 @@ const Asidebar: React.FC = () => {
     },
   ];
 
-  const customerNavItems = [
-    {
-      title: "Профиль",
-      link: "profile",
-      id: 1050,
-    },
-    {
-      title: "Настройки",
-      link: "settings",
-      id: 1054,
-    },
-  ];
-
-  const items = isCustomer ? customerNavItems : navItems;
+  const items = isCustomer
+    ? customerNavItems
+    : isMentor
+    ? mentorsNavItems
+    : navItems;
 
   const navElement = items.map((item) => {
     return (
