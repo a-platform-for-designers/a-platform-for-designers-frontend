@@ -29,6 +29,7 @@ const Footer: React.FC = () => {
               display: "flex",
               flexDirection: "row",
               alignItems: "center",
+              width: "auto",
             }}
           >
             <Box className="footer__logo" onClick={() => handleCkick()}></Box>
