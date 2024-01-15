@@ -70,6 +70,7 @@ const usePopUp = (): UsePopUpResult => {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
+              overflow: "scroll",
             }}
           >
             <Paper className="popup-content">
