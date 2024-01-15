@@ -20,6 +20,11 @@
     align-items: center;
     margin-bottom: 19px;
     width: 684px;
+
+    :hover {
+      cursor: pointer;
+      opacity: .9;
+    }
   }
 
   &__customer {

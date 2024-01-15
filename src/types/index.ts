@@ -202,7 +202,7 @@ export interface IOrdersList {
 }
 
 export interface IMyOrderResponse {
-  customer: IApplicant;
+  customer: IOrderApplicant;
   description: string;
   id: number;
   is_favorited_order: boolean;
@@ -215,7 +215,7 @@ export interface IMyOrderResponse {
   title: string;
 }
 
-export interface IApplicant {
+export interface IOrderApplicant {
   first_name: string;
   id: number;
   last_name: string;
@@ -223,14 +223,14 @@ export interface IApplicant {
   post: string;
 }
 
-// export interface IApplicant {
-//   country: string;
-//   first_name: string;
-//   id: number;
-//   last_name: string;
-//   photo: string;
-//   specialization: IDataItem;
-// }
+export interface IApplicant {
+  country: string;
+  first_name: string;
+  id: number;
+  last_name: string;
+  photo: string;
+  specialization: IDataItem;
+}
 
 export interface IOrderResponse {
   customer: IOrdersCustomer | IApplicant;

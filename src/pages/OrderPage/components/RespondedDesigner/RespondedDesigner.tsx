@@ -13,13 +13,14 @@ const RespondedDesigner: React.FC<IProps> = ({ designer, handlePopupOpen }) => {
   const navigate = useNavigate();
 
   return (
-    <Box
-      className="respondedDesigner"
-      onClick={() => {
-        navigate(`/profile/${designer.id}/portfolio`);
-      }}
-    >
-      <Avatar className="respondedDesigner__avatar" src={designer.photo} />
+    <Box className="respondedDesigner">
+      <Avatar
+        className="respondedDesigner__avatar"
+        src={designer.photo}
+        onClick={() => {
+          navigate(`/profile/${designer.id}/portfolio`);
+        }}
+      />
       <Typography component="p" className="respondedDesigner__name">
         {designer.first_name} {designer.last_name}
       </Typography>
