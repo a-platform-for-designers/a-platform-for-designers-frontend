@@ -26,6 +26,19 @@ const ordersService = {
     return response.data;
   },
 
+  getMyOrdersList: async (
+    limit: number,
+    page: number
+  ): Promise<IMyOrderResponse[]> => {
+    const response = await api.get<IMyOrderResponse[]>("/orders/my_orders", {
+      params: {
+        limit: limit,
+        page: page,
+      },
+    });
+    return response.data;
+  },
+
   getMyOrdersListWithoutParams: async (): Promise<IMyOrderResponse[]> => {
     const response = await api.get<IMyOrderResponse[]>("/orders/my_orders", {});
     return response.data;

@@ -7,7 +7,8 @@
   &__main {
     max-width: 684px;
     padding-left: 118px;
-    display: grid;
+    display: flex;
+    flex-direction: column;
     gap: 22px;
   }
 

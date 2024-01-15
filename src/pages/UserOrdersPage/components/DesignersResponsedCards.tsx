@@ -14,6 +14,8 @@ const DesignersResponsedCards: React.FC = () => {
   const ORDERS_LIMIT = 8;
   const respondedTasks = orders.filter((task) => task.is_responded_order);
 
+  console.log(orders);
+
   function refreshOrdersList(id: number) {
     const newData = orders.filter((element) => element.id !== id);
     setOrders(newData);
@@ -22,15 +24,18 @@ const DesignersResponsedCards: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const ordersData = await ordersService.getOrdersListWithoutParams();
+        const ordersData = await ordersService.getOrdersList(
+          ORDERS_LIMIT,
+          page
+        );
         setOrders(ordersData.results);
-        setTotalOrders(respondedTasks.length);
+        setTotalOrders(ordersData.count);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
     fetchData();
-  }, [respondedTasks.length]);
+  }, [respondedTasks.length, page]);
 
   return (
     <StyledEngineProvider injectFirst>
@@ -49,7 +54,7 @@ const DesignersResponsedCards: React.FC = () => {
           <EmptyData title="Нет активных заказов" />
         )}
       </Box>
-      {respondedTasks?.length > 0 && (
+      {totalOrders > 7 && (
         <div>
           <MyPagination
             totalItems={totalOrders}

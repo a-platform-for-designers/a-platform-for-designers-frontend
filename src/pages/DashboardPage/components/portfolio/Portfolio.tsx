@@ -16,7 +16,6 @@ const Portfolio: React.FC = () => {
   const location = useLocation();
 
   const currentLocation = location.pathname;
-  console.log(currentLocation);
 
   const { user } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();

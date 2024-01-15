@@ -225,7 +225,7 @@ const OrderСreation: React.FC<IProps> = ({ orderInfo }) => {
                   )
                 }
               >
-                Опубликовать проект
+                Опубликовать заказ
               </MyButton>
             ) : (
               <MyButton
@@ -239,7 +239,7 @@ const OrderСreation: React.FC<IProps> = ({ orderInfo }) => {
                   )
                 }
               >
-                Опубликовать проект
+                Опубликовать заказ
               </MyButton>
             )}
           </Box>
