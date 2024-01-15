@@ -35,6 +35,7 @@ const ProfileInput: React.FC<IProfileInputProps> = ({
   disabled,
   handleDeleteCaseImage,
   maxLength,
+  className,
 }) => {
   const [image, setImage] = useState<string | null>(null);
   const [caseImages, setCaseImages] = useState<string[]>([]);
@@ -103,6 +104,21 @@ const ProfileInput: React.FC<IProfileInputProps> = ({
               className="profileInput"
               minRows={minRows}
               maxLength={maxLength}
+              placeholder={placeholder}
+            />
+          </FormControl>
+        </StyledEngineProvider>
+      );
+
+    case "text-label-without":
+      return (
+        <StyledEngineProvider injectFirst>
+          <FormControl className="profileInputForm">
+            <Typography className="profileInputLabel">{heading}</Typography>
+            <MyInput
+              variant="text-label-without"
+              data={data!}
+              className={`profileInput ${className}`}
               placeholder={placeholder}
             />
           </FormControl>

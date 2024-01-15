@@ -1,5 +1,6 @@
 import useInput from "@/hooks/useInput";
 import { IProfileDataItem } from "../../model/types";
+import { IOrderInfoResponse } from "@/types";
 import "./OrderCreation.scss";
 import { Box, Typography } from "@mui/material";
 import ProfileInput from "@/shared/UI/ProfileInput/ProfileInput";
@@ -8,16 +9,39 @@ import { useAppSelector } from "@/hooks/reduxHooks";
 import { MyButton } from "@/shared/UI";
 import { enqueueSnackbar } from "notistack";
 import { ordersService } from "@/api";
+import { useNavigate } from "react-router-dom";
 
-const OrderСreation: React.FC = () => {
-  const title = useInput("", { isEmpty: true });
-  const description = useInput("", {});
-  const payment = useInput("", {});
+interface IProps {
+  orderInfo?: IOrderInfoResponse;
+}
 
-  const [directions, setDirections] = useState<string | null>(null);
-  const [sphereValue, setSphereValue] = useState<string | null>(null);
-
+const OrderСreation: React.FC<IProps> = ({ orderInfo }) => {
+  const navigate = useNavigate();
+  const title = useInput(orderInfo?.title || "", { isEmpty: true });
+  const description = useInput(orderInfo?.description || "", { isEmpty: true });
+  const payment = useInput(
+    orderInfo?.payment?.toString() || "",
+    {},
+    { trim: true }
+  );
+  const [directions, setDirections] = useState<string | null>(
+    orderInfo?.specialization.name || null
+  );
+  const [sphereValue, setSphereValue] = useState<string | null>(
+    orderInfo?.sphere.name || null
+  );
   const { specializations, spheres } = useAppSelector((state) => state.data);
+
+  const specializationsList = Object.keys(specializations).filter(
+    (item) => item !== "Менторство"
+  );
+
+  payment.onChange = (event) => {
+    const inputValue = event.target.value;
+    const numericValue = inputValue.replace(/\D/g, "");
+    const limitedValue = numericValue.slice(0, 9);
+    payment.onSetValue(limitedValue);
+  };
 
   const orderCreationFileds: IProfileDataItem[] = [
     {
@@ -31,7 +55,7 @@ const OrderСreation: React.FC = () => {
       heading: "Кого ищете",
       variant: "drop-down",
       placeholder: "Выберите профессию из списка",
-      options: [...Object.keys(specializations)],
+      options: [...specializationsList],
       value: directions,
       onChange: handleSetDirections,
     },
@@ -45,10 +69,10 @@ const OrderСreation: React.FC = () => {
     },
     {
       heading: "Оплата",
-      variant: "input",
+      variant: "text-label-without",
       placeholder: "Введите сумму",
       data: payment,
-      maxLength: 50,
+      className: "order-creation__textarea_currency",
     },
     {
       heading: "Сфера",
@@ -92,7 +116,7 @@ const OrderСreation: React.FC = () => {
     return mappedInstruments;
   };
 
-  async function handleSubmit(e: React.MouseEvent<HTMLButtonElement>) {
+  async function handleAddSubmit(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
     const values = {
       title: title.value,
@@ -101,11 +125,10 @@ const OrderСreation: React.FC = () => {
       payment: Number(payment.value),
       sphere: convertStringToId(sphereValue, spheres),
     };
-    console.log(values);
-
     try {
       const createCase = await ordersService.createOrder(values);
       enqueueSnackbar("Заказ успешно опубликован", { variant: "success" });
+      navigate("/my-orders/orders");
       return createCase;
     } catch {
       enqueueSnackbar(
@@ -114,6 +137,34 @@ const OrderСreation: React.FC = () => {
           variant: "error",
         }
       );
+    }
+  }
+
+  async function handleEditSubmit(e: React.MouseEvent<HTMLButtonElement>) {
+    e.preventDefault();
+    const values = {
+      title: title.value,
+      specialization: convertStringToId(directions, specializations),
+      description: description.value,
+      payment: Number(payment.value),
+      sphere: convertStringToId(sphereValue, spheres),
+    };
+    if (orderInfo) {
+      try {
+        const createCase = await ordersService.editOrder(values, orderInfo.id);
+        enqueueSnackbar("Редактирование заказа прошло успешно", {
+          variant: "success",
+        });
+        navigate("/my-orders/orders");
+        return createCase;
+      } catch {
+        enqueueSnackbar(
+          "Произошла ошибка при редактировании заказа. Повторите попытку позже",
+          {
+            variant: "error",
+          }
+        );
+      }
     }
   }
 
@@ -155,16 +206,42 @@ const OrderСreation: React.FC = () => {
         >
           <Box sx={{ display: "flex", flexDirection: "column", gap: "60px" }}>
             <Typography sx={{ fontWeight: "700", fontSize: "32px" }}>
-              Создание заказа
+              {!orderInfo ? "Создание заказа" : "Редактирование заказа"}
             </Typography>
             {orderCreationFileds.map((item) => (
               <ProfileInput key={item.heading} {...item} />
             ))}
           </Box>
           <Box sx={{ width: "212px", margin: "0 auto" }}>
-            <MyButton onClick={handleSubmit} disabled={!!title.error}>
-              Опубликовать проект
-            </MyButton>
+            {orderInfo ? (
+              <MyButton
+                onClick={handleEditSubmit}
+                disabled={
+                  !!(
+                    title.error ||
+                    description.error ||
+                    !directions ||
+                    !sphereValue
+                  )
+                }
+              >
+                Опубликовать проект
+              </MyButton>
+            ) : (
+              <MyButton
+                onClick={handleAddSubmit}
+                disabled={
+                  !!(
+                    title.error ||
+                    description.error ||
+                    !directions ||
+                    !sphereValue
+                  )
+                }
+              >
+                Опубликовать проект
+              </MyButton>
+            )}
           </Box>
         </Box>
       </Box>

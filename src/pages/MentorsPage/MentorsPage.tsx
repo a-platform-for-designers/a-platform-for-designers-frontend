@@ -34,7 +34,7 @@ const MentorsPage: React.FC = () => {
             ) : users.length > 0 ? (
               <Grid xs={9} item className="mentorsPage__cards">
                 {users?.map((item) => (
-                  <MentorsCard key={item.id} user={item} />
+                  <MentorsCard key={item.id} mentor={item} />
                 ))}
               </Grid>
             ) : (

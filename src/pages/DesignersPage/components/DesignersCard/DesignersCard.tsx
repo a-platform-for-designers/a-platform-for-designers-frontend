@@ -4,15 +4,19 @@ import MyButton from "@/shared/UI/MyButton/MyButton";
 import MySwiper from "@/shared/UI/MySwiper/MySwiper";
 import { IUserWithLastCases } from "@/types";
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch } from "@/hooks/reduxHooks";
+import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
 import emptyCase from "@/assets/images/caseCart.webp";
+import MySignInPopup from "@/shared/UI/MySignInPopup/MySignInPopup";
 import { showMessagePopUp } from "@/redux/slices/chatSlice";
+import { useState } from "react";
 
 interface IProps {
   cardOwner: IUserWithLastCases;
 }
 
 const DesignersCard: React.FC<IProps> = ({ cardOwner }) => {
+  const { user } = useAppSelector((state) => state.user); // авторизованный пользователь
+  const [openSignInPopup, setOpenSignInPopup] = useState<boolean>(false);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -25,6 +29,14 @@ const DesignersCard: React.FC<IProps> = ({ cardOwner }) => {
       return arr.filter((item) => item !== "Менторство");
     }
     return arr;
+  }
+
+  function handlePopupOpen() {
+    if (user) {
+      dispatch(showMessagePopUp(cardOwner.id));
+    } else {
+      setOpenSignInPopup(true);
+    }
   }
 
   return (
@@ -53,12 +65,7 @@ const DesignersCard: React.FC<IProps> = ({ cardOwner }) => {
             </Typography>
           </div>
           <div>
-            <MyButton
-              variant="outlined"
-              onClick={() => {
-                dispatch(showMessagePopUp(cardOwner.id));
-              }}
-            >
+            <MyButton variant="outlined" onClick={handlePopupOpen}>
               Написать
             </MyButton>
           </div>
@@ -81,6 +88,9 @@ const DesignersCard: React.FC<IProps> = ({ cardOwner }) => {
           ))
         )}
       </Box>
+      {openSignInPopup ? (
+        <MySignInPopup setOpenSignInPopup={setOpenSignInPopup} />
+      ) : null}
     </StyledEngineProvider>
   );
 };

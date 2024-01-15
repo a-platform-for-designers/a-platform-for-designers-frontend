@@ -1,11 +1,11 @@
 import Box from "@mui/material/Box";
 import classes from "./CaseCreation.module.scss";
 import useInput from "@/hooks/useInput";
-import { useState, SyntheticEvent, useEffect } from "react";
+import { useState, SyntheticEvent } from "react";
 import React from "react";
 import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
 import { IProfileDataItem } from "../../model/types";
-import { ICasePreview } from "@/types";
+import { ICasePreview, ICase } from "@/types";
 import { tools } from "../../model/constants";
 import ProfileInput from "@/shared/UI/ProfileInput/ProfileInput";
 import { MyButton } from "@/shared/UI";
@@ -15,15 +15,25 @@ import { casesService } from "@/api";
 import getBase64 from "@/features/getBase64";
 import { enqueueSnackbar } from "notistack";
 
-const CaseCreation: React.FC = () => {
-  const title = useInput("", { isEmpty: true });
-  const time = useInput("", {});
-  const description = useInput("", {});
-  const [directions, setDirections] = useState<string | null>(null);
-  const [wrapper, setWrapper] = useState<File | null>(null);
-  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-  const [sphereValue, setSphereValue] = useState<string | null>(null);
-  const [toolsValue, setToolsValue] = useState<string[]>([]);
+interface IProps {
+  caseInfo?: ICase;
+}
+
+const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
+  const title = useInput(caseInfo?.title || "", { isEmpty: true });
+  const time = useInput(caseInfo?.working_term || "", {});
+  const description = useInput(caseInfo?.description || "", {});
+  const [directions, setDirections] = useState<string | null>(null); //??
+  const [wrapper, setWrapper] = useState<File | null>(null); //??
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]); //??
+  const [sphereValue, setSphereValue] = useState<string | null>(
+    caseInfo?.sphere?.name || null
+  );
+  const [toolsValue, setToolsValue] = useState<string[]>(
+    (caseInfo?.instruments || []).map((obj) =>
+      typeof obj === "object" && "name" in obj ? obj["name"] : ""
+    )
+  );
   const [isCasePreview, setIsCasePreview] = useState<boolean>(false);
   const [caseDataValues, setCaseDataValues] = useState<ICasePreview>();
 
@@ -117,12 +127,12 @@ const CaseCreation: React.FC = () => {
     return mappedInstruments;
   };
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (location.pathname.endsWith("/preview")) {
       navigate("/dashboard/portfolio/create");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location]);
+  }, [location]); */
 
   function handleSetWrapper(
     _: React.ChangeEvent<HTMLInputElement>,
@@ -183,20 +193,33 @@ const CaseCreation: React.FC = () => {
       instruments: convertStringToId(toolsValue, instruments),
     };
     console.log(values);
-
-    try {
-      const createCase = await casesService.createCase(values);
-      enqueueSnackbar("Кейс успешно создан", { variant: "success" });
-      return createCase;
-    } catch {
-      enqueueSnackbar("Произошла ошибка при создании кейса", {
-        variant: "error",
-      });
+    if (!caseInfo) {
+      try {
+        const createCase = await casesService.createCase(values);
+        enqueueSnackbar("Кейс успешно создан", { variant: "success" });
+        return createCase;
+      } catch {
+        enqueueSnackbar("Произошла ошибка при создании кейса", {
+          variant: "error",
+        });
+      }
+    } else {
+      try {
+        const createCase = await casesService.editCase(caseInfo.id, values);
+        enqueueSnackbar("Кейс успешно изменен", { variant: "success" });
+        return createCase;
+      } catch {
+        enqueueSnackbar("Произошла ошибка при редактировании кейса", {
+          variant: "error",
+        });
+      }
     }
   }
 
   function handleCasePreview(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
+    setIsCasePreview(true);
+    console.log(isCasePreview);
     const values = {
       title: title.value,
       time: time.value,
@@ -208,12 +231,21 @@ const CaseCreation: React.FC = () => {
       toolsValue,
     };
     setCaseDataValues(values);
-    setIsCasePreview(true);
+
+    if (!caseInfo) {
+      navigate(`/dashboard/portfolio/create/preview`);
+    } else {
+      navigate(`/dashboard/portfolio/edit/${caseInfo?.id}/preview`);
+    }
   }
 
   function handleEdit() {
     setIsCasePreview(false);
-    navigate("/dashboard/portfolio/create");
+    if (!caseInfo) {
+      navigate(`/dashboard/portfolio/create`);
+    } else {
+      navigate(`/dashboard/portfolio/edit/${caseInfo?.id}`);
+    }
   }
 
   return (
@@ -255,19 +287,35 @@ const CaseCreation: React.FC = () => {
         </>
       ) : (
         <Routes>
-          <Route path="/">
-            <Route index element={<Navigate replace to={"preview"} />} />
-            <Route
-              path="/preview"
-              element={
-                <CasePreview
-                  handleSubmit={handleSubmit}
-                  caseData={caseDataValues}
-                  handleEdit={handleEdit}
-                />
-              }
-            />
-          </Route>
+          {!caseInfo ? (
+            <Route path="/">
+              <Route index element={<Navigate replace to={"preview"} />} />
+              <Route
+                path="/preview"
+                element={
+                  <CasePreview
+                    handleSubmit={handleSubmit}
+                    caseData={caseDataValues}
+                    handleEdit={handleEdit}
+                  />
+                }
+              />
+            </Route>
+          ) : (
+            <Route path="/">
+              <Route index element={<Navigate replace to={`preview`} />} />
+              <Route
+                path={`/preview`}
+                element={
+                  <CasePreview
+                    handleSubmit={handleSubmit}
+                    caseData={caseDataValues}
+                    handleEdit={handleEdit}
+                  />
+                }
+              />
+            </Route>
+          )}
         </Routes>
       )}
     </>

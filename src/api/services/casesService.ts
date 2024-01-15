@@ -26,6 +26,11 @@ const casesService = {
     const response = await api.delete<ICase>(`/cases/${id}/`);
     return response.data;
   },
+
+  editCase: async (id: number, data: ICaseCreation): Promise<ICase> => {
+    const response = await api.patch<ICase>(`/cases/${id}/`, data);
+    return response.data;
+  },
 };
 
 export default casesService;

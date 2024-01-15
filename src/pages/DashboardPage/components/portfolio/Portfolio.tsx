@@ -77,7 +77,12 @@ const Portfolio: React.FC = () => {
                       onClick={() => navigate(`/case/${item.id}`)}
                     />
                     <div className={classes.portfolio__btns}>
-                      <button className={classes.portfolio__btn}>
+                      <button
+                        className={classes.portfolio__btn}
+                        onClick={() => {
+                          navigate(`/dashboard/portfolio/edit/${item.id}`);
+                        }}
+                      >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="24"

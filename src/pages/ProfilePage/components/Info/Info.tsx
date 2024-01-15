@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { IUser, IProfileData } from "@/types";
 import { useAppSelector, useAppDispatch } from "@/hooks/reduxHooks";
 import { showMessagePopUp } from "@/redux/slices/chatSlice";
+import MySignInPopup from "@/shared/UI/MySignInPopup/MySignInPopup";
 
 const avatarStyles: SxProps<Theme> = {
   height: "212px",
@@ -51,13 +52,16 @@ const Info: React.FC<IInfoProps> = ({ data, currentUser }) => {
   const [likes, setLikes] = useState(1000);
   const [isLiked, setIsLiked] = useState(true);
   const [isCurrentUser, setIsCurrentUser] = useState(true);
+  const [openSignInPopup, setOpenSignInPopup] = useState<boolean>(false);
   const navigate = useNavigate();
   const { user } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 
   function handleClick() {
-    if (currentUser) {
-      dispatch(showMessagePopUp(currentUser.id));
+    if (user) {
+      dispatch(showMessagePopUp(user.id));
+    } else {
+      setOpenSignInPopup(true);
     }
   }
   const isCustomer = currentUser?.is_customer;
@@ -224,6 +228,9 @@ const Info: React.FC<IInfoProps> = ({ data, currentUser }) => {
           ) : null}
         </Grid>
       </Grid>
+      {openSignInPopup ? (
+        <MySignInPopup setOpenSignInPopup={setOpenSignInPopup} />
+      ) : null}
     </StyledEngineProvider>
   );
 };

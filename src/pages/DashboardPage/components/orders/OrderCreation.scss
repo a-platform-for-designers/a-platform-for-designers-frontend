@@ -15,4 +15,15 @@
       opacity: 0.8;
     }
   }
+
+  &__textarea {
+    min-width: 100%;
+    &_currency::after {
+      content: " ";
+      background-image: url("../../../../assets/icons/ruble.svg");
+      width: 24px;
+      height: 24px;
+      margin-right: 16px;
+    }
+  }
 }

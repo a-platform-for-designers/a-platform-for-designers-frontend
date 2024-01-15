@@ -11,7 +11,7 @@ const ArchiveCards: React.FC = () => {
   const [orders, setOrders] = useState<IMyOrderResponse[]>([]);
   const [totalOrders, setTotalOrders] = useState<number>(0);
   const [page, setPage] = useState<number>(1);
-  const ORDERS_LIMIT = 6;
+  const ORDERS_LIMIT = 8;
   const archiveLocation = location.pathname.endsWith("/my-orders/archive");
   const filteredOrders = orders?.filter((task) => !task.is_published);
 
@@ -20,13 +20,13 @@ const ArchiveCards: React.FC = () => {
       try {
         const ordersData = await ordersService.getMyOrdersListWithoutParams();
         setOrders(ordersData);
-        setTotalOrders(ordersData.length);
+        setTotalOrders(filteredOrders.length);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
     fetchData();
-  }, []);
+  }, [filteredOrders.length]);
 
   function refreshOrdersList(id: number) {
     const newData = orders?.filter((element) => element.id !== id);
