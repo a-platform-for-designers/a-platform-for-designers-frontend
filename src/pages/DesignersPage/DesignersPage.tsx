@@ -57,6 +57,7 @@ const DesignersPage: React.FC = () => {
               <DesignerFilters
                 setDesigners={setUsers}
                 page={page}
+                setPage={setPage}
                 setTotalUsers={setTotalUsers}
                 limit={USERS_LIMIT}
                 setIsLoading={setIsLoading}

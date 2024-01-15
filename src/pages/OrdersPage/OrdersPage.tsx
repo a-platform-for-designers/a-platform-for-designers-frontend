@@ -70,6 +70,7 @@ const OrdersPage: React.FC = () => {
               <OrdersFilters
                 setOrders={setOrders}
                 orders={orders}
+                setPage={setPage}
                 page={page}
                 setTotalOrders={setTotalOrders}
                 limit={ORDERS_LIMIT}

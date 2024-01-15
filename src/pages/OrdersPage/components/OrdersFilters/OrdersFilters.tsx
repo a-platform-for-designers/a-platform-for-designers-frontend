@@ -10,6 +10,7 @@ import { DESIGNER_FILTERS_CLEAR_BTN_LABEL } from "../../../DesignersPage/model/c
 interface IProps {
   setOrders: (IOrdersList: IOrdersList[]) => void;
   orders: IOrdersList[];
+  setPage: React.Dispatch<React.SetStateAction<number>>;
   page: number;
   setTotalOrders: React.Dispatch<React.SetStateAction<number>>;
   limit: number;
@@ -18,6 +19,7 @@ interface IProps {
 const OrdersFilters: React.FC<IProps> = ({
   setOrders,
   orders,
+  setPage,
   page,
   setTotalOrders,
   limit,
@@ -48,6 +50,7 @@ const OrdersFilters: React.FC<IProps> = ({
     const newValue = speciality.includes(item)
       ? speciality.filter((elem) => elem !== item)
       : [...speciality, item];
+    setPage(1);
     setSpeciality(newValue);
   }
   function handleSetSphere(
@@ -55,6 +58,7 @@ const OrdersFilters: React.FC<IProps> = ({
     newValue: string[]
   ) {
     if (newValue.length > 5) return;
+    setPage(1);
     setSphereValue(newValue);
   }
 
