@@ -37,8 +37,6 @@ const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
   const [isCasePreview, setIsCasePreview] = useState<boolean>(false);
   const [caseDataValues, setCaseDataValues] = useState<ICasePreview>();
 
-  console.log(caseInfo);
-
   const navigate = useNavigate();
 
   const { specializations, spheres, instruments } = useAppSelector(
@@ -221,6 +219,7 @@ const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
   function handleCasePreview(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
     setIsCasePreview(true);
+    console.log(isCasePreview);
     const values = {
       title: title.value,
       time: time.value,
@@ -231,16 +230,23 @@ const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
       sphereValue,
       toolsValue,
     };
-    navigate(`/dashboard/portfolio/create/${caseInfo?.id}/preview`);
     setCaseDataValues(values);
+
+    if (!caseInfo) {
+      navigate(`/dashboard/portfolio/create/preview`);
+    } else {
+      navigate(`/dashboard/portfolio/edit/${caseInfo?.id}/preview`);
+    }
   }
 
   function handleEdit() {
     setIsCasePreview(false);
-    navigate("/dashboard/portfolio/create");
+    if (!caseInfo) {
+      navigate(`/dashboard/portfolio/create`);
+    } else {
+      navigate(`/dashboard/portfolio/edit/${caseInfo?.id}`);
+    }
   }
-
-  console.log(isCasePreview);
 
   return (
     <>
@@ -261,10 +267,9 @@ const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
             <MyButton
               className={classes.case__btn}
               onClick={handleCasePreview}
-              /* disabled={
-                !!(title.error || !wrapper || selectedFiles.length === 0 || location.pathname.endsWith(`/dashboard/portfolio/create/${caseInfo?.id}`))
-              } */
-              disabled
+              disabled={
+                !!(title.error || !wrapper || selectedFiles.length === 0)
+              }
               variant="outlined"
             >
               Предпросмотр
@@ -273,14 +278,7 @@ const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
               className={classes.case__btn}
               onClick={handleSubmit}
               disabled={
-                !!(
-                  title.error ||
-                  !wrapper ||
-                  selectedFiles.length === 0 ||
-                  location.pathname.endsWith(
-                    `/dashboard/portfolio/create/${caseInfo?.id}`
-                  )
-                )
+                !!(title.error || !wrapper || selectedFiles.length === 0)
               }
             >
               Опубликовать проект
@@ -289,10 +287,11 @@ const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
         </>
       ) : (
         <Routes>
-          {caseInfo ? (
+          {!caseInfo ? (
             <Route path="/">
+              <Route index element={<Navigate replace to={"preview"} />} />
               <Route
-                path={`/dashboard/portfolio/create/${caseInfo.id}/preview`}
+                path="/preview"
                 element={
                   <CasePreview
                     handleSubmit={handleSubmit}
@@ -304,9 +303,9 @@ const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
             </Route>
           ) : (
             <Route path="/">
-              <Route index element={<Navigate replace to={"preview"} />} />
+              <Route index element={<Navigate replace to={`preview`} />} />
               <Route
-                path="/preview"
+                path={`/preview`}
                 element={
                   <CasePreview
                     handleSubmit={handleSubmit}

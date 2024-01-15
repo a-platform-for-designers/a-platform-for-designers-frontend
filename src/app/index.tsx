@@ -78,7 +78,7 @@ function App() {
                   element={<ProtectedRoute Component={Portfolio} />}
                 >
                   <Route
-                    path="create/:id"
+                    path="edit/:id/*"
                     element={<ProtectedRoute Component={CaseEdit} />}
                   />
                   <Route

@@ -70,7 +70,7 @@ const Portfolio: React.FC = () => {
                       <button
                         className={classes.portfolio__btn}
                         onClick={() => {
-                          navigate(`/dashboard/portfolio/create/${item.id}`);
+                          navigate(`/dashboard/portfolio/edit/${item.id}`);
                         }}
                       >
                         <svg
