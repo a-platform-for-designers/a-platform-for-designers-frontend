@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import classes from "./CaseCreation.module.scss";
 import useInput from "@/hooks/useInput";
-import { useState, SyntheticEvent, useEffect } from "react";
+import { useState, SyntheticEvent } from "react";
 import React from "react";
 import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
 import { IProfileDataItem } from "../../model/types";
@@ -21,7 +21,7 @@ interface IProps {
 
 const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
   const title = useInput(caseInfo?.title || "", { isEmpty: true });
-  const time = useInput(caseInfo?.working_term || "", {}); //??
+  const time = useInput(caseInfo?.working_term || "", {});
   const description = useInput(caseInfo?.description || "", {});
   const [directions, setDirections] = useState<string | null>(null); //??
   const [wrapper, setWrapper] = useState<File | null>(null); //??
@@ -33,7 +33,7 @@ const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
     (caseInfo?.instruments || []).map((obj) =>
       typeof obj === "object" && "name" in obj ? obj["name"] : ""
     )
-  ); //??
+  );
   const [isCasePreview, setIsCasePreview] = useState<boolean>(false);
   const [caseDataValues, setCaseDataValues] = useState<ICasePreview>();
 
@@ -129,12 +129,12 @@ const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
     return mappedInstruments;
   };
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (location.pathname.endsWith("/preview")) {
       navigate("/dashboard/portfolio/create");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location]);
+  }, [location]); */
 
   function handleSetWrapper(
     _: React.ChangeEvent<HTMLInputElement>,
@@ -195,20 +195,32 @@ const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
       instruments: convertStringToId(toolsValue, instruments),
     };
     console.log(values);
-
-    try {
-      const createCase = await casesService.createCase(values);
-      enqueueSnackbar("Кейс успешно создан", { variant: "success" });
-      return createCase;
-    } catch {
-      enqueueSnackbar("Произошла ошибка при создании кейса", {
-        variant: "error",
-      });
+    if (!caseInfo) {
+      try {
+        const createCase = await casesService.createCase(values);
+        enqueueSnackbar("Кейс успешно создан", { variant: "success" });
+        return createCase;
+      } catch {
+        enqueueSnackbar("Произошла ошибка при создании кейса", {
+          variant: "error",
+        });
+      }
+    } else {
+      try {
+        const createCase = await casesService.editCase(caseInfo.id, values);
+        enqueueSnackbar("Кейс успешно изменен", { variant: "success" });
+        return createCase;
+      } catch {
+        enqueueSnackbar("Произошла ошибка при редактировании кейса", {
+          variant: "error",
+        });
+      }
     }
   }
 
   function handleCasePreview(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
+    setIsCasePreview(true);
     const values = {
       title: title.value,
       time: time.value,
@@ -219,14 +231,16 @@ const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
       sphereValue,
       toolsValue,
     };
+    navigate(`/dashboard/portfolio/create/${caseInfo?.id}/preview`);
     setCaseDataValues(values);
-    setIsCasePreview(true);
   }
 
   function handleEdit() {
     setIsCasePreview(false);
     navigate("/dashboard/portfolio/create");
   }
+
+  console.log(isCasePreview);
 
   return (
     <>
@@ -247,9 +261,10 @@ const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
             <MyButton
               className={classes.case__btn}
               onClick={handleCasePreview}
-              disabled={
-                !!(title.error || !wrapper || selectedFiles.length === 0)
-              }
+              /* disabled={
+                !!(title.error || !wrapper || selectedFiles.length === 0 || location.pathname.endsWith(`/dashboard/portfolio/create/${caseInfo?.id}`))
+              } */
+              disabled
               variant="outlined"
             >
               Предпросмотр
@@ -258,7 +273,14 @@ const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
               className={classes.case__btn}
               onClick={handleSubmit}
               disabled={
-                !!(title.error || !wrapper || selectedFiles.length === 0)
+                !!(
+                  title.error ||
+                  !wrapper ||
+                  selectedFiles.length === 0 ||
+                  location.pathname.endsWith(
+                    `/dashboard/portfolio/create/${caseInfo?.id}`
+                  )
+                )
               }
             >
               Опубликовать проект
@@ -269,9 +291,8 @@ const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
         <Routes>
           {caseInfo ? (
             <Route path="/">
-              <Route index element={<Navigate replace to={`preview`} />} />
               <Route
-                path={`/${caseInfo.id}/preview`}
+                path={`/dashboard/portfolio/create/${caseInfo.id}/preview`}
                 element={
                   <CasePreview
                     handleSubmit={handleSubmit}

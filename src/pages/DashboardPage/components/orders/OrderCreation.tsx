@@ -216,14 +216,28 @@ const OrderСreation: React.FC<IProps> = ({ orderInfo }) => {
             {orderInfo ? (
               <MyButton
                 onClick={handleEditSubmit}
-                disabled={!!title.error && !!description.error}
+                disabled={
+                  !!(
+                    title.error ||
+                    description.error ||
+                    !directions ||
+                    !sphereValue
+                  )
+                }
               >
                 Опубликовать проект
               </MyButton>
             ) : (
               <MyButton
                 onClick={handleAddSubmit}
-                disabled={!!title.error && !!description.error}
+                disabled={
+                  !!(
+                    title.error ||
+                    description.error ||
+                    !directions ||
+                    !sphereValue
+                  )
+                }
               >
                 Опубликовать проект
               </MyButton>

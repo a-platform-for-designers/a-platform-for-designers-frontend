@@ -78,12 +78,12 @@ function App() {
                   element={<ProtectedRoute Component={Portfolio} />}
                 >
                   <Route
-                    path="create/*"
-                    element={<ProtectedRoute Component={CaseCreation} />}
-                  />
-                  <Route
                     path="create/:id"
                     element={<ProtectedRoute Component={CaseEdit} />}
+                  />
+                  <Route
+                    path="create/*"
+                    element={<ProtectedRoute Component={CaseCreation} />}
                   />
                 </Route>
 
