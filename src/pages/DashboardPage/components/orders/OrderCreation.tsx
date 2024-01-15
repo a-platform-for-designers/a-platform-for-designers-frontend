@@ -18,7 +18,7 @@ interface IProps {
 const OrderСreation: React.FC<IProps> = ({ orderInfo }) => {
   const navigate = useNavigate();
   const title = useInput(orderInfo?.title || "", { isEmpty: true });
-  const description = useInput(orderInfo?.description || "", {});
+  const description = useInput(orderInfo?.description || "", { isEmpty: true });
   const payment = useInput(
     orderInfo?.payment?.toString() || "",
     {},
@@ -31,6 +31,10 @@ const OrderСreation: React.FC<IProps> = ({ orderInfo }) => {
     orderInfo?.sphere.name || null
   );
   const { specializations, spheres } = useAppSelector((state) => state.data);
+
+  const specializationsList = Object.keys(specializations).filter(
+    (item) => item !== "Менторство"
+  );
 
   payment.onChange = (event) => {
     const inputValue = event.target.value;
@@ -51,7 +55,7 @@ const OrderСreation: React.FC<IProps> = ({ orderInfo }) => {
       heading: "Кого ищете",
       variant: "drop-down",
       placeholder: "Выберите профессию из списка",
-      options: [...Object.keys(specializations)],
+      options: [...specializationsList],
       value: directions,
       onChange: handleSetDirections,
     },
@@ -65,10 +69,10 @@ const OrderСreation: React.FC<IProps> = ({ orderInfo }) => {
     },
     {
       heading: "Оплата",
-      variant: "input",
+      variant: "text-label-without",
       placeholder: "Введите сумму",
       data: payment,
-      maxLength: 50,
+      className: "order-creation__textarea_currency",
     },
     {
       heading: "Сфера",
@@ -121,7 +125,6 @@ const OrderСreation: React.FC<IProps> = ({ orderInfo }) => {
       payment: Number(payment.value),
       sphere: convertStringToId(sphereValue, spheres),
     };
-    console.log(values);
     try {
       const createCase = await ordersService.createOrder(values);
       enqueueSnackbar("Заказ успешно опубликован", { variant: "success" });
@@ -146,13 +149,13 @@ const OrderСreation: React.FC<IProps> = ({ orderInfo }) => {
       payment: Number(payment.value),
       sphere: convertStringToId(sphereValue, spheres),
     };
-    console.log(values);
     if (orderInfo) {
       try {
         const createCase = await ordersService.editOrder(values, orderInfo.id);
         enqueueSnackbar("Редактирование заказа прошло успешно", {
           variant: "success",
         });
+        navigate("/my-orders/orders");
         return createCase;
       } catch {
         enqueueSnackbar(
@@ -203,7 +206,7 @@ const OrderСreation: React.FC<IProps> = ({ orderInfo }) => {
         >
           <Box sx={{ display: "flex", flexDirection: "column", gap: "60px" }}>
             <Typography sx={{ fontWeight: "700", fontSize: "32px" }}>
-              Создание заказа
+              {!orderInfo ? "Создание заказа" : "Редактирование заказа"}
             </Typography>
             {orderCreationFileds.map((item) => (
               <ProfileInput key={item.heading} {...item} />
@@ -211,11 +214,17 @@ const OrderСreation: React.FC<IProps> = ({ orderInfo }) => {
           </Box>
           <Box sx={{ width: "212px", margin: "0 auto" }}>
             {orderInfo ? (
-              <MyButton onClick={handleEditSubmit} disabled={!!title.error}>
+              <MyButton
+                onClick={handleEditSubmit}
+                disabled={!!title.error && !!description.error}
+              >
                 Опубликовать проект
               </MyButton>
             ) : (
-              <MyButton onClick={handleAddSubmit} disabled={!!title.error}>
+              <MyButton
+                onClick={handleAddSubmit}
+                disabled={!!title.error && !!description.error}
+              >
                 Опубликовать проект
               </MyButton>
             )}

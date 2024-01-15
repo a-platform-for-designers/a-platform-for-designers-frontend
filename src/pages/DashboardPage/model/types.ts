@@ -9,7 +9,8 @@ export interface IProfileDataItem {
     | "drop-down"
     | "wrapper-photo-upload"
     | "case-photo-upload"
-    | "tags";
+    | "tags"
+    | "text-label-without";
   placeholder?: string;
   className?: string;
   label?: string;
