@@ -139,10 +139,11 @@ const Profile: React.FC = () => {
         work_status: status,
       };
 
-      profileService.postProfileDesigner({
+      await profileService.postProfileDesigner({
         ...values,
       });
 
+      console.log();
       const updatedUser = await userService.getUserById(user?.id || 0);
       if (updatedUser?.profiledesigner !== null) {
         dispatch(setUserInfo(updatedUser?.profiledesigner));
