@@ -9,6 +9,12 @@
     height: 212px;
     border-radius: 24px;
     object-fit: cover;
+    transition: opacity 4s ease-in-out;
+
+    :hover {
+      cursor: pointer;
+      opacity: .9;
+    }
   }
 
   &__info {

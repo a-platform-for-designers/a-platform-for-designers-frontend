@@ -196,8 +196,8 @@ export interface IOrdersList {
   sphere: IDataItem;
   description: string;
   pub_date: string;
-  is_responded_order: string;
-  is_favorited_order: string;
+  is_responded_order: boolean;
+  is_favorited_order: boolean;
   is_published: boolean;
 }
 
@@ -216,13 +216,21 @@ export interface IMyOrderResponse {
 }
 
 export interface IApplicant {
-  country: string;
   first_name: string;
   id: number;
   last_name: string;
   photo: string;
-  specialization: IDataItem;
+  post: string;
 }
+
+// export interface IApplicant {
+//   country: string;
+//   first_name: string;
+//   id: number;
+//   last_name: string;
+//   photo: string;
+//   specialization: IDataItem;
+// }
 
 export interface IOrderResponse {
   customer: IOrdersCustomer | IApplicant;

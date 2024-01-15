@@ -16,6 +16,8 @@ const ArchiveCards: React.FC = () => {
   const archiveLocation = location.pathname.endsWith("/my-orders/archive");
   const filteredOrders = orders?.filter((task) => !task.is_published);
 
+  console.log(orders);
+
   useEffect(() => {
     const fetchData = async () => {
       try {

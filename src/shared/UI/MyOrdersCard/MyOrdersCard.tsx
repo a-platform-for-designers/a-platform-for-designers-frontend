@@ -1,7 +1,7 @@
 import { Avatar, Box, IconButton, Typography } from "@mui/material";
 import "./MyOrdersCard.scss";
 import MyButton from "@/shared/UI/MyButton/MyButton";
-import { IOrdersList, IUser, IOrderInfoResponse } from "@/types";
+import { IMyOrderResponse, IUser, IOrderInfoResponse } from "@/types";
 import { useEffect, useState } from "react";
 import FavouritesIcon from "@/assets/icons/FavouritesDark.svg";
 import FavouritesIconActive from "@/assets/icons/FavouritesActive.svg";
@@ -14,7 +14,7 @@ import { showMessagePopUp } from "@/redux/slices/chatSlice";
 import MySignInPopup from "@/shared/UI/MySignInPopup/MySignInPopup";
 
 interface IProps {
-  order: IOrdersList;
+  order: IMyOrderResponse;
   refreshOrdersList?: (id: number) => void;
   isOrderesPage?: boolean;
 }
