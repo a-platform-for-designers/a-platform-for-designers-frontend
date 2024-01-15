@@ -18,6 +18,7 @@ import { filterService } from "@/api/services/filterService";
 interface IProps {
   setDesigners: (IDesignersList: IUserWithLastCases[]) => void;
   page: number;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
   setTotalUsers: React.Dispatch<React.SetStateAction<number>>;
   limit: number;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
@@ -26,6 +27,7 @@ interface IProps {
 const DesignerFilters: React.FC<IProps> = ({
   setDesigners,
   page,
+  setPage,
   setTotalUsers,
   limit,
   setIsLoading,
@@ -70,6 +72,7 @@ const DesignerFilters: React.FC<IProps> = ({
     newValue: string[]
   ) {
     if (newValue.length > 5) return;
+    setPage(1);
     setSkillsValue(newValue);
   }
 
@@ -78,6 +81,7 @@ const DesignerFilters: React.FC<IProps> = ({
     newValue: string[]
   ) {
     if (newValue.length > 5) return;
+    setPage(1);
     setTools(newValue);
   }
 
@@ -85,6 +89,7 @@ const DesignerFilters: React.FC<IProps> = ({
     const newValue = speciality.includes(item)
       ? speciality.filter((elem) => elem !== item)
       : [...speciality, item];
+    setPage(1);
     setSpeciality(newValue);
   }
 
@@ -99,6 +104,7 @@ const DesignerFilters: React.FC<IProps> = ({
     } else if (newValue.includes(FILTER_OPTIONS.readyForJobOptions[2])) {
       setResume(false);
     }
+    setPage(1);
     setReadyForJob(newValue);
   }
 

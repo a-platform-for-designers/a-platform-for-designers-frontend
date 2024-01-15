@@ -45,6 +45,7 @@ const MentorsPage: React.FC = () => {
               <MentorsFilters
                 setMentors={setUsers}
                 page={page}
+                setPage={setPage}
                 setTotalUsers={setTotalUsers}
                 limit={USERS_LIMIT}
                 setIsLoading={setIsLoading}
