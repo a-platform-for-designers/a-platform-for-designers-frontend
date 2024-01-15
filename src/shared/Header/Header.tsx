@@ -21,6 +21,7 @@ import { MyAuthForm, MyButton, MyPopup } from "../UI";
 import SignIn from "../SignIn/SignIn";
 import UserRole from "../UserRole/UserRole";
 import SignUp from "../SignUp/SignUp";
+import { tokenManager } from "@/api/api";
 
 const Header: React.FC = () => {
   const location = useLocation();
@@ -29,7 +30,10 @@ const Header: React.FC = () => {
   const [isRoleSelected, setIsRoleSelected] = useState<boolean>(false);
   const [isCustomer, setIsCustomer] = useState<boolean>(true);
   const { isAuth } = useAppSelector((state) => state.auth);
-  const { user } = useAppSelector((state) => state.user);
+  const { user, loading } = useAppSelector((state) => state.user);
+
+  const isAuthLoading =
+    tokenManager.hasToken() && (loading === "pending" || loading === "idle");
 
   const myId = user?.id;
 
@@ -114,7 +118,7 @@ const Header: React.FC = () => {
               </List>
             </Toolbar>
             <Toolbar className="header__auth-buttons">
-              {isAuth ? (
+              {isAuth || isAuthLoading ? (
                 <List className="header__links">
                   <ListItem className="header__link">
                     <img
