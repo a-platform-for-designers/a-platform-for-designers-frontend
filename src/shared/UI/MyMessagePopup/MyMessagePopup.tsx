@@ -9,6 +9,7 @@ import { hideMessagePopUp } from "@/redux/slices/chatSlice";
 import { enqueueSnackbar } from "notistack";
 import { userService } from "@/api";
 import { IUser } from "@/types";
+// import Preloader from "../../Preloader/Preloader"
 
 const portal = document.getElementById("portal") as Element;
 
@@ -23,6 +24,9 @@ const MessagePopup = () => {
   const { isAuth } = useAppSelector((state) => state.auth);
   const { popUpOn, receiverId } = useAppSelector((state) => state.chat);
   const [receiverInfo, setReseiverInfo] = useState<IUser>();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  console.log(isLoading);
 
   const dispatch = useAppDispatch();
   const popupRef = useRef<HTMLDivElement | null>(null);
@@ -33,10 +37,18 @@ const MessagePopup = () => {
 
   useEffect(() => {
     if (receiverId) {
-      (async () => {
-        const userInfo = await userService.getUserById(receiverId);
-        setReseiverInfo(userInfo);
-      })();
+      const fetchData = async () => {
+        try {
+          setIsLoading(true);
+          const userInfo = await userService.getUserById(receiverId);
+          setReseiverInfo(userInfo);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      fetchData();
     }
   }, [receiverId]);
 
