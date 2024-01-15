@@ -7,6 +7,8 @@ import { chartsService } from "@/api";
 import ReactDOM from "react-dom";
 import { hideMessagePopUp } from "@/redux/slices/chatSlice";
 import { enqueueSnackbar } from "notistack";
+import { userService } from "@/api";
+import { IUser } from "@/types";
 
 const portal = document.getElementById("portal") as Element;
 
@@ -18,9 +20,9 @@ type TInputTextArea = HTMLInputElement | HTMLTextAreaElement;
 
 const MessagePopup = () => {
   const [message, setMessage] = useState<string>("");
-  const { user } = useAppSelector((state) => state.user);
   const { isAuth } = useAppSelector((state) => state.auth);
   const { popUpOn, receiverId } = useAppSelector((state) => state.chat);
+  const [receiverInfo, setReseiverInfo] = useState<IUser>();
 
   const dispatch = useAppDispatch();
   const popupRef = useRef<HTMLDivElement | null>(null);
@@ -28,6 +30,15 @@ const MessagePopup = () => {
   const handleClose = useCallback(() => {
     dispatch(hideMessagePopUp());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (receiverId) {
+      (async () => {
+        const userInfo = await userService.getUserById(receiverId);
+        setReseiverInfo(userInfo);
+      })();
+    }
+  }, [receiverId]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -88,18 +99,19 @@ const MessagePopup = () => {
         ref={popupRef}
       >
         <div className="messagePopup__header">
-          {user ? (
+          {receiverInfo ? (
             <div className="messagePopup__user">
               <Avatar
                 className="messagePopup__avatar"
-                src={user.photo}
+                src={receiverInfo.photo}
                 sx={{ backgroundColor: "#4F378B", color: "#EADDFF" }}
               >
-                {!user.photo && `${user?.first_name[0]}${user?.last_name[0]}`}
+                {!receiverInfo.photo &&
+                  `${receiverInfo?.first_name[0]}${receiverInfo?.last_name[0]}`}
               </Avatar>
               <Typography component="h2" className="messagePopup__name">
-                {user.first_name}&nbsp;
-                {user.last_name}
+                {receiverInfo.first_name}&nbsp;
+                {receiverInfo.last_name}
               </Typography>
             </div>
           ) : null}
