@@ -349,7 +349,7 @@ const OrderPage: React.FC = () => {
                       <RespondedDesigner
                         key={item.id}
                         designer={item}
-                        handlePopupOpen={handlePopupOpen}
+                        setOpenSignInPopup={setOpenSignInPopup}
                       />
                     ))}
                   </div>

@@ -3,14 +3,28 @@ import "./RespondedDesigner.scss";
 import MyButton from "@/shared/UI/MyButton/MyButton";
 import { IApplicant } from "@/types";
 import { useNavigate } from "react-router-dom";
+import { showMessagePopUp } from "@/redux/slices/chatSlice";
+import { useAppDispatch } from "@/hooks/reduxHooks";
 
 interface IProps {
   designer: IApplicant;
-  handlePopupOpen: () => void;
+  setOpenSignInPopup: (boolean: boolean) => void;
 }
 
-const RespondedDesigner: React.FC<IProps> = ({ designer, handlePopupOpen }) => {
+const RespondedDesigner: React.FC<IProps> = ({
+  designer,
+  setOpenSignInPopup,
+}) => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  function handlePopupOpen() {
+    if (designer) {
+      dispatch(showMessagePopUp(designer));
+    } else {
+      setOpenSignInPopup(true);
+    }
+  }
 
   return (
     <Box className="respondedDesigner">
@@ -25,7 +39,13 @@ const RespondedDesigner: React.FC<IProps> = ({ designer, handlePopupOpen }) => {
         {designer.first_name} {designer.last_name}
       </Typography>
       {designer.specialization ? (
-        <Typography component="p" className="respondedDesigner__info">
+        <Typography
+          component="p"
+          className="respondedDesigner__info"
+          onClick={() => {
+            navigate(`/profile/${designer.id}/portfolio`);
+          }}
+        >
           {designer.specialization?.name}
         </Typography>
       ) : null}
