@@ -59,7 +59,7 @@ const Info: React.FC<IInfoProps> = ({ data, currentUser }) => {
 
   function handleClick() {
     if (user) {
-      dispatch(showMessagePopUp(user.id));
+      dispatch(showMessagePopUp(currentUser));
     } else {
       setOpenSignInPopup(true);
     }

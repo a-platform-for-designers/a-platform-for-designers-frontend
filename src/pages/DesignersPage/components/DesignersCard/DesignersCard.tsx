@@ -33,7 +33,7 @@ const DesignersCard: React.FC<IProps> = ({ cardOwner }) => {
 
   function handlePopupOpen() {
     if (user) {
-      dispatch(showMessagePopUp(cardOwner.id));
+      dispatch(showMessagePopUp(cardOwner));
     } else {
       setOpenSignInPopup(true);
     }

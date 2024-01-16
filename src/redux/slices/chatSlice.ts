@@ -1,4 +1,4 @@
-import { IChat, IMessage, ISocketMessage } from "@/types";
+import { IChat, IMessage, ISocketMessage, IUser } from "@/types";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RestApiErrors, tokenManager } from "@/api/api";
 import { chartsService } from "@/api";
@@ -16,7 +16,7 @@ interface IInitialState {
   lastMessagesPage: number | null;
   count: number;
   popUpOn: boolean;
-  receiverId: number | null;
+  receiver: IUser | null;
   errorMessages: string[];
 }
 
@@ -29,7 +29,7 @@ const initialState: IInitialState = {
   lastMessagesPage: null,
   count: 0,
   popUpOn: false,
-  receiverId: null,
+  receiver: null,
   errorMessages: [],
 };
 const socket = new WebSocketClient();
@@ -116,11 +116,11 @@ export const chatSlice = createSlice({
     },
     showMessagePopUp: (state, action) => {
       state.popUpOn = true;
-      state.receiverId = action.payload;
+      state.receiver = action.payload;
     },
     hideMessagePopUp: (state) => {
       state.popUpOn = false;
-      state.receiverId = null;
+      state.receiver = null;
     },
   },
   extraReducers: (builder) => {
