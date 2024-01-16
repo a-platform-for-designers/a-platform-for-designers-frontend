@@ -16,6 +16,7 @@ const CaseEdit: React.FC = () => {
       try {
         setIsLoading(true);
         const caseData = await casesService.getCaseById(Number(id));
+        console.log(caseData);
         setCaseInfo(caseData);
       } catch (error) {
         console.error("Error fetching data:", error);

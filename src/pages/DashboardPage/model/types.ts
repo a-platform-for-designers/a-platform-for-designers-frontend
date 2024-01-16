@@ -19,6 +19,8 @@ export interface IProfileDataItem {
   minRows?: string | number | undefined;
   data?: objFromUseInput;
   value?: string | null | string[] | File | File[];
+  avatar?: string | undefined;
+  images?: string[] | undefined;
   disabled?: boolean;
   onChange?:
     | ((_: React.ChangeEvent<HTMLInputElement>, newValue: File | null) => void)

@@ -111,6 +111,7 @@ export interface ICase {
   is_liked: boolean;
   images: ICaseImage[];
   avatar: string;
+  specialization: IDataItem;
 }
 
 export interface ICaseInfo {
