@@ -151,7 +151,7 @@ const OrdersCard: React.FC<IProps> = ({
 
   function handlePopupOpen() {
     if (user) {
-      dispatch(showMessagePopUp(order.customer.id));
+      dispatch(showMessagePopUp(order.customer));
     } else {
       setOpenSignInPopup(true);
     }
