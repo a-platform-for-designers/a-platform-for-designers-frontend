@@ -4,11 +4,17 @@
   justify-content: center;
   width: 330px;
 
+  
   &__avatar {
     width: 52px;
     height: 52px;
     margin-bottom: 22px;
     margin-top: 40px;
+
+    :hover {
+      cursor: pointer;
+      opacity: .8;
+    }
   }
 
   &__name {

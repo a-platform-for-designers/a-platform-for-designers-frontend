@@ -111,6 +111,7 @@ export interface ICase {
   is_liked: boolean;
   images: ICaseImage[];
   avatar: string;
+  specialization: IDataItem;
 }
 
 export interface ICaseInfo {
@@ -196,13 +197,13 @@ export interface IOrdersList {
   sphere: IDataItem;
   description: string;
   pub_date: string;
-  is_responded_order: string;
-  is_favorited_order: string;
+  is_responded_order: boolean;
+  is_favorited_order: boolean;
   is_published: boolean;
 }
 
 export interface IMyOrderResponse {
-  customer: IApplicant;
+  customer: IOrderApplicant;
   description: string;
   id: number;
   is_favorited_order: boolean;
@@ -215,6 +216,14 @@ export interface IMyOrderResponse {
   title: string;
 }
 
+export interface IOrderApplicant {
+  first_name: string;
+  id: number;
+  last_name: string;
+  photo: string;
+  post: string;
+}
+
 export interface IApplicant {
   country: string;
   first_name: string;
@@ -225,7 +234,7 @@ export interface IApplicant {
 }
 
 export interface IOrderResponse {
-  customer: IOrdersCustomer | IApplicant;
+  customer: IOrdersCustomer | IOrderApplicant;
   title: string;
   specialization: IDataItem;
   payment: number;

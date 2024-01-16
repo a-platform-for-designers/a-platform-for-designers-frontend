@@ -24,6 +24,7 @@ const CasePage: React.FC = () => {
   const [caseData, setCaseData] = useState<ICase>();
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const caseDataInfo: ICaseInfo = {
     title: caseData?.title,
@@ -43,17 +44,24 @@ const CasePage: React.FC = () => {
   }
 
   useEffect(() => {
-    if (id) {
-      casesService
-        .getCaseById(Number(id))
-        .then((res) => {
-          setCaseData(res);
-        })
-        .catch(console.log);
-    }
+    const fetchData = async () => {
+      if (id) {
+        try {
+          setIsLoading(true);
+          const caseData = await casesService.getCaseById(Number(id));
+          console.log(caseData);
+
+          setCaseData(caseData);
+        } catch (e) {
+          console.log("Error fetching data:", e);
+        } finally {
+          setIsLoading(false);
+        }
+      }
+    };
+    fetchData();
   }, [id]);
 
-  const isLoading = false;
   if (isLoading) {
     return (
       <StyledEngineProvider injectFirst>
@@ -64,69 +72,73 @@ const CasePage: React.FC = () => {
     );
   }
 
-  if (!caseData) return <EmptyData title="Кейс не найден"></EmptyData>;
+  if (!caseData && !isLoading)
+    return <EmptyData title="Кейс не найден"></EmptyData>;
 
-  return (
-    <StyledEngineProvider injectFirst>
-      <Container component="section" className="casePage">
-        <Grid
-          container
-          className="casePage__aside"
-          gap="40px"
-          alignItems="flex-start"
-        >
-          <ProfileInfo data={caseData.author} />
-          <CaseInfo data={caseDataInfo} />
+  if (caseData) {
+    return (
+      <StyledEngineProvider injectFirst>
+        <Container component="section" className="casePage">
           <Grid
             container
-            gap="28px"
-            alignItems="center"
-            justifyContent="flex-start"
-            wrap="nowrap"
+            className="casePage__aside"
+            gap="40px"
+            alignItems="flex-start"
           >
-            <ActionButton
-              active={isLiked}
-              onClick={() => setIsLiked(!isLiked)}
-            />
-            <ActionButton
-              active={isFavorite}
-              onClick={() => setIsFavorite(!isFavorite)}
-              variant="favorite"
-            />
-          </Grid>
-        </Grid>
-        <Grid container className="casePage__content" gap="40px">
-          <ImageList className="casePage__image-list" cols={2} gap={60}>
-            <ImageListItem>
-              <MyOptimizedImage
-                className="casePage__image-item"
-                imageUrl={caseData.avatar}
-                width={OPTIMIZED_IMAGE_CASE_WIDTH}
-                height={OPTIMIZED_IMAGE_CASE_HEIGHT}
-                format="webp"
-                maxAge="7d"
-                alt="Обложка кейса"
+            <ProfileInfo data={caseData.author} />
+            <CaseInfo data={caseDataInfo} />
+            <Grid
+              container
+              gap="28px"
+              alignItems="center"
+              justifyContent="flex-start"
+              wrap="nowrap"
+            >
+              <ActionButton
+                active={isLiked}
+                onClick={() => setIsLiked(!isLiked)}
               />
-            </ImageListItem>
-            {caseData.images.map((item) => (
-              <ImageListItem key={item.id}>
+              <ActionButton
+                active={isFavorite}
+                onClick={() => setIsFavorite(!isFavorite)}
+                variant="favorite"
+              />
+            </Grid>
+          </Grid>
+          <Grid container className="casePage__content" gap="40px">
+            <ImageList className="casePage__image-list" cols={2} gap={60}>
+              <ImageListItem>
                 <MyOptimizedImage
                   className="casePage__image-item"
-                  imageUrl={item.image}
+                  imageUrl={caseData?.avatar}
                   width={OPTIMIZED_IMAGE_CASE_WIDTH}
                   height={OPTIMIZED_IMAGE_CASE_HEIGHT}
                   format="webp"
                   maxAge="7d"
-                  alt={`Изображение #${item.id}`}
+                  alt="Обложка кейса"
                 />
               </ImageListItem>
-            ))}
-          </ImageList>
-          <AboutItem title="Инструменты" data={setInstruments()} />
-        </Grid>
-      </Container>
-    </StyledEngineProvider>
-  );
+              {caseData &&
+                caseData.images.map((item) => (
+                  <ImageListItem key={item.id}>
+                    <MyOptimizedImage
+                      className="casePage__image-item"
+                      imageUrl={item.image}
+                      width={OPTIMIZED_IMAGE_CASE_WIDTH}
+                      height={OPTIMIZED_IMAGE_CASE_HEIGHT}
+                      format="webp"
+                      maxAge="7d"
+                      alt={`Изображение #${item.id}`}
+                    />
+                  </ImageListItem>
+                ))}
+            </ImageList>
+            <AboutItem title="Инструменты" data={setInstruments()} />
+          </Grid>
+        </Container>
+      </StyledEngineProvider>
+    );
+  }
 };
 
 export default CasePage;

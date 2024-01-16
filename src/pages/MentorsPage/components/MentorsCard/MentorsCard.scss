@@ -9,6 +9,12 @@
     height: 212px;
     border-radius: 24px;
     object-fit: cover;
+    transition: opacity 4s ease-in-out;
+
+    :hover {
+      cursor: pointer;
+      opacity: .9;
+    }
   }
 
   &__info {
@@ -74,7 +80,7 @@
   }
 
   &__expertise {
-    word-break: break-all;
+    word-break: break-word;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     overflow: hidden;

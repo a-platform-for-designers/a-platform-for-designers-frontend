@@ -5,22 +5,25 @@ import { useState, useEffect } from "react";
 import ArchiveCard from "../ArchiveCard/ArchiveCard";
 import { ordersService } from "@/api";
 import { EmptyData } from "../../../ProfilePage/components/index";
-import { MyPagination } from "@/shared/UI";
+//import { MyPagination } from "@/shared/UI";
 
 const ArchiveCards: React.FC = () => {
+  //! пока оставили без пагинации, т.к. у бэка нет квери параметров на запросе
   const [orders, setOrders] = useState<IMyOrderResponse[]>([]);
-  const [totalOrders, setTotalOrders] = useState<number>(0);
-  const [page, setPage] = useState<number>(1);
-  const ORDERS_LIMIT = 8;
+  //const [totalOrders, setTotalOrders] = useState<number>(0);
+  //const [page, setPage] = useState<number>(1);
+  //const ORDERS_LIMIT = 8;
   const archiveLocation = location.pathname.endsWith("/my-orders/archive");
   const filteredOrders = orders?.filter((task) => !task.is_published);
+
+  console.log(orders);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const ordersData = await ordersService.getMyOrdersListWithoutParams();
         setOrders(ordersData);
-        setTotalOrders(filteredOrders.length);
+        // setTotalOrders(ordersData.length);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -54,7 +57,7 @@ const ArchiveCards: React.FC = () => {
           />
         )}
       </Box>
-      {filteredOrders?.length > 0 && (
+      {/* {totalOrders > 7 && (
         <div>
           <MyPagination
             totalItems={totalOrders}
@@ -63,7 +66,7 @@ const ArchiveCards: React.FC = () => {
             limit={ORDERS_LIMIT}
           />
         </div>
-      )}
+      )} */}
     </StyledEngineProvider>
   );
 };

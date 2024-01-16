@@ -14,7 +14,7 @@ import MyMultipleDropDown, {
 } from "../MyMultipleDropDown/MyMultipleDropDown";
 import ButtonUploadImg from "@/pages/DashboardPage/components/buttonUploadImg/ButtonUploadImg";
 import { IProfileInputProps } from "@/pages/DashboardPage/model/types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MyButton from "../MyButton/MyButton";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { enqueueSnackbar } from "notistack";
@@ -36,9 +36,21 @@ const ProfileInput: React.FC<IProfileInputProps> = ({
   handleDeleteCaseImage,
   maxLength,
   className,
+  avatar,
+  images,
 }) => {
   const [image, setImage] = useState<string | null>(null);
   const [caseImages, setCaseImages] = useState<string[]>([]);
+
+  const [imagesFromServer, setImagesFromServer] = useState<
+    string[] | undefined
+  >([]);
+
+  useEffect(() => {
+    if (images) {
+      setImagesFromServer(images);
+    }
+  }, [images]);
 
   function validateImage(file: File): string | void {
     const filetype = "image/jpeg, image/jpg, image/tiff, image/tif, image/png";
@@ -89,6 +101,13 @@ const ProfileInput: React.FC<IProfileInputProps> = ({
     if (handleDeleteCaseImage) {
       setCaseImages((prev) => prev.filter((_, index) => index !== i));
       handleDeleteCaseImage(i);
+    }
+  }
+
+  function handeDeleteCaseImages(i: number) {
+    if (handeDeleteCaseImages && imagesFromServer) {
+      setImagesFromServer((prev) => prev?.filter((_, index) => index !== i));
+      handeDeleteCaseImages(i);
     }
   }
 
@@ -154,6 +173,13 @@ const ProfileInput: React.FC<IProfileInputProps> = ({
                   alt="Обложка кейса"
                 />
               )}
+              {!image && avatar && (
+                <img
+                  className="profileWrapperImage"
+                  src={avatar}
+                  alt="Обложка кейса5"
+                />
+              )}
               <ButtonUploadImg
                 className="profileWrapperButton"
                 label={image ? "Загрузить новую обложку" : label}
@@ -174,26 +200,54 @@ const ProfileInput: React.FC<IProfileInputProps> = ({
               <Typography className="profileImageHeading">
                 Загрузите от 1 до 4 изображений
               </Typography>
-              {caseImages.map((item, i) => {
-                return (
-                  <Box key={item} className="profileInput__case_image_wrapper">
-                    <img
-                      className="profileCaseImage"
-                      src={item}
-                      alt={`Обложка кейса №${i}`}
-                    />
-                    <MyButton
-                      onClick={() => handeDeleteCaseImage(i)}
-                      variant="text"
-                      color="error"
-                      startIcon={<DeleteForeverIcon />}
-                      className="profileInput__btn profileInput__btn_type_del"
+              {caseImages &&
+                caseImages.map((item, i) => {
+                  return (
+                    <Box
+                      key={item}
+                      className="profileInput__case_image_wrapper"
                     >
-                      Удалить
-                    </MyButton>
-                  </Box>
-                );
-              })}
+                      <img
+                        className="profileCaseImage"
+                        src={item}
+                        alt={`Обложка кейса №${i}`}
+                      />
+                      <MyButton
+                        onClick={() => handeDeleteCaseImage(i)}
+                        variant="text"
+                        color="error"
+                        startIcon={<DeleteForeverIcon />}
+                        className="profileInput__btn profileInput__btn_type_del"
+                      >
+                        Удалить
+                      </MyButton>
+                    </Box>
+                  );
+                })}
+              {imagesFromServer &&
+                imagesFromServer.map((item, i) => {
+                  return (
+                    <Box
+                      key={item}
+                      className="profileInput__case_image_wrapper"
+                    >
+                      <img
+                        className="profileCaseImage"
+                        src={item}
+                        alt={`Обложка кейса №${i}`}
+                      />
+                      <MyButton
+                        onClick={() => handeDeleteCaseImages(i)}
+                        variant="text"
+                        color="error"
+                        startIcon={<DeleteForeverIcon />}
+                        className="profileInput__btn profileInput__btn_type_del"
+                      >
+                        Удалить
+                      </MyButton>
+                    </Box>
+                  );
+                })}
               <ButtonUploadImg
                 className="profileWrapperButton"
                 label={label}

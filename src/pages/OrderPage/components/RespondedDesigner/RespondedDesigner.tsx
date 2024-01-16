@@ -35,13 +35,7 @@ const RespondedDesigner: React.FC<IProps> = ({
           navigate(`/profile/${designer.id}/portfolio`);
         }}
       />
-      <Typography
-        component="p"
-        className="respondedDesigner__name"
-        onClick={() => {
-          navigate(`/profile/${designer.id}/portfolio`);
-        }}
-      >
+      <Typography component="p" className="respondedDesigner__name">
         {designer.first_name} {designer.last_name}
       </Typography>
       {designer.specialization ? (

@@ -1,12 +1,11 @@
 import Box from "@mui/material/Box";
 import classes from "./CaseCreation.module.scss";
 import useInput from "@/hooks/useInput";
-import { useState, SyntheticEvent } from "react";
+import { useState, SyntheticEvent, useEffect } from "react";
 import React from "react";
 import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
 import { IProfileDataItem } from "../../model/types";
 import { ICasePreview, ICase } from "@/types";
-import { tools } from "../../model/constants";
 import ProfileInput from "@/shared/UI/ProfileInput/ProfileInput";
 import { MyButton } from "@/shared/UI";
 import { useAppSelector } from "@/hooks/reduxHooks";
@@ -23,9 +22,13 @@ const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
   const title = useInput(caseInfo?.title || "", { isEmpty: true });
   const time = useInput(caseInfo?.working_term || "", {});
   const description = useInput(caseInfo?.description || "", {});
-  const [directions, setDirections] = useState<string | null>(null); //??
+  const [directions, setDirections] = useState<string | null>(
+    caseInfo?.specialization?.name || null
+  ); //??
   const [wrapper, setWrapper] = useState<File | null>(null); //??
+  const [avatar, setAvatar] = useState<string | undefined>(""); //??
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]); //??
+  const [images, setImages] = useState<string[] | undefined>([]); //??
   const [sphereValue, setSphereValue] = useState<string | null>(
     caseInfo?.sphere?.name || null
   );
@@ -42,6 +45,19 @@ const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
   const { specializations, spheres, instruments } = useAppSelector(
     (state) => state.data
   );
+
+  if (wrapper) {
+    const aaa = URL.createObjectURL(wrapper);
+    console.log(aaa);
+  }
+
+  useEffect(() => {
+    if (caseInfo) {
+      const pics = caseInfo.images;
+      setImages(pics.map((pic) => pic.image));
+      setAvatar(caseInfo.avatar);
+    }
+  }, [caseInfo]);
 
   const profileData: IProfileDataItem[] = [
     {
@@ -64,6 +80,7 @@ const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
       variant: "wrapper-photo-upload",
       label: "Загрузить обложку",
       description: `Рекомендуемая ширина: 920 px\nДопустимые форматы: jpeg, jpg, tif, tiff, png\nМаксимальный размер файла: 5 Mb`,
+      avatar: avatar,
       value: wrapper,
       onChange: handleSetWrapper,
     },
@@ -72,6 +89,7 @@ const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
       variant: "case-photo-upload",
       label: "Загрузить изображения",
       description: `Рекомендуемая ширина: 920 px\nДопустимые форматы: jpeg, jpg, tif, tiff, png\nМаксимальный размер файла: 5 Mb`,
+      images: images,
       value: selectedFiles,
       onChange: handleSetSelectedFiles,
       disabled: selectedFiles.length === 4,
@@ -88,7 +106,7 @@ const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
       heading: "Инструменты",
       variant: "tags",
       placeholder: "Какие программы использовали?",
-      options: [...tools],
+      options: [...Object.keys(instruments)],
       value: toolsValue,
       onChange: handleSetTools,
     },
@@ -159,6 +177,7 @@ const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
     _: SyntheticEvent<Element, Event>,
     newValue: string[]
   ) {
+    if (newValue.length > 5 || newValue.length === 0) return;
     setToolsValue(newValue);
   }
 
@@ -197,6 +216,7 @@ const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
       try {
         const createCase = await casesService.createCase(values);
         enqueueSnackbar("Кейс успешно создан", { variant: "success" });
+        navigate("/dashboard/portfolio");
         return createCase;
       } catch {
         enqueueSnackbar("Произошла ошибка при создании кейса", {
@@ -207,6 +227,7 @@ const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
       try {
         const createCase = await casesService.editCase(caseInfo.id, values);
         enqueueSnackbar("Кейс успешно изменен", { variant: "success" });
+        navigate("/dashboard/portfolio");
         return createCase;
       } catch {
         enqueueSnackbar("Произошла ошибка при редактировании кейса", {
@@ -287,35 +308,19 @@ const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
         </>
       ) : (
         <Routes>
-          {!caseInfo ? (
-            <Route path="/">
-              <Route index element={<Navigate replace to={"preview"} />} />
-              <Route
-                path="/preview"
-                element={
-                  <CasePreview
-                    handleSubmit={handleSubmit}
-                    caseData={caseDataValues}
-                    handleEdit={handleEdit}
-                  />
-                }
-              />
-            </Route>
-          ) : (
-            <Route path="/">
-              <Route index element={<Navigate replace to={`preview`} />} />
-              <Route
-                path={`/preview`}
-                element={
-                  <CasePreview
-                    handleSubmit={handleSubmit}
-                    caseData={caseDataValues}
-                    handleEdit={handleEdit}
-                  />
-                }
-              />
-            </Route>
-          )}
+          <Route path="/">
+            <Route index element={<Navigate replace to={"preview"} />} />
+            <Route
+              path="/preview"
+              element={
+                <CasePreview
+                  handleSubmit={handleSubmit}
+                  caseData={caseDataValues}
+                  handleEdit={handleEdit}
+                />
+              }
+            />
+          </Route>
         </Routes>
       )}
     </>
