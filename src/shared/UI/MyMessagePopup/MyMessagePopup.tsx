@@ -7,9 +7,6 @@ import { chartsService } from "@/api";
 import ReactDOM from "react-dom";
 import { hideMessagePopUp } from "@/redux/slices/chatSlice";
 import { enqueueSnackbar } from "notistack";
-import { userService } from "@/api";
-import { IUser } from "@/types";
-// import Preloader from "../../Preloader/Preloader"
 
 const portal = document.getElementById("portal") as Element;
 
@@ -22,11 +19,7 @@ type TInputTextArea = HTMLInputElement | HTMLTextAreaElement;
 const MessagePopup = () => {
   const [message, setMessage] = useState<string>("");
   const { isAuth } = useAppSelector((state) => state.auth);
-  const { popUpOn, receiverId } = useAppSelector((state) => state.chat);
-  const [receiverInfo, setReseiverInfo] = useState<IUser>();
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-
-  console.log(isLoading);
+  const { popUpOn, receiver } = useAppSelector((state) => state.chat);
 
   const dispatch = useAppDispatch();
   const popupRef = useRef<HTMLDivElement | null>(null);
@@ -34,23 +27,6 @@ const MessagePopup = () => {
   const handleClose = useCallback(() => {
     dispatch(hideMessagePopUp());
   }, [dispatch]);
-
-  useEffect(() => {
-    if (receiverId) {
-      const fetchData = async () => {
-        try {
-          setIsLoading(true);
-          const userInfo = await userService.getUserById(receiverId);
-          setReseiverInfo(userInfo);
-        } catch (error) {
-          console.error("Error fetching data:", error);
-        } finally {
-          setIsLoading(false);
-        }
-      };
-      fetchData();
-    }
-  }, [receiverId]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -75,15 +51,15 @@ const MessagePopup = () => {
       document.removeEventListener("mousedown", handleClickOutside);
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [popupRef, popUpOn, receiverId, handleClose]);
+  }, [popupRef, popUpOn, receiver, handleClose]);
 
   async function handleSubmit(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
     try {
       //ToDo использовать redux thunks, в т.ч. для обработки и показа ошибок
-      if (receiverId && isAuth) {
+      if (receiver && isAuth) {
         await chartsService.sendMessage({
-          receiver: receiverId,
+          receiver: receiver.id,
           text: message,
         });
       } else {
@@ -111,19 +87,19 @@ const MessagePopup = () => {
         ref={popupRef}
       >
         <div className="messagePopup__header">
-          {receiverInfo ? (
+          {receiver ? (
             <div className="messagePopup__user">
               <Avatar
                 className="messagePopup__avatar"
-                src={receiverInfo.photo}
+                src={receiver.photo}
                 sx={{ backgroundColor: "#4F378B", color: "#EADDFF" }}
               >
-                {!receiverInfo.photo &&
-                  `${receiverInfo?.first_name[0]}${receiverInfo?.last_name[0]}`}
+                {!receiver.photo &&
+                  `${receiver?.first_name[0]}${receiver?.last_name[0]}`}
               </Avatar>
               <Typography component="h2" className="messagePopup__name">
-                {receiverInfo.first_name}&nbsp;
-                {receiverInfo.last_name}
+                {receiver.first_name}&nbsp;
+                {receiver.last_name}
               </Typography>
             </div>
           ) : null}

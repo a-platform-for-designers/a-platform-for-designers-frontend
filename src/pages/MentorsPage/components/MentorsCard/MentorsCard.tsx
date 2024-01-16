@@ -32,7 +32,7 @@ const MentorsCard: React.FC<IProps> = ({ mentor }) => {
 
   function handlePopupOpen() {
     if (user) {
-      dispatch(showMessagePopUp(mentor.id));
+      dispatch(showMessagePopUp(mentor));
     } else {
       setOpenSignInPopup(true);
     }

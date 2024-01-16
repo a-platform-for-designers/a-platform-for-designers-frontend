@@ -114,7 +114,7 @@ const OrderPage: React.FC = () => {
 
   function handlePopupOpen() {
     if (user) {
-      dispatch(showMessagePopUp(orderInfo?.customer.id));
+      dispatch(showMessagePopUp(orderInfo?.customer));
     } else {
       setOpenSignInPopup(true);
     }
