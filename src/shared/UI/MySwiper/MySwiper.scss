@@ -11,6 +11,20 @@
   height: 240px;
   border-radius: 12px;
   cursor: pointer;
+  
+  &:focus-visible {
+    outline: 2px solid blue; /* Add your desired focus styles here */
+  }
+
+  &:focus-visible .mySwiper__lower-part {
+    height: 80px; /* Add focus styles for the lower part here */
+  }
+
+  &:focus-visible .swiper-button-next,
+  &:focus-visible .swiper-button-prev {
+    width: 40px; /* Add focus styles for the next/prev buttons here */
+    height: 40px;
+  }
 
   &__lower-part {
     cursor: default;
@@ -86,6 +100,7 @@
   &__icon:hover {
     opacity: 0.7;
   }
+
 }
 
 .mySwiper:hover {
@@ -106,6 +121,33 @@
 
   .swiper-button-next:hover,
   .swiper-button-prev:hover {
+    scale: 1.1;
+  }
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  content: "";
+}
+
+.mySwiper:focus-within {
+  .mySwiper__lower-part {
+    height: 80px;
+  }
+
+  .swiper-button-next,
+  .swiper-button-prev {
+    width: 40px;
+    height: 40px;
+  }
+
+  .swiper-button-next::after,
+  .swiper-button-prev::after {
+    content: "";
+  }
+
+  .swiper-button-next:focus-within,
+  .swiper-button-prev:focus-within {
     scale: 1.1;
   }
 }

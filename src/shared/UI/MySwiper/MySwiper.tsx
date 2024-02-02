@@ -52,7 +52,7 @@ const MySwiper: React.FC<IProps> = ({ item, onClick }) => {
         loop={true}
         navigation={true}
         pagination={false}
-        parallax={false}
+        parallax={true}
         className="mySwiper"
         onClick={onClick}
       >
