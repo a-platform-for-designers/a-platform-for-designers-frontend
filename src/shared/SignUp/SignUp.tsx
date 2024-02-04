@@ -62,6 +62,7 @@ const SignUp: FC<ISignUpProps> = ({ openSignInPopup, isCustomer }) => {
     isEmpty: true,
     minLength: 8,
     maxLength: 32,
+    isPassword: true,
   });
 
   const confirmPassword = useInput("", {

@@ -10,12 +10,14 @@ function useValidation(value: string, validations: IValidation) {
   const [nameError, setNameError] = useState("");
   const [phoneError, setPhoneError] = useState("");
   const [dataError, setDataError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
 
   const { errorMessages } = useAppSelector((state) => state.auth);
 
   useEffect(() => {
     const emailPattern =
-      /^(([^аА-яЯ<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      /^[a-zA-Z0-9а-яА-Я._%+-]+@[a-zA-Z0-9а-яА-Я.-]+\.[a-zA-Zа-яА-Я]{2,}$/i;
+    const passwordPattern = /^[a-zA-Z0-9!@#$%^&*()_+]{8,}$/;
     const namePattern = /^[a-zA-Zа-яА-ЯёЁ\s-]+$/;
     const phonePattern = /^\+\d{9,11}$/;
 
@@ -27,6 +29,14 @@ function useValidation(value: string, validations: IValidation) {
             : setEmptyError("Поле обязательно для заполнения");
           break;
 
+        case "isPassword":
+          passwordPattern.test(String(value).toLowerCase())
+            ? setPasswordError("")
+            : setPasswordError(
+                "Используйте латиницу, цифры или специальные символы"
+              );
+          break;
+
         case "badDataError":
           errorMessages.length >= 1
             ? setDataError("Неверный e-mail или пароль")
@@ -36,9 +46,7 @@ function useValidation(value: string, validations: IValidation) {
         case "minLength":
           value.length < validations[validation]!
             ? setMinLengthError(
-                `В поле должно быть минимум ${validations[validation]} ${
-                  validations[validation]! === 2 ? "символа" : "символов"
-                }`
+                `В поле должно быть минимум ${validations[validation]} символа`
               )
             : setMinLengthError("");
           break;
@@ -46,9 +54,7 @@ function useValidation(value: string, validations: IValidation) {
         case "maxLength":
           value.length > validations[validation]!
             ? setMaxLengthError(
-                `В поле должно быть максимум ${validations[validation]} ${
-                  validations[validation]! === 2 ? "символа" : "символов"
-                }`
+                `В поле должно быть максимум ${validations[validation]} символа`
               )
             : setMaxLengthError("");
           break;
@@ -56,7 +62,7 @@ function useValidation(value: string, validations: IValidation) {
         case "isEmail":
           emailPattern.test(String(value).toLowerCase())
             ? setEmailError("")
-            : setEmailError("Введите корректный e-mail вида abcde@bk.ru");
+            : setEmailError("Введите e-mail в формате abcde@bk.ru");
           break;
 
         case "isName":
@@ -84,7 +90,8 @@ function useValidation(value: string, validations: IValidation) {
     emailError ||
     nameError ||
     phoneError ||
-    dataError;
+    dataError ||
+    passwordError;
 
   return error;
 }

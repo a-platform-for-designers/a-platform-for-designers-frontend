@@ -409,6 +409,7 @@ export interface IValidation {
   isName?: boolean;
   isPhone?: boolean;
   badDataError?: boolean;
+  isPassword?: boolean;
 }
 
 export interface ISetNewPassword {
