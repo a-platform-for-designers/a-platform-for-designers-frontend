@@ -5,7 +5,7 @@ import MyInput from "../UI/MyInput/MyInput";
 import MyButton from "../UI/MyButton/MyButton";
 import { SigninText } from "../../constants/constants";
 import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
-import { logIn, resetAuthErrors } from "@/redux/slices/authSlice";
+import { logIn } from "@/redux/slices/authSlice";
 import { enqueueSnackbar } from "notistack";
 import { getInfoAboutMe } from "@/redux/slices/userSlice";
 
@@ -16,7 +16,7 @@ interface ISignInProps {
 const SignIn: FC<ISignInProps> = ({ openSignUpPopup }) => {
   const [error] = useState("");
   const dispatch = useAppDispatch();
-  const { errorMessages, isAuth } = useAppSelector((state) => state.auth);
+  const { isAuth } = useAppSelector((state) => state.auth);
   const email = useInput(
     "",
     {
@@ -24,6 +24,7 @@ const SignIn: FC<ISignInProps> = ({ openSignUpPopup }) => {
       minLength: 8,
       maxLength: 70,
       isEmail: true,
+      badDataError: true,
     },
     { trim: true }
   );
@@ -32,9 +33,10 @@ const SignIn: FC<ISignInProps> = ({ openSignUpPopup }) => {
     isEmpty: true,
     minLength: 8,
     maxLength: 32,
+    badDataError: true,
   });
 
-  useEffect(() => {
+  /* useEffect(() => {
     errorMessages.forEach((message) => {
       enqueueSnackbar({
         variant: "error",
@@ -44,7 +46,7 @@ const SignIn: FC<ISignInProps> = ({ openSignUpPopup }) => {
     return () => {
       dispatch(resetAuthErrors());
     };
-  }, [errorMessages, dispatch]);
+  }, [errorMessages, dispatch]); */
 
   useEffect(() => {
     if (isAuth) {

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { IValidation } from "@/types";
+import { useAppSelector } from "@/hooks/reduxHooks";
 
 function useValidation(value: string, validations: IValidation) {
   const [emptyError, setEmptyError] = useState("");
@@ -8,6 +9,9 @@ function useValidation(value: string, validations: IValidation) {
   const [emailError, setEmailError] = useState("");
   const [nameError, setNameError] = useState("");
   const [phoneError, setPhoneError] = useState("");
+  const [dataError, setDataError] = useState("");
+
+  const { errorMessages } = useAppSelector((state) => state.auth);
 
   useEffect(() => {
     const emailPattern =
@@ -21,6 +25,12 @@ function useValidation(value: string, validations: IValidation) {
           value
             ? setEmptyError("")
             : setEmptyError("Поле обязательно для заполнения");
+          break;
+
+        case "badDataError":
+          errorMessages.length >= 1
+            ? setDataError("Неверный e-mail или пароль")
+            : setDataError("");
           break;
 
         case "minLength":
@@ -65,7 +75,7 @@ function useValidation(value: string, validations: IValidation) {
           break;
       }
     }
-  }, [validations, value]);
+  }, [validations, value, errorMessages.length]);
 
   const error =
     emptyError ||
@@ -73,7 +83,8 @@ function useValidation(value: string, validations: IValidation) {
     maxLengthError ||
     emailError ||
     nameError ||
-    phoneError;
+    phoneError ||
+    dataError;
 
   return error;
 }

@@ -16,6 +16,8 @@ import { objFromUseInput } from "../../../hooks/useInput";
 import { useState } from "react";
 import eye from "../../../assets/icons/eye.svg";
 import eyeClosed from "../../../assets/icons/eye-close.svg";
+import { useAppDispatch } from "@/hooks/reduxHooks";
+import { resetAuthErrors } from "@/redux/slices/authSlice";
 
 type TInputTextArea = HTMLInputElement | HTMLTextAreaElement;
 
@@ -46,6 +48,7 @@ const MyInput: React.FC<IMyInputProps> = ({
   minRows,
   maxLength,
 }) => {
+  const dispatch = useAppDispatch();
   const invalid = Boolean(data.isDirty && data.error);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -75,7 +78,7 @@ const MyInput: React.FC<IMyInputProps> = ({
         return;
       }
     }
-
+    dispatch(resetAuthErrors());
     callback(event);
   }
 
