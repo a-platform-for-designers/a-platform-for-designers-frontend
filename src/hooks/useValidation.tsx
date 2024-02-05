@@ -16,7 +16,8 @@ function useValidation(value: string, validations: IValidation) {
 
   useEffect(() => {
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i;
-    const passwordPattern = /^[a-zA-Z0-9!@#$%^&*()_+]{8,}$/;
+    const passwordPattern =
+      /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z0-9!@#$%^&*()_+]{8,}$/;
     const namePattern = /^[a-zA-Zа-яА-ЯёЁ\s-]+$/;
     const phonePattern = /^\+\d{9,11}$/;
 
@@ -31,9 +32,7 @@ function useValidation(value: string, validations: IValidation) {
         case "isPassword":
           passwordPattern.test(String(value).toLowerCase())
             ? setPasswordError("")
-            : setPasswordError(
-                "Используйте латиницу, цифры или специальные символы"
-              );
+            : setPasswordError("Используйте латиницу, цифры или спецсимволы");
           break;
 
         case "badDataError":
