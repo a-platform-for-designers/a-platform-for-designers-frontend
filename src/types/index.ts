@@ -408,6 +408,8 @@ export interface IValidation {
   isEmail?: boolean;
   isName?: boolean;
   isPhone?: boolean;
+  badDataError?: boolean;
+  isPassword?: boolean;
 }
 
 export interface ISetNewPassword {

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { IValidation } from "@/types";
+import { useAppSelector } from "@/hooks/reduxHooks";
 
 function useValidation(value: string, validations: IValidation) {
   const [emptyError, setEmptyError] = useState("");
@@ -8,10 +9,15 @@ function useValidation(value: string, validations: IValidation) {
   const [emailError, setEmailError] = useState("");
   const [nameError, setNameError] = useState("");
   const [phoneError, setPhoneError] = useState("");
+  const [dataError, setDataError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+
+  const { errorMessages } = useAppSelector((state) => state.auth);
 
   useEffect(() => {
-    const emailPattern =
-      /^(([^аА-яЯ<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i;
+    const passwordPattern =
+      /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z0-9!@#$%^&*()_+]{8,}$/;
     const namePattern = /^[a-zA-Zа-яА-ЯёЁ\s-]+$/;
     const phonePattern = /^\+\d{9,11}$/;
 
@@ -23,11 +29,23 @@ function useValidation(value: string, validations: IValidation) {
             : setEmptyError("Поле обязательно для заполнения");
           break;
 
+        case "isPassword":
+          passwordPattern.test(String(value).toLowerCase())
+            ? setPasswordError("")
+            : setPasswordError("Используйте латиницу, цифры или спецсимволы");
+          break;
+
+        case "badDataError":
+          errorMessages.length >= 1
+            ? setDataError("Неверный e-mail или пароль")
+            : setDataError("");
+          break;
+
         case "minLength":
           value.length < validations[validation]!
             ? setMinLengthError(
                 `В поле должно быть минимум ${validations[validation]} ${
-                  validations[validation]! === 2 ? "символа" : "символов"
+                  validations[validation] === 2 ? "символа" : "символов"
                 }`
               )
             : setMinLengthError("");
@@ -36,9 +54,7 @@ function useValidation(value: string, validations: IValidation) {
         case "maxLength":
           value.length > validations[validation]!
             ? setMaxLengthError(
-                `В поле должно быть максимум ${validations[validation]} ${
-                  validations[validation]! === 2 ? "символа" : "символов"
-                }`
+                `В поле должно быть максимум ${validations[validation]} символа`
               )
             : setMaxLengthError("");
           break;
@@ -46,7 +62,7 @@ function useValidation(value: string, validations: IValidation) {
         case "isEmail":
           emailPattern.test(String(value).toLowerCase())
             ? setEmailError("")
-            : setEmailError("Введите корректный e-mail вида abcde@bk.ru");
+            : setEmailError("Введите e-mail в формате abcde@bk.ru");
           break;
 
         case "isName":
@@ -65,7 +81,7 @@ function useValidation(value: string, validations: IValidation) {
           break;
       }
     }
-  }, [validations, value]);
+  }, [validations, value, errorMessages.length]);
 
   const error =
     emptyError ||
@@ -73,7 +89,9 @@ function useValidation(value: string, validations: IValidation) {
     maxLengthError ||
     emailError ||
     nameError ||
-    phoneError;
+    phoneError ||
+    dataError ||
+    passwordError;
 
   return error;
 }
