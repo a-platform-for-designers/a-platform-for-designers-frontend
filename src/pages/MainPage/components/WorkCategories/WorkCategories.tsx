@@ -125,6 +125,7 @@ const WorkCategories: React.FC<IWorkCategoriesProps> = ({
       >
         <ListItem className="workCategories__item">
           <MyButton
+            className="workCategories__button"
             active={workCategoryState.allDirections}
             size="small"
             variant="tag"
@@ -137,6 +138,7 @@ const WorkCategories: React.FC<IWorkCategoriesProps> = ({
           return (
             <ListItem className="workCategories__item" key={idx}>
               <MyButton
+                className="workCategories__button"
                 active={workCategoryState.categories.includes(item.title)}
                 onClick={() => onCategoryClickHandler(item)}
                 size="small"
@@ -149,6 +151,7 @@ const WorkCategories: React.FC<IWorkCategoriesProps> = ({
         })}
         <ListItem className="workCategories__item">
           <MyButton
+            className="workCategories__button"
             active={workCategoryState.following}
             size="small"
             variant="tag"
