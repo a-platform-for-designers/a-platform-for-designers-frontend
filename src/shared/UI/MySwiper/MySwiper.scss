@@ -11,7 +11,7 @@
   height: 240px;
   border-radius: 12px;
   cursor: pointer;
-  
+
   &:focus-visible {
     outline: 2px solid blue; /* Add your desired focus styles here */
   }
@@ -100,7 +100,6 @@
   &__icon:hover {
     opacity: 0.7;
   }
-
 }
 
 .mySwiper:hover {

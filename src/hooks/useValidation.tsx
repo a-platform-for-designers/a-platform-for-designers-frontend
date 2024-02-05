@@ -54,7 +54,9 @@ function useValidation(value: string, validations: IValidation) {
         case "maxLength":
           value.length > validations[validation]!
             ? setMaxLengthError(
-                `В поле должно быть максимум ${validations[validation]} символа`
+                `В поле должно быть максимум ${validations[validation]} ${
+                  validations[validation] === 70 ? "символов" : "символа"
+                }`
               )
             : setMaxLengthError("");
           break;
