@@ -15,8 +15,7 @@ function useValidation(value: string, validations: IValidation) {
   const { errorMessages } = useAppSelector((state) => state.auth);
 
   useEffect(() => {
-    const emailPattern =
-      /^[a-zA-Z0-9а-яА-Я._%+-]+@[a-zA-Z0-9а-яА-Я.-]+\.[a-zA-Zа-яА-Я]{2,}$/i;
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i;
     const passwordPattern = /^[a-zA-Z0-9!@#$%^&*()_+]{8,}$/;
     const namePattern = /^[a-zA-Zа-яА-ЯёЁ\s-]+$/;
     const phonePattern = /^\+\d{9,11}$/;
@@ -46,7 +45,9 @@ function useValidation(value: string, validations: IValidation) {
         case "minLength":
           value.length < validations[validation]!
             ? setMinLengthError(
-                `В поле должно быть минимум ${validations[validation]} символа`
+                `В поле должно быть минимум ${validations[validation]} ${
+                  validations[validation] === 2 ? "символа" : "символов"
+                }`
               )
             : setMinLengthError("");
           break;
