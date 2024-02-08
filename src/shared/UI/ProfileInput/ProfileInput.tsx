@@ -23,6 +23,7 @@ import { enqueueSnackbar } from "notistack";
 
 const ProfileInput: React.FC<IProfileInputProps> = ({
   heading,
+  error,
   variant = "input",
   placeholder = "",
   label = "",
@@ -155,6 +156,7 @@ const ProfileInput: React.FC<IProfileInputProps> = ({
               value={value as string | null}
               onChange={onChange as TOnChangeSingle}
               placeholder={placeholder}
+              error={error}
             />
           </FormControl>
         </StyledEngineProvider>

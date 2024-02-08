@@ -45,8 +45,10 @@ const Profile: React.FC = () => {
   const [language, setLanguage] = useState<number[]>([]);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const education = useInput(user?.profiledesigner?.education || "", {});
-  const post = useInput(user?.profilecustomer?.post || "", {});
-  const aboutMe = useInput(user?.profilecustomer?.about || "", {});
+  const post = useInput(user?.profilecustomer?.post || "", { isEmpty: true });
+  const aboutMe = useInput(user?.profilecustomer?.about || "", {
+    isEmpty: true,
+  });
   const [toolsValue, setToolsValue] = useState<string[]>(
     (user?.profiledesigner?.instruments || []).map((obj) =>
       typeof obj === "object" && "name" in obj ? obj["name"] : ""
@@ -372,6 +374,7 @@ const Profile: React.FC = () => {
             className={classes.profile__btn}
             type="submit"
             onClick={handleSubmit}
+            disabled={!!post.error || !!about.error || !country}
           >
             Сохранить
           </MyButton>

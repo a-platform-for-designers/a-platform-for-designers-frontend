@@ -3,6 +3,7 @@ import { TOnChangeSingle } from "@/shared/UI/MySingleDropDown/MySingleDropDown";
 import { objFromUseInput } from "@/hooks/useInput";
 
 export interface IProfileDataItem {
+  error?: boolean;
   heading?: string;
   variant?:
     | "input"
@@ -32,4 +33,5 @@ export interface IProfileDataItem {
 
 export interface IProfileInputProps extends IProfileDataItem {
   handleDeleteCaseImage?: (i: number) => void;
+  error?: boolean;
 }
