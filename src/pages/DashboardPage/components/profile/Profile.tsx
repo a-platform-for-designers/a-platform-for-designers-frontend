@@ -27,6 +27,7 @@ const Profile: React.FC = () => {
   const { user } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
   const isCustomer = user?.is_customer;
+  const [disableButton, setDisableButton] = useState(false);
 
   const [specializationValue, setSpecializationValue] = useState<string[]>(
     (user?.profiledesigner?.specialization || []).map((obj) =>
@@ -75,6 +76,7 @@ const Profile: React.FC = () => {
     newValue: string | null
   ) {
     setCountry(newValue);
+    setDisableButton(true);
   }
 
   function handleSetTools(
@@ -87,6 +89,7 @@ const Profile: React.FC = () => {
       const newValueId = newValue.map((key) => instruments[key]);
       setToolsIds([...newValueId]);
     }
+    setDisableButton(true);
   }
 
   function handleSetSkills(
@@ -331,6 +334,7 @@ const Profile: React.FC = () => {
                   minRows={10}
                   maxLength={500}
                   className={classes.profile__section_textarea}
+                  setDisableButton={setDisableButton}
                 />
               </div>
             </Box>
@@ -363,6 +367,7 @@ const Profile: React.FC = () => {
                   minRows={6.5}
                   placeholder="Расскажите о себе..."
                   className={classes.profile__aboutMe}
+                  setDisableButton={setDisableButton}
                 />
               </div>
             </Box>
@@ -374,7 +379,9 @@ const Profile: React.FC = () => {
             className={classes.profile__btn}
             type="submit"
             onClick={handleSubmit}
-            disabled={!!post.error || !!about.error || !country}
+            disabled={
+              !!post.error || !!about.error || !country || !disableButton
+            }
           >
             Сохранить
           </MyButton>

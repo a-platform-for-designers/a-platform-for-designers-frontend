@@ -35,6 +35,7 @@ interface IMyInputProps {
   className?: string;
   minRows?: string | number | undefined;
   maxLength?: number;
+  setDisableButton?: (boolean: boolean) => void;
 }
 
 const MyInput: React.FC<IMyInputProps> = ({
@@ -47,6 +48,7 @@ const MyInput: React.FC<IMyInputProps> = ({
   className,
   minRows,
   maxLength,
+  setDisableButton,
 }) => {
   const dispatch = useAppDispatch();
   const invalid = Boolean(data.isDirty && data.error);
@@ -67,7 +69,10 @@ const MyInput: React.FC<IMyInputProps> = ({
     if (onChangeCallback) {
       onChangeCallback();
     }
-
+    if (setDisableButton) {
+      setDisableButton(true);
+      console.log("BOO!");
+    }
     if (maxLength) {
       const inputValue = event.target.value;
       if (inputValue.length <= maxLength) {
