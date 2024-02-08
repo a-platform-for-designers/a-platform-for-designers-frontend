@@ -351,6 +351,7 @@ const Profile: React.FC = () => {
                   variant="textarea-label-without"
                   maxLength={50}
                   placeholder="Компания и должность"
+                  setDisableButton={setDisableButton}
                 />
               </div>
             </Box>

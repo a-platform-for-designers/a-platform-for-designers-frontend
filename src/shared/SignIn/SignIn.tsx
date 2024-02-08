@@ -10,7 +10,7 @@ import { enqueueSnackbar } from "notistack";
 import { getInfoAboutMe } from "@/redux/slices/userSlice";
 
 interface ISignInProps {
-  openSignUpPopup: setDisableButton;
+  openSignUpPopup: () => void;
 }
 
 const SignIn: FC<ISignInProps> = ({ openSignUpPopup }) => {

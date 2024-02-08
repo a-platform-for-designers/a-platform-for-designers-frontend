@@ -24,6 +24,7 @@ import { enqueueSnackbar } from "notistack";
 const ProfileInput: React.FC<IProfileInputProps> = ({
   heading,
   error,
+  setDisableButton,
   variant = "input",
   placeholder = "",
   label = "",
@@ -125,6 +126,7 @@ const ProfileInput: React.FC<IProfileInputProps> = ({
               minRows={minRows}
               maxLength={maxLength}
               placeholder={placeholder}
+              setDisableButton={setDisableButton}
             />
           </FormControl>
         </StyledEngineProvider>
@@ -140,6 +142,7 @@ const ProfileInput: React.FC<IProfileInputProps> = ({
               data={data!}
               className={`profileInput ${className}`}
               placeholder={placeholder}
+              setDisableButton={setDisableButton}
             />
           </FormControl>
         </StyledEngineProvider>

@@ -29,6 +29,7 @@ export interface IProfileDataItem {
     | TOnChangeSingle
     | TOnChangeMylty;
   maxLength?: number;
+  setDisableButton?: (boolean: boolean) => void;
 }
 
 export interface IProfileInputProps extends IProfileDataItem {

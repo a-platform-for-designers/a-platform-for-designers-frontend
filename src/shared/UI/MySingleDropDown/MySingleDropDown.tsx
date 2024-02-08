@@ -83,7 +83,9 @@ const MySingleDropDown: React.FC<TMySingleDropDownProps> = ({
               {...params}
               variant="filled"
               placeholder={placeholder}
-              className="mySingleDropDown__input"
+              className={`mySingleDropDown__input ${
+                isError ? "myInput__container_type_incorrect" : ""
+              }`}
             ></TextField>
             <FormHelperText error={isError}>
               {isError ? "Поле обязательно для заполнения" : ""}

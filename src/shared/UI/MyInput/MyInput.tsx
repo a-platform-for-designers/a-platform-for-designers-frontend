@@ -71,7 +71,6 @@ const MyInput: React.FC<IMyInputProps> = ({
     }
     if (setDisableButton) {
       setDisableButton(true);
-      console.log("BOO!");
     }
     if (maxLength) {
       const inputValue = event.target.value;

@@ -31,10 +31,10 @@ const OrderСreation: React.FC<IProps> = ({ orderInfo }) => {
     orderInfo?.sphere.name || null
   );
   const { specializations, spheres } = useAppSelector((state) => state.data);
-
   const specializationsList = Object.keys(specializations).filter(
     (item) => item !== "Менторство"
   );
+  const [disableButton, setDisableButton] = useState(false);
 
   payment.onChange = (event) => {
     const inputValue = event.target.value;
@@ -50,6 +50,7 @@ const OrderСreation: React.FC<IProps> = ({ orderInfo }) => {
       placeholder: "Введите название",
       data: title,
       maxLength: 50,
+      setDisableButton,
     },
     {
       heading: "Кого ищете",
@@ -66,6 +67,7 @@ const OrderСreation: React.FC<IProps> = ({ orderInfo }) => {
       minRows: 5,
       data: description,
       maxLength: 500,
+      setDisableButton,
     },
     {
       heading: "Оплата",
@@ -73,6 +75,7 @@ const OrderСreation: React.FC<IProps> = ({ orderInfo }) => {
       placeholder: "Введите сумму",
       data: payment,
       className: "order-creation__textarea_currency",
+      setDisableButton,
     },
     {
       heading: "Сфера",
@@ -89,6 +92,7 @@ const OrderСreation: React.FC<IProps> = ({ orderInfo }) => {
     newValue: string | null
   ) {
     setDirections(newValue);
+    setDisableButton(true);
   }
 
   function handleSetSphere(
@@ -96,6 +100,7 @@ const OrderСreation: React.FC<IProps> = ({ orderInfo }) => {
     newValue: string | null
   ) {
     setSphereValue(newValue);
+    setDisableButton(true);
   }
 
   const convertStringToId = (
@@ -221,7 +226,8 @@ const OrderСreation: React.FC<IProps> = ({ orderInfo }) => {
                     title.error ||
                     description.error ||
                     !directions ||
-                    !sphereValue
+                    !sphereValue ||
+                    !disableButton
                   )
                 }
               >
