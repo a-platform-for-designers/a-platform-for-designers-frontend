@@ -66,10 +66,12 @@ const Profile: React.FC = () => {
   );
   const [toolsIds, setToolsIds] = useState<number[]>([]);
   const [skillsIds, setSkillsIds] = useState<number[]>([]);
-
   const { skills, instruments, specializations, languages } = useAppSelector(
     (state) => state.data
   );
+  const invalidButton = isCustomer
+    ? !!post.error || !!about.error || !country || !disableButton
+    : !disableButton;
 
   function handleSetCountry(
     _: React.SyntheticEvent<Element, Event>,
@@ -102,6 +104,7 @@ const Profile: React.FC = () => {
       const newValueId = newValue.map((key) => skills[key]);
       setSkillsIds([...newValueId]);
     }
+    setDisableButton(true);
   }
 
   function handleSetSpecialization(
@@ -114,6 +117,7 @@ const Profile: React.FC = () => {
       const newValueId = newValue.map((key) => specializations[key]);
       setSpecialization([...newValueId]);
     }
+    setDisableButton(true);
   }
 
   function handleSetLanguage(
@@ -126,6 +130,7 @@ const Profile: React.FC = () => {
       const newValueId = newValue.map((key) => languages[key]);
       setLanguage([...newValueId]);
     }
+    setDisableButton(true);
   }
 
   async function handleSubmit(e: React.MouseEvent<HTMLButtonElement>) {
@@ -151,6 +156,7 @@ const Profile: React.FC = () => {
       const updatedUser = await userService.getUserById(user?.id || 0);
       if (updatedUser?.profiledesigner !== null) {
         dispatch(setUserInfo(updatedUser?.profiledesigner));
+        setDisableButton(false);
       }
       return;
     }
@@ -165,8 +171,8 @@ const Profile: React.FC = () => {
       const userInfo = await profileService.postProfileCustomer({
         ...values,
       });
-
       dispatch(setCustomerInfo(userInfo));
+      setDisableButton(false);
       return;
     }
   }
@@ -213,6 +219,7 @@ const Profile: React.FC = () => {
                     onChange={(event) => {
                       const value = event.target.value;
                       setStatus(value === "searching");
+                      setDisableButton(true);
                     }}
                   >
                     <FormControlLabel
@@ -273,6 +280,7 @@ const Profile: React.FC = () => {
                   data={education}
                   variant="text-label-without"
                   placeholder="Напишите, где учились"
+                  setDisableButton={setDisableButton}
                 />
               </div>
             </Box>
@@ -380,9 +388,7 @@ const Profile: React.FC = () => {
             className={classes.profile__btn}
             type="submit"
             onClick={handleSubmit}
-            disabled={
-              !!post.error || !!about.error || !country || !disableButton
-            }
+            disabled={invalidButton}
           >
             Сохранить
           </MyButton>
