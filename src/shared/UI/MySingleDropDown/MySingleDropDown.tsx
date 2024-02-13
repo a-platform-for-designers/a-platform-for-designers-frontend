@@ -24,6 +24,7 @@ type TMySingleDropDownProps = TSingleDropDown & {
   className?: string;
   placeholder?: string;
   error?: boolean;
+  notRequired?: boolean;
 };
 
 const MySingleDropDown: React.FC<TMySingleDropDownProps> = ({
@@ -33,6 +34,7 @@ const MySingleDropDown: React.FC<TMySingleDropDownProps> = ({
   size = "fullWidth",
   className,
   placeholder,
+  notRequired,
 }) => {
   const checkedIcon = <CheckOutlinedIcon fontSize="small" color="action" />;
   // hardcoded for a while, soon it will be changed
@@ -44,7 +46,7 @@ const MySingleDropDown: React.FC<TMySingleDropDownProps> = ({
   const [isError, setIsError] = useState(false);
 
   function handleValue() {
-    if (!value) {
+    if (!value && !notRequired) {
       setIsError(true);
     } else {
       setIsError(false);

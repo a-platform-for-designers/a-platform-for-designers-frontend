@@ -266,6 +266,7 @@ const Profile: React.FC = () => {
               onChange={handleSetCountry}
               options={LISTS.LIST_COUNTRIES}
               placeholder="Добавьте из списка"
+              notRequired={isCustomer ? false : true}
             />
           </div>
         </Box>

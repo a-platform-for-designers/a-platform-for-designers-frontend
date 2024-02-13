@@ -74,6 +74,7 @@ const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
       options: [...Object.keys(specializations)],
       value: directions,
       onChange: handleSetDirections,
+      notRequired: true,
     },
     {
       heading: "Обложка",
@@ -92,7 +93,6 @@ const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
       images: images,
       value: selectedFiles,
       onChange: handleSetSelectedFiles,
-      disabled: selectedFiles.length === 4,
     },
     {
       heading: "Сфера",
@@ -101,6 +101,7 @@ const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
       options: [...Object.keys(spheres)],
       value: sphereValue,
       onChange: handleSetSphere,
+      notRequired: true,
     },
     {
       heading: "Инструменты",
@@ -240,7 +241,6 @@ const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
   function handleCasePreview(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
     setIsCasePreview(true);
-    console.log(isCasePreview);
     const values = {
       title: title.value,
       time: time.value,

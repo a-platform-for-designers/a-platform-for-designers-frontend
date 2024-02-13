@@ -3,6 +3,7 @@ import {
   FormControl,
   StyledEngineProvider,
   Typography,
+  FormHelperText,
 } from "@mui/material";
 import "./ProfileInput.scss";
 import MyInput from "../MyInput/MyInput";
@@ -34,16 +35,19 @@ const ProfileInput: React.FC<IProfileInputProps> = ({
   value,
   onChange,
   data,
-  disabled,
+  //disabled,
   handleDeleteCaseImage,
   maxLength,
   className,
   avatar,
   images,
+  notRequired,
 }) => {
   const [image, setImage] = useState<string | null>(null);
   const [caseImages, setCaseImages] = useState<string[]>([]);
-
+  const [noImageError, setNoImageError] = useState<boolean>();
+  const [noWrapperError, setNoWrapperError] = useState<boolean>();
+  const [isFirstLoad, setIsFirstLoad] = useState<boolean>(true);
   const [imagesFromServer, setImagesFromServer] = useState<
     string[] | undefined
   >([]);
@@ -53,6 +57,21 @@ const ProfileInput: React.FC<IProfileInputProps> = ({
       setImagesFromServer(images);
     }
   }, [images]);
+
+  useEffect(() => {
+    if (!isFirstLoad) {
+      if (caseImages.length <= 0) {
+        setNoImageError(true);
+      } else {
+        setNoImageError(false);
+      }
+      if (!image) {
+        setNoWrapperError(true);
+      } else {
+        setNoWrapperError(false);
+      }
+    }
+  }, [caseImages, image, isFirstLoad]);
 
   function validateImage(file: File): string | void {
     const filetype = "image/jpeg, image/jpg, image/tiff, image/tif, image/png";
@@ -66,6 +85,7 @@ const ProfileInput: React.FC<IProfileInputProps> = ({
   }
 
   function handleWrapperUpload(event: React.ChangeEvent<HTMLInputElement>) {
+    setIsFirstLoad(false);
     const file = event.target.files?.[0];
     if (!file) return;
     const validateError = validateImage(file);
@@ -78,10 +98,13 @@ const ProfileInput: React.FC<IProfileInputProps> = ({
       const fileUrl = URL.createObjectURL(file);
       onChange(event, file as string & string[] & File);
       setImage(fileUrl);
+      setIsFirstLoad(false);
+      return;
     }
   }
 
   function handleCaseImagesUpload(event: React.ChangeEvent<HTMLInputElement>) {
+    setIsFirstLoad(false);
     const file = event.target.files?.[0];
     if (!file) return;
     const validateError = validateImage(file);
@@ -160,6 +183,7 @@ const ProfileInput: React.FC<IProfileInputProps> = ({
               onChange={onChange as TOnChangeSingle}
               placeholder={placeholder}
               error={error}
+              notRequired={notRequired}
             />
           </FormControl>
         </StyledEngineProvider>
@@ -191,6 +215,12 @@ const ProfileInput: React.FC<IProfileInputProps> = ({
                 handleFileChange={handleWrapperUpload}
                 description={description}
               />
+              <FormHelperText
+                className="profileInputForm__error"
+                error={noWrapperError}
+              >
+                {noWrapperError ? "Необходимо добавить обложку" : ""}
+              </FormHelperText>
             </Box>
           </FormControl>
         </StyledEngineProvider>
@@ -258,8 +288,18 @@ const ProfileInput: React.FC<IProfileInputProps> = ({
                 label={label}
                 handleFileChange={handleCaseImagesUpload}
                 description={description}
-                disabled={disabled}
+                disabled={caseImages.length >= 4}
               />
+              <FormHelperText
+                className="profileInputForm__error"
+                error={noImageError || caseImages.length >= 4}
+              >
+                {noImageError
+                  ? "Добавьте хотя бы одно изображение"
+                  : caseImages.length >= 4
+                  ? "Превышен лимит загруженных файлов"
+                  : ""}
+              </FormHelperText>
             </Box>
           </FormControl>
         </StyledEngineProvider>
