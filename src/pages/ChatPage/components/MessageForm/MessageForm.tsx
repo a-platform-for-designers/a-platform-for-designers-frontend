@@ -59,9 +59,7 @@ const MessageForm = () => {
 
       const { file } = (await chartsService.sendFile(formData)) || {};
       const url = stripHost(file);
-      dispatch(
-        sendMessage({ ...(input ? { message: input.trim() } : {}), file: url })
-      );
+      dispatch(sendMessage({ message: input.trim(), file: url }));
       setSelectedFile(null);
       clearFileInput();
       setInput("");
