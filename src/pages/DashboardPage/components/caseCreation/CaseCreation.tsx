@@ -26,12 +26,17 @@ const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
     caseInfo?.specialization?.name || null
   ); //??
   const [wrapper, setWrapper] = useState<File | null>(null); //??
+  const [imageString, setImageString] = useState<string | undefined>();
   const [avatar, setAvatar] = useState<string | undefined>(""); //??
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]); //??
+  const [imagesString, setImagesString] = useState<string[] | undefined>();
   const [images, setImages] = useState<string[] | undefined>([]); //??
   const [sphereValue, setSphereValue] = useState<string | null>(
     caseInfo?.sphere?.name || null
   );
+  const [disabledButton, setDisabledButton] = useState<boolean>(false);
+  const [onChangeInput, setOnChangeInput] = useState<boolean>(false);
+
   const [toolsValue, setToolsValue] = useState<string[]>(
     (caseInfo?.instruments || []).map((obj) =>
       typeof obj === "object" && "name" in obj ? obj["name"] : ""
@@ -52,6 +57,18 @@ const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
   }
 
   useEffect(() => {
+    if (!caseInfo) {
+      setDisabledButton(
+        !!(title.error || !wrapper || selectedFiles.length === 0)
+      );
+    } else {
+      setDisabledButton(
+        !!(title.error || !caseInfo.avatar || caseInfo.images.length === 0)
+      );
+    }
+  }, [caseInfo, title.error, wrapper, selectedFiles]);
+
+  useEffect(() => {
     if (caseInfo) {
       const pics = caseInfo.images;
       setImages(pics.map((pic) => pic.image));
@@ -66,6 +83,7 @@ const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
       placeholder: "Название проекта",
       data: title,
       maxLength: 50,
+      setDisableButton: setOnChangeInput,
     },
     {
       heading: "Направление",
@@ -84,6 +102,7 @@ const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
       avatar: avatar,
       value: wrapper,
       onChange: handleSetWrapper,
+      image: imageString,
     },
     {
       heading: "Изображения",
@@ -93,6 +112,7 @@ const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
       images: images,
       value: selectedFiles,
       onChange: handleSetSelectedFiles,
+      caseImages: imagesString,
     },
     {
       heading: "Сфера",
@@ -117,6 +137,7 @@ const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
       placeholder: "Сколько времени делали проект",
       data: time,
       maxLength: 50,
+      setDisableButton: setOnChangeInput,
     },
     {
       heading: "Описание проекта",
@@ -125,6 +146,7 @@ const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
       minRows: 5,
       data: description,
       maxLength: 500,
+      setDisableButton: setOnChangeInput,
     },
   ];
 
@@ -146,18 +168,33 @@ const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
     return mappedInstruments;
   };
 
-  /* useEffect(() => {
-    if (location.pathname.endsWith("/preview")) {
-      navigate("/dashboard/portfolio/create");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location]); */
+  useEffect(() => {
+    const fetchData = async () => {
+      const item = await Promise.all(
+        selectedFiles.map(async (file) => {
+          const base64Image = await getBase64(file);
+          return String(base64Image);
+        })
+      );
+      setImagesString(item);
+    };
+    fetchData();
+  }, [selectedFiles]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const item = String(await getBase64(wrapper!));
+      setImageString(item);
+    };
+    fetchData();
+  }, [wrapper]);
 
   function handleSetWrapper(
     _: React.ChangeEvent<HTMLInputElement>,
     newValue: File | null
   ) {
     setWrapper(newValue);
+    setOnChangeInput(true);
   }
 
   function handleSetSelectedFiles(
@@ -165,6 +202,7 @@ const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
     newValue: File
   ) {
     setSelectedFiles((prev) => [...prev, newValue]);
+    setOnChangeInput(true);
   }
 
   function handleSetDirections(
@@ -172,6 +210,7 @@ const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
     newValue: string | null
   ) {
     setDirections(newValue);
+    setOnChangeInput(true);
   }
 
   function handleSetTools(
@@ -180,6 +219,7 @@ const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
   ) {
     if (newValue.length > 5 || newValue.length === 0) return;
     setToolsValue(newValue);
+    setOnChangeInput(true);
   }
 
   function handleSetSphere(
@@ -187,6 +227,7 @@ const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
     newValue: string | null
   ) {
     setSphereValue(newValue);
+    setOnChangeInput(true);
   }
 
   function handleDeleteCaseImage(index: number) {
@@ -288,9 +329,7 @@ const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
             <MyButton
               className={classes.case__btn}
               onClick={handleCasePreview}
-              disabled={
-                !!(title.error || !wrapper || selectedFiles.length === 0)
-              }
+              disabled={disabledButton || !onChangeInput}
               variant="outlined"
             >
               Предпросмотр
@@ -298,9 +337,7 @@ const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
             <MyButton
               className={classes.case__btn}
               onClick={handleSubmit}
-              disabled={
-                !!(title.error || !wrapper || selectedFiles.length === 0)
-              }
+              disabled={disabledButton || !onChangeInput}
             >
               Опубликовать проект
             </MyButton>

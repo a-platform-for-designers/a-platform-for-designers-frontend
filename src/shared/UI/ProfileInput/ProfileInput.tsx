@@ -42,9 +42,9 @@ const ProfileInput: React.FC<IProfileInputProps> = ({
   avatar,
   images,
   notRequired,
+  image,
+  caseImages,
 }) => {
-  const [image, setImage] = useState<string | null>(null);
-  const [caseImages, setCaseImages] = useState<string[]>([]);
   const [noImageError, setNoImageError] = useState<boolean>();
   const [noWrapperError, setNoWrapperError] = useState<boolean>();
   const [isFirstLoad, setIsFirstLoad] = useState<boolean>(true);
@@ -59,7 +59,7 @@ const ProfileInput: React.FC<IProfileInputProps> = ({
   }, [images]);
 
   useEffect(() => {
-    if (!isFirstLoad) {
+    if (!isFirstLoad && caseImages) {
       if (caseImages.length <= 0) {
         setNoImageError(true);
       } else {
@@ -95,14 +95,11 @@ const ProfileInput: React.FC<IProfileInputProps> = ({
     }
 
     if (file && onChange) {
-      const fileUrl = URL.createObjectURL(file);
       onChange(event, file as string & string[] & File);
-      setImage(fileUrl);
       setIsFirstLoad(false);
       return;
     }
   }
-
   function handleCaseImagesUpload(event: React.ChangeEvent<HTMLInputElement>) {
     setIsFirstLoad(false);
     const file = event.target.files?.[0];
@@ -114,18 +111,26 @@ const ProfileInput: React.FC<IProfileInputProps> = ({
     }
 
     if (file && onChange) {
-      const fileUrl = URL.createObjectURL(file);
       onChange(event, file as string & string[] & File);
-      setCaseImages((prev) => {
-        return [...prev, fileUrl];
-      });
     }
   }
 
   function handeDeleteCaseImage(i: number) {
     if (handleDeleteCaseImage) {
-      setCaseImages((prev) => prev.filter((_, index) => index !== i));
       handleDeleteCaseImage(i);
+    }
+    if (setDisableButton) {
+      setDisableButton(true);
+    }
+    if (caseImages && caseImages.length <= 0) {
+      setNoImageError(true);
+    } else {
+      setNoImageError(false);
+    }
+    if (!image) {
+      setNoWrapperError(true);
+    } else {
+      setNoWrapperError(false);
     }
   }
 
@@ -133,6 +138,16 @@ const ProfileInput: React.FC<IProfileInputProps> = ({
     if (handeDeleteCaseImages && imagesFromServer) {
       setImagesFromServer((prev) => prev?.filter((_, index) => index !== i));
       handeDeleteCaseImages(i);
+    }
+    if (caseImages && caseImages.length <= 0) {
+      setNoImageError(true);
+    } else {
+      setNoImageError(false);
+    }
+    if (!image) {
+      setNoWrapperError(true);
+    } else {
+      setNoWrapperError(false);
     }
   }
 
@@ -195,20 +210,20 @@ const ProfileInput: React.FC<IProfileInputProps> = ({
           <FormControl className="profileInputForm">
             <Typography className="profileInputLabel">{heading}</Typography>
             <Box>
-              {image && (
+              {image ? (
                 <img
                   className="profileWrapperImage"
                   src={image}
                   alt="Обложка кейса"
                 />
-              )}
-              {!image && avatar && (
+              ) : null}
+              {!image && avatar ? (
                 <img
                   className="profileWrapperImage"
                   src={avatar}
                   alt="Обложка кейса5"
                 />
-              )}
+              ) : null}
               <ButtonUploadImg
                 className="profileWrapperButton"
                 label={image ? "Загрузить новую обложку" : label}
@@ -235,30 +250,31 @@ const ProfileInput: React.FC<IProfileInputProps> = ({
               <Typography className="profileImageHeading">
                 Загрузите от 1 до 4 изображений
               </Typography>
-              {caseImages &&
-                caseImages.map((item, i) => {
-                  return (
-                    <Box
-                      key={item}
-                      className="profileInput__case_image_wrapper"
-                    >
-                      <img
-                        className="profileCaseImage"
-                        src={item}
-                        alt={`Обложка кейса №${i}`}
-                      />
-                      <MyButton
-                        onClick={() => handeDeleteCaseImage(i)}
-                        variant="text"
-                        color="error"
-                        startIcon={<DeleteForeverIcon />}
-                        className="profileInput__btn profileInput__btn_type_del"
+              {caseImages
+                ? caseImages.map((item, i) => {
+                    return (
+                      <Box
+                        key={item}
+                        className="profileInput__case_image_wrapper"
                       >
-                        Удалить
-                      </MyButton>
-                    </Box>
-                  );
-                })}
+                        <img
+                          className="profileCaseImage"
+                          src={item}
+                          alt={`Обложка кейса №${i}`}
+                        />
+                        <MyButton
+                          onClick={() => handeDeleteCaseImage(i)}
+                          variant="text"
+                          color="error"
+                          startIcon={<DeleteForeverIcon />}
+                          className="profileInput__btn profileInput__btn_type_del"
+                        >
+                          Удалить
+                        </MyButton>
+                      </Box>
+                    );
+                  })
+                : null}
               {imagesFromServer &&
                 imagesFromServer.map((item, i) => {
                   return (
@@ -288,18 +304,20 @@ const ProfileInput: React.FC<IProfileInputProps> = ({
                 label={label}
                 handleFileChange={handleCaseImagesUpload}
                 description={description}
-                disabled={caseImages.length >= 4}
+                disabled={caseImages && caseImages.length >= 4}
               />
-              <FormHelperText
-                className="profileInputForm__error"
-                error={noImageError || caseImages.length >= 4}
-              >
-                {noImageError
-                  ? "Добавьте хотя бы одно изображение"
-                  : caseImages.length >= 4
-                  ? "Превышен лимит загруженных файлов"
-                  : ""}
-              </FormHelperText>
+              {caseImages ? (
+                <FormHelperText
+                  className="profileInputForm__error"
+                  error={noImageError || caseImages.length >= 4}
+                >
+                  {noImageError
+                    ? "Добавьте хотя бы одно изображение"
+                    : caseImages.length >= 4
+                    ? "Превышен лимит загруженных файлов"
+                    : ""}
+                </FormHelperText>
+              ) : null}
             </Box>
           </FormControl>
         </StyledEngineProvider>

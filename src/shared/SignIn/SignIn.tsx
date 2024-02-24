@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
 import { logIn } from "@/redux/slices/authSlice";
 import { enqueueSnackbar } from "notistack";
 import { getInfoAboutMe } from "@/redux/slices/userSlice";
+import { resetAuthErrors } from "@/redux/slices/userSlice";
 
 interface ISignInProps {
   openSignUpPopup: () => void;
@@ -17,6 +18,7 @@ const SignIn: FC<ISignInProps> = ({ openSignUpPopup }) => {
   const [error] = useState("");
   const dispatch = useAppDispatch();
   const { isAuth } = useAppSelector((state) => state.auth);
+  const { errorMessages } = useAppSelector((state) => state.user);
   const email = useInput(
     "",
     {
@@ -36,7 +38,7 @@ const SignIn: FC<ISignInProps> = ({ openSignUpPopup }) => {
     badDataError: true,
   });
 
-  /* useEffect(() => {
+  useEffect(() => {
     errorMessages.forEach((message) => {
       enqueueSnackbar({
         variant: "error",
@@ -46,7 +48,7 @@ const SignIn: FC<ISignInProps> = ({ openSignUpPopup }) => {
     return () => {
       dispatch(resetAuthErrors());
     };
-  }, [errorMessages, dispatch]); */
+  }, [errorMessages, dispatch]);
 
   useEffect(() => {
     if (isAuth) {

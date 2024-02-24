@@ -31,6 +31,8 @@ export interface IProfileDataItem {
   maxLength?: number;
   setDisableButton?: (boolean: boolean) => void;
   notRequired?: boolean;
+  image?: string;
+  caseImages?: string[];
 }
 
 export interface IProfileInputProps extends IProfileDataItem {

@@ -17,11 +17,9 @@ import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
 
 const Mentorship: React.FC = () => {
   const { user } = useAppSelector((state) => state.user);
-  const price = useInput(
-    user?.mentoring?.price?.toString() || "",
-    {},
-    { trim: true }
-  );
+  const price = useInput(user?.mentoring?.price?.toString() || "", {
+    isEmpty: false,
+  });
   const dispatch = useAppDispatch();
   price.onChange = (event) => {
     setStatus(null);
@@ -31,10 +29,10 @@ const Mentorship: React.FC = () => {
     price.onSetValue(limitedValue);
   };
   const experience = useInput(user?.mentoring?.experience || "", {
-    isEmpty: true,
+    isEmpty: false,
   });
   const expertise = useInput(user?.mentoring?.expertise || "", {
-    isEmpty: true,
+    isEmpty: false,
   });
   const [status, setStatus] = useState<boolean | null>(
     user?.mentoring?.agreement_free === false ||
@@ -150,6 +148,7 @@ const Mentorship: React.FC = () => {
               className={classes.mentorship__btn}
               type="submit"
               onClick={handleSubmit}
+              disabled={!experience.isDirty || !expertise.isDirty}
             >
               Сохранить
             </MyButton>
