@@ -21,6 +21,7 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { enqueueSnackbar } from "notistack";
 
 //TODO Исправить description у добавления фото
+//TODO Испраить image === "undefined"
 
 const ProfileInput: React.FC<IProfileInputProps> = ({
   heading,
@@ -35,7 +36,6 @@ const ProfileInput: React.FC<IProfileInputProps> = ({
   value,
   onChange,
   data,
-  //disabled,
   handleDeleteCaseImage,
   maxLength,
   className,
@@ -144,6 +144,11 @@ const ProfileInput: React.FC<IProfileInputProps> = ({
     } else {
       setNoImageError(false);
     }
+    if (imagesFromServer && imagesFromServer.length <= 0) {
+      setNoImageError(true);
+    } else {
+      setNoImageError(false);
+    }
     if (!image) {
       setNoWrapperError(true);
     } else {
@@ -210,14 +215,14 @@ const ProfileInput: React.FC<IProfileInputProps> = ({
           <FormControl className="profileInputForm">
             <Typography className="profileInputLabel">{heading}</Typography>
             <Box>
-              {image ? (
+              {image !== "undefined" ? (
                 <img
                   className="profileWrapperImage"
                   src={image}
                   alt="Обложка кейса"
                 />
               ) : null}
-              {!image && avatar ? (
+              {image === "undefined" && avatar ? (
                 <img
                   className="profileWrapperImage"
                   src={avatar}
@@ -226,7 +231,9 @@ const ProfileInput: React.FC<IProfileInputProps> = ({
               ) : null}
               <ButtonUploadImg
                 className="profileWrapperButton"
-                label={image ? "Загрузить новую обложку" : label}
+                label={
+                  image !== "undefined" ? "Загрузить новую обложку" : label
+                }
                 handleFileChange={handleWrapperUpload}
                 description={description}
               />

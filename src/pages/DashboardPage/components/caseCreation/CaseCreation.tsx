@@ -19,24 +19,24 @@ interface IProps {
 }
 
 const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
+  const navigate = useNavigate();
   const title = useInput(caseInfo?.title || "", { isEmpty: true });
   const time = useInput(caseInfo?.working_term || "", {});
   const description = useInput(caseInfo?.description || "", {});
   const [directions, setDirections] = useState<string | null>(
     caseInfo?.specialization?.name || null
-  ); //??
-  const [wrapper, setWrapper] = useState<File | null>(null); //??
+  );
+  const [wrapper, setWrapper] = useState<File | null>(null);
   const [imageString, setImageString] = useState<string | undefined>();
-  const [avatar, setAvatar] = useState<string | undefined>(""); //??
-  const [selectedFiles, setSelectedFiles] = useState<File[]>([]); //??
+  const [avatar, setAvatar] = useState<string | undefined>("");
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [imagesString, setImagesString] = useState<string[] | undefined>();
-  const [images, setImages] = useState<string[] | undefined>([]); //??
+  const [images, setImages] = useState<string[] | undefined>([]);
   const [sphereValue, setSphereValue] = useState<string | null>(
     caseInfo?.sphere?.name || null
   );
   const [disabledButton, setDisabledButton] = useState<boolean>(false);
   const [onChangeInput, setOnChangeInput] = useState<boolean>(false);
-
   const [toolsValue, setToolsValue] = useState<string[]>(
     (caseInfo?.instruments || []).map((obj) =>
       typeof obj === "object" && "name" in obj ? obj["name"] : ""
@@ -44,37 +44,9 @@ const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
   );
   const [isCasePreview, setIsCasePreview] = useState<boolean>(false);
   const [caseDataValues, setCaseDataValues] = useState<ICasePreview>();
-
-  const navigate = useNavigate();
-
   const { specializations, spheres, instruments } = useAppSelector(
     (state) => state.data
   );
-
-  if (wrapper) {
-    const aaa = URL.createObjectURL(wrapper);
-    console.log(aaa);
-  }
-
-  useEffect(() => {
-    if (!caseInfo) {
-      setDisabledButton(
-        !!(title.error || !wrapper || selectedFiles.length === 0)
-      );
-    } else {
-      setDisabledButton(
-        !!(title.error || !caseInfo.avatar || caseInfo.images.length === 0)
-      );
-    }
-  }, [caseInfo, title.error, wrapper, selectedFiles]);
-
-  useEffect(() => {
-    if (caseInfo) {
-      const pics = caseInfo.images;
-      setImages(pics.map((pic) => pic.image));
-      setAvatar(caseInfo.avatar);
-    }
-  }, [caseInfo]);
 
   const profileData: IProfileDataItem[] = [
     {
@@ -150,6 +122,26 @@ const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
     },
   ];
 
+  useEffect(() => {
+    if (!caseInfo) {
+      setDisabledButton(
+        !!(title.error || !wrapper || selectedFiles.length === 0)
+      );
+    } else {
+      setDisabledButton(
+        !!(title.error || !caseInfo.avatar || caseInfo.images.length === 0)
+      );
+    }
+  }, [caseInfo, title.error, wrapper, selectedFiles]);
+
+  useEffect(() => {
+    if (caseInfo) {
+      const pics = caseInfo.images;
+      setImages(pics.map((pic) => pic.image));
+      setAvatar(caseInfo.avatar);
+    }
+  }, [caseInfo]);
+
   const convertStringToId = (
     str: string[] | string | null,
     state: { [key: string]: number }
@@ -157,7 +149,6 @@ const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
     if (typeof str === "string") {
       return state[str];
     }
-
     if (!str) {
       return null;
     }
@@ -238,10 +229,11 @@ const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
     e.preventDefault();
     const values = {
       title: title.value,
-      workingTerm: time.value, // fix null
+      workingTerm: time.value,
       description: description.value,
       specialization: convertStringToId(directions, specializations),
       avatar: String(await getBase64(wrapper!)),
+      // images: imagesDic,
       images: await Promise.all(
         selectedFiles.map(async (file) => {
           const base64Image = await getBase64(file);
@@ -253,7 +245,6 @@ const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
       sphere: convertStringToId(sphereValue, spheres),
       instruments: convertStringToId(toolsValue, instruments),
     };
-    console.log(values);
     if (!caseInfo) {
       try {
         const createCase = await casesService.createCase(values);
@@ -351,9 +342,12 @@ const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
               path="/preview"
               element={
                 <CasePreview
-                  handleSubmit={handleSubmit}
                   caseData={caseDataValues}
                   handleEdit={handleEdit}
+                  handleSubmit={handleSubmit}
+                  disabledButton={disabledButton || !onChangeInput}
+                  imageString={caseInfo?.avatar}
+                  imagesString={caseInfo?.images}
                 />
               }
             />

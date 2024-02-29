@@ -63,7 +63,7 @@ export const getMessages = createAsyncThunk(
       const messagesGenerator = fetchMessages({ socket, page: messagesPage });
       for await (const message of messagesGenerator) {
         if (message?.text === "Нет более ранних сообщений") {
-          console.log("Нет более ранних сообщений");
+          ("Нет более ранних сообщений");
           dispatch(setLatPage());
         } else {
           dispatch(addMessage(message));
