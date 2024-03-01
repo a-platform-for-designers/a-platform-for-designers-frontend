@@ -17,6 +17,8 @@ import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
 
 const Mentorship: React.FC = () => {
   const { user } = useAppSelector((state) => state.user);
+  const [disabledButton, setDisabledButton] = useState<boolean>(false);
+  const [noError, setNoError] = useState<boolean>(false);
   const price = useInput(user?.mentoring?.price?.toString() || "", {
     isEmpty: false,
   });
@@ -43,10 +45,14 @@ const Mentorship: React.FC = () => {
 
   function handleUnactive() {
     setStatus(false);
+    setDisabledButton(true);
+    setNoError(true);
     price.onSetValue("");
   }
 
   function handleActive() {
+    setNoError(true);
+    setDisabledButton(true);
     setStatus(true);
     price.onSetValue("");
   }
@@ -79,6 +85,7 @@ const Mentorship: React.FC = () => {
             </Typography>
             <div className={classes.mentorship__section_wrapper}>
               <MyInput
+                setDisableButton={setDisabledButton}
                 data={experience}
                 maxLength={200}
                 label="Опыт работы"
@@ -100,6 +107,7 @@ const Mentorship: React.FC = () => {
                 minRows={10}
                 maxLength={500}
                 className={classes.mentorship__section_textarea}
+                setDisableButton={setDisabledButton}
               />
             </div>
           </Box>
@@ -113,6 +121,8 @@ const Mentorship: React.FC = () => {
                 variant="text-label-without"
                 placeholder="Введите сумму за час работы"
                 className={classes.mentorship__section_textarea_currency}
+                setDisableButton={setDisabledButton}
+                noError={noError}
               />
               <Typography className={classes.mentorship__sectionText}>
                 или
@@ -148,7 +158,7 @@ const Mentorship: React.FC = () => {
               className={classes.mentorship__btn}
               type="submit"
               onClick={handleSubmit}
-              disabled={!experience.isDirty || !expertise.isDirty}
+              disabled={!disabledButton}
             >
               Сохранить
             </MyButton>
