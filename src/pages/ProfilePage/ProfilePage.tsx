@@ -17,7 +17,7 @@ import {
 import { IProfileNavPage } from "@/types";
 import { userService } from "@/api";
 import { useEffect, useState } from "react";
-import { IUser, IProfileData } from "@/types";
+import { IUser, IProfileData, IDataItem } from "@/types";
 import CustomersOrderCard from "./components/CustomersOrdersCards/CustomersOrdersCards";
 import Preloader from "@/shared/Preloader/Preloader";
 import Mentoring from "./components/Mentoring/Mentoring";
@@ -27,8 +27,8 @@ const ProfilePage: React.FC = () => {
   const [currentUser, setCurrentUser] = useState<IUser>(); // пользователь чей профиль(id через путь)
   const isCustomerCurrentUser = currentUser?.is_customer;
   const isMentor =
-    currentUser?.profiledesigner?.specialization?.some((item) =>
-      typeof item === "number" ? item === 5 : item.id === 5
+    currentUser?.profiledesigner?.specialization?.some(
+      (item) => (item as IDataItem).name === "Менторство"
     ) ?? false;
   const navigate = useNavigate();
 
