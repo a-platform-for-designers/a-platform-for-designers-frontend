@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import classes from "./Mentorship.module.scss";
 import { MyButton, MyInput } from "@/shared/UI";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import useInput from "@/hooks/useInput";
 import mentoringService from "@/api/services/mentoringService";
 import { setMentorInfo } from "@/redux/slices/userSlice";
@@ -42,6 +42,15 @@ const Mentorship: React.FC = () => {
       ? user?.mentoring?.agreement_free
       : null
   );
+  const invalidButton =
+    !!expertise.error || !!experience.error || !disabledButton;
+
+  useEffect(() => {
+    if (!price.value && !status) {
+      handleUnactive();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [price, status]);
 
   function handleUnactive() {
     setStatus(false);
@@ -59,6 +68,7 @@ const Mentorship: React.FC = () => {
 
   async function handleSubmit(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
+    setDisabledButton(false);
     const values = {
       experience: experience.value,
       expertise: expertise.value,
@@ -158,7 +168,7 @@ const Mentorship: React.FC = () => {
               className={classes.mentorship__btn}
               type="submit"
               onClick={handleSubmit}
-              disabled={!disabledButton}
+              disabled={invalidButton}
             >
               Сохранить
             </MyButton>
