@@ -1,7 +1,7 @@
 import { Paper, List, ListItemButton, ListItemText } from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAppSelector } from "@/hooks/reduxHooks";
-
+import { IDataItem } from "@/types/index";
 import "./Asidebar.scss";
 import { useAppDispatch } from "@/hooks/reduxHooks";
 import { logOut } from "@/redux/slices/authSlice";
@@ -18,8 +18,8 @@ const Asidebar: React.FC = () => {
   const { user } = useAppSelector((state) => state.user);
   const isCustomer = user?.is_customer;
   const isMentor =
-    user?.profiledesigner?.specialization?.some((item) =>
-      typeof item === "number" ? item === 5 : item.id === 5
+    user?.profiledesigner?.specialization?.some(
+      (item) => (item as IDataItem).name === "Менторство"
     ) ?? false;
 
   const navItems = [
