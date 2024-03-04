@@ -12,7 +12,7 @@ export const SigninText = {
   linkText: "Зарегистрироваться",
 };
 
-export const BASE_PATH = "http://46.183.163.139/";
+export const BASE_PATH = "https://designcollab.pro";
 export const API_PATH = "/api";
 
 export const WS_URL = (chatId: number, token: string | null) =>
