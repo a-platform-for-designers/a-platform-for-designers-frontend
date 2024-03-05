@@ -230,7 +230,7 @@ export interface IApplicant {
   id: number;
   last_name: string;
   photo: string;
-  specialization: IDataItem;
+  specialization: object[];
 }
 
 export interface IOrderResponse {
