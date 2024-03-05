@@ -23,11 +23,11 @@ export default defineConfig({
   server: {
     proxy: {
       "/media": {
-        target: "http://46.183.163.139",
+        target: "https://designcollab.pro",
         changeOrigin: true,
       },
       "/api": {
-        target: "http://46.183.163.139",
+        target: "https://designcollab.pro",
         changeOrigin: true,
       },
     },

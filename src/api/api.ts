@@ -30,15 +30,21 @@ api.interceptors.response.use(
           tokenManager.clearToken();
           messages = [CLIENT_API_ERRORS.UNAUTHORIZED_ACCESS];
         } else if (statusCode === 400) {
-          const errorsValues: string[][] = Object.values(response.data);
-          messages = errorsValues
+          const errorsEntries: [string, string[]][] = Object.entries(
+            response.data
+          );
+          messages = errorsEntries
+            .map(([key, errors]) => errors.map((error: string) => [key, error]))
             .flat()
-            .map((error) => errorsMap.get(error) || error);
+            .map(
+              ([key, errorValue]) =>
+                errorsMap.get(errorValue) ||
+                `${key} - ${errorValue?.toLowerCase()}`
+            );
         } else if (statusCode === 500) {
           messages = [CLIENT_API_ERRORS.SERVER_ERROR];
         }
       }
-
       return Promise.reject(new RestApiErrors(messages));
     }
     return Promise.reject(error);
