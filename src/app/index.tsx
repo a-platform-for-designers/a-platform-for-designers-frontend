@@ -96,6 +96,7 @@ function App() {
               <Route path="/orders/create/:id" Component={OrderEdit} />
               <Route path="/my-orders/*" Component={UserOrdersPage} />
               <Route path="/order/:id" Component={OrderPage} />
+              <Route path="/reset/:uid/:token" Component={MainPage} />
               <Route path="*" Component={ErrorPage} />
             </Routes>
             <Footer />

@@ -14,6 +14,7 @@ import desCatImg4 from "@/assets/images/desinerscategories-4.webp";
 import Feed from "./components/Feed/Feed";
 import { casesService, userService } from "@/api";
 import { ICase, IUser } from "@/types";
+import useResetPassword from "@/hooks/useResetPassword";
 
 const mainPageTheme: SxProps<Theme> = {
   backgroundColor: (theme) => theme.palette.background.default,
@@ -26,6 +27,7 @@ const MainPage: React.FC = () => {
   const [totalCases, setTotalCases] = useState<number>(0);
   const [page, setPage] = useState<number>(1);
   const CASES_LIMIT = 12;
+  const { ResetPasswordForm } = useResetPassword()
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -134,6 +136,7 @@ const MainPage: React.FC = () => {
           </Grid>
         }
       </Box>
+      <ResetPasswordForm />
     </StyledEngineProvider>
   );
 };

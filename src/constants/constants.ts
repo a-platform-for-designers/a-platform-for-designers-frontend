@@ -12,11 +12,28 @@ export const SigninText = {
   linkText: "Зарегистрироваться",
 };
 
-export const BASE_PATH = "http://46.183.163.139/";
+export const resetPasswordText = {
+  restoreAccess: "Восстановить доступ",
+  resendEmail: "Отправить email повторно",
+  enterEmail:
+    "Введите email, на который регистрировали аккаунт. Мы пришлём ссылку для восстановления доступа.",
+  emailSent:
+    "На указанный email отправлено письмо со ссылкой для восстановления доступа. Если письмо не пришло, проверьте правильность написания email и запросите письмо ещё раз.",
+};
+
+export const confirmPasswordText = {
+  signIn: "Поменять пароль",
+  home: "На главную",
+  setNewPassword: "Придумайте новый пароль",
+  accessRestored: "Доступ восстановлен",
+  title: "Вы всегда можете изменить пароль в Личном кабинете",
+};
+
+export const BASE_PATH = "https://designcollab.pro/";
 export const API_PATH = "/api";
 
 export const WS_URL = (chatId: number, token: string | null) =>
-  `ws://46.183.163.139/ws/chats/${chatId}/?token=${token}`;
+  `wss://designcollab.pro/ws/chats/${chatId}/?token=${token}`;
 
 export const LISTS = {
   LIST_TOOLS: [
