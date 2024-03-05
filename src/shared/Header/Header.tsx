@@ -22,11 +22,14 @@ import SignIn from "../SignIn/SignIn";
 import UserRole from "../UserRole/UserRole";
 import SignUp from "../SignUp/SignUp";
 import { tokenManager } from "@/api/api";
+import ResetPassword from "../ResetPassword/resetPassword";
+import ConfirmPassword from "../ConfirmPassword/confirmPassword";
 
 const Header: React.FC = () => {
   const location = useLocation();
   const [isOpenSignIn, setIsOpenSignIn] = useState<boolean>(false);
   const [isOpenSignUp, setIsOpenSignUp] = useState<boolean>(false);
+  const [isOpenRecovery, setIsOpenRecovery] = useState<boolean>(false);
   const [isRoleSelected, setIsRoleSelected] = useState<boolean>(false);
   const [isCustomer, setIsCustomer] = useState<boolean>(true);
   const { isAuth } = useAppSelector((state) => state.auth);
@@ -56,6 +59,7 @@ const Header: React.FC = () => {
   function handleClose() {
     setIsOpenSignIn(false);
     setIsOpenSignUp(false);
+    setIsOpenRecovery(false);
     setIsRoleSelected(false);
   }
 
@@ -67,6 +71,11 @@ const Header: React.FC = () => {
   function openSignUpPopup() {
     handleClose();
     setIsOpenSignUp(true);
+  }
+
+  function openRecovery() {
+    handleClose();
+    setIsOpenRecovery(true);
   }
 
   function handleCkick() {
@@ -223,8 +232,19 @@ const Header: React.FC = () => {
 
       <MyPopup onClose={handleClose} open={isOpenSignIn}>
         <MyAuthForm title="Вход">
-          <SignIn openSignUpPopup={openSignUpPopup} />
+          <SignIn
+            openSignUpPopup={openSignUpPopup}
+            openRecoveryPopUp={openRecovery}
+          />
         </MyAuthForm>
+      </MyPopup>
+
+      <MyPopup onClose={handleClose} open={isOpenRecovery}>
+        {!location ? (
+          <ConfirmPassword uid="" token="" />
+        ) : (
+          <ResetPassword openSignUpPopup={openSignUpPopup} />
+        )}
       </MyPopup>
 
       <MyPopup onClose={handleClose} open={isOpenSignUp}>

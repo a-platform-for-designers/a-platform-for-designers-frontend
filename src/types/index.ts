@@ -3,6 +3,12 @@ export interface IAuthUserRequest {
   password: string;
 }
 
+export interface IResetPasswordConfirmData {
+  new_password: string;
+  uid: string;
+  token: string;
+}
+
 export interface IToken {
   auth_token: string;
 }
