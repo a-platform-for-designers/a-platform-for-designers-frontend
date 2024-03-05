@@ -3,7 +3,6 @@ import authReducer from "./slices/authSlice";
 import userReducer from "./slices/userSlice";
 import dataReducer from "./slices/dataSlice";
 import chatReducer from "./slices/chatSlice";
-import popUpReducer from "./slices/popUpSlice";
 
 export const store = configureStore({
   reducer: {
@@ -11,7 +10,6 @@ export const store = configureStore({
     user: userReducer,
     data: dataReducer,
     chat: chatReducer,
-    popUp: popUpReducer,
   },
 });
 
