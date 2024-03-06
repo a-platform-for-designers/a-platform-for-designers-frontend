@@ -12,13 +12,14 @@ interface ISignInProps {
   openSignUpPopup: () => void;
 }
 
-const sendEmailTimeout = 2;
+const sendEmailTimeout = 60;
 
 const ResetPassword: FC<ISignInProps> = ({ openSignUpPopup }) => {
   const dispatch = useAppDispatch();
-  const { errorMessages } = useAppSelector((state) => state.auth);
+  const { errorMessages, loading } = useAppSelector((state) => state.auth);
   const [isEmailSent, setIsEmailSent] = useState(false);
   const [time, setTime] = useState<number>(0);
+  const isLoading = loading === "pending";
 
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
@@ -98,7 +99,7 @@ const ResetPassword: FC<ISignInProps> = ({ openSignUpPopup }) => {
             <MyButton
               className="restore-password__button"
               type="submit"
-              disabled={!!email.error || !!time}
+              disabled={isLoading || !!email.error || !!time}
             >
               {isEmailSent
                 ? resetPasswordText.resendEmail

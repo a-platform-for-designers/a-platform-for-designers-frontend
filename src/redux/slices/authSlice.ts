@@ -98,6 +98,12 @@ export const authSlice = createSlice({
         state.isAuth = false;
       })
       .addMatcher(
+        (action) => /^auth.*?\/fulfilled/.test(action.type),
+        (state) => {
+          state.loading = "succeeded";
+        }
+      )
+      .addMatcher(
         (action) => /^auth.*?\/rejected/.test(action.type),
         (state, action) => {
           state.loading = "failed";

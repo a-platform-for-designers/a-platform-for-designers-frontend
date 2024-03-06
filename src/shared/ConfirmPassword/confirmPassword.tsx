@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect } from "react";
 import { enqueueSnackbar } from "notistack";
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import useInput from "../../hooks/useInput";
@@ -14,8 +14,8 @@ import {
 import { useNavigate } from "react-router-dom";
 
 interface IConfirmPasswordProps {
-  uid?: string;
-  token?: string;
+  uid: string;
+  token: string;
   onClose: () => void;
 }
 
@@ -25,9 +25,11 @@ const ConfirmPassword: FC<IConfirmPasswordProps> = ({
   onClose,
 }) => {
   const dispatch = useAppDispatch();
-  const { errorMessages } = useAppSelector((state) => state.auth);
-  const [isPasswordSet, setIsPasswordSet] = useState(false);
+  const { errorMessages, loading } = useAppSelector((state) => state.auth);
   const navigate = useNavigate();
+  const hasError = !!errorMessages.length;
+  const isLoading = loading === "pending";
+  const isPasswordSet = loading === "succeeded";
 
   useEffect(() => {
     errorMessages.forEach((message) => {
@@ -61,7 +63,6 @@ const ConfirmPassword: FC<IConfirmPasswordProps> = ({
       await dispatch(
         confirmPasswordThunk({ new_password: password.value, uid, token })
       );
-      setIsPasswordSet(true);
     }
   }
 
@@ -71,17 +72,22 @@ const ConfirmPassword: FC<IConfirmPasswordProps> = ({
         <form className="confirm-password__form" onSubmit={handleSubmit}>
           <div className="confirm-password__header">
             {isPasswordSet && (
-              <CheckRoundedIcon
-                sx={{
-                  fontSize: 64,
-                  color: "#27AE60",
-                  backgroundColor: "rgba(39, 174, 96, 0.12)",
-                  borderRadius: "50%",
-                  mb: 2,
-                }}
-              />
+              <div style={{ textAlign: "center", marginBottom: 40 }}>
+                <CheckRoundedIcon
+                  sx={{
+                    fontSize: 64,
+                    color: "#27AE60",
+                    backgroundColor: "rgba(39, 174, 96, 0.12)",
+                    borderRadius: "50%",
+                    mb: 2,
+                  }}
+                />
+              </div>
             )}
-            <h1 className="confirm-password__title">
+            <h1
+              className="confirm-password__title"
+              {...(isPasswordSet ? { style: { textAlign: "center" } } : {})}
+            >
               {isPasswordSet
                 ? confirmPasswordText.accessRestored
                 : confirmPasswordText.setNewPassword}
@@ -117,9 +123,11 @@ const ConfirmPassword: FC<IConfirmPasswordProps> = ({
               className="confirm-password__button"
               type="submit"
               disabled={
-                (!!password.error ||
+                hasError ||
+                isLoading ||
+                ((!!password.error ||
                   confirmPassword.value !== password.value) &&
-                !isPasswordSet
+                  !isPasswordSet)
               }
             >
               {isPasswordSet
