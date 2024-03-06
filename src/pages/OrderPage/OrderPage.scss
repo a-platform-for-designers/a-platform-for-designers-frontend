@@ -1,10 +1,14 @@
 .orderPage {
   display: flex;
   justify-content: space-between;
-  padding: 0 80px 0 135px;
+  padding: 0 110px 0 142px;
   max-width: 1440px;
-  margin: 60px auto 20px;
-  gap: 70px;
+  margin: 32px auto 20px;
+  gap: 142px;
+
+  &__card {
+    margin-top: 28px;
+  }
 
   &__without-designers {
     max-width: 684px;
@@ -19,12 +23,7 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 19px;
-    width: 684px;
-
-    :hover {
-      cursor: pointer;
-      opacity: 0.9;
-    }
+    max-width: 684px;
   }
 
   &__customer {
@@ -36,6 +35,10 @@
   &__avatar {
     width: 60px;
     height: 60px;
+    :hover {
+      cursor: pointer;
+      opacity: 0.9;
+    }
   }
 
   &__user {
@@ -183,7 +186,7 @@
 
   &__designers-list {
     overflow-y: scroll;
-    max-height: 87vh;
+    max-height: 79vh;
   }
 
   &__designers-title {
@@ -213,4 +216,19 @@
     width: 420px;
     margin-top: 10px;
   }
+}
+
+.orderPage__designers-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+.orderPage__designers-list::-webkit-scrollbar-track {
+  background-color: rgb(255, 255, 255);
+  border: none;
+}
+
+.orderPage__designers-list::-webkit-scrollbar-thumb {
+  /* 5 - ползунок */
+  border-radius: 100px;
+  background-color: #98979a;
 }
