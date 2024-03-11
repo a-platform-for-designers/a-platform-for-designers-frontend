@@ -23,7 +23,6 @@ import UserRole from "../UserRole/UserRole";
 import SignUp from "../SignUp/SignUp";
 import { tokenManager } from "@/api/api";
 import ResetPassword from "../ResetPassword/resetPassword";
-import ConfirmPassword from "../ConfirmPassword/confirmPassword";
 
 const Header: React.FC = () => {
   const location = useLocation();
@@ -240,11 +239,7 @@ const Header: React.FC = () => {
       </MyPopup>
 
       <MyPopup onClose={handleClose} open={isOpenRecovery}>
-        {!location ? (
-          <ConfirmPassword uid="" token="" />
-        ) : (
-          <ResetPassword openSignUpPopup={openSignUpPopup} />
-        )}
+        <ResetPassword openSignUpPopup={openSignUpPopup} />
       </MyPopup>
 
       <MyPopup onClose={handleClose} open={isOpenSignUp}>
