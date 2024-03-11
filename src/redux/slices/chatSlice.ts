@@ -62,9 +62,10 @@ export const getMessages = createAsyncThunk(
 
       const messagesGenerator = fetchMessages({ socket, page: messagesPage });
       for await (const message of messagesGenerator) {
+        //console.log("message?.text", message?.text);
         if (message?.text === "Нет более ранних сообщений") {
-          ("Нет более ранних сообщений");
-          dispatch(setLatPage());
+          console.log("Нет более ранних сообщений");
+          dispatch(setLastPage());
         } else {
           dispatch(addMessage(message));
         }
@@ -75,9 +76,14 @@ export const getMessages = createAsyncThunk(
 
 export const loadMoreMessages = createAsyncThunk(
   "chat/loadMoreMessages",
-  async (_, { dispatch }) => {
-    //dispatch(nextPage());
-    dispatch(getMessages);
+  async (_, { dispatch, getState }) => {
+    const {
+      chat: { lastMessagesPage, messagesPage },
+    } = getState() as RootState;
+    if (lastMessagesPage === null || messagesPage < lastMessagesPage) {
+      dispatch(nextPage());
+      dispatch(getMessages());
+    }
   }
 );
 
@@ -95,15 +101,20 @@ export const chatSlice = createSlice({
     nextPage: (state) => {
       state.messagesPage = state.messagesPage + 1;
     },
-    setLatPage: (state) => {
+    setLastPage: (state) => {
       state.lastMessagesPage = state.messagesPage;
     },
     addMessage: (state, action) => {
       const message = action.payload as IMessage;
       state.messages[message!.id] = message;
+      state.count = state.count + 1;
     },
     resetMessages: (state) => {
       state.messages = {};
+      state.messagesPage = 1;
+      state.lastMessagesPage = null;
+      state.receiver = null;
+      state.count = 0;
     },
     setActiveChat: (state, action) => {
       state.activeChat = action.payload;
@@ -154,7 +165,7 @@ export const {
   resetChats,
   setActiveChat,
   nextPage,
-  setLatPage,
+  setLastPage,
   showMessagePopUp,
   hideMessagePopUp,
 } = chatSlice.actions;

@@ -27,7 +27,13 @@ export class WebSocketClient {
   }
 
   async connect() {
-    // this.socketClose(false);
+    // close previous connection
+    await new Promise((resolve) => {
+      setTimeout(() => {
+        this.close();
+        resolve(null);
+      }, 10);
+    });
     this.socket = new WebSocket(this.url);
     this.addListeners();
   }
@@ -39,7 +45,6 @@ export class WebSocketClient {
   private socketError(_event: unknown) {}
 
   public socketClose(_event: unknown) {
-    console.log("close", _event);
     this.removeListeners && this.removeListeners();
   }
 
@@ -61,13 +66,11 @@ export class WebSocketClient {
   }
 
   public close() {
-    if (this.socket) {
-      // this.socket.close();
-    }
+    this.removeListeners();
+    this.socket && this.socket.close();
   }
 
   sendMessage(message: ISocketMessage) {
-    console.log("message", message, this.socket);
     this.socket?.send(JSON.stringify(message));
   }
 }

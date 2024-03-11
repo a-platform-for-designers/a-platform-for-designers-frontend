@@ -40,9 +40,8 @@ const containerStyle = {
 };
 
 const Messages = () => {
-  const { messages, lastMessagesPage, activeChat } = useAppSelector(
-    (state) => state.chat
-  );
+  const { messages, messagesPage, lastMessagesPage, activeChat, count } =
+    useAppSelector((state) => state.chat);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -57,8 +56,11 @@ const Messages = () => {
   }, [dispatch, activeChat]);
 
   useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
+    //первая загрузка сообщений
+    if (messagesPage === 1) {
+      scrollToBottom();
+    }
+  }, [messages, messagesPage]);
 
   const messagesContainerRef = useRef<HTMLDivElement | null>(null);
 
@@ -73,7 +75,7 @@ const Messages = () => {
     if (messagesContainerRef.current) {
       const { scrollTop } = messagesContainerRef.current;
       if (scrollTop === 0) {
-        if (!lastMessagesPage) {
+        if (!lastMessagesPage && count) {
           console.log("Достигнут верх контейнера!");
           dispatch(loadMoreMessages());
         }

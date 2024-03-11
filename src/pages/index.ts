@@ -8,6 +8,7 @@ import ProfilePage from "./ProfilePage/ProfilePage";
 import OrdersPage from "./OrdersPage/OrdersPage";
 import UserOrdersPage from "./UserOrdersPage/UserOrdersPage";
 import OrderPage from "./OrderPage/OrderPage";
+import ResetPasswordPage from "./ResetPasswordPage/ResetPasswordPage";
 
 export {
   MainPage,
@@ -20,4 +21,5 @@ export {
   OrdersPage,
   UserOrdersPage,
   OrderPage,
+  ResetPasswordPage,
 };

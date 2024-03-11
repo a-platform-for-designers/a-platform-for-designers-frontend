@@ -23,8 +23,12 @@ export const fetchMessages: FetchMessages = async function* ({
 
     try {
       socket.socketMessage = (event: SocketEvent) => {
-        const message = JSON.parse(event.data);
-        messages.push(message);
+        if (event?.data === "Нет более ранних сообщений") {
+          messages.push({ text: event?.data } as IMessage);
+        } else {
+          const message = JSON.parse(event.data);
+          messages.push(message);
+        }
       };
 
       if (page === 1) {

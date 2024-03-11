@@ -12,9 +12,10 @@ import { resetAuthErrors } from "@/redux/slices/userSlice";
 
 interface ISignInProps {
   openSignUpPopup: () => void;
+  openRecoveryPopUp: () => void;
 }
 
-const SignIn: FC<ISignInProps> = ({ openSignUpPopup }) => {
+const SignIn: FC<ISignInProps> = ({ openSignUpPopup, openRecoveryPopUp }) => {
   const [error] = useState("");
   const dispatch = useAppDispatch();
   const { isAuth } = useAppSelector((state) => state.auth);
@@ -76,7 +77,11 @@ const SignIn: FC<ISignInProps> = ({ openSignUpPopup }) => {
             {error}
           </span>
         )}
-        <a href="#" className="myAuthForm__forget-passwor">
+        <a
+          href="#"
+          className="myAuthForm__forget-passwor"
+          onClick={openRecoveryPopUp}
+        >
           Забыли пароль?
         </a>
         <MyButton

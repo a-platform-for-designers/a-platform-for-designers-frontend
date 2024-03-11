@@ -26,6 +26,17 @@ const RespondedDesigner: React.FC<IProps> = ({
     }
   }
 
+  function setSpecializations(): string[] {
+    const name: string = "name";
+    const arr = designer.specialization?.map(
+      (obj) => obj[name as keyof typeof obj]
+    );
+    if (arr) {
+      return arr.filter((item) => item !== "Менторство");
+    }
+    return arr;
+  }
+
   return (
     <Box className="respondedDesigner">
       <Avatar
@@ -35,23 +46,19 @@ const RespondedDesigner: React.FC<IProps> = ({
           navigate(`/profile/${designer.id}/portfolio`);
         }}
       />
-      <Typography component="p" className="respondedDesigner__name">
-        {designer.first_name} {designer.last_name}
-      </Typography>
-      {designer.specialization ? (
-        <Typography
-          component="p"
-          className="respondedDesigner__info"
-          onClick={() => {
-            navigate(`/profile/${designer.id}/portfolio`);
-          }}
-        >
-          {designer.specialization?.name}
+      <div className="respondedDesigner__text-info">
+        <Typography component="p" className="respondedDesigner__name">
+          {designer.first_name} {designer.last_name}
         </Typography>
-      ) : null}
-      <Typography component="p" className="respondedDesigner__info">
-        {designer?.country}
-      </Typography>
+        {designer.specialization && (
+          <Typography component="p" className="respondedDesigner__info">
+            {setSpecializations() && setSpecializations().join(", ")}
+          </Typography>
+        )}
+        <Typography component="p" className="respondedDesigner__info">
+          {designer?.country}
+        </Typography>
+      </div>
       <MyButton
         type="button"
         variant="outlined"
