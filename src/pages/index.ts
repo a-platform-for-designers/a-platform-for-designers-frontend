@@ -21,5 +21,5 @@ export {
   OrdersPage,
   UserOrdersPage,
   OrderPage,
-  ResetPasswordPage
+  ResetPasswordPage,
 };

@@ -22,7 +22,7 @@ import {
   OrdersPage,
   UserOrdersPage,
   OrderPage,
-  ResetPasswordPage
+  ResetPasswordPage,
 } from "@/pages/index.ts";
 import {
   Portfolio,

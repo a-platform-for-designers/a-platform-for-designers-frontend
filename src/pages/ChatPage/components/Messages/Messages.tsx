@@ -83,7 +83,6 @@ const Messages = () => {
     }
   };
 
-
   return (
     <Box sx={containerStyle} ref={messagesContainerRef} onScroll={handleScroll}>
       {Object.values(messages).map((message, i, array) => (

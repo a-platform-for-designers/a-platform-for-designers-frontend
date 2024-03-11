@@ -12,7 +12,7 @@ interface IProps {
   myOrders?: boolean;
 }
 
-const CustomersOrdersCards: React.FC<IProps> = ({ userId }) => {
+const CustomersOrdersCards: React.FC<IProps> = () => {
   //! потом нужно будет делать запрос к myOrders
   const [orders, setOrders] = useState<IMyOrderResponse[]>([]);
   // const [totalOrders, setTotalOrders] = useState<number>(0);
@@ -20,7 +20,6 @@ const CustomersOrdersCards: React.FC<IProps> = ({ userId }) => {
   // const ORDERS_LIMIT = 8;
   // const filteredItems = orders.filter((item) => item.customer.id === userId);
   const filteredOrders = orders?.filter((task) => task.is_published);
-  console.log(userId);
 
   useEffect(() => {
     const fetchData = async () => {

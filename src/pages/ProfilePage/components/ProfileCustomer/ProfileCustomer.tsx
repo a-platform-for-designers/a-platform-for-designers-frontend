@@ -13,8 +13,6 @@ const ProfileCustomer: React.FC<IProps> = ({ profilecustomer, emptyTitle }) => {
   if (!profilecustomer) return <EmptyData title={emptyTitle} />;
   const { post, country, about } = profilecustomer || {};
 
-  console.log(profilecustomer);
-
   return (
     <StyledEngineProvider injectFirst>
       <Grid

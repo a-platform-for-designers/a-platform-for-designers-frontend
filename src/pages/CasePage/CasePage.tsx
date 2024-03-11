@@ -49,8 +49,6 @@ const CasePage: React.FC = () => {
         try {
           setIsLoading(true);
           const caseData = await casesService.getCaseById(Number(id));
-          console.log(caseData);
-
           setCaseData(caseData);
         } catch (e) {
           console.log("Error fetching data:", e);

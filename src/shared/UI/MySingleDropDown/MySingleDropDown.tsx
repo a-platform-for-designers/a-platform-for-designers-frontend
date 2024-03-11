@@ -4,6 +4,8 @@ import Autocomplete from "@mui/material/Autocomplete";
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import "./MySingleDropDown.scss";
 import { StyledEngineProvider } from "@mui/material/styles";
+import { FormHelperText, FormControl } from "@mui/material";
+import { useState } from "react";
 
 type TValueSingle = string | null;
 export type TOnChangeSingle = (
@@ -21,6 +23,8 @@ type TMySingleDropDownProps = TSingleDropDown & {
   options: string[];
   className?: string;
   placeholder?: string;
+  error?: boolean;
+  notRequired?: boolean;
 };
 
 const MySingleDropDown: React.FC<TMySingleDropDownProps> = ({
@@ -30,6 +34,7 @@ const MySingleDropDown: React.FC<TMySingleDropDownProps> = ({
   size = "fullWidth",
   className,
   placeholder,
+  notRequired,
 }) => {
   const checkedIcon = <CheckOutlinedIcon fontSize="small" color="action" />;
   // hardcoded for a while, soon it will be changed
@@ -38,11 +43,22 @@ const MySingleDropDown: React.FC<TMySingleDropDownProps> = ({
       ? "myMultipleDropDown__size_medium"
       : "myMultipleDropDown__size_full-width";
 
+  const [isError, setIsError] = useState(false);
+
+  function handleValue() {
+    if (!value && !notRequired) {
+      setIsError(true);
+    } else {
+      setIsError(false);
+    }
+  }
+
   return (
     <StyledEngineProvider injectFirst>
       <Autocomplete
         value={value as TValueSingle}
         onChange={onChange as TOnChangeSingle}
+        onBlur={handleValue}
         className={`mySingleDropDown ${className} ${sizeSelector}`}
         options={options}
         getOptionLabel={(option) => option}
@@ -58,12 +74,25 @@ const MySingleDropDown: React.FC<TMySingleDropDownProps> = ({
           </li>
         )}
         renderInput={(params) => (
-          <TextField
-            {...params}
+          <FormControl
+            className={`myInput__container mySingleDropDown__container  ${
+              isError ? "myInput__container_type_incorrect" : ""
+            }`}
             variant="filled"
-            placeholder={placeholder}
-            className="mySingleDropDown__input"
-          />
+            error={isError}
+          >
+            <TextField
+              {...params}
+              variant="filled"
+              placeholder={placeholder}
+              className={`mySingleDropDown__input ${
+                isError ? "myInput__container_type_incorrect" : ""
+              }`}
+            ></TextField>
+            <FormHelperText error={isError}>
+              {isError ? "Поле обязательно для заполнения" : ""}
+            </FormHelperText>
+          </FormControl>
         )}
       />
     </StyledEngineProvider>

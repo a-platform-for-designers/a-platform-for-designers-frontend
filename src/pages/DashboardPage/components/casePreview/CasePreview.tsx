@@ -7,7 +7,7 @@ import {
   StyledEngineProvider,
 } from "@mui/material";
 import "./CasePreview.scss";
-import { ICasePreview, ICaseInfo, IDataItem } from "@/types";
+import { ICasePreview, ICaseInfo, IDataItem, ICaseImage } from "@/types";
 import { CaseInfo } from "../../../CasePage/components";
 import { AboutItem } from "../../../ProfilePage/components";
 import Preloader from "@/shared/Preloader/Preloader";
@@ -19,12 +19,18 @@ interface IProps {
   caseData: ICasePreview | undefined;
   handleSubmit: (e: React.MouseEvent<HTMLButtonElement>) => void;
   handleEdit: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  disabledButton: boolean;
+  imagesString?: ICaseImage[];
+  imageString?: string;
 }
 
 const CasePreview: React.FC<IProps> = ({
   caseData,
   handleSubmit,
   handleEdit,
+  disabledButton,
+  imagesString,
+  imageString,
 }) => {
   const { spheres } = useAppSelector((state) => state.data);
 
@@ -92,12 +98,32 @@ const CasePreview: React.FC<IProps> = ({
                 />
               ) : null}
             </ImageListItem>
+            <ImageListItem>
+              {imageString ? (
+                <img
+                  className="case-preview__image-item"
+                  src={imageString}
+                  alt={`Обложка кейса`}
+                  loading="lazy"
+                />
+              ) : null}
+            </ImageListItem>
             {caseData?.images.map((item) => (
               <ImageListItem key={item.name}>
                 <img
                   className="case-preview__image-item"
                   src={URL.createObjectURL(item)}
                   alt={`Изображение #${item.name}`}
+                  loading="lazy"
+                />
+              </ImageListItem>
+            ))}
+            {imagesString?.map((item) => (
+              <ImageListItem key={item.id}>
+                <img
+                  className="case-preview__image-item"
+                  src={item.image}
+                  alt={`Изображение`}
                   loading="lazy"
                 />
               </ImageListItem>
@@ -113,10 +139,15 @@ const CasePreview: React.FC<IProps> = ({
               className="case-preview__btn-back"
               onClick={handleEdit}
               variant="outlined"
+              disabled={disabledButton}
             >
               Вернуться к редактированию
             </MyButton>
-            <MyButton className="case-preview__btn" onClick={handleSubmit}>
+            <MyButton
+              className="case-preview__btn"
+              onClick={handleSubmit}
+              disabled={disabledButton}
+            >
               Опубликовать проект
             </MyButton>
           </Box>

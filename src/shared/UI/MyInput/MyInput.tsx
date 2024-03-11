@@ -12,10 +12,10 @@ import {
   Typography,
 } from "@mui/material";
 import "./MyInput.scss";
-import { objFromUseInput } from "../../../hooks/useInput";
+import { objFromUseInput } from "@/hooks/useInput";
 import { useState } from "react";
-import eye from "../../../assets/icons/eye.svg";
-import eyeClosed from "../../../assets/icons/eye-close.svg";
+import eye from "@/assets/icons/eye.svg";
+import eyeClosed from "@/assets/icons/eye-close.svg";
 import { useAppDispatch } from "@/hooks/reduxHooks";
 import { resetAuthErrors } from "@/redux/slices/authSlice";
 
@@ -35,6 +35,8 @@ interface IMyInputProps {
   className?: string;
   minRows?: string | number | undefined;
   maxLength?: number;
+  setDisableButton?: (boolean: boolean) => void;
+  noError?: boolean;
 }
 
 const MyInput: React.FC<IMyInputProps> = ({
@@ -47,9 +49,11 @@ const MyInput: React.FC<IMyInputProps> = ({
   className,
   minRows,
   maxLength,
+  setDisableButton,
+  noError,
 }) => {
   const dispatch = useAppDispatch();
-  const invalid = Boolean(data.isDirty && data.error);
+  const invalid = Boolean(data.isDirty && data.error && !noError);
   const [showPassword, setShowPassword] = useState(false);
 
   function handleClickShowPassword() {
@@ -67,7 +71,9 @@ const MyInput: React.FC<IMyInputProps> = ({
     if (onChangeCallback) {
       onChangeCallback();
     }
-
+    if (setDisableButton) {
+      setDisableButton(true);
+    }
     if (maxLength) {
       const inputValue = event.target.value;
       if (inputValue.length <= maxLength) {
@@ -162,7 +168,9 @@ const MyInput: React.FC<IMyInputProps> = ({
               type="text"
               placeholder={placeholder}
             />
-            <FormHelperText error={invalid}>{getError(data)}</FormHelperText>
+            <FormHelperText error={invalid}>
+              {noError ? null : getError(data)}
+            </FormHelperText>
           </FormControl>
         </StyledEngineProvider>
       );
