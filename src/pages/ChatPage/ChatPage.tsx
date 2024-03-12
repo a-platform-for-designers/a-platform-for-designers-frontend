@@ -15,6 +15,10 @@ import MessageForm from "./components/MessageForm/MessageForm";
 const ChatPage = () => {
   const { chats, activeChat } = useAppSelector((state) => state.chat);
   const { user } = useAppSelector((state) => state.user);
+  const partner =
+    activeChat?.initiator.id === user?.id
+      ? activeChat?.receiver
+      : activeChat?.initiator;
 
   return (
     <StyledEngineProvider injectFirst>
@@ -88,7 +92,7 @@ const ChatPage = () => {
             }}
           >
             <Avatar
-              {...(activeChat ? { src: activeChat?.receiver.photo } : {})}
+              {...(activeChat ? { src: partner?.photo } : {})}
               sx={{
                 marginLeft: "16px",
                 marginRight: "20px",
@@ -102,8 +106,7 @@ const ChatPage = () => {
                 lineHeight: "28px",
               }}
             >
-              {activeChat &&
-                `${activeChat?.receiver.first_name} ${activeChat?.receiver.last_name}`}
+              {activeChat && `${partner?.first_name} ${partner?.last_name}`}
             </Typography>
           </Box>
           {activeChat ? (

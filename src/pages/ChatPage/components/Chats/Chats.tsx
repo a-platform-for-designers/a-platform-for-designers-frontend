@@ -13,6 +13,7 @@ import { useEffect } from "react";
 
 const Chats = () => {
   const { chats } = useAppSelector((state) => state.chat);
+  const { user } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -23,11 +24,11 @@ const Chats = () => {
     <List sx={{}}>
       {chats &&
         chats.map((chat) => {
-          const {
-            id,
-            last_message,
-            receiver: { first_name, last_name, photo },
-          } = chat;
+          const { id, last_message, initiator, receiver } = chat;
+
+          const partner = initiator.id === user?.id ? receiver : initiator;
+          const { first_name, last_name, photo } = partner || {};
+
           return (
             <ListItem key={id} disablePadding>
               <ListItemButton onClick={() => dispatch(setActiveChat(chat))}>
