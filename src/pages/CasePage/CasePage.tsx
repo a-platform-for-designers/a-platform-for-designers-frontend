@@ -113,7 +113,11 @@ const CasePage: React.FC = () => {
               justifyContent="flex-start"
               wrap="nowrap"
             >
-              <ActionButton active={isLiked} onClick={handleLike} />
+              <ActionButton
+                active={isLiked}
+                onClick={handleLike}
+                disabled={caseData.author.id == user?.id}
+              />
               <ActionButton
                 active={isFavorite}
                 onClick={() => setIsFavorite(!isFavorite)}

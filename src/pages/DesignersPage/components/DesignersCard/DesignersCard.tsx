@@ -35,14 +35,14 @@ const DesignersCard: React.FC<IProps> = ({ cardOwner }) => {
   function handleLike() {
     if (user) {
       const body = {
-        first_name: cardOwner.first_name,
-        last_name: cardOwner.last_name,
-        photo: cardOwner?.photo,
-        is_customer: cardOwner.is_customer,
-        mentoring: cardOwner.mentoring,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        photo: user?.photo,
+        is_customer: user.is_customer,
+        mentoring: user.mentoring,
       };
       if (user) {
-        userService.setLike(user.id, body);
+        userService.setLike(cardOwner.id, body);
       }
     }
   }
