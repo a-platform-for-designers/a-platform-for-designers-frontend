@@ -47,6 +47,7 @@ const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
   const { specializations, spheres, instruments } = useAppSelector(
     (state) => state.data
   );
+  const [previewImages, setPreviewImages] = useState(caseInfo?.images);
 
   const profileData: IProfileDataItem[] = [
     {
@@ -223,6 +224,7 @@ const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
 
   function handleDeleteCaseImage(index: number) {
     setSelectedFiles((prev) => prev.filter((_, i) => i !== index));
+    setPreviewImages((prev) => prev?.filter((_, i) => i !== index));
   }
 
   async function handleSubmit(e: React.MouseEvent<HTMLButtonElement>) {
@@ -347,7 +349,7 @@ const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
                   handleSubmit={handleSubmit}
                   disabledButton={disabledButton || !onChangeInput}
                   imageString={caseInfo?.avatar}
-                  imagesString={caseInfo?.images}
+                  imagesString={previewImages}
                 />
               }
             />

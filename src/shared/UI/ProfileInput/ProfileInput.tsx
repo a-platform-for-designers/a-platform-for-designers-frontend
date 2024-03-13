@@ -50,7 +50,7 @@ const ProfileInput: React.FC<IProfileInputProps> = ({
   const [isFirstLoad, setIsFirstLoad] = useState<boolean>(true);
   const [imagesFromServer, setImagesFromServer] = useState<
     string[] | undefined
-  >([]);
+  >(images);
 
   useEffect(() => {
     if (images) {
@@ -134,10 +134,12 @@ const ProfileInput: React.FC<IProfileInputProps> = ({
     }
   }
 
+  console.log(imagesFromServer);
+
   function handeDeleteCaseImages(i: number) {
-    if (handeDeleteCaseImages && imagesFromServer) {
+    if (handeDeleteCaseImage && imagesFromServer) {
       setImagesFromServer((prev) => prev?.filter((_, index) => index !== i));
-      handeDeleteCaseImages(i);
+      handeDeleteCaseImage(i);
     }
     if (caseImages && caseImages.length <= 0) {
       setNoImageError(true);
