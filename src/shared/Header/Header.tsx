@@ -120,7 +120,10 @@ const Header: React.FC = () => {
             <Toolbar className="header__auth-buttons">
               {isAuth || isAuthLoading ? (
                 <List className="header__links">
-                  <ListItem className="header__link">
+                  <ListItem
+                    className="header__link"
+                    onClick={() => navigate(`/subscriptions`)}
+                  >
                     <img
                       className="header__list-icon"
                       src={FollowersIcon}

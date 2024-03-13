@@ -454,8 +454,14 @@ export interface IUserSubscriber {
   first_name: string;
   last_name: string;
   is_subscribed: boolean;
+  specialization?: IDataItem[];
+  photo: string;
 }
 
-export interface SubscriptionsResult {
+export interface ISubscriptionsResult {
   results: IUserSubscriber[];
+}
+
+export interface IFollowersCount {
+  subscribers_count: number;
 }

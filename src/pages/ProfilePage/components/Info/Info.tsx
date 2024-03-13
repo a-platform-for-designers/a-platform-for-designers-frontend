@@ -56,9 +56,16 @@ const Info: React.FC<IInfoProps> = ({ data, currentUser }) => {
   const [subscribed, setSubscribed] = useState<boolean>(
     currentUser!.is_subscribed
   );
+  const [followers, setFollowers] = useState<number>(0);
   const navigate = useNavigate();
   const { user } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    subscriptionService
+      .getFollowersById(currentUser!.id)
+      .then((followers) => setFollowers(followers.subscribers_count));
+  }, [currentUser]);
 
   function handleClick() {
     if (user) {
@@ -90,8 +97,10 @@ const Info: React.FC<IInfoProps> = ({ data, currentUser }) => {
   async function toggleSubscribe() {
     if (subscribed) {
       await subscriptionService.deleteSubscription(currentUser!.id);
+      setFollowers(followers - 1);
     } else {
       await subscriptionService.postSubscription(currentUser!.id);
+      setFollowers(followers + 1);
     }
     setSubscribed(!subscribed);
   }
@@ -235,7 +244,7 @@ const Info: React.FC<IInfoProps> = ({ data, currentUser }) => {
                   });
                 }}
               />
-              <SocialIndicator variant="followers" count={98} />
+              <SocialIndicator variant="followers" count={followers} />
             </Grid>
           ) : null}
         </Grid>

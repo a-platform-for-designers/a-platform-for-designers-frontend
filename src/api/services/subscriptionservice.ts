@@ -1,4 +1,4 @@
-import { IUser, ISubscriptionsResult } from "../../types";
+import { IUser, ISubscriptionsResult, IFollowersCount } from "../../types";
 import api from "../api";
 import { enqueueSnackbar } from "notistack";
 
@@ -31,6 +31,29 @@ export const subscriptionService = {
           page: page,
         },
       }
+    );
+    return response.data;
+  },
+
+  getFollowers: async (
+    limit?: number,
+    page?: number
+  ): Promise<ISubscriptionsResult> => {
+    const response = await api.get<ISubscriptionsResult>(
+      "/users/my-subscribers/",
+      {
+        params: {
+          limit: limit,
+          page: page,
+        },
+      }
+    );
+    return response.data;
+  },
+
+  getFollowersById: async (id: number): Promise<IFollowersCount> => {
+    const response = await api.get<IFollowersCount>(
+      `/users/${id}/subscribers-count/`
     );
     return response.data;
   },
