@@ -2,6 +2,7 @@ import {
   ICreateUserRequest,
   IUserShort,
   IUser,
+  IUserLike,
   IUserRespons,
   IUpdateInfoUserMe,
   IUpdateInfoMeCustomer,
@@ -129,6 +130,10 @@ const userService = {
   getSupport: async (data: ISupport): Promise<void> => {
     await api.post<ISupport>("/support/", data);
     return;
+  },
+
+  setLike: async (id: number, body: IUserLike): Promise<void> => {
+    await api.post<IUserLike>(`/users/${id}/like/`, { body });
   },
 };
 

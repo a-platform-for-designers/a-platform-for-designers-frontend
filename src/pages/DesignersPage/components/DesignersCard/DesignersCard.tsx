@@ -9,6 +9,7 @@ import emptyCase from "@/assets/images/caseCart.webp";
 import MySignInPopup from "@/shared/UI/MySignInPopup/MySignInPopup";
 import { showMessagePopUp } from "@/redux/slices/chatSlice";
 import { useState } from "react";
+import { userService } from "@/api/index";
 
 interface IProps {
   cardOwner: IUserWithLastCases;
@@ -29,6 +30,21 @@ const DesignersCard: React.FC<IProps> = ({ cardOwner }) => {
       return arr.filter((item) => item !== "Менторство");
     }
     return arr;
+  }
+
+  function handleLike() {
+    if (user) {
+      const body = {
+        first_name: cardOwner.first_name,
+        last_name: cardOwner.last_name,
+        photo: cardOwner?.photo,
+        is_customer: cardOwner.is_customer,
+        mentoring: cardOwner.mentoring,
+      };
+      if (user) {
+        userService.setLike(user.id, body);
+      }
+    }
   }
 
   function handlePopupOpen() {
@@ -75,6 +91,7 @@ const DesignersCard: React.FC<IProps> = ({ cardOwner }) => {
             <MySwiper
               item={cardOwner.last_cases[0]}
               onClick={() => navigate(`/case/${cardOwner.last_cases[0].id}`)}
+              handleLike={handleLike}
             />
             <img src={emptyCase} alt="Нет кейса" />
           </>
@@ -84,6 +101,7 @@ const DesignersCard: React.FC<IProps> = ({ cardOwner }) => {
               key={item.id}
               item={item}
               onClick={() => navigate(`/case/${item.id}`)}
+              handleLike={handleLike}
             />
           ))
         )}

@@ -1,7 +1,6 @@
 import { Grid, StyledEngineProvider, Typography } from "@mui/material";
 import "./SocialIndicator.scss";
 import React from "react";
-import likesFilledImage from "../../../../assets/icons/LikesFilled.svg";
 import likesEmptyImage from "../../../../assets/icons/LikesEmpty.svg";
 import followersImage from "../../../../assets/icons/FollowersIcon.svg";
 
@@ -22,7 +21,6 @@ const SocialIndicator: React.FC<ISocialIndicatorProps> = ({
   variant,
   onClick,
   count,
-  active = false,
 }) => {
   let text = "";
 
@@ -50,10 +48,7 @@ const SocialIndicator: React.FC<ISocialIndicatorProps> = ({
               type="button"
               className="socialIndicator__icon socialIndicator__button"
             >
-              <img
-                src={active ? likesFilledImage : likesEmptyImage}
-                onClick={onClick}
-              />
+              <img src={likesEmptyImage} />
             </button>
             <Typography className="socialIndicator__count">{text}</Typography>
           </Grid>

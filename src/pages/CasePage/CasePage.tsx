@@ -8,7 +8,8 @@ import {
 import "./CasePage.scss";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { casesService } from "../../api";
+import { useAppSelector } from "@/hooks/reduxHooks";
+import { casesService, userService } from "../../api";
 import { ICase, ICaseInfo } from "../../types";
 import { ActionButton, CaseInfo, ProfileInfo } from "./components";
 import { AboutItem, EmptyData } from "../ProfilePage/components";
@@ -21,6 +22,8 @@ import {
 
 const CasePage: React.FC = () => {
   const { id } = useParams();
+  const { user } = useAppSelector((state) => state.user);
+
   const [caseData, setCaseData] = useState<ICase>();
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
@@ -33,6 +36,8 @@ const CasePage: React.FC = () => {
     description: caseData?.description,
   };
 
+  console.log(caseData); //нужно добавить отрисовку лайка при загрузке страницы: есть/нет
+
   function setInstruments() {
     if (Array.isArray(caseData?.instruments)) {
       const name: string = "name";
@@ -40,6 +45,22 @@ const CasePage: React.FC = () => {
         String(obj[name as keyof typeof obj])
       );
       return result;
+    }
+  }
+
+  function handleLike() {
+    setIsLiked(!isLiked);
+    if (user) {
+      const body = {
+        first_name: user.first_name,
+        last_name: user.last_name,
+        photo: user?.photo,
+        is_customer: user.is_customer,
+        mentoring: user.mentoring,
+      };
+      if (caseData) {
+        userService.setLike(caseData.author.id, body);
+      }
     }
   }
 
@@ -92,10 +113,7 @@ const CasePage: React.FC = () => {
               justifyContent="flex-start"
               wrap="nowrap"
             >
-              <ActionButton
-                active={isLiked}
-                onClick={() => setIsLiked(!isLiked)}
-              />
+              <ActionButton active={isLiked} onClick={handleLike} />
               <ActionButton
                 active={isFavorite}
                 onClick={() => setIsFavorite(!isFavorite)}
