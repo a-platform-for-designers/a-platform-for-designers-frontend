@@ -36,7 +36,7 @@ const CasePage: React.FC = () => {
     description: caseData?.description,
   };
 
-  console.log(caseData); //нужно добавить отрисовку лайка при загрузке страницы: есть/нет
+  // TODO нужно добавить отрисовку лайка при загрузке страницы
 
   function setInstruments() {
     if (Array.isArray(caseData?.instruments)) {

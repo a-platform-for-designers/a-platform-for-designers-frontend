@@ -131,7 +131,7 @@ const ProfilePage: React.FC = () => {
     {
       title: "Активные заказы",
       link: `orders`,
-      element: <CustomersOrderCard userId={currentUser?.id} />,
+      element: <CustomersOrderCard />,
     },
     {
       title: "Профиль",
