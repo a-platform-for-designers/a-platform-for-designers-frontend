@@ -22,6 +22,7 @@ import {
   OrdersPage,
   UserOrdersPage,
   OrderPage,
+  ResetPasswordPage,
 } from "@/pages/index.ts";
 import {
   Portfolio,
@@ -101,6 +102,7 @@ function App() {
               <Route path="/orders/create/:id" Component={OrderEdit} />
               <Route path="/my-orders/*" Component={UserOrdersPage} />
               <Route path="/order/:id" Component={OrderPage} />
+              <Route path="/reset/:uid/:token" Component={ResetPasswordPage} />
               <Route path="*" Component={ErrorPage} />
             </Routes>
             <Footer />

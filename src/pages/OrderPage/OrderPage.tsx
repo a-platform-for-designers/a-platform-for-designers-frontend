@@ -21,6 +21,7 @@ import { ordersService } from "@/api";
 import RespondedDesigner from "./components/RespondedDesigner/RespondedDesigner";
 import MySignInPopup from "@/shared/UI/MySignInPopup/MySignInPopup";
 import { showMessagePopUp } from "@/redux/slices/chatSlice";
+import PopupConfirmArchive from "./components/PopupConfirmArchive/PopupConfirmArchive";
 
 const OrderPage: React.FC = () => {
   const [reply, setReply] = useState<boolean>(false);
@@ -35,7 +36,7 @@ const OrderPage: React.FC = () => {
   const myCard = orderInfo?.customer.id === user?.id;
   const [openSignInPopup, setOpenSignInPopup] = useState<boolean>(false);
   const dispatch = useAppDispatch();
-
+  const [isArchivePopup, setPopupArchive] = useState<boolean>(false);
   const publishDate = new Date(
     orderInfo?.pub_date ?? new Date()
   ).toLocaleDateString("ru-RU", {
@@ -128,6 +129,10 @@ const OrderPage: React.FC = () => {
     setIsFavourite(true);
   }
 
+  function handlePopupArchive() {
+    setPopupArchive(true);
+  }
+
   function handleArchive() {
     if (orderInfo) {
       const dataArchive = {
@@ -157,14 +162,12 @@ const OrderPage: React.FC = () => {
           }
         >
           <div className="orderPage__card">
-            <div
-              className="orderPage__header"
-              onClick={() => {
-                navigate(`/profile/${orderInfo.customer.id}/orders`);
-              }}
-            >
+            <div className="orderPage__header">
               <div className="orderPage__user">
                 <Avatar
+                  onClick={() => {
+                    navigate(`/profile/${orderInfo.customer.id}/orders`);
+                  }}
                   className="orderPage__avatar"
                   src={orderInfo?.customer.photo}
                 />
@@ -293,7 +296,7 @@ const OrderPage: React.FC = () => {
                     type="button"
                     variant="text"
                     size="large"
-                    onClick={handleArchive}
+                    onClick={handlePopupArchive}
                     className="orderPage__button-archiv"
                   >
                     Переместить в архив
@@ -375,6 +378,13 @@ const OrderPage: React.FC = () => {
             <MySignInPopup setOpenSignInPopup={setOpenSignInPopup} />
           ) : null}
         </div>
+        {isArchivePopup ? (
+          <PopupConfirmArchive
+            setPopupArchive={setPopupArchive}
+            isArchivePopup={isArchivePopup}
+            handleArchive={handleArchive}
+          />
+        ) : null}
       </StyledEngineProvider>
     );
   } else {

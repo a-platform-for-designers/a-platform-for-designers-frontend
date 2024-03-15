@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import classes from "./Mentorship.module.scss";
 import { MyButton, MyInput } from "@/shared/UI";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import useInput from "@/hooks/useInput";
 import mentoringService from "@/api/services/mentoringService";
 import { setMentorInfo } from "@/redux/slices/userSlice";
@@ -17,11 +17,11 @@ import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
 
 const Mentorship: React.FC = () => {
   const { user } = useAppSelector((state) => state.user);
-  const price = useInput(
-    user?.mentoring?.price?.toString() || "",
-    {},
-    { trim: true }
-  );
+  const [disabledButton, setDisabledButton] = useState<boolean>(false);
+  const [noError, setNoError] = useState<boolean>(false);
+  const price = useInput(user?.mentoring?.price?.toString() || "", {
+    isEmpty: false,
+  });
   const dispatch = useAppDispatch();
   price.onChange = (event) => {
     setStatus(null);
@@ -31,10 +31,10 @@ const Mentorship: React.FC = () => {
     price.onSetValue(limitedValue);
   };
   const experience = useInput(user?.mentoring?.experience || "", {
-    isEmpty: true,
+    isEmpty: false,
   });
   const expertise = useInput(user?.mentoring?.expertise || "", {
-    isEmpty: true,
+    isEmpty: false,
   });
   const [status, setStatus] = useState<boolean | null>(
     user?.mentoring?.agreement_free === false ||
@@ -42,19 +42,33 @@ const Mentorship: React.FC = () => {
       ? user?.mentoring?.agreement_free
       : null
   );
+  const invalidButton =
+    !!expertise.error || !!experience.error || !disabledButton;
+
+  useEffect(() => {
+    if (!price.value && !status) {
+      handleUnactive();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [price, status]);
 
   function handleUnactive() {
     setStatus(false);
+    setDisabledButton(true);
+    setNoError(true);
     price.onSetValue("");
   }
 
   function handleActive() {
+    setNoError(true);
+    setDisabledButton(true);
     setStatus(true);
     price.onSetValue("");
   }
 
   async function handleSubmit(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
+    setDisabledButton(false);
     const values = {
       experience: experience.value,
       expertise: expertise.value,
@@ -81,6 +95,7 @@ const Mentorship: React.FC = () => {
             </Typography>
             <div className={classes.mentorship__section_wrapper}>
               <MyInput
+                setDisableButton={setDisabledButton}
                 data={experience}
                 maxLength={200}
                 label="Опыт работы"
@@ -102,6 +117,7 @@ const Mentorship: React.FC = () => {
                 minRows={10}
                 maxLength={500}
                 className={classes.mentorship__section_textarea}
+                setDisableButton={setDisabledButton}
               />
             </div>
           </Box>
@@ -115,6 +131,8 @@ const Mentorship: React.FC = () => {
                 variant="text-label-without"
                 placeholder="Введите сумму за час работы"
                 className={classes.mentorship__section_textarea_currency}
+                setDisableButton={setDisabledButton}
+                noError={noError}
               />
               <Typography className={classes.mentorship__sectionText}>
                 или
@@ -150,6 +168,7 @@ const Mentorship: React.FC = () => {
               className={classes.mentorship__btn}
               type="submit"
               onClick={handleSubmit}
+              disabled={invalidButton}
             >
               Сохранить
             </MyButton>

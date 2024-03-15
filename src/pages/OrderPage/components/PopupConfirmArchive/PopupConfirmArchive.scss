@@ -1,0 +1,42 @@
+.popupConfirmArchive {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+    width: 496px;
+    height: 198px;
+    background-color: white;
+    position: fixed;
+    padding: 12px;
+    border-radius: 8px;
+  }
+
+  &__close-button {
+    width: 44px;
+    height: 44px;
+    background: url(@/assets/icons/Close-btnutton.svg) center no-repeat;
+    border: none;
+    cursor: pointer;
+    opacity: 0.5;
+    align-self: flex-end;
+  }
+
+  &__title {
+    margin-top: 5px;
+    margin-bottom: 30px;
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 36px;
+    letter-spacing: 0em;
+    text-align: center;
+  }
+
+  &__buttons {
+    padding: 0 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+}

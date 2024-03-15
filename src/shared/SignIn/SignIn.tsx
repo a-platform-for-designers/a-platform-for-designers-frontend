@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from "react";
 import "./SignIn.scss";
-import useInput from "../../hooks/useInput";
+import useInput from "@/hooks/useInput";
 import MyInput from "../UI/MyInput/MyInput";
 import MyButton from "../UI/MyButton/MyButton";
 import { SigninText } from "../../constants/constants";
@@ -8,15 +8,18 @@ import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
 import { logIn } from "@/redux/slices/authSlice";
 import { enqueueSnackbar } from "notistack";
 import { getInfoAboutMe } from "@/redux/slices/userSlice";
+import { resetAuthErrors } from "@/redux/slices/userSlice";
 
 interface ISignInProps {
   openSignUpPopup: () => void;
+  openRecoveryPopUp: () => void;
 }
 
-const SignIn: FC<ISignInProps> = ({ openSignUpPopup }) => {
+const SignIn: FC<ISignInProps> = ({ openSignUpPopup, openRecoveryPopUp }) => {
   const [error] = useState("");
   const dispatch = useAppDispatch();
   const { isAuth } = useAppSelector((state) => state.auth);
+  const { errorMessages } = useAppSelector((state) => state.user);
   const email = useInput(
     "",
     {
@@ -36,7 +39,7 @@ const SignIn: FC<ISignInProps> = ({ openSignUpPopup }) => {
     badDataError: true,
   });
 
-  /* useEffect(() => {
+  useEffect(() => {
     errorMessages.forEach((message) => {
       enqueueSnackbar({
         variant: "error",
@@ -46,7 +49,7 @@ const SignIn: FC<ISignInProps> = ({ openSignUpPopup }) => {
     return () => {
       dispatch(resetAuthErrors());
     };
-  }, [errorMessages, dispatch]); */
+  }, [errorMessages, dispatch]);
 
   useEffect(() => {
     if (isAuth) {
@@ -74,7 +77,11 @@ const SignIn: FC<ISignInProps> = ({ openSignUpPopup }) => {
             {error}
           </span>
         )}
-        <a href="#" className="myAuthForm__forget-passwor">
+        <a
+          href="#"
+          className="myAuthForm__forget-passwor"
+          onClick={openRecoveryPopUp}
+        >
           Забыли пароль?
         </a>
         <MyButton

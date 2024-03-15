@@ -18,8 +18,8 @@ const Message = ({ message, first }: MessageProps) => {
       day: "2-digit",
       month: "long",
     });
-  const hours = dateObject.getHours();
-  const minutes = dateObject.getMinutes();
+  const hours = dateObject.getHours().toString().padStart(2, "0");
+  const minutes = dateObject.getMinutes().toString().padStart(2, "0");
   const time = `${hours}:${minutes}`;
 
   const imageExtensionRegex = /\.(jpg|jpeg|png|gif|bmp|webp)$/i;
