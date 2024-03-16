@@ -3,7 +3,7 @@ import { Box, Grid, StyledEngineProvider } from "@mui/material";
 import { IMyOrderResponse } from "@/types";
 import { useState, useEffect } from "react";
 import { MyOrdersCard } from "@/shared/UI";
-import { ordersService } from "../../../../api";
+import { ordersService } from "@/api";
 import EmptyData from "../EmptyData/EmptyData";
 // import { MyPagination } from "@/shared/UI";
 

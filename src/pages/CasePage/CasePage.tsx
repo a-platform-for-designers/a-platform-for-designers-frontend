@@ -8,8 +8,8 @@ import {
 import "./CasePage.scss";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { casesService } from "../../api";
-import { ICase, ICaseInfo } from "../../types";
+import { casesService } from "@/api";
+import { ICase, ICaseInfo } from "@/types";
 import { ActionButton, CaseInfo, ProfileInfo } from "./components";
 import { AboutItem, EmptyData } from "../ProfilePage/components";
 import Preloader from "@/shared/Preloader/Preloader";
@@ -24,7 +24,8 @@ const CasePage: React.FC = () => {
   const [caseData, setCaseData] = useState<ICase>();
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isFavoritedCase, setIsFavoritedCase] = useState<boolean>();
 
   const caseDataInfo: ICaseInfo = {
     title: caseData?.title,
@@ -44,6 +45,12 @@ const CasePage: React.FC = () => {
   }
 
   useEffect(() => {
+    if (isFavoritedCase) {
+      setIsFavorite(true);
+    }
+  }, [isFavoritedCase]);
+
+  useEffect(() => {
     const fetchData = async () => {
       if (id) {
         try {
@@ -59,6 +66,26 @@ const CasePage: React.FC = () => {
     };
     fetchData();
   }, [id]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const casesData = await casesService.getFavouritedCases();
+        const isFavourite = casesData.some((item) => item.id === caseData?.id);
+        setIsFavoritedCase(!!isFavourite);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, [caseData]);
+
+  function handleFavourite() {
+    setIsFavorite(!isFavorite);
+    if (caseData) {
+      casesService.setFavouriteCase(caseData.id);
+    }
+  }
 
   if (isLoading) {
     return (
@@ -98,7 +125,7 @@ const CasePage: React.FC = () => {
               />
               <ActionButton
                 active={isFavorite}
-                onClick={() => setIsFavorite(!isFavorite)}
+                onClick={handleFavourite}
                 variant="favorite"
               />
             </Grid>

@@ -23,6 +23,7 @@ import {
   UserOrdersPage,
   OrderPage,
   ResetPasswordPage,
+  FavouritesPage,
 } from "@/pages/index.ts";
 import {
   Portfolio,
@@ -64,6 +65,8 @@ function App() {
               />
               <Route path="/designers" Component={DesignersPage} />
               <Route path="/mentors" Component={MentorsPage} />
+              <Route path="/favourites/*" Component={FavouritesPage} />
+
               <Route path="/profile/:id/*" Component={ProfilePage} />
               <Route
                 path="/dashboard"

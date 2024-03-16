@@ -91,5 +91,14 @@ const ordersService = {
   deleteOrder: async (id: number): Promise<void> => {
     await api.delete(`/orders/${id}/`);
   },
+
+  setFavouriteOrder: async (id: number): Promise<void> => {
+    await api.post(`/orders/${id}/favorite_order/`);
+  },
+
+  getFavouritedOrders: async (): Promise<IOrdersResponse> => {
+    const response = await api.get<IOrdersResponse>(`/favorite_orders/`);
+    return response.data;
+  },
 };
 export default ordersService;

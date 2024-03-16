@@ -12,8 +12,9 @@ import FavouritesActive from "@/assets/icons/FavouritesWhiteActive.svg";
 import LikesActive from "@/assets/icons/LikesActive.svg";
 import { IconButton } from "@mui/material";
 import { ICase } from "@/types";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import MyOptimizedImage from "../MyOptimizedImage/MyOptimizedImage";
+import { casesService } from "@/api";
 import {
   OPTIMIZED_IMAGE_SWIPER_HEIGHT,
   OPTIMIZED_IMAGE_SWIPER_WIDTH,
@@ -27,8 +28,33 @@ interface IProps {
 const MySwiper: React.FC<IProps> = ({ item, onClick }) => {
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
+  const [isFavoritedCase, setIsFavoritedCase] = useState<boolean>();
 
-  if (!item) return;
+  useEffect(() => {
+    if (isFavoritedCase) {
+      setIsFavorite(true);
+    }
+  }, [isFavoritedCase]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const casesData = await casesService.getFavouritedCases();
+        const isFavourite = casesData.some((i) => i.id === item?.id);
+        setIsFavoritedCase(!!isFavourite);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, [item]);
+
+  function handleFavourite() {
+    setIsFavorite(!isFavorite);
+    if (item) {
+      casesService.setFavouriteCase(item.id);
+    }
+  }
 
   const sliders = item.images.map((image) => {
     return (
@@ -44,6 +70,8 @@ const MySwiper: React.FC<IProps> = ({ item, onClick }) => {
       </SwiperSlide>
     );
   });
+
+  if (!item) return;
 
   return (
     <StyledEngineProvider injectFirst>
@@ -75,9 +103,7 @@ const MySwiper: React.FC<IProps> = ({ item, onClick }) => {
                 className="mySwiper__icon"
                 aria-label="add to favourites"
                 edge="end"
-                onClick={() => {
-                  setIsFavorite(!isFavorite);
-                }}
+                onClick={handleFavourite}
               >
                 <img src={isFavorite ? FavouritesActive : Favourites} />
               </IconButton>

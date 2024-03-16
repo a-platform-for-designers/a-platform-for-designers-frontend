@@ -245,6 +245,7 @@ const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
       sphere: convertStringToId(sphereValue, spheres),
       instruments: convertStringToId(toolsValue, instruments),
     };
+    console.log(values);
     if (!caseInfo) {
       try {
         const createCase = await casesService.createCase(values);
