@@ -8,6 +8,7 @@ import {
 import "./CasePage.scss";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useAppSelector } from "@/hooks/reduxHooks";
 import { casesService } from "@/api";
 import { ICase, ICaseInfo } from "@/types";
 import { ActionButton, CaseInfo, ProfileInfo } from "./components";
@@ -20,6 +21,7 @@ import {
 } from "@/constants/constants";
 
 const CasePage: React.FC = () => {
+  const { user } = useAppSelector((state) => state.user); // авторизованный пользователь
   const { id } = useParams();
   const [caseData, setCaseData] = useState<ICase>();
   const [isLiked, setIsLiked] = useState<boolean>(false);
@@ -68,17 +70,21 @@ const CasePage: React.FC = () => {
   }, [id]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const casesData = await casesService.getFavouritedCases();
-        const isFavourite = casesData.some((item) => item.id === caseData?.id);
-        setIsFavoritedCase(!!isFavourite);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    fetchData();
-  }, [caseData]);
+    if (user) {
+      const fetchData = async () => {
+        try {
+          const casesData = await casesService.getFavouritedCases();
+          const isFavourite = casesData.some(
+            (item) => item.id === caseData?.id
+          );
+          setIsFavoritedCase(!!isFavourite);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      };
+      fetchData();
+    }
+  }, [caseData, user]);
 
   function handleFavourite() {
     setIsFavorite(!isFavorite);
@@ -127,6 +133,7 @@ const CasePage: React.FC = () => {
                 active={isFavorite}
                 onClick={handleFavourite}
                 variant="favorite"
+                disabled={caseData.author.id == user?.id}
               />
             </Grid>
           </Grid>

@@ -43,13 +43,13 @@ const FavouritesCases: React.FC = () => {
           <EmptyData title="Нет активных заказов" />
         )}
       </Box>
-      {/* {totalOrders > 8 && (
+      {/* {cases.length > 12 && (
         <div>
           <MyPagination
-            totalItems={totalOrders}
+            totalItems={cases.length}
             setPage={setPage}
             page={page}
-            limit={ORDERS_LIMIT}
+            limit={CASES_LIMIT}
           />
         </div> 
       )}*/}

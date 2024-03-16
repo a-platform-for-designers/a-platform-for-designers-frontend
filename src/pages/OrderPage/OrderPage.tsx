@@ -90,18 +90,20 @@ const OrderPage: React.FC = () => {
   }, [isFavoritedCase]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const ordersData = await ordersService.getFavouritedOrders();
-        console.log(ordersData);
-        const isFavourite = ordersData.some((i) => i.id === orderInfo?.id);
-        setIsFavoritedCase(!!isFavourite);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    fetchData();
-  }, [orderInfo]);
+    if (user) {
+      const fetchData = async () => {
+        try {
+          const ordersData = await ordersService.getFavouritedOrders();
+          console.log(ordersData);
+          const isFavourite = ordersData.some((i) => i.id === orderInfo?.id);
+          setIsFavoritedCase(!!isFavourite);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      };
+      fetchData();
+    }
+  }, [orderInfo, user]);
 
   function handleFavourite() {
     setIsFavourite(!isFavourite);

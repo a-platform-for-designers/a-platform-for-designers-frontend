@@ -13,6 +13,7 @@ import LikesActive from "@/assets/icons/LikesActive.svg";
 import { IconButton } from "@mui/material";
 import { ICase } from "@/types";
 import { useState, useEffect } from "react";
+import { useAppSelector } from "@/hooks/reduxHooks";
 import MyOptimizedImage from "../MyOptimizedImage/MyOptimizedImage";
 import { casesService } from "@/api";
 import {
@@ -26,6 +27,8 @@ interface IProps {
 }
 
 const MySwiper: React.FC<IProps> = ({ item, onClick }) => {
+  const { user } = useAppSelector((state) => state.user); // авторизованный пользователь
+
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
   const [isFavoritedCase, setIsFavoritedCase] = useState<boolean>();
@@ -37,17 +40,19 @@ const MySwiper: React.FC<IProps> = ({ item, onClick }) => {
   }, [isFavoritedCase]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const casesData = await casesService.getFavouritedCases();
-        const isFavourite = casesData.some((i) => i.id === item?.id);
-        setIsFavoritedCase(!!isFavourite);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    fetchData();
-  }, [item]);
+    if (user) {
+      const fetchData = async () => {
+        try {
+          const casesData = await casesService.getFavouritedCases();
+          const isFavourite = casesData.some((i) => i.id === item?.id);
+          setIsFavoritedCase(!!isFavourite);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      };
+      fetchData();
+    }
+  }, [item, user]);
 
   function handleFavourite() {
     setIsFavorite(!isFavorite);

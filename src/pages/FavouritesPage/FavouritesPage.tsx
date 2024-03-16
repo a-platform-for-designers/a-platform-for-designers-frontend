@@ -1,5 +1,4 @@
 import { Container, StyledEngineProvider, Typography } from "@mui/material";
-import "./FavouritesPage.scss";
 import { Route, Routes, Navigate } from "react-router-dom";
 import { ProfileNav } from "../ProfilePage/components";
 import { IProfileNavPage } from "@/types";

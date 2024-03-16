@@ -1,4 +1,3 @@
-import "./FavouritesOrders.scss";
 import { Box, Grid, StyledEngineProvider } from "@mui/material";
 import { IOrdersList } from "@/types";
 import { useState, useEffect } from "react";
@@ -7,8 +6,9 @@ import { ordersService } from "@/api";
 import EmptyData from "@/pages/ProfilePage/components/EmptyData/EmptyData";
 // import { MyPagination } from "@/shared/UI";
 
+// TODO настроить пагинацию
+
 const FavouritesOrders: React.FC = () => {
-  //! потом нужно будет делать запрос к myOrders
   const [orders, setOrders] = useState<IOrdersList[]>([]);
   // const [totalOrders, setTotalOrders] = useState<number>(0);
   // const [page, setPage] = useState<number>(1);

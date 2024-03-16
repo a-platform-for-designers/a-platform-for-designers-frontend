@@ -48,12 +48,14 @@ interface IActionButtonProps {
   variant?: "like" | "favorite";
   active?: boolean;
   onClick?: React.MouseEventHandler;
+  disabled?: boolean;
 }
 
 const ActionButton: React.FC<IActionButtonProps> = ({
   variant = "like",
   active = false,
   onClick,
+  disabled,
 }) => {
   let image: JSX.Element;
   let text: string;
@@ -91,6 +93,7 @@ const ActionButton: React.FC<IActionButtonProps> = ({
         sx={{ ...actionButton, ...(active ? actionActiveButton : {}) }}
         onClick={onClick}
         disableRipple
+        disabled={disabled}
       >
         {image}
         <Typography className="actionButton__text" sx={{ color: "inherit" }}>

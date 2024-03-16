@@ -68,17 +68,19 @@ const OrdersCard: React.FC<IProps> = ({
   }, [isFavoritedCase]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const ordersData = await ordersService.getFavouritedOrders();
-        const isFavourite = ordersData.some((i) => i.id === order?.id);
-        setIsFavoritedCase(!!isFavourite);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    fetchData();
-  }, [order]);
+    if (user) {
+      const fetchData = async () => {
+        try {
+          const ordersData = await ordersService.getFavouritedOrders();
+          const isFavourite = ordersData.some((i) => i.id === order?.id);
+          setIsFavoritedCase(!!isFavourite);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      };
+      fetchData();
+    }
+  }, [order, user]);
 
   function handleFavourite() {
     setIsFavourite(!isFavourite);
