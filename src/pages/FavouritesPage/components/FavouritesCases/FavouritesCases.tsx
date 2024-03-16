@@ -7,6 +7,8 @@ import { casesService } from "@/api";
 import EmptyData from "@/pages/ProfilePage/components/EmptyData/EmptyData";
 // import { MyPagination } from "@/shared/UI";
 
+// TODO настроить пагинацию
+
 const FavouritesCases: React.FC = () => {
   const navigate = useNavigate();
   const [cases, setCases] = useState<IFavouriteCase[]>([]);
@@ -15,8 +17,6 @@ const FavouritesCases: React.FC = () => {
     const fetchData = async () => {
       try {
         const casesData = await casesService.getFavouritedCases();
-        console.log(casesData);
-
         setCases(casesData);
       } catch (error) {
         console.error("Error fetching data:", error);

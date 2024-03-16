@@ -31,6 +31,7 @@ const OrdersCard: React.FC<IProps> = ({
 
   const [reply, setReply] = useState<boolean>(false);
   const [isFavourite, setIsFavourite] = useState<boolean>(false);
+  const [isFavoritedCase, setIsFavoritedCase] = useState<boolean>(false);
   const [customerSpecialization, setCustomerSpecialization] =
     useState<string>("");
   const [currentUser, setCurrentUser] = useState<IUser>(); // пользователь чья страница (id через путь)
@@ -59,6 +60,32 @@ const OrdersCard: React.FC<IProps> = ({
     description: order.description,
     is_published: order.is_published,
   };
+
+  useEffect(() => {
+    if (isFavoritedCase) {
+      setIsFavourite(true);
+    }
+  }, [isFavoritedCase]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const ordersData = await ordersService.getFavouritedOrders();
+        const isFavourite = ordersData.some((i) => i.id === order?.id);
+        setIsFavoritedCase(!!isFavourite);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, [order]);
+
+  function handleFavourite() {
+    setIsFavourite(!isFavourite);
+    if (order) {
+      ordersService.setFavouriteOrder(order.id);
+    }
+  }
 
   useEffect(() => {
     if (countResponse == (1 || 21 || 31)) {
@@ -157,14 +184,6 @@ const OrdersCard: React.FC<IProps> = ({
     }
   }
 
-  function handleFavourite() {
-    if (isFavourite) {
-      setIsFavourite(false);
-      return;
-    }
-    setIsFavourite(true);
-  }
-
   function handleDeleteReply() {
     const deleteOrderResponse = async () => {
       await ordersService.deleteResponseOrder(dataResponse, order.id);
@@ -174,6 +193,8 @@ const OrdersCard: React.FC<IProps> = ({
       refreshOrdersList(order.id);
     }
   }
+  const noMessageButton =
+    location.pathname === "/favourites/orders" && customerUser;
 
   return (
     <Box className="ordersCard">
@@ -257,7 +278,7 @@ const OrdersCard: React.FC<IProps> = ({
             >
               Написать
             </MyButton>
-            {customerUser && isOrderesPage ? null : (
+            {(customerUser && isOrderesPage) || noMessageButton ? null : (
               <>
                 {!customerUser || !isUsersOrders ? (
                   <MyButton

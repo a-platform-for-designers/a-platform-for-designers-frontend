@@ -4,6 +4,7 @@ import {
   IOrderInfoResponse,
   IOrderCreation,
   IMyOrderResponse,
+  IOrdersList,
 } from "../../types";
 import api from "../api";
 
@@ -96,8 +97,8 @@ const ordersService = {
     await api.post(`/orders/${id}/favorite_order/`);
   },
 
-  getFavouritedOrders: async (): Promise<IOrdersResponse> => {
-    const response = await api.get<IOrdersResponse>(`/favorite_orders/`);
+  getFavouritedOrders: async (): Promise<IOrdersList[]> => {
+    const response = await api.get<IOrdersList[]>(`/favorite_orders/`);
     return response.data;
   },
 };

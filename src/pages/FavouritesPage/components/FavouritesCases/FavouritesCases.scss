@@ -1,11 +1,13 @@
 .favouritedCases {
-    &__cases {
-        gap: 24px
+    &__cards {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 24px;
     }
     &__image {
         width: 330px;
         height: 240px;
-        border-radius: 10px; 
+        border-radius: 12px; 
         object-fit: cover;
         cursor: pointer;
     }

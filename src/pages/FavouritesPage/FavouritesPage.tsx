@@ -3,23 +3,20 @@ import "./FavouritesPage.scss";
 import { Route, Routes, Navigate } from "react-router-dom";
 import { ProfileNav } from "../ProfilePage/components";
 import { IProfileNavPage } from "@/types";
-import { useAppSelector } from "@/hooks/reduxHooks";
-import CustomersOrderCard from "../ProfilePage/components/CustomersOrdersCards/CustomersOrdersCards";
-import FavouritedCases from "./components/FavouritesCases/FavouritesCases";
+import FavouritesCases from "./components/FavouritesCases/FavouritesCases";
+import FavouritesOrders from "./components/FavouritesOrders/FavouritesOrders";
 
 const FavouritesPage: React.FC = () => {
-  const { user } = useAppSelector((state) => state.user); // авторизованный пользователь
-
   const favouritesNavPages: IProfileNavPage[] = [
     {
       title: "Проекты",
       link: `cases`,
-      element: <FavouritedCases />,
+      element: <FavouritesCases />,
     },
     {
       title: "Заказы",
       link: `orders`,
-      element: <CustomersOrderCard userId={user?.id} />,
+      element: <FavouritesOrders />,
     },
   ];
 

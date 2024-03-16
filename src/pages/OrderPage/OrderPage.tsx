@@ -26,6 +26,7 @@ import PopupConfirmArchive from "./components/PopupConfirmArchive/PopupConfirmAr
 const OrderPage: React.FC = () => {
   const [reply, setReply] = useState<boolean>(false);
   const [isFavourite, setIsFavourite] = useState<boolean>(false);
+  const [isFavoritedCase, setIsFavoritedCase] = useState<boolean>(false);
   const [customerSpecialization, setCustomerSpecialization] =
     useState<string>("");
   const navigate = useNavigate();
@@ -82,6 +83,33 @@ const OrderPage: React.FC = () => {
     }
   }, [orderInfo]);
 
+  useEffect(() => {
+    if (isFavoritedCase) {
+      setIsFavourite(true);
+    }
+  }, [isFavoritedCase]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const ordersData = await ordersService.getFavouritedOrders();
+        console.log(ordersData);
+        const isFavourite = ordersData.some((i) => i.id === orderInfo?.id);
+        setIsFavoritedCase(!!isFavourite);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, [orderInfo]);
+
+  function handleFavourite() {
+    setIsFavourite(!isFavourite);
+    if (orderInfo) {
+      ordersService.setFavouriteOrder(orderInfo.id);
+    }
+  }
+
   function handleReply() {
     if (user && orderInfo) {
       const data = {
@@ -119,14 +147,6 @@ const OrderPage: React.FC = () => {
     } else {
       setOpenSignInPopup(true);
     }
-  }
-
-  function handleFavourite() {
-    if (isFavourite) {
-      setIsFavourite(false);
-      return;
-    }
-    setIsFavourite(true);
   }
 
   function handlePopupArchive() {
