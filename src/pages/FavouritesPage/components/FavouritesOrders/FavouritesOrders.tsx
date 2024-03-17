@@ -6,14 +6,11 @@ import { ordersService } from "@/api";
 import EmptyData from "@/pages/ProfilePage/components/EmptyData/EmptyData";
 // import { MyPagination } from "@/shared/UI";
 
-// TODO настроить пагинацию
-
 const FavouritesOrders: React.FC = () => {
   const [orders, setOrders] = useState<IOrdersList[]>([]);
   // const [totalOrders, setTotalOrders] = useState<number>(0);
   // const [page, setPage] = useState<number>(1);
-  // const ORDERS_LIMIT = 8;
-  // const filteredItems = orders.filter((item) => item.customer.id === userId);
+  // const ORDERS_LIMIT = 12;
   const filteredOrders = orders?.filter((task) => task.is_published);
 
   useEffect(() => {
@@ -41,7 +38,7 @@ const FavouritesOrders: React.FC = () => {
           <EmptyData title="Нет активных заказов" />
         )}
       </Box>
-      {/* {totalOrders > 8 && (
+      {/* {totalOrders > 12 && (
         <div>
           <MyPagination
             totalItems={totalOrders}

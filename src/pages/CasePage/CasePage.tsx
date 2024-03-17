@@ -27,7 +27,6 @@ const CasePage: React.FC = () => {
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isFavoritedCase, setIsFavoritedCase] = useState<boolean>();
 
   const caseDataInfo: ICaseInfo = {
     title: caseData?.title,
@@ -47,10 +46,10 @@ const CasePage: React.FC = () => {
   }
 
   useEffect(() => {
-    if (isFavoritedCase) {
+    if (caseData?.is_favorited) {
       setIsFavorite(true);
     }
-  }, [isFavoritedCase]);
+  }, [caseData]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -68,23 +67,6 @@ const CasePage: React.FC = () => {
     };
     fetchData();
   }, [id]);
-
-  useEffect(() => {
-    if (user) {
-      const fetchData = async () => {
-        try {
-          const casesData = await casesService.getFavouritedCases();
-          const isFavourite = casesData.some(
-            (item) => item.id === caseData?.id
-          );
-          setIsFavoritedCase(!!isFavourite);
-        } catch (error) {
-          console.error("Error fetching data:", error);
-        }
-      };
-      fetchData();
-    }
-  }, [caseData, user]);
 
   function handleFavourite() {
     setIsFavorite(!isFavorite);

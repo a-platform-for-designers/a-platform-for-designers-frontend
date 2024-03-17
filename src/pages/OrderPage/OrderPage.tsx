@@ -26,7 +26,6 @@ import PopupConfirmArchive from "./components/PopupConfirmArchive/PopupConfirmAr
 const OrderPage: React.FC = () => {
   const [reply, setReply] = useState<boolean>(false);
   const [isFavourite, setIsFavourite] = useState<boolean>(false);
-  const [isFavoritedCase, setIsFavoritedCase] = useState<boolean>(false);
   const [customerSpecialization, setCustomerSpecialization] =
     useState<string>("");
   const navigate = useNavigate();
@@ -84,26 +83,10 @@ const OrderPage: React.FC = () => {
   }, [orderInfo]);
 
   useEffect(() => {
-    if (isFavoritedCase) {
+    if (orderInfo?.is_favorited_order) {
       setIsFavourite(true);
     }
-  }, [isFavoritedCase]);
-
-  useEffect(() => {
-    if (user) {
-      const fetchData = async () => {
-        try {
-          const ordersData = await ordersService.getFavouritedOrders();
-          console.log(ordersData);
-          const isFavourite = ordersData.some((i) => i.id === orderInfo?.id);
-          setIsFavoritedCase(!!isFavourite);
-        } catch (error) {
-          console.error("Error fetching data:", error);
-        }
-      };
-      fetchData();
-    }
-  }, [orderInfo, user]);
+  }, [orderInfo]);
 
   function handleFavourite() {
     setIsFavourite(!isFavourite);

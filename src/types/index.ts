@@ -197,6 +197,7 @@ export interface IOrderInfoResponse {
   sphere: IDataItem;
   title: string;
   is_responded_order?: boolean;
+  is_favorited_order?: boolean;
 }
 
 export interface IOrdersList {

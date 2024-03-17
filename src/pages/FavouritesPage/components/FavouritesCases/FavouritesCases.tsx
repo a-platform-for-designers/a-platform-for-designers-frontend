@@ -7,8 +7,6 @@ import { casesService } from "@/api";
 import EmptyData from "@/pages/ProfilePage/components/EmptyData/EmptyData";
 // import { MyPagination } from "@/shared/UI";
 
-// TODO настроить пагинацию
-
 const FavouritesCases: React.FC = () => {
   const navigate = useNavigate();
   const [cases, setCases] = useState<IFavouriteCase[]>([]);
@@ -34,6 +32,7 @@ const FavouritesCases: React.FC = () => {
               <img
                 src={item.avatar}
                 key={item.id}
+                alt={`обложка кейса №${item.id}`}
                 className="favouritedCases__image"
                 onClick={() => navigate(`/case/${item.id}`)}
               />

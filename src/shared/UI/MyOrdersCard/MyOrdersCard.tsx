@@ -31,7 +31,6 @@ const OrdersCard: React.FC<IProps> = ({
 
   const [reply, setReply] = useState<boolean>(false);
   const [isFavourite, setIsFavourite] = useState<boolean>(false);
-  const [isFavoritedCase, setIsFavoritedCase] = useState<boolean>(false);
   const [customerSpecialization, setCustomerSpecialization] =
     useState<string>("");
   const [currentUser, setCurrentUser] = useState<IUser>(); // пользователь чья страница (id через путь)
@@ -62,25 +61,10 @@ const OrdersCard: React.FC<IProps> = ({
   };
 
   useEffect(() => {
-    if (isFavoritedCase) {
+    if (orderInfo?.is_favorited_order) {
       setIsFavourite(true);
     }
-  }, [isFavoritedCase]);
-
-  useEffect(() => {
-    if (user) {
-      const fetchData = async () => {
-        try {
-          const ordersData = await ordersService.getFavouritedOrders();
-          const isFavourite = ordersData.some((i) => i.id === order?.id);
-          setIsFavoritedCase(!!isFavourite);
-        } catch (error) {
-          console.error("Error fetching data:", error);
-        }
-      };
-      fetchData();
-    }
-  }, [order, user]);
+  }, [orderInfo]);
 
   function handleFavourite() {
     setIsFavourite(!isFavourite);
