@@ -41,6 +41,7 @@ const MySubscriptions: React.FC = () => {
                 user={item}
                 subscriptions={subscriptions}
                 setSubscriptions={setSubscriptions}
+                page={"my-subscriptions"}
               />
             ))}
           </Grid>

@@ -13,12 +13,14 @@ interface IProps {
   user?: IUserSubscriber;
   subscriptions: IUserSubscriber[];
   setSubscriptions: React.Dispatch<React.SetStateAction<IUserSubscriber[]>>;
+  page: string;
 }
 
 const UserCard: React.FC<IProps> = ({
   user,
   setSubscriptions,
   subscriptions,
+  page,
 }) => {
   const userInfo = {
     name: `${user?.first_name} ${user?.last_name}`,
@@ -73,15 +75,17 @@ const UserCard: React.FC<IProps> = ({
           ))}
       </div>
       <div className="userCard__buttons">
-        <MyButton
-          type="button"
-          variant="text"
-          size="large"
-          className="userCard__button"
-          onClick={handleUnsubscribe}
-        >
-          Отменить подписку
-        </MyButton>
+        {page === "my-subscriptions" ? (
+          <MyButton
+            type="button"
+            variant="text"
+            size="large"
+            className="userCard__button"
+            onClick={handleUnsubscribe}
+          >
+            Отменить подписку
+          </MyButton>
+        ) : null}
         <MyButton
           type="button"
           variant="outlined"

@@ -5,7 +5,7 @@ import { enqueueSnackbar } from "notistack";
 export const subscriptionService = {
   postSubscription: async (id: number): Promise<IUser> => {
     const response = await api.post<IUser>(`/users/${id}/subscribe/`);
-    enqueueSnackbar("Вы подписались на обновления", {
+    enqueueSnackbar("Вы подписаны!", {
       variant: "success",
     });
     return response.data;
