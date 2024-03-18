@@ -5,11 +5,13 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { casesService } from "@/api";
 import EmptyData from "@/pages/ProfilePage/components/EmptyData/EmptyData";
+import Preloader from "@/shared/Preloader/Preloader";
 // import { MyPagination } from "@/shared/UI";
 
 const FavouritesCases: React.FC = () => {
   const navigate = useNavigate();
   const [cases, setCases] = useState<IFavouriteCase[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -18,6 +20,8 @@ const FavouritesCases: React.FC = () => {
         setCases(casesData);
       } catch (error) {
         console.error("Error fetching data:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchData();
@@ -28,7 +32,11 @@ const FavouritesCases: React.FC = () => {
   return (
     <StyledEngineProvider injectFirst>
       <Box className="favouritedCases">
-        {cases.length > 0 ? (
+        {isLoading ? (
+          <Box>
+            <Preloader></Preloader>
+          </Box>
+        ) : cases.length > 0 ? (
           <Grid xs={9} item className="favouritedCases__cards">
             {cases.map((item) => (
               <img
