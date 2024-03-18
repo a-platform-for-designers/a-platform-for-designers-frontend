@@ -40,6 +40,7 @@ import { useEffect } from "react";
 import { getData } from "@/redux/slices/dataSlice.ts";
 import ChatPage from "@/pages/ChatPage/ChatPage.tsx";
 import { MyMessagePopup } from "@/shared/UI/index.ts";
+import SubscriptionsPage from "@/pages/SubscriptionsPage/SubscriptionsPage.tsx";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -61,6 +62,10 @@ function App() {
               <Route
                 path="/chats"
                 element={<ProtectedRoute Component={ChatPage} />}
+              />
+              <Route
+                path="/subscriptions/*"
+                element={<ProtectedRoute Component={SubscriptionsPage} />}
               />
               <Route path="/designers" Component={DesignersPage} />
               <Route path="/mentors" Component={MentorsPage} />

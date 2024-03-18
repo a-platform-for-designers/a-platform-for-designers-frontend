@@ -74,6 +74,7 @@ export interface IUser {
   about: string;
   work_status: boolean;
   mentoring: IMentoring;
+  is_subscribed: boolean;
 }
 
 export interface IUserWithLastCases extends IUser {
@@ -451,4 +452,22 @@ export interface ISupport {
   email: string;
   subject: string;
   message: string;
+}
+
+export interface IUserSubscriber {
+  email: string;
+  id: number;
+  first_name: string;
+  last_name: string;
+  is_subscribed: boolean;
+  specialization?: IDataItem[];
+  photo: string;
+}
+
+export interface ISubscriptionsResult {
+  results: IUserSubscriber[];
+}
+
+export interface IFollowersCount {
+  subscribers_count: number;
 }

@@ -1,0 +1,60 @@
+.userCard {
+  font-family: Roboto;
+  border: 1px solid #c3c3c3;
+  border-radius: 24px;
+  padding: 15px;
+  width: 330px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  &__avatar {
+    width: 52px;
+    height: 52px;
+    cursor: pointer;
+  }
+
+  &__name {
+    font-size: 16px;
+    font-style: 700;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0.15px;
+    margin: 16px 0 7px;
+  }
+
+  &__specialization {
+    text-overflow: ellipsis;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    -webkit-line-clamp: 2;
+  }
+
+  &__buttons {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__button {
+    padding-right: 0;
+    padding-left: 0;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: 0.1px;
+  }
+
+  &__button-write {
+    width: 152px;
+    gap: 4px;
+    max-height: 40px;
+  }
+}
