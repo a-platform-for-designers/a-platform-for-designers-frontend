@@ -1,11 +1,12 @@
 import { Box, Grid, StyledEngineProvider } from "@mui/material";
+import "./Mysubscriptions.scss";
 import { IUserSubscriber } from "@/types";
 import { useState, useEffect } from "react";
 import subscriptionsService from "@/api/services/subscriptionservice";
 import { EmptyData } from "../../../ProfilePage/components/index";
 import UserCard from "../UserCard/UserCard";
 import Preloader from "@/shared/Preloader/Preloader";
-import "./MySubscriptions.scss";
+
 //import { MyPagination } from "@/shared/UI";
 
 const MySubscriptions: React.FC = () => {
