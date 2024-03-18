@@ -35,7 +35,7 @@ const FavouritesOrders: React.FC = () => {
             ))}
           </Grid>
         ) : (
-          <EmptyData title="Нет активных заказов" />
+          <EmptyData title="Нет избранных заказов" />
         )}
       </Box>
       {/* {totalOrders > 12 && (

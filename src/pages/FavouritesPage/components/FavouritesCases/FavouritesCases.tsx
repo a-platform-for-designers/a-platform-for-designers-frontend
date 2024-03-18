@@ -23,10 +23,12 @@ const FavouritesCases: React.FC = () => {
     fetchData();
   }, []);
 
+  console.log(cases);
+
   return (
     <StyledEngineProvider injectFirst>
       <Box className="favouritedCases">
-        {cases ? (
+        {cases.length > 0 ? (
           <Grid xs={9} item className="favouritedCases__cards">
             {cases.map((item) => (
               <img
@@ -39,7 +41,7 @@ const FavouritesCases: React.FC = () => {
             ))}
           </Grid>
         ) : (
-          <EmptyData title="Нет активных заказов" />
+          <EmptyData title="Нет избранный проектов" />
         )}
       </Box>
       {/* {cases.length > 12 && (
