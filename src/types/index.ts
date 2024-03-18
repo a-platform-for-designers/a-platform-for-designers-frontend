@@ -121,6 +121,12 @@ export interface ICase {
   specialization: IDataItem;
 }
 
+export interface IFavouriteCase {
+  avatar: string;
+  id: number;
+  title: string;
+}
+
 export interface ICaseInfo {
   title?: string | null;
   sphere?: IDataItem;
@@ -192,6 +198,7 @@ export interface IOrderInfoResponse {
   sphere: IDataItem;
   title: string;
   is_responded_order?: boolean;
+  is_favorited_order?: boolean;
 }
 
 export interface IOrdersList {

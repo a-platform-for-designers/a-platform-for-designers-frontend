@@ -1,4 +1,4 @@
-import { ICase, ICaseCreation, ICaseRespons } from "@/types";
+import { ICase, ICaseCreation, ICaseRespons, IFavouriteCase } from "@/types";
 import api from "../api";
 
 const casesService = {
@@ -29,6 +29,15 @@ const casesService = {
 
   editCase: async (id: number, data: ICaseCreation): Promise<ICase> => {
     const response = await api.patch<ICase>(`/cases/${id}/`, data);
+    return response.data;
+  },
+
+  setFavouriteCase: async (id: number): Promise<void> => {
+    await api.post(`/cases/${id}/favorite_case/`);
+  },
+
+  getFavouritedCases: async (): Promise<IFavouriteCase[]> => {
+    const response = await api.get<IFavouriteCase[]>(`/favorite_cases/`);
     return response.data;
   },
 };

@@ -61,6 +61,19 @@ const OrdersCard: React.FC<IProps> = ({
   };
 
   useEffect(() => {
+    if (orderInfo?.is_favorited_order) {
+      setIsFavourite(true);
+    }
+  }, [orderInfo]);
+
+  function handleFavourite() {
+    setIsFavourite(!isFavourite);
+    if (order) {
+      ordersService.setFavouriteOrder(order.id);
+    }
+  }
+
+  useEffect(() => {
     if (countResponse == (1 || 21 || 31)) {
       setCountName("отклик");
     } else if (
@@ -157,14 +170,6 @@ const OrdersCard: React.FC<IProps> = ({
     }
   }
 
-  function handleFavourite() {
-    if (isFavourite) {
-      setIsFavourite(false);
-      return;
-    }
-    setIsFavourite(true);
-  }
-
   function handleDeleteReply() {
     const deleteOrderResponse = async () => {
       await ordersService.deleteResponseOrder(dataResponse, order.id);
@@ -174,6 +179,8 @@ const OrdersCard: React.FC<IProps> = ({
       refreshOrdersList(order.id);
     }
   }
+  const noMessageButton =
+    location.pathname === "/favourites/orders" && customerUser;
 
   return (
     <Box className="ordersCard">
@@ -257,7 +264,7 @@ const OrdersCard: React.FC<IProps> = ({
             >
               Написать
             </MyButton>
-            {customerUser && isOrderesPage ? null : (
+            {(customerUser && isOrderesPage) || noMessageButton ? null : (
               <>
                 {!customerUser || !isUsersOrders ? (
                   <MyButton

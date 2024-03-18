@@ -15,6 +15,7 @@ import FollowersIconActive from "../../assets/icons/FollowersIconActive.svg";
 import FavouritesIcon from "../../assets/icons/FavouritesDark.svg";
 import MessagesIcon from "../../assets/icons/MessageBlack.svg";
 import MessagesIconActive from "../../assets/icons/MessagePurple.svg";
+import FavouritesIconActive from "@/assets/icons/FavouritesIconActive.svg";
 import MyOrdersActive from "../../assets/icons/MyOrdersActive.svg";
 import OrdersIcon from "../../assets/icons/orders.svg";
 import { useAppSelector } from "@/hooks/reduxHooks";
@@ -156,14 +157,33 @@ const Header: React.FC = () => {
                       Подписки
                     </p>
                   </ListItem>
-                  <ListItem className="header__link">
+
+                  <ListItem
+                    className="header__link"
+                    onClick={() => navigate(`/favourites/cases`)}
+                  >
                     <img
                       className="header__list-icon"
-                      src={FavouritesIcon}
+                      src={
+                        location.pathname === "/favourites/orders" ||
+                        location.pathname === "/favourites/cases"
+                          ? FavouritesIconActive
+                          : FavouritesIcon
+                      }
                       alt="Иконка меню"
                     />
-                    <p className="header__list-text">Избранное</p>
+                    <p
+                      className={`header__list-text ${
+                        location.pathname === "/favourites/orders" ||
+                        location.pathname === "/favourites/cases"
+                          ? "header__list-text_active"
+                          : ""
+                      }`}
+                    >
+                      Избранное
+                    </p>
                   </ListItem>
+
                   <ListItem
                     className="header__link"
                     onClick={() => navigate(`/chats`)}

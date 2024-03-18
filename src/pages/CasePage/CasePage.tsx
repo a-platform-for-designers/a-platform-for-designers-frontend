@@ -8,8 +8,9 @@ import {
 import "./CasePage.scss";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { casesService } from "../../api";
-import { ICase, ICaseInfo } from "../../types";
+import { useAppSelector } from "@/hooks/reduxHooks";
+import { casesService } from "@/api";
+import { ICase, ICaseInfo } from "@/types";
 import { ActionButton, CaseInfo, ProfileInfo } from "./components";
 import { AboutItem, EmptyData } from "../ProfilePage/components";
 import Preloader from "@/shared/Preloader/Preloader";
@@ -20,11 +21,12 @@ import {
 } from "@/constants/constants";
 
 const CasePage: React.FC = () => {
+  const { user } = useAppSelector((state) => state.user); // авторизованный пользователь
   const { id } = useParams();
   const [caseData, setCaseData] = useState<ICase>();
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const caseDataInfo: ICaseInfo = {
     title: caseData?.title,
@@ -44,6 +46,12 @@ const CasePage: React.FC = () => {
   }
 
   useEffect(() => {
+    if (caseData?.is_favorited) {
+      setIsFavorite(true);
+    }
+  }, [caseData]);
+
+  useEffect(() => {
     const fetchData = async () => {
       if (id) {
         try {
@@ -59,6 +67,13 @@ const CasePage: React.FC = () => {
     };
     fetchData();
   }, [id]);
+
+  function handleFavourite() {
+    setIsFavorite(!isFavorite);
+    if (caseData) {
+      casesService.setFavouriteCase(caseData.id);
+    }
+  }
 
   if (isLoading) {
     return (
@@ -98,8 +113,9 @@ const CasePage: React.FC = () => {
               />
               <ActionButton
                 active={isFavorite}
-                onClick={() => setIsFavorite(!isFavorite)}
+                onClick={handleFavourite}
                 variant="favorite"
+                disabled={caseData.author.id == user?.id}
               />
             </Grid>
           </Grid>
