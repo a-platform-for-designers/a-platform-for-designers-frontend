@@ -13,12 +13,12 @@ import {
   Portfolio,
   Profile,
   ProfileCustomer,
+  CustomersOrderCard,
 } from "./components";
 import { IProfileNavPage } from "@/types";
 import { userService } from "@/api";
 import { useEffect, useState } from "react";
 import { IUser, IProfileData, IDataItem } from "@/types";
-import CustomersOrderCard from "./components/CustomersOrdersCards/CustomersOrdersCards";
 import Preloader from "@/shared/Preloader/Preloader";
 import Mentoring from "./components/Mentoring/Mentoring";
 

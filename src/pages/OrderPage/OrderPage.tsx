@@ -82,6 +82,19 @@ const OrderPage: React.FC = () => {
     }
   }, [orderInfo]);
 
+  useEffect(() => {
+    if (orderInfo?.is_favorited_order) {
+      setIsFavourite(true);
+    }
+  }, [orderInfo]);
+
+  function handleFavourite() {
+    setIsFavourite(!isFavourite);
+    if (orderInfo) {
+      ordersService.setFavouriteOrder(orderInfo.id);
+    }
+  }
+
   function handleReply() {
     if (user && orderInfo) {
       const data = {
@@ -119,14 +132,6 @@ const OrderPage: React.FC = () => {
     } else {
       setOpenSignInPopup(true);
     }
-  }
-
-  function handleFavourite() {
-    if (isFavourite) {
-      setIsFavourite(false);
-      return;
-    }
-    setIsFavourite(true);
   }
 
   function handlePopupArchive() {

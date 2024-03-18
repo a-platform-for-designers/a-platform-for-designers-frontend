@@ -12,8 +12,9 @@ import FavouritesActive from "@/assets/icons/FavouritesWhiteActive.svg";
 import LikesActive from "@/assets/icons/LikesActive.svg";
 import { IconButton } from "@mui/material";
 import { ICase } from "@/types";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import MyOptimizedImage from "../MyOptimizedImage/MyOptimizedImage";
+import { casesService } from "@/api";
 import {
   OPTIMIZED_IMAGE_SWIPER_HEIGHT,
   OPTIMIZED_IMAGE_SWIPER_WIDTH,
@@ -29,7 +30,18 @@ const MySwiper: React.FC<IProps> = ({ item, onClick, handleLike }) => {
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
 
-  if (!item) return;
+  useEffect(() => {
+    if (item.is_favorited) {
+      setIsFavorite(true);
+    }
+  }, [item]);
+
+  function handleFavourite() {
+    setIsFavorite(!isFavorite);
+    if (item) {
+      casesService.setFavouriteCase(item.id);
+    }
+  }
 
   function setLike() {
     setIsLiked(!isLiked);
@@ -54,6 +66,8 @@ const MySwiper: React.FC<IProps> = ({ item, onClick, handleLike }) => {
       </SwiperSlide>
     );
   });
+
+  if (!item) return;
 
   return (
     <StyledEngineProvider injectFirst>
@@ -85,9 +99,7 @@ const MySwiper: React.FC<IProps> = ({ item, onClick, handleLike }) => {
                 className="mySwiper__icon"
                 aria-label="add to favourites"
                 edge="end"
-                onClick={() => {
-                  setIsFavorite(!isFavorite);
-                }}
+                onClick={handleFavourite}
               >
                 <img src={isFavorite ? FavouritesActive : Favourites} />
               </IconButton>

@@ -130,6 +130,12 @@ export interface ICase {
   specialization: IDataItem;
 }
 
+export interface IFavouriteCase {
+  avatar: string;
+  id: number;
+  title: string;
+}
+
 export interface ICaseInfo {
   title?: string | null;
   sphere?: IDataItem;

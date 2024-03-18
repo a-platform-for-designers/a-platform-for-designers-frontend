@@ -92,6 +92,7 @@ const ActionButton: React.FC<IActionButtonProps> = ({
         component={Button}
         sx={{ ...actionButton, ...(active ? actionActiveButton : {}) }}
         onClick={onClick}
+        disableRipple
         disabled={disabled}
       >
         {image}
