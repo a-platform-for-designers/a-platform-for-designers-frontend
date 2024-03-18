@@ -16,6 +16,7 @@ import { IUser, IProfileData } from "@/types";
 import { useAppSelector, useAppDispatch } from "@/hooks/reduxHooks";
 import { showMessagePopUp } from "@/redux/slices/chatSlice";
 import MySignInPopup from "@/shared/UI/MySignInPopup/MySignInPopup";
+import subscriptionService from "@/api/services/subscriptionservice";
 
 const avatarStyles: SxProps<Theme> = {
   height: "212px",
@@ -48,12 +49,21 @@ const Info: React.FC<IInfoProps> = ({ data, currentUser }) => {
     likes,
     /* followers, */
   } = data;
-
   const [isCurrentUser, setIsCurrentUser] = useState(true);
   const [openSignInPopup, setOpenSignInPopup] = useState<boolean>(false);
+  const [subscribed, setSubscribed] = useState<boolean>(
+    currentUser!.is_subscribed
+  );
+  const [followers, setFollowers] = useState<number>(0);
   const navigate = useNavigate();
   const { user } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    subscriptionService
+      .getFollowersById(currentUser!.id)
+      .then((followers) => setFollowers(followers.subscribers_count));
+  }, [currentUser]);
 
   function handleClick() {
     if (user) {
@@ -80,6 +90,17 @@ const Info: React.FC<IInfoProps> = ({ data, currentUser }) => {
   function setSpecializations() {
     const name: string = "name";
     return specialization?.map((obj) => obj[name as keyof typeof obj]);
+  }
+
+  async function toggleSubscribe() {
+    if (subscribed) {
+      await subscriptionService.deleteSubscription(currentUser!.id);
+      setFollowers(followers - 1);
+    } else {
+      await subscriptionService.postSubscription(currentUser!.id);
+      setFollowers(followers + 1);
+    }
+    setSubscribed(!subscribed);
   }
 
   return (
@@ -130,9 +151,9 @@ const Info: React.FC<IInfoProps> = ({ data, currentUser }) => {
                     onClick: () => navigate("/dashboard/portfolio/create"),
                   }}
                   ifFalse={{
-                    label: "Подписаться",
+                    label: subscribed ? "Отписаться" : "Подписаться",
                     onClick: () => {
-                      console.log("Подписались!");
+                      toggleSubscribe();
                     },
                   }}
                 />
@@ -160,9 +181,9 @@ const Info: React.FC<IInfoProps> = ({ data, currentUser }) => {
                     onClick: () => navigate("/dashboard"),
                   }}
                   ifFalse={{
-                    label: "Подписаться",
+                    label: subscribed ? "Отписаться" : "Подписаться",
                     onClick: () => {
-                      console.log("Подписались!");
+                      toggleSubscribe();
                     },
                   }}
                 />
