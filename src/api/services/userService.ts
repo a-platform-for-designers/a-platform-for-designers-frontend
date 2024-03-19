@@ -82,6 +82,11 @@ const userService = {
     return response.data;
   },
 
+  getUsersWithoutParams: async (): Promise<IUserRespons> => {
+    const response = await api.get<IUserRespons>("/users/");
+    return response.data;
+  },
+
   getMentorsList: async (
     limit: number,
     page: number

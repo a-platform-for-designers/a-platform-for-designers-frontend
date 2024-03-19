@@ -13,6 +13,10 @@
     width: 52px;
     height: 52px;
     cursor: pointer;
+
+    &:hover {
+      opacity: 0.8;
+    }
   }
 
   &__name {
@@ -38,7 +42,6 @@
   }
 
   &__specialization {
-
     white-space: nowrap;
     font-size: 14px;
     font-style: normal;

@@ -1,11 +1,10 @@
 import "./MainPage.scss";
 import { Box, Grid, StyledEngineProvider, SxProps, Theme } from "@mui/material";
-import Intro from "./components/Intro/Intro";
 import { useState, useEffect } from "react";
 import DesinersCarousel from "./components/DesinersCarousel/DesinersCarousel";
 import DesinersCategories from "./components/DesinersCategories/DesinersCategories";
-import { IDataItem, IDesinerCategoriesData } from "@/types";
-
+import Intro from "./components/Intro/Intro";
+import { IDataItem, IDesinerCategoriesData, ICase, IUser } from "@/types";
 //import avatarPlaceholder from "../../assets/images/designerscarousel-avatar.webp";
 import desCatImg1 from "@/assets/images/desinerscategories-1.webp";
 import desCatImg2 from "@/assets/images/desinerscategories-2.webp";
@@ -13,7 +12,6 @@ import desCatImg3 from "@/assets/images/desinerscategories-3.webp";
 import desCatImg4 from "@/assets/images/desinerscategories-4.webp";
 import Feed from "./components/Feed/Feed";
 import { casesService, userService } from "@/api";
-import { ICase, IUser } from "@/types";
 
 const mainPageTheme: SxProps<Theme> = {
   backgroundColor: (theme) => theme.palette.background.default,
@@ -27,21 +25,21 @@ const MainPage: React.FC = () => {
   const [page, setPage] = useState<number>(1);
   const CASES_LIMIT = 12;
 
+  // TODO сортировка витринных пользователей по лайкам
+
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const userIds = [22, 26, 27, 28, 33, 35];
-
-        const usersData = await Promise.all(
-          userIds.map(async (id) => await userService.getUserById(id))
-        );
-
-        setUsers(usersData);
+        const usersData = await userService.getUsersWithoutParams();
+        const designers = usersData.results.filter((item) => !item.is_customer);
+        // designers.sort((a, b) => b.likes - a.likes);
+        const slicedDesigners = designers.slice(0, 6);
+        console.log(slicedDesigners);
+        setUsers(slicedDesigners);
       } catch (error) {
         console.error("Error loading users:", error);
       }
     };
-
     fetchUsers();
   }, []);
 
