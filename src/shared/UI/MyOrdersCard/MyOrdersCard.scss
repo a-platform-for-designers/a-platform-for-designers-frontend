@@ -10,9 +10,9 @@
   flex-direction: column;
   justify-content: space-between;
   cursor: pointer;
-  
+
   &:hover {
-    opacity: .8;
+    opacity: 0.8;
   }
 
   &__header {
@@ -29,7 +29,7 @@
     cursor: pointer;
 
     &:hover {
-      opacity: .8;
+      opacity: 0.8;
     }
   }
 

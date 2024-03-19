@@ -63,16 +63,18 @@ const UserCard: React.FC<IProps> = ({
         <Typography component="h2" className="userCard__name">
           {userInfo.name}
         </Typography>
-        {Array.isArray(userInfo.specialization) &&
-          userInfo.specialization.map((item, index) => (
-            <Typography
-              key={index}
-              component="p"
-              className="userCard__specialization"
-            >
-              {String(item.name)}
-            </Typography>
-          ))}
+        <div className="userCard__specialization-container">
+          {Array.isArray(userInfo.specialization) &&
+            userInfo.specialization.map((item, index) => (
+              <Typography
+                key={index}
+                component="p"
+                className="userCard__specialization"
+              >
+                {String(item.name)}
+              </Typography>
+            ))}
+        </div>
       </div>
       <div className="userCard__buttons">
         {page === "my-subscriptions" ? (
