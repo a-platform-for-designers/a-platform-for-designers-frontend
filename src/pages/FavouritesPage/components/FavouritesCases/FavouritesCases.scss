@@ -11,5 +11,12 @@
     border-radius: 12px;
     object-fit: cover;
     cursor: pointer;
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  &__preloader{
+    margin: 0 auto;
   }
 }

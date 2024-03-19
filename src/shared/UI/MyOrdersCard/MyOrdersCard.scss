@@ -9,6 +9,11 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  cursor: pointer;
+  
+  &:hover {
+    opacity: .8;
+  }
 
   &__header {
     display: flex;
@@ -21,6 +26,11 @@
     display: flex;
     gap: 10px;
     align-items: center;
+    cursor: pointer;
+
+    &:hover {
+      opacity: .8;
+    }
   }
 
   &__name {
@@ -123,7 +133,8 @@
     font-size: 14px;
     font-style: normal;
     font-weight: 500;
-    line-height: 20px; /* 142.857% */
+    line-height: 20px;
+    /* 142.857% */
     letter-spacing: 0.1px;
     margin-right: 0px;
   }

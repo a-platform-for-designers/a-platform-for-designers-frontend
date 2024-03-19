@@ -52,12 +52,14 @@ const MentorsPage: React.FC = () => {
               />
             </Grid>
           </Grid>
-          <MyPagination
-            page={page}
-            setPage={setPage}
-            totalItems={totalUsers}
-            limit={USERS_LIMIT}
-          />
+          {totalUsers > USERS_LIMIT && (
+            <MyPagination
+              page={page}
+              setPage={setPage}
+              totalItems={totalUsers}
+              limit={USERS_LIMIT}
+            />
+          )}
         </Box>
       </Box>
     </StyledEngineProvider>

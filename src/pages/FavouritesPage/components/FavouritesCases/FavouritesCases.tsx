@@ -12,6 +12,7 @@ const FavouritesCases: React.FC = () => {
   const navigate = useNavigate();
   const [cases, setCases] = useState<IFavouriteCase[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const reversedCases = cases.reverse();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,16 +28,14 @@ const FavouritesCases: React.FC = () => {
     fetchData();
   }, []);
 
-  console.log(cases);
-
   return (
     <StyledEngineProvider injectFirst>
       <Box className="favouritedCases">
         {isLoading ? (
-          <Box>
+          <Box className="favouritedCases__preloader">
             <Preloader></Preloader>
           </Box>
-        ) : cases.length > 0 ? (
+        ) : reversedCases.length > 0 ? (
           <Grid xs={9} item className="favouritedCases__cards">
             {cases.map((item) => (
               <img

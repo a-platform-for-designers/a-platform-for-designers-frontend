@@ -14,7 +14,12 @@ const FavouritesOrders: React.FC = () => {
   // const [totalOrders, setTotalOrders] = useState<number>(0);
   // const [page, setPage] = useState<number>(1);
   // const ORDERS_LIMIT = 12;
-  const filteredOrders = orders?.filter((task) => task.is_published);
+  const reversedOrders = orders?.filter((task) => task.is_published).reverse();
+
+  function filterOrders(id: number) {
+    const updatedItems = orders.filter((item) => item.id !== id);
+    setOrders(updatedItems);
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,19 +33,23 @@ const FavouritesOrders: React.FC = () => {
       }
     };
     fetchData();
-  }, [filteredOrders.length]);
+  }, [reversedOrders.length]);
 
   return (
     <StyledEngineProvider injectFirst>
       <Box className="customersOrders">
         {isLoading ? (
-          <Box>
+          <Box className="favouritedCases__preloader">
             <Preloader></Preloader>
           </Box>
-        ) : filteredOrders.length > 0 ? (
+        ) : reversedOrders.length > 0 ? (
           <Grid xs={9} item className="customersOrders__cards">
-            {filteredOrders.map((item) => (
-              <MyOrdersCard key={item.id} order={item} />
+            {reversedOrders.map((item) => (
+              <MyOrdersCard
+                filterFavouritedOrders={filterOrders}
+                key={item.id}
+                order={item}
+              />
             ))}
           </Grid>
         ) : (

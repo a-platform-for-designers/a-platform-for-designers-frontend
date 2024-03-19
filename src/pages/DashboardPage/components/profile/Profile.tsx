@@ -7,7 +7,7 @@ import {
   FormControlLabel,
 } from "@mui/material";
 import classes from "./Profile.module.scss";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import useInput from "@/hooks/useInput";
 import AvatarUpload from "../avatarUpload/AvatarUpload";
 import { LISTS } from "@/constants/constants";
@@ -72,6 +72,12 @@ const Profile: React.FC = () => {
   const invalidButton = isCustomer
     ? !!post.error || !!about.error || !country || !disableButton
     : !disableButton;
+
+  useEffect(() => {
+    if (selectedFile) {
+      setDisableButton(true);
+    }
+  }, [selectedFile]);
 
   function handleSetCountry(
     _: React.SyntheticEvent<Element, Event>,
