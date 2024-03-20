@@ -65,6 +65,22 @@ export const confirmPassword = createAsyncThunk(
   }
 );
 
+export const activateAccount = createAsyncThunk(
+  "auth/activateAccount",
+  async (data: IResetPasswordConfirmData, { rejectWithValue }) => {
+    try {
+      const response = await authService.resetPasswordConfirm(data);
+      return response;
+    } catch (error) {
+      if (error instanceof RestApiErrors) {
+        throw rejectWithValue(error.messages);
+      } else {
+        throw error;
+      }
+    }
+  }
+);
+
 export const logOut = createAsyncThunk(
   "auth/logout",
   async (_, { dispatch }) => {

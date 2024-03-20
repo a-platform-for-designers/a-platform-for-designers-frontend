@@ -9,6 +9,15 @@ export interface IResetPasswordConfirmData {
   token: string;
 }
 
+export interface IActivationData {
+  uid: string;
+  token: string;
+}
+
+export interface IActivationResendData {
+  email: string;
+}
+
 export interface IToken {
   auth_token: string;
 }
