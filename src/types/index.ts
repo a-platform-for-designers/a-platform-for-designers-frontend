@@ -83,6 +83,7 @@ export interface IUser {
   about: string;
   work_status: boolean;
   mentoring: IMentoring;
+  is_subscribed: boolean;
 }
 
 export interface IUserWithLastCases extends IUser {
@@ -127,6 +128,12 @@ export interface ICase {
   images: ICaseImage[];
   avatar: string;
   specialization: IDataItem;
+}
+
+export interface IFavouriteCase {
+  avatar: string;
+  id: number;
+  title: string;
 }
 
 export interface ICaseInfo {
@@ -200,6 +207,7 @@ export interface IOrderInfoResponse {
   sphere: IDataItem;
   title: string;
   is_responded_order?: boolean;
+  is_favorited_order?: boolean;
 }
 
 export interface IOrdersList {
@@ -460,4 +468,22 @@ export interface ISupport {
   email: string;
   subject: string;
   message: string;
+}
+
+export interface IUserSubscriber {
+  email: string;
+  id: number;
+  first_name: string;
+  last_name: string;
+  is_subscribed: boolean;
+  specialization?: IDataItem[];
+  photo: string;
+}
+
+export interface ISubscriptionsResult {
+  results: IUserSubscriber[];
+}
+
+export interface IFollowersCount {
+  subscribers_count: number;
 }

@@ -9,6 +9,7 @@ import OrdersPage from "./OrdersPage/OrdersPage";
 import UserOrdersPage from "./UserOrdersPage/UserOrdersPage";
 import OrderPage from "./OrderPage/OrderPage";
 import ResetPasswordPage from "./ResetPasswordPage/ResetPasswordPage";
+import FavouritesPage from "./FavouritesPage/FavouritesPage";
 
 export {
   MainPage,
@@ -22,4 +23,5 @@ export {
   UserOrdersPage,
   OrderPage,
   ResetPasswordPage,
+  FavouritesPage,
 };

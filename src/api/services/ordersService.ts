@@ -4,6 +4,7 @@ import {
   IOrderInfoResponse,
   IOrderCreation,
   IMyOrderResponse,
+  IOrdersList,
 } from "../../types";
 import api from "../api";
 
@@ -90,6 +91,15 @@ const ordersService = {
 
   deleteOrder: async (id: number): Promise<void> => {
     await api.delete(`/orders/${id}/`);
+  },
+
+  setFavouriteOrder: async (id: number): Promise<void> => {
+    await api.post(`/orders/${id}/favorite_order/`);
+  },
+
+  getFavouritedOrders: async (): Promise<IOrdersList[]> => {
+    const response = await api.get<IOrdersList[]>(`/favorite_orders/`);
+    return response.data;
   },
 };
 export default ordersService;

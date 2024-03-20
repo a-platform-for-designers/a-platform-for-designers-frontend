@@ -11,9 +11,11 @@ import "./Header.scss";
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import FollowersIcon from "../../assets/icons/FollowersIcon.svg";
+import FollowersIconActive from "../../assets/icons/FollowersIconActive.svg";
 import FavouritesIcon from "../../assets/icons/FavouritesDark.svg";
 import MessagesIcon from "../../assets/icons/MessageBlack.svg";
 import MessagesIconActive from "../../assets/icons/MessagePurple.svg";
+import FavouritesIconActive from "@/assets/icons/FavouritesIconActive.svg";
 import MyOrdersActive from "../../assets/icons/MyOrdersActive.svg";
 import OrdersIcon from "../../assets/icons/orders.svg";
 import { useAppSelector } from "@/hooks/reduxHooks";
@@ -128,22 +130,60 @@ const Header: React.FC = () => {
             <Toolbar className="header__auth-buttons">
               {isAuth || isAuthLoading ? (
                 <List className="header__links">
-                  <ListItem className="header__link">
+                  <ListItem
+                    className="header__link"
+                    onClick={() => navigate(`/subscriptions/my-subscriptions`)}
+                  >
                     <img
                       className="header__list-icon"
-                      src={FollowersIcon}
+                      src={
+                        location.pathname ===
+                          "/subscriptions/my-subscriptions" ||
+                        location.pathname === "/subscriptions/my-followers"
+                          ? FollowersIconActive
+                          : FollowersIcon
+                      }
                       alt="Иконка меню"
                     />
-                    <p className="header__list-text">Подписки</p>
+                    <p
+                      className={`header__list-text ${
+                        location.pathname ===
+                          "/subscriptions/my-subscriptions" ||
+                        location.pathname === "/subscriptions/my-followers"
+                          ? "header__list-text_active"
+                          : ""
+                      }`}
+                    >
+                      Подписки
+                    </p>
                   </ListItem>
-                  <ListItem className="header__link">
+
+                  <ListItem
+                    className="header__link"
+                    onClick={() => navigate(`/favourites/cases`)}
+                  >
                     <img
                       className="header__list-icon"
-                      src={FavouritesIcon}
+                      src={
+                        location.pathname === "/favourites/orders" ||
+                        location.pathname === "/favourites/cases"
+                          ? FavouritesIconActive
+                          : FavouritesIcon
+                      }
                       alt="Иконка меню"
                     />
-                    <p className="header__list-text">Избранное</p>
+                    <p
+                      className={`header__list-text ${
+                        location.pathname === "/favourites/orders" ||
+                        location.pathname === "/favourites/cases"
+                          ? "header__list-text_active"
+                          : ""
+                      }`}
+                    >
+                      Избранное
+                    </p>
                   </ListItem>
+
                   <ListItem
                     className="header__link"
                     onClick={() => navigate(`/chats`)}
