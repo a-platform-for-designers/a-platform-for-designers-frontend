@@ -1,7 +1,7 @@
 import { authService } from "@/api";
 import { RestApiErrors, tokenManager } from "@/api/api";
-import { IAuthUserRequest, IResetPasswordConfirmData } from "@/types";
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { IActivationData, IActivationResendData, IAuthUserRequest, IResetPasswordConfirmData } from "@/types";
+import { createAsyncThunk, createSlice, PayloadAction, isFulfilled, isRejected, isPending } from "@reduxjs/toolkit";
 import { deleteUserInfo } from "./userSlice";
 import { resetChats } from "./chatSlice";
 
@@ -67,9 +67,25 @@ export const confirmPassword = createAsyncThunk(
 
 export const activateAccount = createAsyncThunk(
   "auth/activateAccount",
-  async (data: IResetPasswordConfirmData, { rejectWithValue }) => {
+  async (data: IActivationData, { rejectWithValue }) => {
     try {
-      const response = await authService.resetPasswordConfirm(data);
+      const response = await authService.activation(data);
+      return response;
+    } catch (error) {
+      if (error instanceof RestApiErrors) {
+        throw rejectWithValue(error.messages);
+      } else {
+        throw error;
+      }
+    }
+  }
+);
+
+export const requestActivateAccount = createAsyncThunk(
+  "auth/requestActivateAccount",
+  async (data: IActivationResendData, { rejectWithValue }) => {
+    try {
+      const response = await authService.activationResend(data);
       return response;
     } catch (error) {
       if (error instanceof RestApiErrors) {
@@ -114,20 +130,20 @@ export const authSlice = createSlice({
         state.isAuth = false;
       })
       .addMatcher(
-        (action) => /^auth.*?\/fulfilled/.test(action.type),
+        isFulfilled(activateAccount, requestActivateAccount, resetPassword, confirmPassword),
         (state) => {
           state.loading = "succeeded";
         }
       )
       .addMatcher(
-        (action) => /^auth.*?\/rejected/.test(action.type),
+        isRejected(logIn, activateAccount, requestActivateAccount, resetPassword, confirmPassword),
         (state, action) => {
           state.loading = "failed";
           state.errorMessages = action.payload as string[];
         }
       )
       .addMatcher(
-        (action) => /^auth.*?\/pending/.test(action.type),
+        isPending(logIn, activateAccount, requestActivateAccount, resetPassword, confirmPassword),
         (state) => {
           state.loading = "pending";
         }
