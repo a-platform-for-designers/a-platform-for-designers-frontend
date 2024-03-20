@@ -250,7 +250,7 @@ const Header: React.FC = () => {
           />
         ) : (
           <MyAuthForm title="Регистрация">
-            <SignUp openSignInPopup={openSignInPopup} isCustomer={isCustomer} />
+            <SignUp openSignInPopup={openSignInPopup} isCustomer={isCustomer} onClose={handleClose} />
           </MyAuthForm>
         )}
       </MyPopup>

@@ -98,6 +98,7 @@ function App() {
               <Route path="/my-orders/*" Component={UserOrdersPage} />
               <Route path="/order/:id" Component={OrderPage} />
               <Route path="/reset/:uid/:token" Component={ResetPasswordPage} />
+              <Route path="/activate/:uid/:token" Component={ResetPasswordPage} />
               <Route path="*" Component={ErrorPage} />
             </Routes>
             <Footer />
