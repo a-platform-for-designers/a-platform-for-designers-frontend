@@ -67,7 +67,8 @@ const UserCard: React.FC<IProps> = ({
           userInfo.specialization.length > 0 && (
             <Typography component="p" className="userCard__specialization">
               {String(userInfo.specialization[0].name)}
-              {userInfo.specialization.length > 1 && " и другое..."}
+              {userInfo.specialization.length > 1 &&
+                ` и еще ${userInfo.specialization.length - 1}...`}
             </Typography>
           )}
       </div>
