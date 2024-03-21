@@ -114,7 +114,11 @@ const DesignerFilters: React.FC<IProps> = ({
       <div className="designerFilters__container">
         <MyButton
           onClick={handleClearFilters}
-          disabled={false}
+          disabled={
+            speciality.length === 0 &&
+            skillsValue.length === 0 &&
+            tools.length === 0
+          }
           className="designerFilters__button"
           type="button"
           variant="text"
