@@ -1,6 +1,5 @@
 import { FC, useEffect, useState } from "react";
 import "./SignUp.scss";
-import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import useInput from "../../hooks/useInput";
 import MyInput from "../UI/MyInput/MyInput";
 import MyButton from "../UI/MyButton/MyButton";
@@ -10,7 +9,8 @@ import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
 import { createUser } from "@/redux/slices/userSlice";
 import { resetAuthErrors } from "@/redux/slices/userSlice";
 import { enqueueSnackbar } from "notistack";
-import { useNavigate } from "react-router-dom";
+import SignUpSuccess from "./components/Success/Success";
+import Activate from "./components/Activate/Activate";
 
 interface ISignUpProps {
   openSignInPopup: () => void;
@@ -20,12 +20,15 @@ interface ISignUpProps {
 
 const SignUp: FC<ISignUpProps> = ({ openSignInPopup, isCustomer, onClose }) => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
   const { errorMessages, loading } = useAppSelector((state) => state.auth);
   const [confirmPrivatePolicy, setConfirmPrivatePolicy] =
     useState<boolean>(false);
   const [confirmServiceRules, setConfirmServiceRules] =
     useState<boolean>(false);
+    const [isActivationOpen, setIsActivationOpen] = useState(false);
+    const isSuccessOpen = !isActivationOpen &&  loading === "succeeded";
+    const isMainFormOpen = !isActivationOpen &&  !isSuccessOpen;
+
 
   const firstName = useInput(
     "",
@@ -96,49 +99,23 @@ const SignUp: FC<ISignUpProps> = ({ openSignInPopup, isCustomer, onClose }) => {
     );
   }
 
-  function navigateToHome() {
-    navigate("/");
-    onClose && onClose();
+  function handleActivateRequest() {
+    setIsActivationOpen(true);
   }
 
   return (
     <form className="myAuthForm__signup-form" onSubmit={handleSubmit}>
-      {loading === "succeeded" ? (
-        <div>
-          <div style={{ textAlign: "center", marginBottom: 40 }}>
-            <CheckRoundedIcon
-              sx={{
-                fontSize: 64,
-                color: "#27AE60",
-                backgroundColor: "rgba(39, 174, 96, 0.12)",
-                borderRadius: "50%",
-                mb: 2,
-              }}
-            />
-          </div>
-          <p className="myAuthForm__success-title">
-            Вы успешно зарегистрировались.
-          </p>
-          <p className="myAuthForm__success-subtitle">
-            Подтвердите свою регистрацию на указанной Вами почтовом адресе{" "}
-            {email.value}
-          </p>
-          <p>
-            1 вариант- Теперь вам доступны контакты дизайнеров, возможность
-            выложить портфолио и поиск менторов
-          </p>
-          <p>
-            2 вариант - Добавьте портфолио и расскажите о себе в личном кабинете
-          </p>
+      {isSuccessOpen && (
+        <SignUpSuccess
+          email={email}
+          onActivateRequest={handleActivateRequest}
+          onClose={onClose}
+        />
+      )}
 
-          <MyButton
-            className="myAuthForm__success-button"
-            onClick={navigateToHome}
-          >
-            На главную
-          </MyButton>
-        </div>
-      ) : (
+      {isActivationOpen && <Activate email={email} />}
+
+      {isMainFormOpen  && (
         <>
           <MyInput data={firstName} label="Имя" />
           <MyInput data={lastName} label="Фамилия" />
@@ -212,6 +189,15 @@ const SignUp: FC<ISignUpProps> = ({ openSignInPopup, isCustomer, onClose }) => {
             {SignupText.isLoggedInText}
             <span className="myAuthForm__login-btn" onClick={openSignInPopup}>
               {SignupText.linkText}
+            </span>
+          </p>
+          <p className="myAuthForm__question">
+            Зарегистрировались, но не получили письмо с активацией?
+            <span
+              className="myAuthForm__login-btn"
+              onClick={handleActivateRequest}
+            >
+              Запросить активацию повторно
             </span>
           </p>
         </>
