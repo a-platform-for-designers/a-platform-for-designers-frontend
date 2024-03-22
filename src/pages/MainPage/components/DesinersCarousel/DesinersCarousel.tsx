@@ -24,6 +24,8 @@ interface IDesinersCarouselProps {
 const DesinersCarousel: React.FC<IDesinersCarouselProps> = ({ data }) => {
   const navigate = useNavigate();
 
+  console.log(data);
+
   return (
     <StyledEngineProvider injectFirst>
       <Container

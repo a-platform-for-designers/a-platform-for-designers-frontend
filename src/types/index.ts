@@ -75,6 +75,7 @@ export interface IUser {
   work_status: boolean;
   mentoring: IMentoring;
   is_subscribed: boolean;
+  specialization: object[];
 }
 
 export interface IUserWithLastCases extends IUser {

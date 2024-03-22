@@ -27,13 +27,11 @@ const FavouritesCases: React.FC = () => {
     fetchData();
   }, []);
 
-  console.log(cases);
-
   return (
     <StyledEngineProvider injectFirst>
       <Box className="favouritedCases">
         {isLoading ? (
-          <Box>
+          <Box className="favouritedCases__preloader">
             <Preloader></Preloader>
           </Box>
         ) : cases.length > 0 ? (

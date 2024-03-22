@@ -16,12 +16,14 @@ import MySignInPopup from "@/shared/UI/MySignInPopup/MySignInPopup";
 interface IProps {
   order: IMyOrderResponse;
   refreshOrdersList?: (id: number) => void;
+  filterFavouritedOrders?: (id: number) => void;
   isOrderesPage?: boolean;
 }
 
 const OrdersCard: React.FC<IProps> = ({
   order,
   refreshOrdersList,
+  filterFavouritedOrders,
   isOrderesPage,
 }) => {
   const navigate = useNavigate();
@@ -70,6 +72,9 @@ const OrdersCard: React.FC<IProps> = ({
     setIsFavourite(!isFavourite);
     if (order) {
       ordersService.setFavouriteOrder(order.id);
+    }
+    if (filterFavouritedOrders && orderInfo) {
+      filterFavouritedOrders(orderInfo.id);
     }
   }
 
