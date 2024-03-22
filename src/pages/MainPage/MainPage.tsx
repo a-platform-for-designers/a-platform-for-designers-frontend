@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import DesinersCarousel from "./components/DesinersCarousel/DesinersCarousel";
 import DesinersCategories from "./components/DesinersCategories/DesinersCategories";
 import Intro from "./components/Intro/Intro";
-import { IDataItem, IDesinerCategoriesData, ICase, IUser } from "@/types";
+import { IDesinerCategoriesData, ICase, IUser } from "@/types";
 //import avatarPlaceholder from "../../assets/images/designerscarousel-avatar.webp";
 import desCatImg1 from "@/assets/images/desinerscategories-1.webp";
 import desCatImg2 from "@/assets/images/desinerscategories-2.webp";
@@ -34,7 +34,6 @@ const MainPage: React.FC = () => {
         const designers = usersData.results.filter((item) => !item.is_customer);
         // designers.sort((a, b) => b.likes - a.likes);
         const slicedDesigners = designers.slice(0, 6);
-        console.log(slicedDesigners);
         setUsers(slicedDesigners);
       } catch (error) {
         console.error("Error loading users:", error);
@@ -43,14 +42,15 @@ const MainPage: React.FC = () => {
     fetchUsers();
   }, []);
 
+  console.log(users);
+
   function getUsers() {
     const usersData = users.map((user) => {
       let specialization;
 
-      if (user?.profiledesigner?.specialization) {
+      if (user?.specialization) {
         const name: string = "name";
-        const firstSpec: number | IDataItem =
-          user.profiledesigner.specialization[0];
+        const firstSpec: object = user.specialization[0];
         specialization = String(firstSpec[name as keyof typeof firstSpec]);
       }
 
