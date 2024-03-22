@@ -63,6 +63,7 @@ const DesignerFilters: React.FC<IProps> = ({
     setSkillsValue([]);
     setTools([]);
     setReadyForJob([FILTER_OPTIONS.readyForJobOptions[0]]);
+    setResume(null);
   }
 
   function handleSetSkills(
