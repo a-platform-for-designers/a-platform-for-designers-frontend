@@ -63,18 +63,20 @@ const UserCard: React.FC<IProps> = ({
         <Typography component="h2" className="userCard__name">
           {userInfo.name}
         </Typography>
-        <div className="userCard__specialization-container">
-          {Array.isArray(userInfo.specialization) &&
-            userInfo.specialization.map((item, index) => (
-              <Typography
-                key={index}
-                component="p"
-                className="userCard__specialization"
-              >
-                {String(item.name)}
-              </Typography>
-            ))}
-        </div>
+        {Array.isArray(userInfo.specialization) &&
+          userInfo.specialization.length > 0 && (
+            <Typography component="p" className="userCard__specialization">
+              {String(userInfo.specialization[0].name)}
+            </Typography>
+          )}
+        {Array.isArray(userInfo.specialization) &&
+          userInfo.specialization.length > 1 && (
+            <Typography component="p" className="userCard__specialization">
+              {String(userInfo.specialization[1].name)}
+              {userInfo.specialization.length > 2 &&
+                ` и еще ${userInfo.specialization.length - 2}...`}
+            </Typography>
+          )}
       </div>
       <div className="userCard__buttons">
         {page === "my-subscriptions" ? (
@@ -82,7 +84,7 @@ const UserCard: React.FC<IProps> = ({
             type="button"
             variant="text"
             size="large"
-            className="userCard__button"
+            className="userCard__button userCard__button-cancel"
             onClick={handleUnsubscribe}
           >
             Отменить подписку
