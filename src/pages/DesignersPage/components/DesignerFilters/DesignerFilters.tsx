@@ -63,6 +63,7 @@ const DesignerFilters: React.FC<IProps> = ({
     setSkillsValue([]);
     setTools([]);
     setReadyForJob([FILTER_OPTIONS.readyForJobOptions[0]]);
+    setResume(null);
   }
 
   function handleSetSkills(
@@ -137,11 +138,16 @@ const DesignerFilters: React.FC<IProps> = ({
       <div className="designerFilters__container">
         <MyButton
           onClick={handleClearFilters}
-          disabled={false}
           className="designerFilters__button"
           type="button"
           variant="text"
           startIcon={<CloseIcon />}
+          disabled={
+            speciality.length === 0 &&
+            skillsValue.length === 0 &&
+            resume === null &&
+            tools.length === 0
+          }
         >
           {DESIGNER_FILTERS_CLEAR_BTN_LABEL}
         </MyButton>

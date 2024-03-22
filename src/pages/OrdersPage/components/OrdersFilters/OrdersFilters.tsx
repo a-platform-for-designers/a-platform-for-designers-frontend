@@ -90,7 +90,7 @@ const OrdersFilters: React.FC<IProps> = ({
       <div className="ordersFilters__container">
         <MyButton
           onClick={handleClearFilters}
-          disabled={false}
+          disabled={speciality.length === 0 && sphereValue.length === 0}
           className="designerFilters__button"
           type="button"
           variant="text"
