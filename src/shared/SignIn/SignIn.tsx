@@ -5,21 +5,20 @@ import MyInput from "../UI/MyInput/MyInput";
 import MyButton from "../UI/MyButton/MyButton";
 import { SigninText } from "../../constants/constants";
 import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
-import { logIn } from "@/redux/slices/authSlice";
+import { logIn, setCurrentScreen } from "@/redux/slices/authSlice";
 import { enqueueSnackbar } from "notistack";
 import { getInfoAboutMe } from "@/redux/slices/userSlice";
 import { resetAuthErrors } from "@/redux/slices/userSlice";
+import { Screens } from "@/types";
+import { CircularProgress } from "@mui/material";
 
-interface ISignInProps {
-  openSignUpPopup: () => void;
-  openRecoveryPopUp: () => void;
-}
-
-const SignIn: FC<ISignInProps> = ({ openSignUpPopup, openRecoveryPopUp }) => {
+const SignIn: FC = () => {
   const [error] = useState("");
   const dispatch = useAppDispatch();
   const { isAuth } = useAppSelector((state) => state.auth);
-  const { errorMessages } = useAppSelector((state) => state.user);
+  const { errorMessages, loading } = useAppSelector((state) => state.auth);
+  const isLoading = loading === "pending";
+
   const email = useInput(
     "",
     {
@@ -62,8 +61,20 @@ const SignIn: FC<ISignInProps> = ({ openSignUpPopup, openRecoveryPopUp }) => {
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    await dispatch(logIn({ email: email.value, password: password.value }));
-    await dispatch(getInfoAboutMe());
+    const response = await dispatch(
+      logIn({ email: email.value, password: password.value })
+    );
+    if (!("error" in response)) {
+      dispatch(getInfoAboutMe());
+    }
+  }
+
+  function openSignUpPopup() {
+    dispatch(setCurrentScreen({ screen: Screens.SignUp }));
+  }
+
+  function openRecoveryPopUp() {
+    dispatch(setCurrentScreen({ screen: Screens.PasswordRecovery }));
   }
 
   return (
@@ -87,8 +98,13 @@ const SignIn: FC<ISignInProps> = ({ openSignUpPopup, openRecoveryPopUp }) => {
         <MyButton
           className="myAuthForm__button"
           type="submit"
-          disabled={!!email.error || !!password.error || Boolean(error)}
+          disabled={
+            isLoading || !!email.error || !!password.error || Boolean(error)
+          }
         >
+          {isLoading && (
+            <CircularProgress size={20} color="secondary" sx={{ mr: 2 }} />
+          )}
           Войти
         </MyButton>
 

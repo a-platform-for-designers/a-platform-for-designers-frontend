@@ -1,0 +1,177 @@
+@mixin small-text {
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+}
+
+.header {
+  background-color: white;
+  position: sticky;
+  top: 0;
+  color: black;
+  height: 64px;
+  width: 100%;
+  box-shadow: none;
+  z-index: 500;
+  font-weight: 500;
+  font-size: 16px;
+
+  &__container {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    max-width: 1440px;
+    height: 100%;
+    margin: 0 auto;
+  }
+
+  &__toolbar {
+    display: flex;
+    justify-content: space-between;
+    max-width: 831px;
+    height: 100%;
+    column-gap: 80px;
+  }
+
+  &__logo {
+    background: url(../../assets/icons/Logo.svg) center no-repeat;
+    background-size: contain;
+    cursor: pointer;
+    width: 130px;
+    height: 20px;
+  }
+
+  &__logo:hover {
+    opacity: 0.8;
+  }
+
+  &__logo-purple {
+    color: var(--button-active-color);
+  }
+
+  &__search-form {
+    height: 44px;
+    margin: 10px 56px 10px 80px;
+
+    .MuiInputBase-formControl {
+      border-radius: 28px;
+      border: 1px solid var(--m-3-sys-light-outline, #79747e);
+      padding-left: 16px;
+    }
+
+    input {
+      padding: 10px 0 10px 8px;
+    }
+  }
+
+  &__pages-list {
+    gap: 32px;
+    @include small-text;
+    padding: 0;
+
+    .header__menu-item {
+      position: relative;
+      display: list-item;
+      padding: 0;
+
+      &_active {
+        color: #6900ee;
+      }
+      &:hover {
+        color: #21005d;
+        cursor: pointer;
+      }
+    }
+  }
+
+  &__avatar {
+    font-size: 16px;
+    width: 46px;
+    height: 46px;
+    background-color: "#4F378B";
+    color: "#EADDFF";
+    &:hover {
+      opacity: 0.8;
+      cursor: pointer;
+    }
+  }
+
+  &__auth-buttons {
+    gap: 16px;
+  }
+
+  &__links {
+    @include small-text;
+    display: flex;
+    justify-content: space-between;
+    gap: 32px;
+  }
+
+  &__link {
+    margin: 0;
+    padding: 0;
+    gap: 4px;
+    &:hover {
+      color: #21005d;
+      cursor: pointer;
+    }
+  }
+
+  &__list-icon {
+    padding: 0;
+    margin: 0;
+  }
+
+  &__list-text {
+    padding: 0;
+    margin: 0;
+
+    &_active {
+      color: #6900ee;
+    }
+    &:hover {
+      color: #21005d;
+      cursor: pointer;
+    }
+  }
+
+  &__signup-button {
+    color: #6900ee;
+    border: 1px solid var(--Primary, #6900ee);
+    padding-left: 20px;
+    padding-right: 20px;
+    min-width: 142px;
+    min-height: 40px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  &__signup-button:active {
+    background-color: #e3e3e4;
+  }
+
+  &__signin-button {
+    background-color: #6900ee;
+    padding-left: 30px;
+    padding-right: 30px;
+    min-width: 64px;
+    min-height: 40px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  &__checkbox {
+    color: #fff;
+    position: absolute;
+    top: 64px;
+    right: 0;
+    z-index: 100;
+
+    span {
+      color: #fff;
+
+      svg {
+        border: 1px solid var(--text-color-white);
+      }
+    }
+  }
+}

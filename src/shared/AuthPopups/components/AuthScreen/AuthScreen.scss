@@ -1,0 +1,19 @@
+.Popup {
+  position: relative;
+  max-width: 708px;
+}
+.Popup__close-button {
+  position: absolute;
+  right: 24px;
+  top: 24px;
+  width: 44px;
+  height: 44px;
+  background: url(../../../assets/icons/Close-btnutton.svg) center no-repeat;
+  border: none;
+  cursor: pointer;
+  z-index: 100;
+}
+
+.Popup__close-button:hover {
+  opacity: 0.7;
+}
