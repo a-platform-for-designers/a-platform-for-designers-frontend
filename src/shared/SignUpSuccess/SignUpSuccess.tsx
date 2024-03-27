@@ -1,24 +1,32 @@
 import { useNavigate } from "react-router-dom";
 import MyButton from "@/shared/UI/MyButton/MyButton";
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
-import { objFromUseInput } from "@/hooks/useInput";
+import { useAppSelector, useAppDispatch } from "@/hooks/reduxHooks";
+import { setCurrentScreen, hideScreen } from "@/redux/slices/authSlice";
+import { Screens } from "@/types";
+import "./SignUpSuccess.scss";
 
-interface ISuccessProps {
-  onActivateRequest?: () => void;
-  onClose?: () => void;
-  email: objFromUseInput;
-}
-
-const Success: React.FC<ISuccessProps> = ({ email, onActivateRequest, onClose }) => {
+const Success: React.FC = () => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
+  const { extraData: { email = "" } = {} } = useAppSelector(
+    (state) => state.auth
+  );
   function navigateToHome() {
+    dispatch(hideScreen());
     navigate("/");
-    onClose && onClose();
+  }
+
+  function openActivationPopup() {
+    dispatch(
+      setCurrentScreen({
+        screen: Screens.Activation,
+      })
+    );
   }
 
   return (
-    <div>
+    <div className="sign-up-success">
       <div style={{ textAlign: "center", marginBottom: 40 }}>
         <CheckRoundedIcon
           sx={{
@@ -34,20 +42,18 @@ const Success: React.FC<ISuccessProps> = ({ email, onActivateRequest, onClose })
         Вы успешно зарегистрировались.
       </p>
       <p className="myAuthForm__success-subtitle">
-        Подтвердите свою регистрацию на указанной Вами почтовом адресе{" "}
-        {email.value}
+        Подтвердите свою регистрацию на указанном Вами почтовом адресе{" "}
+        {email as string}
       </p>
       <p>
-        1 вариант- Теперь вам доступны контакты дизайнеров, возможность выложить
+        Заказчик - Теперь вам доступны контакты дизайнеров, возможность выложить
         портфолио и поиск менторов
       </p>
-      <p>
-        2 вариант - Добавьте портфолио и расскажите о себе в личном кабинете
-      </p>
+      <p>Дизайнер - Добавьте портфолио и расскажите о себе в личном кабинете</p>
 
       <p className="myAuthForm__question">
         Не получали письмо с активацией аккаунта?
-        <span className="myAuthForm__login-btn" onClick={onActivateRequest}>
+        <span className="myAuthForm__login-btn" onClick={openActivationPopup}>
           Запросить письмо с активацией
         </span>
       </p>
