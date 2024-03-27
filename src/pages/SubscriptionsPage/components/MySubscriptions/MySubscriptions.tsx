@@ -17,7 +17,7 @@ const MySubscriptions: React.FC = () => {
     const fetchData = async () => {
       try {
         const subsData = await subscriptionsService.getSubscriptions();
-        setSubscriptions(subsData.results);
+        setSubscriptions(subsData.results.reverse());
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -36,7 +36,7 @@ const MySubscriptions: React.FC = () => {
           </Box>
         ) : subscriptions.length > 0 ? (
           <Grid xs={9} item className="subscriptions__cards">
-            {subscriptions.map((item) => (
+            {subscriptions.reverse().map((item) => (
               <UserCard
                 key={item.id}
                 user={item}

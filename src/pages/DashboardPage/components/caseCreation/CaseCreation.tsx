@@ -229,7 +229,7 @@ const CaseCreation: React.FC<IProps> = ({ caseInfo }) => {
     e.preventDefault();
     const values = {
       title: title.value,
-      workingTerm: time.value,
+      working_term: time.value,
       description: description.value,
       specialization: convertStringToId(directions, specializations),
       avatar: String(await getBase64(wrapper!)),

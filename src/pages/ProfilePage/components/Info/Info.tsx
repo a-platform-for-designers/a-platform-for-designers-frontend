@@ -246,7 +246,17 @@ const Info: React.FC<IInfoProps> = ({ data, currentUser }) => {
               />
               <SocialIndicator variant="followers" count={followers} />
             </Grid>
-          ) : null}
+          ) : (
+            <Grid
+              container
+              gap="16px"
+              justifyContent="flex-end"
+              flexGrow={0}
+              paddingBottom="15px"
+            >
+              <SocialIndicator variant="followers" count={followers} />
+            </Grid>
+          )}
         </Grid>
       </Grid>
       {openSignInPopup ? (
