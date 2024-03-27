@@ -9,7 +9,7 @@ import {
   IPostMentoring,
 } from "@/types";
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { logIn, changeAuth } from "./authSlice";
+import { changeAuth } from "./authSlice";
 import { RestApiErrors } from "@/api/api";
 
 interface IInitialState {
@@ -62,11 +62,11 @@ export const updateInfoAboutMe = createAsyncThunk(
 
 export const createUser = createAsyncThunk(
   "user/createUserStatus",
-  async (data: ICreateUserRequest, { dispatch, rejectWithValue }) => {
+  async (data: ICreateUserRequest, { rejectWithValue }) => {
     try {
       await userService.createUser(data);
-      await dispatch(logIn({ email: data.email, password: data.password }));
-      await dispatch(getInfoAboutMe());
+      //await dispatch(logIn({ email: data.email, password: data.password }));
+      //await dispatch(getInfoAboutMe());
     } catch (error) {
       if (error instanceof RestApiErrors) {
         throw rejectWithValue(error.messages);
@@ -110,12 +110,18 @@ export const userSlice = createSlice({
     resetAuthErrors: (state) => {
       state.errorMessages.length = 0;
     },
+    resetLoading: (state) => {
+      state.loading = "idle";
+    },
     resetUser: () => initialState,
   },
   extraReducers: (builder) => {
     builder
       .addCase(createUser.fulfilled, (state) => {
         state.loading = "succeeded";
+      })
+      .addCase(createUser.pending, (state) => {
+        state.loading = "pending";
       })
       .addCase(getInfoAboutMe.fulfilled, (state, action) => {
         state.loading = "succeeded";
@@ -140,6 +146,7 @@ export const {
   setCustomerInfo,
   setMentorInfo,
   resetUser,
+  resetLoading,
 } = userSlice.actions;
 
 export default userSlice.reducer;

@@ -19,35 +19,60 @@ export class RestApiErrors extends Error {
 
 api.interceptors.response.use(
   (response) => response,
-  (error) => {
-    if (axios.isAxiosError(error)) {
-      let messages: string[] = [];
-      const response = error?.response;
-      const statusCode = response?.status;
+  async (error) => {
+    if (!axios.isAxiosError(error)) {
+      return Promise.reject(error);
+    }
 
-      if (response) {
-        if (statusCode === 401) {
-          tokenManager.clearToken();
-          messages = [CLIENT_API_ERRORS.UNAUTHORIZED_ACCESS];
-        } else if (statusCode === 400) {
-          const errorsEntries: [string, string[]][] = Object.entries(
-            response.data
-          );
-          messages = errorsEntries
-            .map(([key, errors]) => errors.map((error: string) => [key, error]))
-            .flat()
-            .map(
-              ([key, errorValue]) =>
-                errorsMap.get(errorValue) ||
-                `${key} - ${errorValue?.toLowerCase()}`
-            );
-        } else if (statusCode === 500) {
-          messages = [CLIENT_API_ERRORS.SERVER_ERROR];
-        }
-      }
+    const { response } = error;
+    if (!response) {
+      return Promise.reject(
+        new RestApiErrors([CLIENT_API_ERRORS.UNKNOWN_ERROR])
+      );
+    }
+
+    const statusCode = response.status;
+    if (statusCode === 401) {
+      tokenManager.clearToken();
+      return Promise.reject(
+        new RestApiErrors([CLIENT_API_ERRORS.UNAUTHORIZED_ACCESS])
+      );
+    }
+
+    if (statusCode === 500) {
+      return Promise.reject(
+        new RestApiErrors([CLIENT_API_ERRORS.SERVER_ERROR])
+      );
+    }
+
+    const { data } = response;
+    if (!data) {
+      return Promise.reject(
+        new RestApiErrors([CLIENT_API_ERRORS.UNKNOWN_ERROR])
+      );
+    }
+
+    if (statusCode === 403) {
+      const { detail } = data;
+      return Promise.reject(
+        new RestApiErrors([errorsMap.get(detail) || detail?.toLowerCase()])
+      );
+    }
+
+    const errorsEntries: [string, string[]][] = Object.entries(data);
+    const messages = errorsEntries
+      .map(([key, errors]) => errors.map((error: string) => [key, error]))
+      .flat()
+      .map(
+        ([key, errorValue]) =>
+          errorsMap.get(errorValue) || `${key} - ${errorValue?.toLowerCase()}`
+      );
+
+    if (messages.length) {
       return Promise.reject(new RestApiErrors(messages));
     }
-    return Promise.reject(error);
+
+    return Promise.reject(new RestApiErrors([CLIENT_API_ERRORS.UNKNOWN_ERROR]));
   }
 );
 

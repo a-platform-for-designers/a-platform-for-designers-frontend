@@ -487,3 +487,14 @@ export interface ISubscriptionsResult {
 export interface IFollowersCount {
   subscribers_count: number;
 }
+
+export enum Screens {
+  None,
+  UserRole,
+  SignUp,
+  SignUpSuccess,
+  SignIn,
+  PasswordRecovery,
+  ConfirmPassword,
+  Activation,
+}

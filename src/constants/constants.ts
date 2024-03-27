@@ -456,6 +456,8 @@ export const CLIENT_API_ERRORS = {
   UNAUTHORIZED_ACCESS: "Для доступа к ресурсу необходима авторизация",
   EMAIL_EXISTS: "Пользователь с такой электронной почтой уже зарегистрирован.",
   SERVER_ERROR: "Что-то пошло не так, но мы скоро все исправим.",
+  UNKNOWN_ERROR: "Что-то пошло не так.",
+  OBSOLETE_TOKEN: "Токен для активации аккаунта устарел. Запросите новый.",
 };
 
 export const SERVER_API_ERRORS = {
@@ -463,11 +465,13 @@ export const SERVER_API_ERRORS = {
   EMAIL_EXISTS: "Пользователь с таким Адрес электронной почты уже существует.",
   PASSWORD_COMMON: "Введённый пароль слишком широко распространён.",
   PASSWORD_NUMERIC: "Введённый пароль состоит только из цифр.",
+  OBSOLETE_TOKEN: "Устаревший токен для данного пользователя.",
 };
 
 export const errorsMap = new Map([
   [SERVER_API_ERRORS.INVALID_DATA, CLIENT_API_ERRORS.INVALID_DATA],
   [SERVER_API_ERRORS.EMAIL_EXISTS, CLIENT_API_ERRORS.EMAIL_EXISTS],
+  [SERVER_API_ERRORS.OBSOLETE_TOKEN, CLIENT_API_ERRORS.OBSOLETE_TOKEN],
 ]);
 
 export const OPTIMIZED_IMAGE_SWIPER_WIDTH = 660;
