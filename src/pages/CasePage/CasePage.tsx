@@ -9,8 +9,8 @@ import "./CasePage.scss";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAppSelector } from "@/hooks/reduxHooks";
-import { casesService } from "@/api";
-import { ICase, ICaseInfo } from "@/types";
+import { casesService, userService } from "../../api";
+import { ICase, ICaseInfo } from "../../types";
 import { ActionButton, CaseInfo, ProfileInfo } from "./components";
 import { AboutItem, EmptyData } from "../ProfilePage/components";
 import Preloader from "@/shared/Preloader/Preloader";
@@ -23,6 +23,7 @@ import {
 const CasePage: React.FC = () => {
   const { user } = useAppSelector((state) => state.user); // авторизованный пользователь
   const { id } = useParams();
+
   const [caseData, setCaseData] = useState<ICase>();
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
@@ -35,6 +36,8 @@ const CasePage: React.FC = () => {
     description: caseData?.description,
   };
 
+  // TODO нужно добавить отрисовку лайка при загрузке страницы
+
   function setInstruments() {
     if (Array.isArray(caseData?.instruments)) {
       const name: string = "name";
@@ -42,6 +45,22 @@ const CasePage: React.FC = () => {
         String(obj[name as keyof typeof obj])
       );
       return result;
+    }
+  }
+
+  function handleLike() {
+    setIsLiked(!isLiked);
+    if (user) {
+      const body = {
+        first_name: user.first_name,
+        last_name: user.last_name,
+        photo: user?.photo,
+        is_customer: user.is_customer,
+        mentoring: user.mentoring,
+      };
+      if (caseData) {
+        userService.setLike(caseData.author.id, body);
+      }
     }
   }
 
@@ -109,7 +128,8 @@ const CasePage: React.FC = () => {
             >
               <ActionButton
                 active={isLiked}
-                onClick={() => setIsLiked(!isLiked)}
+                onClick={handleLike}
+                disabled={caseData.author.id == user?.id}
               />
               <ActionButton
                 active={isFavorite}

@@ -52,6 +52,7 @@ const OrdersCard: React.FC<IProps> = ({
     name: `${order.customer.first_name} ${order.customer.last_name}`,
     avatar: order.customer.photo,
   };
+  console.log(isMyProfile);
   const dataResponse = {
     customer: order.customer,
     title: order.title,

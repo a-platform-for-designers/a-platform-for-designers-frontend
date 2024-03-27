@@ -46,6 +46,14 @@ export interface IResume {
   status: boolean;
 }
 
+export interface IUserLike {
+  first_name: string;
+  last_name: string;
+  photo?: string;
+  is_customer: boolean;
+  mentoring: IMentoring;
+}
+
 export interface IMentoring {
   experience: string;
   expertise: string;
@@ -57,6 +65,7 @@ export interface IMentoring {
 }
 
 export interface IUser {
+  likes: string;
   email: string;
   id: number;
   first_name: string;
@@ -199,7 +208,8 @@ export interface IOrderInfoResponse {
   sphere: IDataItem;
   title: string;
   is_responded_order?: boolean;
-  is_favorited_order?: boolean;
+  is_favorited_order: boolean;
+  is_published: boolean;
 }
 
 export interface IOrdersList {

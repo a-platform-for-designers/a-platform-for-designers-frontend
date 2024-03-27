@@ -46,11 +46,9 @@ const Info: React.FC<IInfoProps> = ({ data, currentUser }) => {
     registrationDate,
     status,
     post,
-    /* likes,
-    followers, */
+    likes,
+    /* followers, */
   } = data;
-  const [likes, setLikes] = useState(1000);
-  const [isLiked, setIsLiked] = useState(true);
   const [isCurrentUser, setIsCurrentUser] = useState(true);
   const [openSignInPopup, setOpenSignInPopup] = useState<boolean>(false);
   const [subscribed, setSubscribed] = useState<boolean>(
@@ -227,24 +225,8 @@ const Info: React.FC<IInfoProps> = ({ data, currentUser }) => {
               flexGrow={0}
               paddingBottom="15px"
             >
-              <SocialIndicator
-                variant="likes"
-                count={likes}
-                active={isLiked}
-                onClick={() => {
-                  setLikes((prev) => {
-                    // чисто потестить
-                    if (isLiked) {
-                      setIsLiked(false);
-                      return --prev;
-                    } else {
-                      setIsLiked(true);
-                      return ++prev;
-                    }
-                  });
-                }}
-              />
-              <SocialIndicator variant="followers" count={followers} />
+              {<SocialIndicator variant="likes" count={likes!} />}
+              <SocialIndicator variant="followers" count={98} />
             </Grid>
           ) : (
             <Grid

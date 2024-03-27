@@ -70,7 +70,7 @@ const ProfilePage: React.FC = () => {
     status: currentUser?.profiledesigner?.work_status
       ? "Ищет работу"
       : "Не ищет работу",
-    likes: 1001,
+    likes: Number(currentUser?.likes),
     followers: 98,
   };
 
@@ -131,7 +131,7 @@ const ProfilePage: React.FC = () => {
     {
       title: "Активные заказы",
       link: `orders`,
-      element: <CustomersOrderCard userId={currentUser?.id} />,
+      element: <CustomersOrderCard />,
     },
     {
       title: "Профиль",

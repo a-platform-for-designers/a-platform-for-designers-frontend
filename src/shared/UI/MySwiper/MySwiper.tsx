@@ -23,9 +23,10 @@ import {
 interface IProps {
   onClick?: () => void;
   item: ICase;
+  handleLike?: () => void;
 }
 
-const MySwiper: React.FC<IProps> = ({ item, onClick }) => {
+const MySwiper: React.FC<IProps> = ({ item, onClick, handleLike }) => {
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
 
@@ -41,6 +42,15 @@ const MySwiper: React.FC<IProps> = ({ item, onClick }) => {
       casesService.setFavouriteCase(item.id);
     }
   }
+
+  function setLike() {
+    setIsLiked(!isLiked);
+    if (handleLike) {
+      handleLike();
+    }
+  }
+
+  // TODO нужно отрисовать состояние лайка на карточки в зависимости от наличия лайка
 
   const sliders = item.images.map((image) => {
     return (
@@ -97,9 +107,7 @@ const MySwiper: React.FC<IProps> = ({ item, onClick }) => {
                 className="mySwiper__icon"
                 aria-label="put like"
                 edge="end"
-                onClick={() => {
-                  setIsLiked(!isLiked);
-                }}
+                onClick={setLike}
               >
                 <img src={isLiked ? LikesActive : Likes} />
               </IconButton>

@@ -35,7 +35,7 @@ const UserOrdersPage: React.FC = () => {
     {
       title: "Активные заказы",
       link: `orders`,
-      element: <CustomersOrderCard userId={user?.id} />,
+      element: <CustomersOrderCard />,
     },
     {
       title: "Архив",
