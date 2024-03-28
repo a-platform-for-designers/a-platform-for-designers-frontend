@@ -42,6 +42,8 @@ import { getData } from "@/redux/slices/dataSlice.ts";
 import ChatPage from "@/pages/ChatPage/ChatPage.tsx";
 import { MyMessagePopup } from "@/shared/UI/index.ts";
 import SubscriptionsPage from "@/pages/SubscriptionsPage/SubscriptionsPage.tsx";
+import AuthPopups from "@/shared/AuthPopups/AuthPopups.tsx";
+import ActivateAccountPage from "@/pages/ActivateAccount/ActivateAccount.tsx";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -106,9 +108,14 @@ function App() {
               <Route path="/my-orders/*" Component={UserOrdersPage} />
               <Route path="/order/:id" Component={OrderPage} />
               <Route path="/reset/:uid/:token" Component={ResetPasswordPage} />
+              <Route
+                path="/activate/:uid/:token"
+                Component={ActivateAccountPage}
+              />
               <Route path="*" Component={ErrorPage} />
             </Routes>
             <Footer />
+            <AuthPopups />
             <MyMessagePopup />
           </div>
         </SnackbarProvider>

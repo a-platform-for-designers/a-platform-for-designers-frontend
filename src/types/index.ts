@@ -9,6 +9,15 @@ export interface IResetPasswordConfirmData {
   token: string;
 }
 
+export interface IActivationData {
+  uid: string;
+  token: string;
+}
+
+export interface IActivationResendData {
+  email: string;
+}
+
 export interface IToken {
   auth_token: string;
 }
@@ -478,4 +487,15 @@ export interface ISubscriptionsResult {
 
 export interface IFollowersCount {
   subscribers_count: number;
+}
+
+export enum Screens {
+  None,
+  UserRole,
+  SignUp,
+  SignUpSuccess,
+  SignIn,
+  PasswordRecovery,
+  ConfirmPassword,
+  Activation,
 }

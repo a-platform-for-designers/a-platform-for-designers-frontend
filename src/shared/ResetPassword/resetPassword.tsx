@@ -6,15 +6,17 @@ import MyButton from "../UI/MyButton/MyButton";
 import { SigninText, resetPasswordText } from "../../constants/constants";
 import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
 import "./resetPassword.scss";
-import { resetPassword, resetAuthErrors } from "@/redux/slices/authSlice";
-
-interface ISignInProps {
-  openSignUpPopup: () => void;
-}
+import {
+  resetPassword,
+  resetAuthErrors,
+  setCurrentScreen,
+} from "@/redux/slices/authSlice";
+import { Screens } from "@/types";
+import { CircularProgress } from "@mui/material";
 
 const sendEmailTimeout = 60;
 
-const ResetPassword: FC<ISignInProps> = ({ openSignUpPopup }) => {
+const ResetPassword: FC = () => {
   const dispatch = useAppDispatch();
   const { errorMessages, loading } = useAppSelector((state) => state.auth);
   const [isEmailSent, setIsEmailSent] = useState(false);
@@ -68,6 +70,10 @@ const ResetPassword: FC<ISignInProps> = ({ openSignUpPopup }) => {
     handleTimerStart();
   }
 
+  function openSignUpPopup() {
+    dispatch(setCurrentScreen({ screen: Screens.SignUp }));
+  }
+
   return (
     <div className="restore-password">
       <div className="restore-password__form-wrapper">
@@ -101,6 +107,9 @@ const ResetPassword: FC<ISignInProps> = ({ openSignUpPopup }) => {
               type="submit"
               disabled={isLoading || !!email.error || !!time}
             >
+              {isLoading && (
+                <CircularProgress size={20} color="secondary" sx={{ mr: 2 }} />
+              )}
               {isEmailSent
                 ? resetPasswordText.resendEmail
                 : resetPasswordText.restoreAccess}

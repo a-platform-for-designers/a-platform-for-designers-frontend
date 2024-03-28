@@ -10,23 +10,25 @@ import "./confirmPassword.scss";
 import {
   resetAuthErrors,
   confirmPassword as confirmPasswordThunk,
+  hideScreen,
 } from "@/redux/slices/authSlice";
 import { useNavigate } from "react-router-dom";
+import { CircularProgress } from "@mui/material";
 
-interface IConfirmPasswordProps {
-  uid: string;
-  token: string;
-  onClose: () => void;
-}
 
-const ConfirmPassword: FC<IConfirmPasswordProps> = ({
-  uid,
-  token,
-  onClose,
-}) => {
-  const dispatch = useAppDispatch();
-  const { errorMessages, loading } = useAppSelector((state) => state.auth);
+
+
+const ConfirmPassword: FC = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const {
+    errorMessages,
+    loading,
+    extraData,
+  } = useAppSelector((state) => state.auth);
+  const uid = extraData?.uid as string
+  const token = extraData?.token as string
+
   const hasError = !!errorMessages.length;
   const isLoading = loading === "pending";
   const isPasswordSet = loading === "succeeded";
@@ -57,7 +59,7 @@ const ConfirmPassword: FC<IConfirmPasswordProps> = ({
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (isPasswordSet) {
-      onClose();
+      dispatch(hideScreen())
       navigate("/");
     } else {
       await dispatch(
@@ -130,6 +132,9 @@ const ConfirmPassword: FC<IConfirmPasswordProps> = ({
                   !isPasswordSet)
               }
             >
+              {isLoading && (
+                <CircularProgress size={20} color="secondary" sx={{ mr: 2 }} />
+              )}
               {isPasswordSet
                 ? confirmPasswordText.home
                 : confirmPasswordText.signIn}

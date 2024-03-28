@@ -1,7 +1,20 @@
 import { authService } from "@/api";
 import { RestApiErrors, tokenManager } from "@/api/api";
-import { IAuthUserRequest, IResetPasswordConfirmData } from "@/types";
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import {
+  IActivationData,
+  IActivationResendData,
+  IAuthUserRequest,
+  IResetPasswordConfirmData,
+  Screens,
+} from "@/types";
+import {
+  createAsyncThunk,
+  createSlice,
+  PayloadAction,
+  isFulfilled,
+  isRejected,
+  isPending,
+} from "@reduxjs/toolkit";
 import { deleteUserInfo } from "./userSlice";
 import { resetChats } from "./chatSlice";
 
@@ -9,12 +22,16 @@ interface IInitialState {
   isAuth: boolean;
   loading: "idle" | "pending" | "succeeded" | "failed";
   errorMessages: string[];
+  currentScreen: Screens;
+  extraData?: { [key: string]: unknown };
+  isCustomer?: boolean;
 }
 
 const initialState: IInitialState = {
   isAuth: false,
   loading: "idle",
   errorMessages: [],
+  currentScreen: Screens.None,
 };
 
 export const logIn = createAsyncThunk(
@@ -65,13 +82,44 @@ export const confirmPassword = createAsyncThunk(
   }
 );
 
+export const activateAccount = createAsyncThunk(
+  "auth/activateAccount",
+  async (data: IActivationData, { rejectWithValue }) => {
+    try {
+      const response = await authService.activation(data);
+      return response;
+    } catch (error) {
+      if (error instanceof RestApiErrors) {
+        throw rejectWithValue(error.messages);
+      } else {
+        throw error;
+      }
+    }
+  }
+);
+
+export const requestActivateAccount = createAsyncThunk(
+  "auth/requestActivateAccount",
+  async (data: IActivationResendData, { rejectWithValue }) => {
+    try {
+      const response = await authService.activationResend(data);
+      return response;
+    } catch (error) {
+      if (error instanceof RestApiErrors) {
+        throw rejectWithValue(error.messages);
+      } else {
+        throw error;
+      }
+    }
+  }
+);
+
 export const logOut = createAsyncThunk(
   "auth/logout",
   async (_, { dispatch }) => {
     await authService.logout();
     tokenManager.clearToken();
     dispatch(deleteUserInfo());
-    // dispatch(resetMessages());
     dispatch(resetChats());
   }
 );
@@ -86,6 +134,27 @@ export const authSlice = createSlice({
     resetAuthErrors: (state) => {
       state.errorMessages.length = 0;
     },
+    resetLoading: (state) => {
+      state.loading = "idle";
+    },
+    resetAuth: () => initialState,
+    setCurrentScreen: (
+      state,
+      action: PayloadAction<{
+        screen: Screens;
+        extraData?: { [key: string]: unknown };
+      }>
+    ) => {
+      state.currentScreen = action.payload.screen;
+      state.extraData = action.payload.extraData;
+    },
+    hideScreen: (state) => {
+      state.currentScreen = Screens.None;
+      state.extraData = void 0;
+    },
+    setUserIsCustomer: (state, action: PayloadAction<boolean>) => {
+      state.isCustomer = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -98,20 +167,37 @@ export const authSlice = createSlice({
         state.isAuth = false;
       })
       .addMatcher(
-        (action) => /^auth.*?\/fulfilled/.test(action.type),
+        isFulfilled(
+          activateAccount,
+          requestActivateAccount,
+          resetPassword,
+          confirmPassword
+        ),
         (state) => {
           state.loading = "succeeded";
         }
       )
       .addMatcher(
-        (action) => /^auth.*?\/rejected/.test(action.type),
+        isRejected(
+          logIn,
+          activateAccount,
+          requestActivateAccount,
+          resetPassword,
+          confirmPassword
+        ),
         (state, action) => {
           state.loading = "failed";
           state.errorMessages = action.payload as string[];
         }
       )
       .addMatcher(
-        (action) => /^auth.*?\/pending/.test(action.type),
+        isPending(
+          logIn,
+          activateAccount,
+          requestActivateAccount,
+          resetPassword,
+          confirmPassword
+        ),
         (state) => {
           state.loading = "pending";
         }
@@ -119,6 +205,14 @@ export const authSlice = createSlice({
   },
 });
 
-export const { changeAuth, resetAuthErrors } = authSlice.actions;
+export const {
+  changeAuth,
+  resetAuthErrors,
+  resetLoading,
+  resetAuth,
+  setCurrentScreen,
+  hideScreen,
+  setUserIsCustomer,
+} = authSlice.actions;
 
 export default authSlice.reducer;

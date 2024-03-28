@@ -1,0 +1,23 @@
+.myAuthForm {
+  
+  &__success-title {
+    font-size: 32px;
+    line-height: 40px;
+    font-weight: 700;
+    margin: 0 0 8px;
+    min-height: 40px;
+    max-width: 448px;
+    color: var(--text-color-black);
+    text-align: center;
+  }
+
+  &__success-subtitle {
+    margin: 0;
+    text-align: center;
+  }
+
+  &__success-button {
+    width: 100%;
+    margin-top: 40px;
+  }
+}

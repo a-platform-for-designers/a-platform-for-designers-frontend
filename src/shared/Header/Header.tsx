@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import "./Header.scss";
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import FollowersIcon from "../../assets/icons/FollowersIcon.svg";
 import FollowersIconActive from "../../assets/icons/FollowersIconActive.svg";
@@ -18,23 +18,17 @@ import MessagesIconActive from "../../assets/icons/MessagePurple.svg";
 import FavouritesIconActive from "@/assets/icons/FavouritesIconActive.svg";
 import MyOrdersActive from "../../assets/icons/MyOrdersActive.svg";
 import OrdersIcon from "../../assets/icons/orders.svg";
-import { useAppSelector } from "@/hooks/reduxHooks";
-import { MyAuthForm, MyButton, MyPopup } from "../UI";
-import SignIn from "../SignIn/SignIn";
-import UserRole from "../UserRole/UserRole";
-import SignUp from "../SignUp/SignUp";
+import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
+import { MyButton } from "../UI";
 import { tokenManager } from "@/api/api";
-import ResetPassword from "../ResetPassword/resetPassword";
+import { setCurrentScreen } from "@/redux/slices/authSlice";
+import { Screens } from "@/types";
 
 const Header: React.FC = () => {
   const location = useLocation();
-  const [isOpenSignIn, setIsOpenSignIn] = useState<boolean>(false);
-  const [isOpenSignUp, setIsOpenSignUp] = useState<boolean>(false);
-  const [isOpenRecovery, setIsOpenRecovery] = useState<boolean>(false);
-  const [isRoleSelected, setIsRoleSelected] = useState<boolean>(false);
-  const [isCustomer, setIsCustomer] = useState<boolean>(true);
   const { isAuth } = useAppSelector((state) => state.auth);
   const { user, loading } = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
 
   const isAuthLoading =
     tokenManager.hasToken() && (loading === "pending" || loading === "idle");
@@ -43,43 +37,21 @@ const Header: React.FC = () => {
 
   const navigate = useNavigate();
 
-  function chooseCustomerRole() {
-    setIsRoleSelected(true);
-    setIsCustomer(true);
-  }
-
-  function chooseDesignerRole() {
-    setIsRoleSelected(true);
-    setIsCustomer(false);
-  }
-
   useEffect(() => {
-    isAuth && handleClose(), [isAuth];
-  });
-
-  function handleClose() {
-    setIsOpenSignIn(false);
-    setIsOpenSignUp(false);
-    setIsOpenRecovery(false);
-    setIsRoleSelected(false);
-  }
+    if (isAuth) {
+      dispatch(setCurrentScreen({ screen: Screens.None }));
+    }
+  }, [isAuth, dispatch]);
 
   function openSignInPopup() {
-    handleClose();
-    setIsOpenSignIn(true);
+    dispatch(setCurrentScreen({ screen: Screens.SignIn }));
   }
 
   function openSignUpPopup() {
-    handleClose();
-    setIsOpenSignUp(true);
+    dispatch(setCurrentScreen({ screen: Screens.SignUp }));
   }
 
-  function openRecovery() {
-    handleClose();
-    setIsOpenRecovery(true);
-  }
-
-  function handleCkick() {
+  function handleClick() {
     navigate("/");
     window.scrollTo(0, 0);
   }
@@ -90,7 +62,7 @@ const Header: React.FC = () => {
         <Box>
           <Box className="header__container">
             <Toolbar className="header__toolbar" variant="dense">
-              <Box className="header__logo" onClick={() => handleCkick()} />
+              <Box className="header__logo" onClick={() => handleClick()} />
               <List
                 className="header__pages-list"
                 sx={{ flexGrow: 1, display: "flex" }}
@@ -268,32 +240,6 @@ const Header: React.FC = () => {
           </Box>
         </Box>
       </AppBar>
-
-      <MyPopup onClose={handleClose} open={isOpenSignIn}>
-        <MyAuthForm title="Вход">
-          <SignIn
-            openSignUpPopup={openSignUpPopup}
-            openRecoveryPopUp={openRecovery}
-          />
-        </MyAuthForm>
-      </MyPopup>
-
-      <MyPopup onClose={handleClose} open={isOpenRecovery}>
-        <ResetPassword openSignUpPopup={openSignUpPopup} />
-      </MyPopup>
-
-      <MyPopup onClose={handleClose} open={isOpenSignUp}>
-        {isRoleSelected === false ? (
-          <UserRole
-            onChooseDesignerRole={chooseDesignerRole}
-            onChooseCustomerRole={chooseCustomerRole}
-          />
-        ) : (
-          <MyAuthForm title="Регистрация">
-            <SignUp openSignInPopup={openSignInPopup} isCustomer={isCustomer} />
-          </MyAuthForm>
-        )}
-      </MyPopup>
     </StyledEngineProvider>
   );
 };
